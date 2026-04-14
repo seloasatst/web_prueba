@@ -1,0 +1,19 @@
+Options -MultiViews
+
+DirectoryIndex index.html index.php
+
+<IfModule mod_negotiation.c>
+    Options -MultiViews
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    RewriteRule ^ - [R=404,L]
+</IfModule>
+
+ErrorDocument 404 /404/

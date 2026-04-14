@@ -1,0 +1,59 @@
+{
+    "updated_at": "2026-04-06T18:00:00-06:00",
+    "items": [
+        {
+            "id": "coordinador-monitoreo-logistico",
+            "status": "published",
+            "sort_order": 10,
+            "title": "Coordinador de Monitoreo Logistico",
+            "area": "Monitoreo",
+            "mode": "Presencial",
+            "location": "Lerma, Estado de Mexico",
+            "schedule": "Tiempo completo",
+            "summary": "Responsable de dar seguimiento a la operacion diaria, visibilidad de unidades e incidencias durante el trayecto.",
+            "points": [
+                "Monitoreo de rutas, GPS y eventos criticos en tiempo real.",
+                "Comunicacion con operacion y clientes ante desviaciones o alertas.",
+                "Seguimiento de reportes, evidencias y control de indicadores operativos."
+            ],
+            "created_at": "2026-04-06T18:00:00-06:00",
+            "updated_at": "2026-04-06T18:00:00-06:00"
+        },
+        {
+            "id": "auxiliar-almacen-farmaceutico",
+            "status": "published",
+            "sort_order": 20,
+            "title": "Auxiliar de Almacen Farmaceutico",
+            "area": "Almacen",
+            "mode": "Presencial",
+            "location": "Lerma, Estado de Mexico",
+            "schedule": "Tiempo completo",
+            "summary": "Perfil orientado al manejo seguro de producto, control documental y operacion diaria dentro de almacenes especializados.",
+            "points": [
+                "Recepcion, surtido y acomodo de producto conforme a proceso.",
+                "Control de lotes, caducidades y condiciones de temperatura.",
+                "Apoyo en inventarios, limpieza operativa y trazabilidad."
+            ],
+            "created_at": "2026-04-06T18:00:00-06:00",
+            "updated_at": "2026-04-06T18:00:00-06:00"
+        },
+        {
+            "id": "operador-transporte-refrigerado",
+            "status": "published",
+            "sort_order": 30,
+            "title": "Operador de Transporte Refrigerado",
+            "area": "Transporte",
+            "mode": "Operacion en ruta",
+            "location": "Cobertura local y foranea",
+            "schedule": "Tiempo completo",
+            "summary": "Vacante enfocada en entregas con control de temperatura, cumplimiento documental y operacion segura de unidades.",
+            "points": [
+                "Traslado de producto sensible bajo lineamientos de cadena de frio.",
+                "Verificacion de unidad, evidencias de entrega y documentacion de ruta.",
+                "Cumplimiento de protocolos de seguridad y atencion al cliente en entrega."
+            ],
+            "created_at": "2026-04-06T18:00:00-06:00",
+            "updated_at": "2026-04-06T18:00:00-06:00"
+        }
+    ]
+}

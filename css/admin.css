@@ -1,0 +1,338 @@
+:root {
+    --admin-bg: #f5f3ef;
+    --admin-card: #ffffff;
+    --admin-text: #1f252b;
+    --admin-muted: #5b6168;
+    --admin-border: rgba(31, 37, 43, 0.08);
+    --admin-primary: #e43b14;
+    --admin-primary-dark: #bf2f0f;
+    --admin-shadow: 0 24px 60px rgba(31, 37, 43, 0.12);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body.admin-shell {
+    min-height: 100vh;
+    margin: 0;
+    font-family: "Inter", "Segoe UI", sans-serif;
+    color: var(--admin-text);
+    background:
+        radial-gradient(circle at top left, rgba(228, 59, 20, 0.10), transparent 30%),
+        linear-gradient(180deg, #fffaf8 0%, var(--admin-bg) 100%);
+}
+
+.admin-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(228, 59, 20, 0.08), transparent 24%),
+        radial-gradient(circle at 80% 0%, rgba(191, 47, 15, 0.08), transparent 26%);
+}
+
+.admin-main {
+    position: relative;
+    z-index: 1;
+}
+
+.admin-header-card,
+.admin-panel,
+.admin-note-card,
+.admin-stat-card {
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid var(--admin-border);
+    border-radius: 28px;
+    box-shadow: var(--admin-shadow);
+}
+
+.admin-header-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px 30px;
+    margin-bottom: 24px;
+}
+
+.admin-brand {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.admin-brand-logo {
+    width: 72px;
+    height: auto;
+    object-fit: contain;
+}
+
+.admin-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(228, 59, 20, 0.08);
+    color: var(--admin-primary-dark);
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-title {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 2.9rem);
+    font-weight: 800;
+    line-height: 1;
+}
+
+.admin-subtitle,
+.admin-copy,
+.admin-vacancy-summary,
+.admin-empty-state p,
+.admin-steps,
+.admin-points {
+    color: var(--admin-muted);
+    line-height: 1.7;
+}
+
+.admin-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.admin-alert {
+    border-radius: 20px;
+}
+
+.admin-panel,
+.admin-note-card {
+    padding: 28px;
+}
+
+.admin-login-grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+}
+
+.admin-section-title {
+    margin: 0 0 10px;
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.admin-code-card {
+    display: grid;
+    gap: 10px;
+    padding: 18px;
+    border-radius: 20px;
+    background: #17191c;
+}
+
+.admin-code-card code {
+    color: #fff3ef;
+    font-size: 0.95rem;
+}
+
+.admin-note-title {
+    margin: 0 0 12px;
+    font-size: 1.15rem;
+    font-weight: 800;
+}
+
+.admin-steps,
+.admin-points {
+    padding-left: 18px;
+}
+
+.admin-stat-card {
+    padding: 24px;
+}
+
+.admin-stat-label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--admin-muted);
+    font-size: 0.9rem;
+}
+
+.admin-stat-value {
+    display: block;
+    font-size: 2.2rem;
+    line-height: 1;
+    font-weight: 800;
+}
+
+.admin-stat-value-small {
+    font-size: 1.35rem;
+    line-height: 1.2;
+}
+
+.admin-form-panel {
+    top: 20px;
+}
+
+.btn-admin-primary {
+    background: linear-gradient(135deg, var(--admin-primary) 0%, var(--admin-primary-dark) 100%);
+    border: 0;
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 16px 32px rgba(228, 59, 20, 0.22);
+}
+
+.btn-admin-primary:hover,
+.btn-admin-primary:focus {
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--admin-primary-dark) 0%, #9e260d 100%);
+}
+
+.admin-vacancy-grid {
+    display: grid;
+    gap: 18px;
+}
+
+.admin-vacancy-card {
+    border: 1px solid rgba(228, 59, 20, 0.10);
+    border-radius: 24px;
+    padding: 22px;
+    background: #fffdfa;
+}
+
+.admin-vacancy-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.admin-vacancy-title {
+    margin: 12px 0 0;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.admin-badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.admin-badge-published {
+    background: rgba(39, 174, 96, 0.12);
+    color: #1e7f4f;
+}
+
+.admin-badge-draft {
+    background: rgba(107, 114, 128, 0.14);
+    color: #4b5563;
+}
+
+.admin-vacancy-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.admin-vacancy-actions form {
+    margin: 0;
+}
+
+.admin-vacancy-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    margin-bottom: 14px;
+    color: var(--admin-muted);
+    font-size: 0.95rem;
+}
+
+.admin-vacancy-meta span,
+.admin-vacancy-foot span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.admin-vacancy-points {
+    margin: 0 0 18px;
+    padding-left: 18px;
+    color: var(--admin-text);
+}
+
+.admin-vacancy-points li + li {
+    margin-top: 8px;
+}
+
+.admin-vacancy-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    color: var(--admin-muted);
+    font-size: 0.88rem;
+}
+
+.admin-empty-state {
+    padding: 28px;
+    border-radius: 22px;
+    text-align: center;
+    background: rgba(31, 37, 43, 0.03);
+}
+
+.admin-empty-state h3 {
+    margin-bottom: 10px;
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+@media (max-width: 1199.98px) {
+    .admin-login-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .admin-header-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-brand {
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .admin-header-card,
+    .admin-panel,
+    .admin-note-card,
+    .admin-stat-card {
+        border-radius: 22px;
+    }
+
+    .admin-header-card,
+    .admin-panel,
+    .admin-note-card {
+        padding: 22px;
+    }
+
+    .admin-brand {
+        flex-direction: column;
+    }
+
+    .admin-vacancy-head,
+    .admin-vacancy-foot {
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,70 @@
+<nav class="navbar navbar-expand-lg navbar-light sticky-top p-0 site-navbar">
+    <a href="home/" class="navbar-brand d-flex align-items-center px-3 px-lg-4 custom-brand">
+        <img src="img/logotipo.png" alt="Servicios Logísticos Alsera" class="brand-logo me-2" data-priority="high" loading="eager" fetchpriority="high" decoding="async" width="171" height="209">
+        <div class="d-flex flex-column brand-copy">
+            <span class="brand-title" data-i18n="brand.title">Servicios Logísticos Alsera</span>
+            <small class="brand-tagline" data-i18n="brand.tagline">Striving Beyond Healthcare Logistics</small>
+        </div>
+    </a>
+
+    <button type="button" class="navbar-toggler me-3" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-label="Abrir menu de navegacion" data-i18n-aria-label="nav.toggle_aria">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav align-items-lg-center p-3 p-lg-0 nav-main-links">
+            <a href="home/" class="nav-item nav-link" data-nav-key="home">
+                <i class="fa fa-home me-2"></i><span data-i18n="nav.home">Inicio</span>
+            </a>
+
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-nav-group="services">
+                    <i class="fa fa-box me-2"></i><span data-i18n="nav.services">Servicios</span>
+                </a>
+                <div class="dropdown-menu fade-up m-0">
+                    <a href="storage/" class="dropdown-item d-flex align-items-center" data-nav-key="storage" data-nav-parent="services"><i class="fa fa-warehouse me-2"></i><span data-i18n="nav.services_storage">Almacenaje</span></a>
+                    <a href="transport/" class="dropdown-item d-flex align-items-center" data-nav-key="transport" data-nav-parent="services"><i class="fa fa-truck me-2"></i><span data-i18n="nav.services_transport">Transporte</span></a>
+                    <a href="distribution/" class="dropdown-item d-flex align-items-center" data-nav-key="distribution" data-nav-parent="services"><i class="fa fa-route me-2"></i><span data-i18n="nav.services_distribution">Distribución</span></a>
+                    <a href="security/" class="dropdown-item d-flex align-items-center" data-nav-key="security" data-nav-parent="services"><i class="fa fa-shield-alt me-2"></i><span data-i18n="nav.services_security">Seguridad</span></a>
+                </div>
+            </div>
+
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-nav-group="about">
+                    <i class="fa fa-info-circle me-2"></i><span data-i18n="nav.about">Acerca de</span>
+                </a>
+                <div class="dropdown-menu fade-up m-0">
+                    <a href="about-us/" class="dropdown-item d-flex align-items-center" data-nav-key="about-us" data-nav-parent="about"><i class="fa fa-users me-2"></i><span data-i18n="nav.about_us">Nosotros</span></a>
+                    <a href="environmental-responsibility/" class="dropdown-item d-flex align-items-center" data-nav-key="environmental-responsibility" data-nav-parent="about"><i class="fa fa-leaf me-2"></i><span data-i18n="nav.environmental">Responsabilidad Ambiental</span></a>
+                    <a href="privacy-notice/" class="dropdown-item d-flex align-items-center" data-nav-key="privacy-notice" data-nav-parent="about"><i class="fa fa-user-secret me-2"></i><span data-i18n="nav.privacy">Aviso de Privacidad</span></a>
+                    <a href="human-rights/" class="dropdown-item d-flex align-items-center" data-nav-key="human-rights" data-nav-parent="about"><i class="fa fa-balance-scale me-2"></i><span data-i18n="nav.human_rights">Derechos Humanos</span></a>
+                    <a href="standards/" class="dropdown-item d-flex align-items-center" data-nav-key="standards" data-nav-parent="about"><i class="fa fa-clipboard-check me-2"></i><span data-i18n="nav.standards">Estandarizaciones</span></a>
+                </div>
+            </div>
+
+            <a href="contact/" class="nav-item nav-link" data-nav-key="contact">
+                <i class="fa fa-envelope me-2"></i><span data-i18n="nav.contact">Contacto</span>
+            </a>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 pe-3 pe-lg-4 pb-3 pb-lg-0 nav-actions">
+            <div class="nav-item dropdown lang-switch">
+                <a href="#" class="nav-link dropdown-toggle lang-toggle" data-bs-toggle="dropdown" aria-label="Seleccionar idioma" data-i18n-aria-label="nav.lang_select_aria">
+                    <span class="lang-current" aria-hidden="true"><img class="lang-flag-image lang-flag-current-image" src="img/flags/mx.svg" alt="" aria-hidden="true"><span class="lang-code">ES</span></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-end fade-up m-0">
+                    <a href="#" class="dropdown-item active d-flex align-items-center gap-2 lang-option" data-lang="es"><img class="lang-flag-image" src="img/flags/mx.svg" alt="" aria-hidden="true"><span data-i18n="lang.spanish">Espa&ntilde;ol</span></a>
+                    <a href="#" class="dropdown-item d-flex align-items-center gap-2 lang-option" data-lang="en"><img class="lang-flag-image" src="img/flags/us.svg" alt="" aria-hidden="true"><span data-i18n="lang.english">English</span></a>
+                    <a href="#" class="dropdown-item d-flex align-items-center gap-2 lang-option" data-lang="al"><img class="lang-flag-image" src="img/flags/de.svg" alt="" aria-hidden="true"><span data-i18n="lang.german">Deutsch</span></a>
+                    <a href="#" class="dropdown-item d-flex align-items-center gap-2 lang-option" data-lang="pt"><img class="lang-flag-image" src="img/flags/br.svg" alt="" aria-hidden="true"><span data-i18n="lang.portuguese">Portugu&ecirc;s</span></a>
+                    <a href="#" class="dropdown-item d-flex align-items-center gap-2 lang-option" data-lang="fr"><img class="lang-flag-image" src="img/flags/fr.svg" alt="" aria-hidden="true"><span data-i18n="lang.french">Fran&ccedil;ais</span></a>
+                </div>
+            </div>
+           
+            <a href="tel:+527282828050" class="nav-phone">
+                <i class="fa fa-phone-alt"></i>
+                +52 (728) 282 8050
+            </a>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,116 @@
+{
+    "common":  {
+                   "back_to_top_aria":  "Voltar ao topo"
+               },
+    "lang":  {
+                 "spanish":  "Espanhol",
+                 "english":  "Inglês",
+                 "german":  "Alemão",
+                 "portuguese":  "Português",
+                 "french":  "Francês"
+             },
+    "brand":  {
+                  "title":  "Servicios Logísticos Alsera",
+                  "tagline":  "Superando a logística em saúde"
+              },
+    "nav":  {
+                "toggle_aria":  "Abrir menu de navegação",
+                "lang_select_aria":  "Selecionar idioma",
+                "home":  "Início",
+                "services":  "Serviços",
+                "services_storage":  "Armazenagem",
+                "services_transport":  "Transporte",
+                "services_distribution":  "Distribuição",
+                "services_security":  "Segurança",
+                "about":  "Sobre",
+                "about_us":  "Nós",
+                "environmental":  "Responsabilidade Ambiental",
+                "privacy":  "Aviso de Privacidade",
+                "human_rights":  "Direitos Humanos",
+                "standards":  "Padronizações",
+                "contact":  "Contato"
+            },
+    "footer":  {
+                   "contact":  "Contato",
+                   "address":  "Parque Industrial Lerma, Calle 1 No. 7, Lerma, Estado do México",
+                   "information":  "Informação",
+                   "about_us":  "Sobre Nós",
+                   "contact_us":  "Fale Conosco",
+                   "privacy":  "Aviso de Privacidade",
+                   "human_rights":  "Política de Direitos Humanos",
+                   "follow_us":  "Siga-nos",
+                   "follow_us_inline":  "Siga-nos:",
+                   "rights_reserved":  ", Todos os direitos reservados.",
+                   "careers":  "Carreiras",
+                   "blog_news":  "Blog e notícias"
+               },
+    "errors": {
+                  "code": "404",
+                  "heading": "Ops — não encontramos esta página",
+                  "message": "Desculpe, a página que você procura não existe ou foi movida. Você pode voltar à página inicial ou entrar em contato conosco.",
+                  "back_home": "Voltar ao início",
+                  "contact": "Contato",
+                  "explore_intro": "Explore nossas páginas principais:",
+                  "if_error": "Se você acha que isso é um erro,",
+                  "we_review": "nós revisaremos."
+              },
+    "env":  {
+                "meta":  {
+                             "title":  "PRA - Servicios Logísticos Alsera"
+                         },
+                "hero":  {
+                             "title_accent":  "Responsabilidade",
+                             "title_main":  "Ambiental",
+                             "description":  "Conheça nossas políticas e ações para reduzir emissões, gerir resíduos com responsabilidade e acompanhar de forma mensurável o desempenho ambiental da operação.",
+                             "image_alt":  "Frota da Seloasa em operação"
+                         },
+                "heading":  {
+                                "kicker":  "Compromisso Ambiental",
+                                "title":  "Políticas e Ações da Seloasa",
+                                "description":  "Integramos ações focadas em eficiência operacional, redução de impacto ambiental e cumprimento de diretrizes que fortalecem uma operação logística responsável."
+                            },
+                "gei":  {
+                            "kicker":  "Redução de Emissões",
+                            "title":  "Política de redução de emissão de gases de efeito estufa (GEE)",
+                            "description":  "Objetivo: Promover o uso eficiente e sustentável dos recursos da operação da frota de transporte da SELOASA, reduzindo a pegada de carbono e melhorando a eficiência operacional por meio da implementação de tecnologias de transporte.",
+                            "item_1":  "A Seloasa integrou à sua frota unidades motorizadas híbridas a diesel.",
+                            "item_2":  "A Seloasa integrou unidades com caixa de carga multitemperatura, gerenciando diferentes cargas sem usar mais de uma unidade.",
+                            "item_3":  "Obtenção da certificação de transporte limpo junto à SEMARNAT.",
+                            "item_4":  "Redução do uso do motor em marcha lenta utilizando energia solar gerada no local.",
+                            "item_5":  "Inserção de unidades com motor padrão Euro VI para diminuir NOX e PM\u0027s.",
+                            "image_alt":  "Unidades de transporte com operação eficiente"
+                        },
+                "waste":  {
+                              "kicker":  "Gestão Responsável",
+                              "title":  "Política de Gestão Responsável de Resíduos",
+                              "description":  "Servicios Logísticos Alsera S.A. de C.V. (SELOASA) reafirma seu compromisso como Empresa Socialmente Responsável, alinhando-se às diretrizes ECOVADIS, PSCI e à iniciativa K-15. Integra ações REUSE - REDUCE - RECYCLE para minimizar sua pegada ambiental.",
+                              "item_1":  "Reduzir a quantidade de resíduos gerados em todas as áreas da empresa.",
+                              "item_2":  "Reutilizar e reciclar sempre que possível; garantir destinação adequada e segura.",
+                              "item_3":  "Aplicação a todos os colaboradores, instalações e frota veicular.",
+                              "item_4":  "O responsável por esta política é o Chefe de Segurança, Higiene e Meio Ambiente.",
+                              "subtitle":  "Funções do JSHE",
+                              "jshe_1":  "Identificar resíduos, divulgar critérios e fomentar reutilização e reciclagem.",
+                              "jshe_2":  "Implementar capacitação ambiental e conscientização institucional.",
+                              "jshe_3":  "Registrar e analisar dados para otimizar a gestão ambiental.",
+                              "jshe_4":  "Aplicar sanções conforme o cumprimento desta política.",
+                              "image_alt":  "Gestão responsável de resíduos"
+                          },
+                "report":  {
+                               "kicker":  "Monitoramento Mensurável",
+                               "title":  "Relatório de Desempenho Ambiental",
+                               "description":  "Como parte do compromisso ambiental da SELOASA, compartilhamos o Relatório de Desempenho validado pela Secretaria de Meio Ambiente e Recursos Naturais (SEMARNAT), correspondente ao ano de 2024.",
+                               "stat_1_label":  "Caminhões avaliados",
+                               "stat_1_value":  "32 unidades classe 2b, modelo 2020",
+                               "stat_2_label":  "Consumo total",
+                               "stat_2_value":  "400.778 litros de diesel",
+                               "stat_3_label":  "Quilômetros percorridos",
+                               "stat_3_value":  "1.383.179 km",
+                               "stat_4_label":  "Emissões totais de CO2",
+                               "stat_4_value":  "1.077,89 toneladas",
+                               "stat_5_label":  "Data de validação",
+                               "stat_5_value":  "22 de abril de 2025",
+                               "button":  "Ver Relatório Completo (PDF)",
+                               "image_alt":  "Relatório ambiental 2024"
+                           }
+            }
+}

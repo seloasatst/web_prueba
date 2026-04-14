@@ -1,0 +1,117 @@
+{
+    "common":  {
+                   "back_to_top_aria":  "Zurück nach oben"
+               },
+    "lang":  {
+                 "spanish":  "Spanisch",
+                 "english":  "Englisch",
+                 "german":  "Deutsch",
+                 "portuguese":  "Portugiesisch",
+                 "french":  "Französisch"
+             },
+    "brand":  {
+                  "title":  "Servicios Logísticos Alsera",
+                  "tagline":  "Logistik im Gesundheitswesen weitergedacht"
+              },
+    "nav":  {
+                "toggle_aria":  "Navigationsmenü öffnen",
+                "lang_select_aria":  "Sprache auswählen",
+                "home":  "Startseite",
+                "services":  "Dienstleistungen",
+                "services_storage":  "Lagerung",
+                "services_transport":  "Transport",
+                "services_distribution":  "Distribution",
+                "services_security":  "Sicherheit",
+                "about":  "Über uns",
+                "about_us":  "Unternehmen",
+                "environmental":  "Umweltverantwortung",
+                "privacy":  "Datenschutzhinweis",
+                "human_rights":  "Menschenrechte",
+                "standards":  "Standards",
+                "contact":  "Kontakt"
+            },
+    "footer":  {
+                   "contact":  "Kontakt",
+                   "address":  "Parque Industrial Lerma, Calle 1 Nr. 7, Lerma, Bundesstaat Mexiko",
+                   "information":  "Informationen",
+                   "company_name":  "Servicios Logísticos Alsera S.A de C.V.",
+                   "about_us":  "Über uns",
+                   "contact_us":  "Kontaktieren Sie uns",
+                   "privacy":  "Datenschutzhinweis",
+                   "human_rights":  "Menschenrechtspolitik",
+                   "follow_us":  "Folgen Sie uns",
+                   "follow_us_inline":  "Folgen Sie uns:",
+                   "rights_reserved":  ", Alle Rechte vorbehalten.",
+                   "careers":  "Karriere",
+                   "blog_news":  "Blog \u0026 Neuigkeiten"
+               },
+    "errors": {
+                  "code": "404",
+                  "heading": "Hoppla — wir konnten diese Seite nicht finden",
+                  "message": "Leider existiert die von Ihnen gesuchte Seite nicht oder wurde verschoben. Sie können zur Startseite zurückkehren oder uns kontaktieren.",
+                  "back_home": "Zurück zur Startseite",
+                  "contact": "Kontakt",
+                  "explore_intro": "Entdecken Sie unsere Hauptseiten:",
+                  "if_error": "Wenn Sie glauben, dass dies ein Fehler ist,",
+                  "we_review": "überprüfen wir das."
+              },
+    "env":  {
+                "meta":  {
+                             "title":  "PRA - Servicios Logísticos Alsera"
+                         },
+                "hero":  {
+                             "title_accent":  "Umwelt",
+                             "title_main":  "Verantwortung",
+                             "description":  "Erfahren Sie mehr über unsere Richtlinien und Maßnahmen zur Emissionsreduzierung, verantwortungsvollen Abfallbewirtschaftung und messbaren Überwachung der Umweltleistung im Betrieb.",
+                             "image_alt":  "Seloasa-Flotte im Einsatz"
+                         },
+                "heading":  {
+                                "kicker":  "Umweltengagement",
+                                "title":  "Richtlinien und Maßnahmen von Seloasa",
+                                "description":  "Wir integrieren Maßnahmen mit Fokus auf betriebliche Effizienz, Umweltentlastung und die Einhaltung von Vorgaben, die eine verantwortungsvolle Logistik stärken."
+                            },
+                "gei":  {
+                            "kicker":  "Emissionsreduzierung",
+                            "title":  "Richtlinie zur Reduzierung von Treibhausgasemissionen (THG)",
+                            "description":  "Ziel: Die effiziente und nachhaltige Nutzung der Ressourcen des Fuhrparks von SELOASA fördern, den CO2-Fußabdruck reduzieren und die betriebliche Effizienz durch den Einsatz von Transporttechnologien verbessern.",
+                            "item_1":  "Seloasa hat dieselhybride Fahrzeuge in seine Flotte integriert.",
+                            "item_2":  "Seloasa hat Fahrzeuge mit Mehrtemperatur-Laderaum integriert, um unterschiedliche Ladungen ohne Einsatz zusätzlicher Fahrzeuge zu transportieren.",
+                            "item_3":  "Erhalt der Zertifizierung für sauberen Transport durch SEMARNAT.",
+                            "item_4":  "Reduzierung des Leerlaufs durch vor Ort erzeugte Solarenergie.",
+                            "item_5":  "Einsatz von Fahrzeugen mit Euro-VI-Motoren zur Reduzierung von NOX- und PM-Emissionen.",
+                            "image_alt":  "Transportfahrzeuge mit effizientem Betrieb"
+                        },
+                "waste":  {
+                              "kicker":  "Verantwortungsvolle Steuerung",
+                              "title":  "Richtlinie für verantwortungsvolle Abfallbewirtschaftung",
+                              "description":  "Servicios Logísticos Alsera S.A. de C.V. (SELOASA) bekräftigt sein Engagement als sozial verantwortliches Unternehmen und orientiert sich an den Richtlinien von ECOVADIS, PSCI und der Initiative K-15. Es integriert REUSE - REDUCE - RECYCLE-Maßnahmen zur Minimierung seines ökologischen Fußabdrucks.",
+                              "item_1":  "Die Menge des in allen Unternehmensbereichen erzeugten Abfalls reduzieren.",
+                              "item_2":  "Wann immer möglich wiederverwenden und recyceln; eine ordnungsgemäße und sichere Entsorgung gewährleisten.",
+                              "item_3":  "Gilt für alle Mitarbeitenden, Einrichtungen und den Fuhrpark.",
+                              "item_4":  "Verantwortlich für diese Richtlinie ist die Leitung für Sicherheit, Hygiene und Umwelt.",
+                              "subtitle":  "Aufgaben des JSHE",
+                              "jshe_1":  "Abfälle identifizieren, Kriterien kommunizieren und Wiederverwendung sowie Recycling fördern.",
+                              "jshe_2":  "Umweltschulungen und institutionelle Sensibilisierung umsetzen.",
+                              "jshe_3":  "Daten erfassen und analysieren, um das Umweltmanagement zu optimieren.",
+                              "jshe_4":  "Sanktionen gemäß der Einhaltung dieser Richtlinie anwenden.",
+                              "image_alt":  "Verantwortungsvolle Abfallbewirtschaftung"
+                          },
+                "report":  {
+                               "kicker":  "Messbare Überwachung",
+                               "title":  "Bericht zur Umweltleistung",
+                               "description":  "Im Rahmen des Umweltengagements von SELOASA stellen wir den von der Secretaría de Medio Ambiente y Recursos Naturales (SEMARNAT) für das Jahr 2024 validierten Leistungsbericht bereit.",
+                               "stat_1_label":  "Bewertete Lkw",
+                               "stat_1_value":  "32 Einheiten der Klasse 2b, Modell 2020",
+                               "stat_2_label":  "Gesamtverbrauch",
+                               "stat_2_value":  "400.778 Liter Diesel",
+                               "stat_3_label":  "Gefahrene Kilometer",
+                               "stat_3_value":  "1.383.179 km",
+                               "stat_4_label":  "Gesamte CO2-Emissionen",
+                               "stat_4_value":  "1.077,89 Tonnen",
+                               "stat_5_label":  "Validierungsdatum",
+                               "stat_5_value":  "22. April 2025",
+                               "button":  "Vollständigen Bericht ansehen (PDF)",
+                               "image_alt":  "Umweltbericht 2024"
+                           }
+            }
+}

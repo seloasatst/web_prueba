@@ -1,0 +1,117 @@
+{
+    "common":  {
+                   "back_to_top_aria":  "Back to top"
+               },
+    "lang":  {
+                 "spanish":  "Spanish",
+                 "english":  "English",
+                 "german":  "German",
+                 "portuguese":  "Portuguese",
+                 "french":  "French"
+             },
+    "brand":  {
+                  "title":  "Servicios Logísticos Alsera",
+                  "tagline":  "Striving Beyond Healthcare Logistics"
+              },
+    "nav":  {
+                "toggle_aria":  "Open navigation menu",
+                "lang_select_aria":  "Select language",
+                "home":  "Home",
+                "services":  "Services",
+                "services_storage":  "Storage",
+                "services_transport":  "Transport",
+                "services_distribution":  "Distribution",
+                "services_security":  "Security",
+                "about":  "About",
+                "about_us":  "About Us",
+                "environmental":  "Environmental Responsibility",
+                "privacy":  "Privacy Notice",
+                "human_rights":  "Human Rights",
+                "standards":  "Standards",
+                "contact":  "Contact"
+            },
+    "footer":  {
+                   "contact":  "Contact",
+                   "address":  "Parque Industrial Lerma, Calle 1 No. 7, Lerma, State of Mexico",
+                   "information":  "Information",
+                   "company_name":  "Servicios Logísticos Alsera S.A de C.V.",
+                   "about_us":  "About Us",
+                   "contact_us":  "Contact Us",
+                   "privacy":  "Privacy Notice",
+                   "human_rights":  "Human Rights Policy",
+                   "follow_us":  "Follow Us",
+                   "follow_us_inline":  "Follow Us:",
+                   "rights_reserved":  ", All rights reserved.",
+                   "careers":  "Careers",
+                   "blog_news":  "Blog \u0026 News"
+               },
+    "errors": {
+                  "code": "404",
+                  "heading": "Oops — we can't find this page",
+                  "message": "Sorry, the page you are looking for doesn't exist or has been moved. You can return to the homepage or contact us.",
+                  "back_home": "Back to home",
+                  "contact": "Contact",
+                  "explore_intro": "Explore our main pages:",
+                  "if_error": "If you think this is an error,",
+                  "we_review": "we'll review it."
+              },
+    "env":  {
+                "meta":  {
+                             "title":  "ERP - Servicios Logísticos Alsera"
+                         },
+                "hero":  {
+                             "title_accent":  "Environmental",
+                             "title_main":  "Responsibility",
+                             "description":  "Learn about our policies and actions to reduce emissions, manage waste responsibly, and monitor environmental performance throughout the operation.",
+                             "image_alt":  "Seloasa fleet in operation"
+                         },
+                "heading":  {
+                                "kicker":  "Environmental Commitment",
+                                "title":  "Seloasa Policies and Actions",
+                                "description":  "We integrate actions focused on operational efficiency, impact reduction, and compliance with guidelines that strengthen a responsible logistics operation."
+                            },
+                "gei":  {
+                            "kicker":  "Emission Reduction",
+                            "title":  "Policy for reducing greenhouse gas (GHG) emissions",
+                            "description":  "Objective: Promote the efficient and sustainable use of SELOASA transport fleet resources, reducing carbon footprint and improving operational efficiency through transport technologies.",
+                            "item_1":  "Seloasa integrated hybrid diesel-powered units into its fleet.",
+                            "item_2":  "Seloasa integrated multi-temperature cargo box units, managing different loads without using more than one unit.",
+                            "item_3":  "Obtaining the clean transport certification from SEMARNAT.",
+                            "item_4":  "Reducing engine idling through on-site solar-generated energy.",
+                            "item_5":  "Incorporating units with Euro VI standard engines to reduce NOX and PM emissions.",
+                            "image_alt":  "Transport units with efficient operation"
+                        },
+                "waste":  {
+                              "kicker":  "Responsible Management",
+                              "title":  "Responsible Waste Management Policy",
+                              "description":  "Servicios Logísticos Alsera S.A. de C.V. (SELOASA) reaffirms its commitment as a socially responsible company, aligning with ECOVADIS, PSCI, and the K-15 initiative. It integrates REUSE - REDUCE - RECYCLE actions to minimize its environmental footprint.",
+                              "item_1":  "Reduce the amount of waste generated in all areas of the company.",
+                              "item_2":  "Reuse and recycle whenever possible; ensure proper and safe disposal.",
+                              "item_3":  "Applies to all employees, facilities, and vehicle fleet.",
+                              "item_4":  "The person responsible for this policy is the Head of Safety, Hygiene, and Environment.",
+                              "subtitle":  "JSHE Functions",
+                              "jshe_1":  "Identify waste, communicate criteria, and promote reuse and recycling.",
+                              "jshe_2":  "Implement environmental training and institutional awareness.",
+                              "jshe_3":  "Record and analyze data to optimize environmental management.",
+                              "jshe_4":  "Apply sanctions according to compliance with this policy.",
+                              "image_alt":  "Responsible waste management"
+                          },
+                "report":  {
+                               "kicker":  "Measurable Monitoring",
+                               "title":  "Environmental Performance Report",
+                               "description":  "As part of SELOASA\u0027s environmental commitment, we share the Performance Report validated by the Ministry of Environment and Natural Resources (SEMARNAT) for the year 2024.",
+                               "stat_1_label":  "Trucks evaluated",
+                               "stat_1_value":  "32 class 2b units, model 2020",
+                               "stat_2_label":  "Total consumption",
+                               "stat_2_value":  "400,778 liters of diesel",
+                               "stat_3_label":  "Kilometers traveled",
+                               "stat_3_value":  "1,383,179 km",
+                               "stat_4_label":  "Total CO2 emissions",
+                               "stat_4_value":  "1,077.89 tons",
+                               "stat_5_label":  "Validation date",
+                               "stat_5_value":  "April 22, 2025",
+                               "button":  "View Full Report (PDF)",
+                               "image_alt":  "Environmental report 2024"
+                           }
+            }
+}

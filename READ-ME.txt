@@ -1,0 +1,25 @@
+  =>  Template Name    : Logistica - Shipping Company Website Template
+
+  =>  Template Link    : https://htmlcodex.com/shipping-company-website-template
+
+  =>  Template License : https://htmlcodex.com/license (or read the LICENSE.txt file)
+
+  =>  Template Author  : HTML Codex
+
+  =>  Author Website   : https://htmlcodex.com
+
+  =>  About HTML Codex : HTML Codex is one of the top creators and publishers of Free HTML templates, HTML landing pages, HTML email templates and HTML snippets in the world. Read more at ( https://htmlcodex.com/about-us )
+
+
+Admin de vacantes
+
+  Ruta: /admin/
+
+  Variables de entorno requeridas:
+    ADMIN_ACCESS_TOKEN
+    ADMIN_TOTP_SECRET
+
+  Notas:
+    - El acceso usa 2 pasos: token privado + codigo TOTP de 6 digitos.
+    - ADMIN_TOTP_SECRET debe ser una clave Base32 compatible con Google Authenticator.
+    - Las vacantes se almacenan en php/storage/vacancies.json.

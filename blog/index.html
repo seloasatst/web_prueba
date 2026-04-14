@@ -1,0 +1,107 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <base href="../">
+  <meta charset="utf-8">
+  <title data-i18n="blogPage.meta.title">Blog y noticias - Servicios Logísticos Alsera</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link href="lib/animate/animate.min.css" rel="stylesheet">
+  <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <div data-include="partials/spinner.html"></div>
+  <div data-include="partials/nav.html"></div>
+
+  <div class="container-fluid p-0 service-hero-shell">
+    <div class="container-fluid hero-split service-hero-split p-0">
+      <div class="row g-0 align-items-stretch">
+        <div class="col-12 col-lg-6 hero-split-content-wrap">
+          <div class="hero-split-content service-hero-content">
+            <h1 class="hero-title"><span class="text-primary" data-i18n="blogPage.hero.title_accent">Blog y</span><br><span data-i18n="blogPage.hero.title_main">noticias</span></h1>
+            <p class="hero-description" data-i18n="blogPage.hero.description">Un espacio para compartir novedades, avances operativos y noticias relevantes relacionadas con la operación de Seloasa.</p>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 hero-split-image-wrap">
+          <img class="hero-split-image" src="img/feature.jpg" alt="Noticias y actualizaciones Seloasa" data-i18n-alt="blogPage.hero.image_alt">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="container-xxl blog-featured-section py-5">
+    <div class="container py-5">
+      <div class="row g-4 g-lg-5 align-items-stretch">
+        <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.1s">
+          <div class="about-media-card blog-featured-media h-100">
+            <img id="blogFeaturedImage" src="img/patio_unidades_dia_banner.jpg" alt="Actualización destacada" class="img-fluid w-100 blog-featured-image">
+          </div>
+        </div>
+        <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.1s">
+          <div class="fact-panel blog-featured-panel h-100">
+            <h6 class="text-uppercase fact-kicker" id="blogFeaturedKicker">Actualización destacada</h6>
+            <div class="blog-featured-meta">
+              <span id="blogFeaturedCategory" class="blog-meta-pill">Operación</span>
+              <span id="blogFeaturedDate" class="blog-meta-date">Abril 2026</span>
+            </div>
+            <h2 id="blogFeaturedTitle" class="fact-title blog-featured-title">Seguimos fortaleciendo nuestra capacidad operativa con enfoque en control y trazabilidad</h2>
+            <p id="blogFeaturedSummary" class="fact-description blog-featured-text">Conoce la actualización destacada más reciente y el contexto operativo que la acompaña.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="blogLatestSection" class="container-xxl blog-latest-section py-5">
+    <div class="container py-5">
+      <div class="about-pillars-heading text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
+        <h6 class="text-uppercase about-kicker" data-i18n="blogPage.latest.kicker">Últimas publicaciones</h6>
+        <h1 class="about-title" data-i18n="blogPage.latest.title">Notas y novedades recientes</h1>
+        <p class="about-intro" data-i18n="blogPage.latest.description">Actualizaciones breves sobre capacidades, seguridad, cumplimiento y avances que impactan positivamente la operación.</p>
+      </div>
+
+      <div id="blogNewsGrid" class="row g-4"></div>
+    </div>
+  </section>
+
+  <section class="container-xxl blog-cta-section py-5">
+    <div class="container py-5">
+      <div class="about-panel blog-cta-panel text-center wow fadeInUp" data-wow-delay="0.1s">
+        <h6 class="text-uppercase about-kicker" data-i18n="blogPage.cta.kicker">Mantente al tanto</h6>
+        <h2 class="about-title mb-3" data-i18n="blogPage.cta.title">Conversemos sobre actualizaciones, capacidades y novedades relevantes para tu operación</h2>
+        <p class="about-intro mb-4" data-i18n="blogPage.cta.description">Si quieres más información sobre una noticia o una capacidad específica, podemos ayudarte desde contacto.</p>
+        <a href="contact/" class="btn btn-primary about-cta" data-i18n="blogPage.cta.button">Ir a contacto</a>
+      </div>
+    </div>
+  </section>
+
+  <div data-include="partials/footer.html"></div>
+  <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" aria-label="Regresar al inicio" data-i18n-aria-label="common.back_to_top_aria"><i class="bi bi-arrow-up"></i></a>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="lib/wow/wow.min.js"></script>
+  <script src="lib/easing/easing.min.js"></script>
+  <script src="lib/waypoints/waypoints.min.js"></script>
+  <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+  <script src="js/blog-i18n.js"></script>
+  <script src="js/blog-page.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/include-partials.js"></script>
+  <script src="js/main.js"></script>
+</body>
+
+</html>
+

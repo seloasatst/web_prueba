@@ -1,0 +1,4 @@
+[2026-04-07 00:28:26] enviar_postulacion error: SMTP Error: Could not connect to SMTP host. Failed to connect to server | PHPMailer: SMTP Error: Could not connect to SMTP host. Failed to connect to server SMTP server error: Failed to connect to server Additional SMTP info: php_network_getaddresses: getaddrinfo for mail.seloasa.com.mx failed: Host desconocido. 
+[2026-04-07 00:32:13] enviar_postulacion error: SMTP Error: Could not authenticate. | PHPMailer: SMTP Error: Could not authenticate. SMTP server error: QUIT command failed
+[2026-04-07 00:36:46] enviar_postulacion error: SMTP Error: Could not authenticate. | PHPMailer: SMTP Error: Could not authenticate. | SMTP host: smtp.office365.com | SMTP user: gadiel.palma@seloasa.com.mx
+[2026-04-07 00:39:00] enviar_postulacion error: SMTP Error: Could not authenticate. | PHPMailer: SMTP Error: Could not authenticate. | SMTP host: smtp.office365.com | SMTP user: gadiel.palma@seloasa.com.mx

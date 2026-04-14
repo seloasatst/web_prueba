@@ -1,0 +1,117 @@
+{
+    "common":  {
+                   "back_to_top_aria":  "Retour en haut"
+               },
+    "lang":  {
+                 "spanish":  "Espagnol",
+                 "english":  "Anglais",
+                 "german":  "Allemand",
+                 "portuguese":  "Portugais",
+                 "french":  "Français"
+             },
+    "brand":  {
+                  "title":  "Servicios Logísticos Alsera",
+                  "tagline":  "Aller plus loin dans la logistique de santé"
+              },
+    "nav":  {
+                "toggle_aria":  "Ouvrir le menu de navigation",
+                "lang_select_aria":  "Sélectionner la langue",
+                "home":  "Accueil",
+                "services":  "Services",
+                "services_storage":  "Entreposage",
+                "services_transport":  "Transport",
+                "services_distribution":  "Distribution",
+                "services_security":  "Sécurité",
+                "about":  "À propos",
+                "about_us":  "Nous",
+                "environmental":  "Responsabilité environnementale",
+                "privacy":  "Avis de confidentialité",
+                "human_rights":  "Droits de l\u0027homme",
+                "standards":  "Normalisations",
+                "contact":  "Contact"
+            },
+    "footer":  {
+                   "contact":  "Contact",
+                   "address":  "Parque Industrial Lerma, Calle 1 No. 7, Lerma, État de Mexico",
+                   "information":  "Information",
+                   "company_name":  "Servicios Logísticos Alsera S.A de C.V.",
+                   "about_us":  "À propos de nous",
+                   "contact_us":  "Contactez-nous",
+                   "privacy":  "Avis de confidentialité",
+                   "human_rights":  "Politique des droits de l\u0027homme",
+                   "follow_us":  "Suivez-nous",
+                   "follow_us_inline":  "Suivez-nous :",
+                   "rights_reserved":  ", Tous droits réservés.",
+                   "careers":  "Carrières",
+                   "blog_news":  "Blog et actualités"
+               },
+    "errors": {
+                  "code": "404",
+                  "heading": "Oups — nous n'avons pas trouvé cette page",
+                  "message": "Désolé, la page que vous recherchez n'existe pas ou a été déplacée. Vous pouvez retourner à l'accueil ou nous contacter.",
+                  "back_home": "Retour à l'accueil",
+                  "contact": "Contact",
+                  "explore_intro": "Découvrez nos principales pages :",
+                  "if_error": "Si vous pensez qu'il s'agit d'une erreur,",
+                  "we_review": "nous l'examinerons."
+              },
+    "env":  {
+                "meta":  {
+                             "title":  "PRA - Servicios Logísticos Alsera"
+                         },
+                "hero":  {
+                             "title_accent":  "Responsabilité",
+                             "title_main":  "Environnementale",
+                             "description":  "Découvrez nos politiques et actions pour réduire les émissions, gérer les déchets de manière responsable et suivre de façon mesurable la performance environnementale de l\u0027opération.",
+                             "image_alt":  "Flotte Seloasa en opération"
+                         },
+                "heading":  {
+                                "kicker":  "Engagement environnemental",
+                                "title":  "Politiques et actions de Seloasa",
+                                "description":  "Nous intégrons des actions axées sur l\u0027efficacité opérationnelle, la réduction de l\u0027impact environnemental et le respect de lignes directrices qui renforcent une opération logistique responsable."
+                            },
+                "gei":  {
+                            "kicker":  "Réduction des émissions",
+                            "title":  "Politique de réduction des émissions de gaz à effet de serre (GES)",
+                            "description":  "Objectif : Promouvoir l\u0027utilisation efficace et durable des ressources de la flotte de transport de SELOASA, réduire l\u0027empreinte carbone et améliorer l\u0027efficacité opérationnelle grâce à la mise en œuvre de technologies de transport.",
+                            "item_1":  "Seloasa a intégré à sa flotte des unités motorisées hybrides diesel.",
+                            "item_2":  "Seloasa a intégré des unités à caisse multi-température, gérant différentes charges sans utiliser plus d\u0027une unité.",
+                            "item_3":  "Obtention de la certification de transport propre auprès de la SEMARNAT.",
+                            "item_4":  "Réduction de l\u0027utilisation du moteur au ralenti grâce à l\u0027énergie solaire produite sur site.",
+                            "item_5":  "Intégration d\u0027unités avec moteur norme Euro VI pour réduire les NOX et les PM.",
+                            "image_alt":  "Unités de transport à exploitation efficace"
+                        },
+                "waste":  {
+                              "kicker":  "Gestion responsable",
+                              "title":  "Politique de gestion responsable des déchets",
+                              "description":  "Servicios Logísticos Alsera S.A. de C.V. (SELOASA) réaffirme son engagement en tant qu\u0027entreprise socialement responsable, en s\u0027alignant sur les directives ECOVADIS, PSCI et l\u0027initiative K-15. Elle intègre des actions REUSE - REDUCE - RECYCLE afin de minimiser son empreinte environnementale.",
+                              "item_1":  "Réduire la quantité de déchets générés dans toutes les zones de l\u0027entreprise.",
+                              "item_2":  "Réutiliser et recycler chaque fois que possible ; garantir une élimination adéquate et sûre.",
+                              "item_3":  "Application à tous les employés, installations et à la flotte de véhicules.",
+                              "item_4":  "Le responsable de cette politique est le chef de la sécurité, de l\u0027hygiène et de l\u0027environnement.",
+                              "subtitle":  "Fonctions du JSHE",
+                              "jshe_1":  "Identifier les déchets, diffuser les critères et encourager la réutilisation et le recyclage.",
+                              "jshe_2":  "Mettre en œuvre la formation environnementale et la sensibilisation institutionnelle.",
+                              "jshe_3":  "Enregistrer et analyser les données pour optimiser la gestion environnementale.",
+                              "jshe_4":  "Appliquer des sanctions conformément au respect de cette politique.",
+                              "image_alt":  "Gestion responsable des déchets"
+                          },
+                "report":  {
+                               "kicker":  "Suivi mesurable",
+                               "title":  "Rapport de performance environnementale",
+                               "description":  "Dans le cadre de l\u0027engagement environnemental de SELOASA, nous partageons le rapport de performance validé par le Secrétariat de l\u0027environnement et des ressources naturelles (SEMARNAT) pour l\u0027année 2024.",
+                               "stat_1_label":  "Camions évalués",
+                               "stat_1_value":  "32 unités classe 2b, modèle 2020",
+                               "stat_2_label":  "Consommation totale",
+                               "stat_2_value":  "400 778 litres de diesel",
+                               "stat_3_label":  "Kilomètres parcourus",
+                               "stat_3_value":  "1 383 179 km",
+                               "stat_4_label":  "Émissions totales de CO2",
+                               "stat_4_value":  "1 077,89 tonnes",
+                               "stat_5_label":  "Date de validation",
+                               "stat_5_value":  "22 avril 2025",
+                               "button":  "Voir le rapport complet (PDF)",
+                               "image_alt":  "Rapport environnemental 2024"
+                           }
+            }
+}
