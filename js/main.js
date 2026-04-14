@@ -334,11 +334,16 @@
         };
 
         const resetFleetVisual = () => {
-            if (!fleetModel) return;
-
             fleetModelToken += 1;
             setFleetLoadingState(false);
+            if (fleetMedia) {
+                fleetMedia.classList.remove('is-static-image');
+            }
+
+            if (!fleetModel) return;
+
             fleetModel.classList.remove('is-visible');
+            fleetModel.setAttribute('aria-hidden', 'true');
             fleetModel.removeAttribute('src');
 
             if (fleetModel._onLoad) {
@@ -357,13 +362,17 @@
             const imageSrc = button.dataset.image || '';
             const imageAlt = button.dataset.alt || '';
             const modelSrc = getFleetModelSource(button);
-            const hasPreviewImage = Boolean(imageSrc);
+            const has3dModel = Boolean(modelSrc);
+            const hasStaticImage = Boolean(imageSrc) && !has3dModel;
 
             if (!fleetModel) return;
 
             resetFleetVisual();
 
-            if (hasPreviewImage) {
+            if (hasStaticImage) {
+                if (fleetMedia) {
+                    fleetMedia.classList.add('is-static-image');
+                }
                 fleetImage.src = imageSrc;
                 fleetImage.alt = imageAlt;
                 fleetImage.classList.remove('is-hidden');
@@ -375,7 +384,9 @@
 
             fleetModel.alt = imageAlt;
 
-            if (!modelSrc) return;
+            if (!has3dModel) {
+                return;
+            }
 
             const token = fleetModelToken;
             setFleetLoadingState(true);
@@ -383,9 +394,7 @@
             fleetModel._onLoad = () => {
                 if (token !== fleetModelToken) return;
                 setFleetLoadingState(false);
-                if (hasPreviewImage) {
-                    fleetImage.classList.add('is-hidden');
-                }
+                fleetModel.setAttribute('aria-hidden', 'false');
                 fleetModel.classList.add('is-visible');
             };
 
@@ -393,7 +402,8 @@
                 if (token !== fleetModelToken) return;
                 setFleetLoadingState(false);
                 fleetModel.classList.remove('is-visible');
-                fleetImage.classList.remove('is-hidden');
+                fleetModel.setAttribute('aria-hidden', 'true');
+                fleetImage.classList.add('is-hidden');
             };
 
             fleetModel.addEventListener('load', fleetModel._onLoad, { once: true });
