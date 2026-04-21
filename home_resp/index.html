@@ -64,7 +64,7 @@
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            background: #ffffff
+            background: #153C1D
         }
 
         #first-visit-lottie.visible {
@@ -184,7 +184,7 @@
             font-family: Inter, Roboto, sans-serif;
             font-size: clamp(18px, 3.5vw, 28px);
             font-weight: 700;
-            color: #e43b14;
+            color: #ffffff;
             text-align: center;
             margin: 0;
             line-height: 1.05;
@@ -222,6 +222,26 @@
                 text-align: center
             }
         }
+
+        /* Brand UI Overrides for Resp Version (Green Theme) */
+        .footer, .copyright {
+            background-color: #153C1D !important;
+        }
+
+        .footer, .footer *, .copyright, .copyright * {
+            color: #ffffff !important;
+        }
+
+        .btn-primary {
+            background-color: #153C1D !important;
+            color: #ffffff !important;
+            border-color: #153C1D !important;
+        }
+
+        .btn-primary:hover {
+            background-color: #0d2814 !important;
+            border-color: #0d2814 !important;
+        }
     </style>
 </head>
 
@@ -242,14 +262,10 @@
                 <div class="fvlottie-brand" aria-hidden="true">
                     <img src="img/logotipo.png" alt="Seloasa" loading="eager" decoding="async" width="171" height="209">
                     <div class="fvlottie-brand-copy">
-
                         <span class="fvlottie-brand-title">Servicios Logísticos Alsera</span>
                     </div>
                 </div>
                 <div class="fvlottie-visual">
-
-
-
                     <dotlottie-wc src="https://lottie.host/4554812a-2c34-424b-96d0-bd9a593e6039/HJ4rhyRaN0.lottie"
                         autoplay></dotlottie-wc>
                 </div>
@@ -268,11 +284,11 @@
         <div class="container-fluid about-section overflow-hidden py-5 px-lg-0">
             <div class="container about py-4 px-lg-0">
                 <div class="row g-4 align-items-center mx-lg-0">
-                    <div class="col-lg-6 about-media-column wow fadeIsnLeft" data-wow-delay="0.1s">
+                    <div class="col-lg-6 about-media-column wow fadeInLeft" data-wow-delay="0.1s">
                         <div class="about-media-card position-relative">
                             <img src="img\fotos unidades 2026\Caja Refrigerada 2.jpg"
                                 alt="Instalaciones Seloasa (Almacén)" data-i18n-alt="home.about.image_alt"
-                                class="img-fluid w-100 about-media-image parallax-img" loading="lazy" decoding="async" width="1920"
+                                class="img-fluid w-100 about-media-image" loading="lazy" decoding="async" width="1920"
                                 height="1200">
                         </div>
                     </div>
@@ -306,7 +322,7 @@
                                 </li>
                                 <li>
                                     <span class="about-point-icon"><i class="fa fa-check"></i></span>
-                                    <span data-i18n="home.about.point_4">Trazabilidad total e informes personalizados en
+                                    <span data-i18n-html="home.about.point_4">Trazabilidad total e informes personalizados en
                                         tiempo real.</span>
                                 </li>
                             </ul>
@@ -566,83 +582,8 @@
         <!-- Feature End -->
 
 
-        <!-- Presence Start -->
-        <div class="container-xxl presence-section py-5">
-            <div class="container py-5">
-                <div class="row g-5 align-items-center presence-layout">
-                    <div class="col-lg-5 wow fadeInLeft" data-wow-delay="0.1s">
-                        <div class="presence-copy-panel">
-                            <h6 class="text-uppercase mb-2 presence-kicker" data-i18n="home.presence.kicker">Nuestra
-                                Presencia</h6>
-                            <h2 class="mb-4 presence-title" data-i18n="home.presence.title">México en el centro de
-                                nuestra operación logística</h2>
-                            <p class="presence-description mb-4" data-i18n="home.presence.description">
-                                Nuestra infraestructura y monitoreo nos permiten coordinar almacenaje, transporte y
-                                distribución farmacéutica con cobertura nacional desde México.
-                            </p>
-                            <div class="presence-badges mb-4">
-                                <span class="presence-badge" data-i18n="home.presence.badge_1">Cobertura nacional</span>
-                                <span class="presence-badge" data-i18n="home.presence.badge_2">Cadena de frío</span>
-                                <span class="presence-badge" data-i18n="home.presence.badge_3">Monitoreo 24/7</span>
-                            </div>
-                            <p class="presence-note mb-0" data-i18n="home.presence.note">
-                                Nuestra presencia inicia en México y sigue creciendo para acompañar cada embarque con
-                                control y seguridad.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-lg-7 wow fadeInRight" data-wow-delay="0.2s">
-                        <div class="presence-visual-panel">
-                            <div class="presence-map-stage">
-                                <div class="presence-map-frame">
-                                    <div class="presence-map-surface">
-                                        <div class="presence-globe-canvas" id="presenceGlobe" aria-hidden="true"></div>
-                                    <div class="presence-globe-chip" aria-hidden="true">
-                                        <span class="presence-globe-chip-dot"></span>
-                                        Nodo México
-                                    </div>
-                                </div>
-                            </div>
-                            <p class="presence-map-hint" data-i18n="home.presence.globe_hint">Haz clic sobre México
-                                para destacar nuestro nodo principal.</p>
-                            <div class="presence-country-card is-active" id="presence-card-mexico"
-                                data-presence-card="mexico">
-                                <div class="presence-card-label" data-i18n="home.presence.card_label">Nodo principal
-                                </div>
-                                <div class="presence-card-header">
-                                    <h3 class="mb-0" data-i18n="home.presence.card_title">México</h3>
-                                    <span class="presence-card-dot" aria-hidden="true"></span>
-                                </div>
-                                <p class="presence-card-description" data-i18n="home.presence.card_description">
-                                    Desde este punto articulamos rutas, visibilidad operativa y respuesta especializada
-                                    para servicios críticos en toda la República.
-                                </p>
-                                <div class="presence-card-metrics">
-                                    <div class="presence-metric">
-                                        <i class="fa fa-map-marker-alt" aria-hidden="true"></i>
-                                        <span data-i18n="home.presence.stat_1">Cobertura en 32 estados</span>
-                                    </div>
-                                    <div class="presence-metric">
-                                        <i class="fa fa-clock" aria-hidden="true"></i>
-                                        <span data-i18n="home.presence.stat_2">Operación trazable 24/7</span>
-                                    </div>
-                                    <div class="presence-metric">
-                                        <i class="fa fa-truck" aria-hidden="true"></i>
-                                        <span data-i18n="home.presence.stat_3">Servicios farma especializados</span>
-                                    </div>
-                                </div>
-                                <a href="#home-quote" class="btn btn-primary presence-card-cta"
-                                    data-i18n="home.presence.cta">Solicitar cobertura</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Presence End -->
-
         <!-- Quote Start -->
-        <div class="container-xxl quote-section py-5" id="home-quote">
+        <div class="container-xxl quote-section py-5">
             <div class="container py-5">
                 <div class="row g-5 align-items-stretch quote-layout">
                     <!-- Texto e instrucciones para cotizar -->
@@ -652,7 +593,7 @@
                             <br />
                             <p class="mb-4 quote-description" data-i18n="home.quote.description">
                                 Completa el formulario y un asesor especializado en logística farma se
-                                pondrá en contacto contigo. Te ayudaremos a diseñar la mejor solución
+                                ponddrá en contacto contigo. Te ayudaremos a diseñar la mejor solución
                                 para tus envíos y almacenaje.
                             </p>
                             <div class="quote-phone-wrap">
@@ -717,83 +658,6 @@
             </div>
         </div>
         <!-- Quote End -->
-
-        <!-- Team Start -->
-        <!--
-     <div class="container-xxl py-5">
-        <div class="container py-5">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h6 class="text-secondary text-uppercase">Nuestro Equipo</h6>
-                <h1 class="mb-5">Profesionales a Tu Servicio</h1>
-            </div>
-            <div class="row g-4">
-                
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="team-item p-4">
-                        <div class="overflow-hidden mb-4">
-                            <img class="img-fluid" src="img/jl_barrera.png" alt="Juan PÃ©rez">
-                        </div>
-                        <h5 class="mb-0">Jose Luis Barrera Aldana</h5>
-                        <p>Director General</p>
-                        <div class="btn-slide mt-1">
-                            <i class="fa fa-share"></i>
-                            <span>
-                                <a href="https://www.linkedin.com/in/juanperez" target="_blank"><i class="fab fa-linkedin"></i></a>
-                                <a href="mailto:jose.barrera@seloasa.com.mx"><i class="fa fa-envelope"></i></a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="team-item p-4">
-                        <div class="overflow-hidden mb-4">
-                            <img class="img-fluid" src="img/gabriela_contreras.png" alt="MarÃ­a LÃ³pez">
-                        </div>
-                        <h5 class="mb-0">Gabriela Contreras Nieto</h5>
-                        <p>Jefa de Aseguramiento de Calidad</p>
-                        <div class="btn-slide mt-1">
-                            <i class="fa fa-share"></i>
-                            <span>                                
-                                <a href="mailto:gabriela.contreras@seloasa.com.mx"><i class="fa fa-envelope"></i></a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.7s">
-                    <div class="team-item p-4">
-                        <div class="overflow-hidden mb-4">
-                            <img class="img-fluid" src="img/marco_villegas.png" alt="Carlos RamÃ­rez">
-                        </div>
-                        <h5 class="mb-0">Marco Antonio Villegas Soto</h5>
-                        <p>Gerente de Trafico</p>
-                        <div class="btn-slide mt-1">
-                            <i class="fa fa-share"></i>
-                            <span>                               
-                                <a href="mailto:marco.villegas@seloasa.com.mx"><i class="fa fa-envelope"></i></a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.9s">
-                    <div class="team-item p-4">
-                        <div class="overflow-hidden mb-4">
-                            <img class="img-fluid" src="img/sergio_jeronimo.png" alt="Gloria Martínez">
-                        </div>
-                        <h5 class="mb-0">Sergio Jeronimo Del Angel</h5>
-                        <p>Jefe de Validación</p>
-                        <div class="btn-slide mt-1">
-                            <i class="fa fa-share"></i>
-                            <span>
-                                <a href="mailto:sergio.jeronimo@seloasa.com.mx"><i class="fa fa-envelope"></i></a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-        <!-- Team End -->
 
         <!-- Testimonial Start -->
         <div class="container-xxl testimonial-section py-5 wow fadeInUp" data-wow-delay="0.1s">
@@ -872,176 +736,6 @@
                         <p class="testimonial-text" data-i18n="home.testimonials.items.gsk.text">"La confiabilidad y
                             visibilidad que ofrece Seloasa ha sido clave en nuestra operación."</p>
                     </div>
-                    <!-- Vitasanitas -->
-                    <div class="testimonial-item p-4 my-4">
-                        <div class="testimonial-quote-mark">
-                            <i class="fa fa-quote-right"></i>
-                        </div>
-                        <div class="testimonial-meta">
-                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/vitasanitas.jpg"
-                                alt="Vitasanitas" loading="lazy" decoding="async">
-                            <div class="testimonial-copy">
-                                <h5 class="testimonial-company">Vitasanitas</h5>
-                                <p class="testimonial-role" data-i18n="home.testimonials.items.vitasanitas.role">
-                                    Coordinación de Abasto</p>
-                            </div>
-                        </div>
-                        <p class="testimonial-text" data-i18n="home.testimonials.items.vitasanitas.text">"Recibimos
-                            nuestros pedidos con puntualidad y sin variaciones de temperatura."</p>
-                    </div>
-                    <!-- OCTAPHARMA -->
-                    <div class="testimonial-item p-4 my-4">
-                        <div class="testimonial-quote-mark">
-                            <i class="fa fa-quote-right"></i>
-                        </div>
-                        <div class="testimonial-meta">
-                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/octapharma.png"
-                                alt="OCTAPHARMA" loading="lazy" decoding="async">
-                            <div class="testimonial-copy">
-                                <h5 class="testimonial-company">OCTAPHARMA</h5>
-                                <p class="testimonial-role" data-i18n="home.testimonials.items.octapharma.role">Jefatura
-                                    de Logística</p>
-                            </div>
-                        </div>
-                        <p class="testimonial-text" data-i18n="home.testimonials.items.octapharma.text">"La flexibilidad
-                            operativa de Seloasa se ha adaptado perfectamente a nuestras necesidades."</p>
-                    </div>
-                    <!-- P&G -->
-                    <div class="testimonial-item p-4 my-4">
-                        <div class="testimonial-quote-mark">
-                            <i class="fa fa-quote-right"></i>
-                        </div>
-                        <div class="testimonial-meta">
-                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/p&g.png" alt="P&amp;G"
-                                loading="lazy" decoding="async">
-                            <div class="testimonial-copy">
-                                <h5 class="testimonial-company">P&amp;G</h5>
-                                <p class="testimonial-role" data-i18n="home.testimonials.items.pg.role">Supply Chain
-                                    México</p>
-                            </div>
-                        </div>
-                        <p class="testimonial-text" data-i18n="home.testimonials.items.pg.text">"Eficientes, rápidos y
-                            con procesos bien definidos. Una empresa que inspira confianza."</p>
-                    </div>
-                    <!-- Novartis -->
-                    <div class="testimonial-item p-4 my-4">
-                        <div class="testimonial-quote-mark">
-                            <i class="fa fa-quote-right"></i>
-                        </div>
-                        <div class="testimonial-meta">
-                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/novartis.png"
-                                alt="Novartis" loading="lazy" decoding="async">
-                            <div class="testimonial-copy">
-                                <h5 class="testimonial-company">Novartis</h5>
-                                <p class="testimonial-role" data-i18n="home.testimonials.items.novartis.role">Gestión de
-                                    Distribución</p>
-                            </div>
-                        </div>
-                        <p class="testimonial-text" data-i18n="home.testimonials.items.novartis.text">"La trazabilidad y
-                            el apego a normativas de Seloasa han sido clave para nuestro control logístico."</p>
-                    </div>
-                    <!-- Pharma Frigo -->
-                    <div class="testimonial-item p-4 my-4">
-                        <div class="testimonial-quote-mark">
-                            <i class="fa fa-quote-right"></i>
-                        </div>
-                        <div class="testimonial-meta">
-                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/pharmafrigo.jpg"
-                                alt="Pharma Frigo" loading="lazy" decoding="async">
-                            <div class="testimonial-copy">
-                                <h5 class="testimonial-company">Pharma Frigo</h5>
-                                <p class="testimonial-role" data-i18n="home.testimonials.items.pharmafrigo.role">
-                                    Operaciones Frigoríficas</p>
-                            </div>
-                        </div>
-                        <p class="testimonial-text" data-i18n="home.testimonials.items.pharmafrigo.text">"Su experiencia
-                            en frío es inigualable. Confiamos plenamente en su gestión."</p>
-                    </div>
-                    <!-- ALTERNAVIDA -->
-                    <div class="testimonial-item p-4 my-4">
-                        <div class="testimonial-quote-mark">
-                            <i class="fa fa-quote-right"></i>
-                        </div>
-                        <div class="testimonial-meta">
-                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/alternavida.png"
-                                alt="ALTERNAVIDA" loading="lazy" decoding="async">
-                            <div class="testimonial-copy">
-                                <h5 class="testimonial-company">ALTERNAVIDA</h5>
-                                <p class="testimonial-role" data-i18n="home.testimonials.items.alternavida.role">
-                                    Gerencia General</p>
-                            </div>
-                        </div>
-                        <p class="testimonial-text" data-i18n="home.testimonials.items.alternavida.text">"Alternavida
-                            destaca por su compromiso en cada envío."</p>
-                    </div>
-                    <!-- SANDOZ -->
-                    <div class="testimonial-item p-4 my-4">
-                        <div class="testimonial-quote-mark">
-                            <i class="fa fa-quote-right"></i>
-                        </div>
-                        <div class="testimonial-meta">
-                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/sandoz.png"
-                                alt="SANDOZ" loading="lazy" decoding="async">
-                            <div class="testimonial-copy">
-                                <h5 class="testimonial-company">SANDOZ</h5>
-                                <p class="testimonial-role" data-i18n="home.testimonials.items.sandoz.role">Departamento
-                                    Médico</p>
-                            </div>
-                        </div>
-                        <p class="testimonial-text" data-i18n="home.testimonials.items.sandoz.text">"Gracias a Seloasa,
-                            nuestro producto llega en perfectas condiciones."</p>
-                    </div>
-                    <!-- BBRAUN -->
-                    <div class="testimonial-item p-4 my-4">
-                        <div class="testimonial-quote-mark">
-                            <i class="fa fa-quote-right"></i>
-                        </div>
-                        <div class="testimonial-meta">
-                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/bbraun.png"
-                                alt="BBRAUN" loading="lazy" decoding="async">
-                            <div class="testimonial-copy">
-                                <h5 class="testimonial-company">BBRAUN</h5>
-                                <p class="testimonial-role" data-i18n="home.testimonials.items.bbraun.role">Supply Chain
-                                </p>
-                            </div>
-                        </div>
-                        <p class="testimonial-text" data-i18n="home.testimonials.items.bbraun.text">"Con Seloasa,
-                            nuestra cadena de frío nunca falla."</p>
-                    </div>
-                    <!-- ARCAR -->
-                    <div class="testimonial-item p-4 my-4">
-                        <div class="testimonial-quote-mark">
-                            <i class="fa fa-quote-right"></i>
-                        </div>
-                        <div class="testimonial-meta">
-                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/arcar.png" alt="ARCAR"
-                                loading="lazy" decoding="async">
-                            <div class="testimonial-copy">
-                                <h5 class="testimonial-company">ARCAR</h5>
-                                <p class="testimonial-role" data-i18n="home.testimonials.items.arcar.role">Gerencia de
-                                    Operaciones</p>
-                            </div>
-                        </div>
-                        <p class="testimonial-text" data-i18n="home.testimonials.items.arcar.text">"ARCAR confía
-                            plenamente en la trayectoria de Seloasa."</p>
-                    </div>
-                    <!-- VITALMEX -->
-                    <div class="testimonial-item p-4 my-4">
-                        <div class="testimonial-quote-mark">
-                            <i class="fa fa-quote-right"></i>
-                        </div>
-                        <div class="testimonial-meta">
-                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/vitalmex.png"
-                                alt="VITALMEX" loading="lazy" decoding="async">
-                            <div class="testimonial-copy">
-                                <h5 class="testimonial-company">VITALMEX</h5>
-                                <p class="testimonial-role" data-i18n="home.testimonials.items.vitalmex.role">
-                                    Coordinación de Logística</p>
-                            </div>
-                        </div>
-                        <p class="testimonial-text" data-i18n="home.testimonials.items.vitalmex.text">"VITALMEX valora
-                            la puntualidad y cuidado extremo en cada envío."</p>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1049,15 +743,10 @@
 
     </main>
 
-    <!-- Footer Start -->
     <div data-include="partials/footer.html"></div>
-    <!-- Footer End -->
 
-    <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" aria-label="Regresar al inicio"
         data-i18n-aria-label="common.back_to_top_aria"><i class="bi bi-arrow-up"></i></a>
-
-    <!-- JavaScript Libraries -->
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -1066,131 +755,10 @@
     <script src="lib/waypoints/waypoints.min.js"></script>
     <script src="lib/counterup/counterup.min.js"></script>
     <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/globe.gl"></script>
-    <script src="js/home-i18n.js"></script>
     <script src="js/i18n.js"></script>
     <script src="js/include-partials.js"></script>
-    <script src="js/include-partials.js"></script>
-
-    <script>
-        (function () {
-            let __fv_slogan_shown = false;
-            let __fv_fallback_timer = null;
-            function closeOverlay() {
-                const ov = document.getElementById('first-visit-lottie');
-                if (!ov) return;
-                ov.classList.remove('visible');
-                ov.style.display = 'none';
-                document.body.classList.remove('fv-loading');
-                // cleanup any outstanding timers
-                try { if (__fv_fallback_timer) { clearTimeout(__fv_fallback_timer); __fv_fallback_timer = null; } } catch (e) { }
-            }
-            function showSloganThenClose() {
-                if (__fv_slogan_shown) return;
-                __fv_slogan_shown = true;
-                const ov = document.getElementById('first-visit-lottie');
-                if (!ov) return closeOverlay();
-                const inner = ov.querySelector('.fvlottie-inner');
-                if (!inner) return closeOverlay();
-                const sloganEl = inner.querySelector('.fvlottie-slogan');
-                if (!sloganEl) return closeOverlay();
-                const player = inner.querySelector('dotlottie-wc');
-                inner.classList.add('show-brand');
-                try { if (player && typeof player.pause === 'function') player.pause(); } catch (e) { }
-                requestAnimationFrame(() => { requestAnimationFrame(() => { sloganEl.classList.add('show'); }) });
-                __fv_fallback_timer = setTimeout(closeOverlay, 2400);
-            }
-            function showIfFirstVisit() {
-                const ov = document.getElementById('first-visit-lottie');
-                if (!ov) return;
-                // Prevent page interaction and hide content while splash is active
-                try { document.body.classList.add('fv-loading') } catch (e) { }
-                const s = document.createElement('script');
-                s.type = 'module';
-                s.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.10/dist/dotlottie-wc.js';
-                s.defer = true;
-                s.onload = function () {
-                    // show splash
-                    ov.style.display = 'flex';
-                    setTimeout(() => ov.classList.add('visible'), 50);
-                    const player = ov.querySelector('dotlottie-wc');
-                    if (player) {
-                        // ensure correct src (in case embed vs direct path matters)
-                        try { player.src = 'https://lottie.host/4554812a-2c34-424b-96d0-bd9a593e6039/HJ4rhyRaN0.lottie' } catch (e) { }
-                        // set playback speed to 0.5 (multiple fallbacks)
-                        try { player.setAttribute('speed', '0.5') } catch (e) { }
-                        try { player.setAttribute('playback-rate', '0.5') } catch (e) { }
-                        try { if ('playbackRate' in player) player.playbackRate = 0.5 } catch (e) { }
-                        try { if (typeof player.setSpeed === 'function') player.setSpeed(0.5) } catch (e) { }
-                        try { if (typeof player.setPlaybackRate === 'function') player.setPlaybackRate(0.5) } catch (e) { }
-                        // ensure play
-                        try { if (typeof player.play === 'function') player.play(); } catch (e) { }
-
-                        // show slogan exactly 1s after animation starts
-                        let shown = false;
-                        try {
-                            const showAfterStart = () => {
-                                if (shown) return; shown = true; showSloganThenClose();
-                            };
-                            // if the player emits a 'play' or 'playing' event, use it
-                            ['play', 'playing', 'start', 'begin', 'lottie:play'].forEach(ev => {
-                                try { player.addEventListener(ev, () => { setTimeout(showAfterStart, 1000); }); } catch (e) { }
-                            });
-                            // also trigger immediately if player is already playing
-                            try { if (player.paused === false || player.getCurrentTime && player.getCurrentTime() > 0) { setTimeout(showAfterStart, 1000); } } catch (e) { }
-                            // fallback: if no events fire, ensure slogan after 1s from now
-                            setTimeout(() => { if (!shown) { shown = true; showSloganThenClose(); } }, 1000 + 200);
-                        } catch (e) { setTimeout(showSloganThenClose, 1200); }
-
-                        // keep a completion listener to close if needed (no double-show)
-                        try { player.addEventListener('complete', () => { if (!shown) { shown = true; showSloganThenClose(); } else { closeOverlay(); } }); } catch (e) { }
-                    } else {
-                        setTimeout(showSloganThenClose, 1000);
-                    }
-                };
-                document.body.appendChild(s);
-                // also allow tap background to close (kept as a fallback)
-                ov.addEventListener('click', (ev) => { if (ev.target === ov) closeOverlay(); });
-            }
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', showIfFirstVisit);
-            } else showIfFirstVisit();
-        })();
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-    <!-- Template Javascript -->
     <script src="js/main.js"></script>
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const status = urlParams.get('status');
-        const cleanStatusUrl = new URL(window.location.href);
-
-        if (status) {
-            cleanStatusUrl.searchParams.delete('status');
-            window.history.replaceState({}, document.title, `${cleanStatusUrl.pathname}${cleanStatusUrl.search}${cleanStatusUrl.hash}`);
-        }
-
-        if (status === 'success') {
-            Swal.fire({
-                icon: 'success',
-                title: 'Mensaje enviado',
-                text: 'Gracias, hemos recibido tu solicitud.',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Aceptar'
-            });
-        } else if (status === 'error') {
-            Swal.fire({
-                icon: 'error',
-                title: 'Error al enviar',
-                text: 'Hubo un problema al enviar tu solicitud. Inténtalo más tarde.',
-                confirmButtonColor: '#d33',
-                confirmButtonText: 'Aceptar'
-            });
-        }
-    </script>
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
 </body>
 
 </html>

@@ -12,8 +12,13 @@ window.I18N_PAGE_TRANSLATIONS = {
       features: {
         kicker: "Destacados", title: "Servicios clave para una distribuci\u00f3n controlada", description: "Modelos operativos pensados para entregas directas, monitoreo constante y devoluciones controladas.",
         card_1: { image_alt: "Log\u00edstica inversa y reversa", title: "Log\u00edstica Inversa & Reversa", description: "Recogida y gesti\u00f3n de retornos, garantizando la disposici\u00f3n adecuada de residuos y rechazos." },
-        card_2: { image_alt: "GPS m\u00f3vil", title: "GPS M\u00f3vil", description: "Cobertura global con monitoreo en tiempo real de temperatura, humedad, impacto y ubicaci\u00f3n." },
+        card_2: { image_alt: "GPS m\u00f3vil", title: "GPS M\u00f3vil y Telemetr\u00eda", description: "Visibilidad en tiempo real con telemetr\u00eda de temperatura, humedad, impacto, ubicaci\u00f3n, tiempos de permanencia y alertas por desviaciones durante el recorrido." },
         card_3: { image_alt: "Entregas directas", title: "Entregas Directas", description: "Distribuci\u00f3n puntual a farmacias, hospitales, laboratorios y pacientes finales." }
+      },
+      telemetry: {
+        kicker: "Telemetr\u00eda", title: "Monitoreo inteligente para decisiones en tiempo real", description: "Nuestra telemetr\u00eda integra variables cr\u00edticas de la operaci\u00f3n para dar visibilidad continua al estado del embarque, al desempe\u00f1o de la ruta y a cualquier desviaci\u00f3n que requiera acci\u00f3n inmediata.", image_alt: "Telemetr\u00eda aplicada a distribuci\u00f3n",
+        item_1: "Lectura continua de temperatura, humedad e impacto durante el traslado.", item_2: "Ubicaci\u00f3n en tiempo real, geocercas y alertas por desv\u00edos de ruta o detenciones no planeadas.", item_3: "Registro de tiempos de permanencia, ventanas de entrega y eventos relevantes por punto de control.",
+        item_4: "Alertamiento operativo para actuar ante excursiones, aperturas, incidencias o riesgos durante la distribuci\u00f3n.", item_5: "Trazabilidad y evidencia para reportes, an\u00e1lisis operativo y mejora continua del servicio.", item_6: "Mayor control para operaciones sensibles, cadena de fr\u00edo y entregas con nivel de servicio cr\u00edtico."
       },
       cta: { kicker: "Siguiente Paso", title: "Consulta nuestras soluciones", description: "Conversemos sobre el modelo de distribuci\u00f3n que mejor responde a tu operaci\u00f3n.", button: "Consulta Nuestras Soluciones" }
     }
@@ -30,8 +35,13 @@ window.I18N_PAGE_TRANSLATIONS = {
       features: {
         kicker: "Highlights", title: "Key services for controlled distribution", description: "Operating models designed for direct deliveries, constant monitoring, and controlled returns.",
         card_1: { image_alt: "Reverse logistics", title: "Reverse & Return Logistics", description: "Collection and management of returns, ensuring proper disposal of waste and rejects." },
-        card_2: { image_alt: "Mobile GPS", title: "Mobile GPS", description: "Global coverage with real-time monitoring of temperature, humidity, impact, and location." },
+        card_2: { image_alt: "Mobile GPS", title: "Mobile GPS & Telemetry", description: "Real-time visibility with telemetry for temperature, humidity, impact, location, dwell times, and deviation alerts throughout the route." },
         card_3: { image_alt: "Direct deliveries", title: "Direct Deliveries", description: "On-time distribution to pharmacies, hospitals, laboratories, and end patients." }
+      },
+      telemetry: {
+        kicker: "Telemetry", title: "Smart monitoring for real-time decisions", description: "Our telemetry integrates critical operational variables to provide continuous visibility into shipment status, route performance, and any deviation requiring immediate action.", image_alt: "Telemetry applied to distribution",
+        item_1: "Continuous reading of temperature, humidity, and impact during transit.", item_2: "Real-time location, geofences, and alerts for route deviations or unplanned stops.", item_3: "Logging of dwell times, delivery windows, and relevant events at each control point.",
+        item_4: "Operational alerts to act on excursions, openings, incidents, or risks during distribution.", item_5: "Traceability and evidence for reporting, operational analysis, and continuous service improvement.", item_6: "Greater control for sensitive operations, cold chain shipments, and deliveries with critical service levels."
       },
       cta: { kicker: "Next Step", title: "Explore our solutions", description: "Let's discuss the distribution model that best fits your operation.", button: "Explore Our Solutions" }
     }
@@ -48,8 +58,13 @@ window.I18N_PAGE_TRANSLATIONS = {
       features: {
         kicker: "Highlights", title: "Schl\u00fcsselservices f\u00fcr kontrollierte Distribution", description: "Betriebsmodelle f\u00fcr Direktlieferungen, konstantes Monitoring und kontrollierte R\u00fccknahmen.",
         card_1: { image_alt: "Retourenlogistik", title: "Reverse- & Retourenlogistik", description: "Abholung und Verwaltung von R\u00fcckl\u00e4ufen, einschlie\u00dflich der ordnungsgem\u00e4\u00dfen Entsorgung von Abf\u00e4llen und Ausschuss." },
-        card_2: { image_alt: "Mobiles GPS", title: "Mobiles GPS", description: "Globale Abdeckung mit Echtzeit-Monitoring von Temperatur, Feuchtigkeit, Aufprall und Standort." },
+        card_2: { image_alt: "Mobiles GPS", title: "Mobiles GPS & Telemetrie", description: "Echtzeit-Transparenz mit Telemetrie zu Temperatur, Feuchtigkeit, Ersch\u00fctterung, Standort, Standzeiten und Warnungen bei Abweichungen entlang der Route." },
         card_3: { image_alt: "Direktlieferungen", title: "Direktlieferungen", description: "P\u00fcnktliche Distribution an Apotheken, Krankenh\u00e4user, Labore und Endpatienten." }
+      },
+      telemetry: {
+        kicker: "Telemetrie", title: "Intelligentes Monitoring f\u00fcr Entscheidungen in Echtzeit", description: "Unsere Telemetrie integriert kritische Betriebsvariablen, um kontinuierliche Transparenz \u00fcber den Sendungsstatus, die Routenleistung und jede Abweichung zu schaffen, die sofortiges Handeln erfordert.", image_alt: "Telemetrie in der Distribution",
+        item_1: "Kontinuierliche Erfassung von Temperatur, Feuchtigkeit und Ersch\u00fctterung w\u00e4hrend des Transports.", item_2: "Echtzeit-Standort, Geofences und Warnungen bei Routenabweichungen oder ungeplanten Stopps.", item_3: "Erfassung von Standzeiten, Lieferfenstern und relevanten Ereignissen an jedem Kontrollpunkt.",
+        item_4: "Operative Warnmeldungen, um bei Abweichungen, \u00d6ffnungen, Vorf\u00e4llen oder Risiken w\u00e4hrend der Distribution zu reagieren.", item_5: "R\u00fcckverfolgbarkeit und Nachweise f\u00fcr Berichte, operative Analysen und kontinuierliche Serviceverbesserung.", item_6: "Mehr Kontrolle f\u00fcr sensible Operationen, K\u00fchlketten und Lieferungen mit kritischem Servicelevel."
       },
       cta: { kicker: "N\u00e4chster Schritt", title: "Unsere L\u00f6sungen kennenlernen", description: "Lassen Sie uns \u00fcber das Distributionsmodell sprechen, das am besten zu Ihrem Betrieb passt.", button: "Unsere L\u00f6sungen ansehen" }
     }
@@ -66,8 +81,13 @@ window.I18N_PAGE_TRANSLATIONS = {
       features: {
         kicker: "Destaques", title: "Servi\u00e7os-chave para uma distribui\u00e7\u00e3o controlada", description: "Modelos operacionais pensados para entregas diretas, monitoramento constante e devolu\u00e7\u00f5es controladas.",
         card_1: { image_alt: "Log\u00edstica inversa e reversa", title: "Log\u00edstica Inversa & Reversa", description: "Coleta e gest\u00e3o de devolu\u00e7\u00f5es, garantindo a destina\u00e7\u00e3o adequada de res\u00edduos e recusas." },
-        card_2: { image_alt: "GPS m\u00f3vel", title: "GPS M\u00f3vel", description: "Cobertura global com monitoramento em tempo real de temperatura, umidade, impacto e localiza\u00e7\u00e3o." },
+        card_2: { image_alt: "GPS m\u00f3vel", title: "GPS M\u00f3vel e Telemetria", description: "Visibilidade em tempo real com telemetria de temperatura, umidade, impacto, localiza\u00e7\u00e3o, tempos de perman\u00eancia e alertas por desvios durante o trajeto." },
         card_3: { image_alt: "Entregas diretas", title: "Entregas Diretas", description: "Distribui\u00e7\u00e3o pontual para farm\u00e1cias, hospitais, laborat\u00f3rios e pacientes finais." }
+      },
+      telemetry: {
+        kicker: "Telemetria", title: "Monitoramento inteligente para decis\u00f5es em tempo real", description: "Nossa telemetria integra vari\u00e1veis cr\u00edticas da opera\u00e7\u00e3o para oferecer visibilidade cont\u00ednua sobre o estado do embarque, o desempenho da rota e qualquer desvio que exija a\u00e7\u00e3o imediata.", image_alt: "Telemetria aplicada \u00e0 distribui\u00e7\u00e3o",
+        item_1: "Leitura cont\u00ednua de temperatura, umidade e impacto durante o transporte.", item_2: "Localiza\u00e7\u00e3o em tempo real, cercas geogr\u00e1ficas e alertas por desvios de rota ou paradas n\u00e3o planejadas.", item_3: "Registro de tempos de perman\u00eancia, janelas de entrega e eventos relevantes por ponto de controle.",
+        item_4: "Alertas operacionais para agir diante de excurs\u00f5es, aberturas, incidentes ou riscos durante a distribui\u00e7\u00e3o.", item_5: "Rastreabilidade e evid\u00eancias para relat\u00f3rios, an\u00e1lise operacional e melhoria cont\u00ednua do servi\u00e7o.", item_6: "Maior controle para opera\u00e7\u00f5es sens\u00edveis, cadeia fria e entregas com n\u00edvel de servi\u00e7o cr\u00edtico."
       },
       cta: { kicker: "Pr\u00f3ximo Passo", title: "Consulte nossas solu\u00e7\u00f5es", description: "Vamos conversar sobre o modelo de distribui\u00e7\u00e3o que melhor atende sua opera\u00e7\u00e3o.", button: "Consultar Nossas Solu\u00e7\u00f5es" }
     }
@@ -84,8 +104,13 @@ window.I18N_PAGE_TRANSLATIONS = {
       features: {
         kicker: "Points Cl\u00e9s", title: "Services cl\u00e9s pour une distribution contr\u00f4l\u00e9e", description: "Mod\u00e8les op\u00e9rationnels con\u00e7us pour les livraisons directes, le suivi constant et les retours contr\u00f4l\u00e9s.",
         card_1: { image_alt: "Logistique inverse", title: "Logistique Inverse & Retour", description: "Collecte et gestion des retours en garantissant l'\u00e9limination appropri\u00e9e des d\u00e9chets et rejets." },
-        card_2: { image_alt: "GPS mobile", title: "GPS Mobile", description: "Couverture mondiale avec suivi en temps r\u00e9el de la temp\u00e9rature, de l'humidit\u00e9, des impacts et de la localisation." },
+        card_2: { image_alt: "GPS mobile", title: "GPS Mobile & T\u00e9l\u00e9m\u00e9trie", description: "Visibilit\u00e9 en temps r\u00e9el avec t\u00e9l\u00e9m\u00e9trie de la temp\u00e9rature, de l'humidit\u00e9, des impacts, de la localisation, des temps d'arr\u00eat et des alertes en cas d'\u00e9cart pendant le trajet." },
         card_3: { image_alt: "Livraisons directes", title: "Livraisons Directes", description: "Distribution ponctuelle vers les pharmacies, h\u00f4pitaux, laboratoires et patients finaux." }
+      },
+      telemetry: {
+        kicker: "T\u00e9l\u00e9m\u00e9trie", title: "Surveillance intelligente pour des d\u00e9cisions en temps r\u00e9el", description: "Notre t\u00e9l\u00e9m\u00e9trie int\u00e8gre des variables op\u00e9rationnelles critiques pour offrir une visibilit\u00e9 continue de l'\u00e9tat de l'envoi, de la performance de l'itin\u00e9raire et de tout \u00e9cart n\u00e9cessitant une action imm\u00e9diate.", image_alt: "T\u00e9l\u00e9m\u00e9trie appliqu\u00e9e \u00e0 la distribution",
+        item_1: "Lecture continue de la temp\u00e9rature, de l'humidit\u00e9 et des impacts pendant le transport.", item_2: "Localisation en temps r\u00e9el, g\u00e9orep\u00e9rage et alertes en cas d'\u00e9cart de trajet ou d'arr\u00eats non planifi\u00e9s.", item_3: "Enregistrement des temps d'arr\u00eat, des fen\u00eatres de livraison et des \u00e9v\u00e9nements pertinents \u00e0 chaque point de contr\u00f4le.",
+        item_4: "Alertes op\u00e9rationnelles pour agir face aux excursions, ouvertures, incidents ou risques pendant la distribution.", item_5: "Tra\u00e7abilit\u00e9 et preuves pour les rapports, l'analyse op\u00e9rationnelle et l'am\u00e9lioration continue du service.", item_6: "Un plus grand contr\u00f4le pour les op\u00e9rations sensibles, la cha\u00eene du froid et les livraisons avec un niveau de service critique."
       },
       cta: { kicker: "\u00c9tape Suivante", title: "Consultez nos solutions", description: "Parlons du mod\u00e8le de distribution qui r\u00e9pond le mieux \u00e0 votre op\u00e9ration.", button: "Consulter Nos Solutions" }
     }

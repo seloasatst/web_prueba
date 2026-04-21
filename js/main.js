@@ -1,12 +1,44 @@
 (function ($) {
     "use strict";
 
-    function initCounterUp($elements, options) {
-        if (!$.fn || typeof $.fn.counterUp !== 'function' || !$elements.length) {
-            return;
-        }
+    function initCounterUp($elements) {
+        if (!$elements.length) return;
 
-        $elements.counterUp(options);
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const $el = $(entry.target);
+                    const endValue = parseInt($el.text().replace(/,/g, ''));
+                    const duration = 2000;
+                    const startTime = performance.now();
+
+                    const animateCounter = (currentTime) => {
+                        const elapsedTime = currentTime - startTime;
+                        const progress = Math.min(elapsedTime / duration, 1);
+                        const currentValue = Math.floor(progress * endValue);
+                        
+                        $el.text(currentValue.toLocaleString());
+
+                        if (progress < 1) {
+                            requestAnimationFrame(animateCounter);
+                        } else {
+                            $el.text(endValue.toLocaleString());
+                        }
+                    };
+
+                    requestAnimationFrame(animateCounter);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        $elements.each(function() {
+            counterObserver.observe(this);
+        });
     }
 
     function optimizeMediaLoading(root) {
@@ -84,10 +116,7 @@
     responsive: {0:{items:1},600:{items:1},1000:{items:1}}
     });
 
-    initCounterUp($('.counter'), {
-        delay: 10,
-        time: 1000
-    });
+    initCounterUp($('.counter'));
 
     // Inicializa todos los carousels (header y testimonial)
     window.initCarousels = function () {
@@ -126,6 +155,30 @@
     // Ejecutar spinner y carousels en cuanto cargue main.js
     initSpinner();
     initCarousels();
+
+    // Parallax Effect
+    $(window).scroll(function () {
+        var scrolled = $(window).scrollTop();
+        var windowHeight = $(window).height();
+        
+        $('.parallax-img').each(function() {
+            var $this = $(this);
+            var $parent = $this.parent();
+            if ($parent.length) {
+                var offset = $parent.offset().top;
+                var height = $parent.height();
+                
+                // Check if element is in viewport
+                if (scrolled + windowHeight > offset && scrolled < offset + height) {
+                    var relativeScroll = (scrolled + windowHeight - offset) / (windowHeight + height);
+                    // Move from -20px to 20px
+                    var yPos = (relativeScroll - 0.5) * 40; 
+                    $this.css('transform', 'translateY(' + yPos + 'px) scale(1.15)');
+                }
+            }
+        });
+    });
+
     optimizeMediaLoading(document);
 
     // ——————————————————————————————————————————
@@ -147,8 +200,16 @@
     new WOW().init();
 
     // ——————————————————————————————————————————
-    // Sticky Navbar
+    // Sticky Navbar handling
     // ——————————————————————————————————————————
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 45) {
+            $('.site-navbar').addClass('sticky-nav');
+        } else {
+            $('.site-navbar').removeClass('sticky-nav');
+        }
+    });
+
     const fleetSelector = document.getElementById('fleetSelector');
     if (fleetSelector) {
         const fleetButtons = fleetSelector.querySelectorAll('.fleet-option');
@@ -526,6 +587,179 @@
     }
   });
 
+    const presenceHotspots = document.querySelectorAll('[data-presence-target]');
+    const presenceGlobeElement = document.getElementById('presenceGlobe');
+    if (presenceGlobeElement) {
+        const presenceCards = document.querySelectorAll('[data-presence-card]');
+        let presenceGlobeInstance = null;
+        let presenceGlobeResizeFrame = null;
+        const mexicoFocus = { lat: 23.6345, lng: -102.5528, altitude: 0.59 };
+
+        if (typeof Globe === 'function') {
+
+            const resizePresenceGlobe = () => {
+                if (!presenceGlobeInstance) {
+                    return;
+                }
+
+                const rect = presenceGlobeElement.getBoundingClientRect();
+                presenceGlobeInstance
+                    .width(Math.round(rect.width))
+                    .height(Math.round(rect.height))
+                    .pointOfView(mexicoFocus, 0);
+            };
+
+            presenceGlobeInstance = new Globe(presenceGlobeElement, {
+                waitForGlobeReady: true,
+                animateIn: true
+            })
+                .width(Math.round(presenceGlobeElement.getBoundingClientRect().width || 520))
+                .height(Math.round(presenceGlobeElement.getBoundingClientRect().height || 520))
+                .backgroundColor('rgba(0,0,0,0)')
+                .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-blue-marble.jpg')
+                .showAtmosphere(true)
+                .atmosphereColor('#ffffff')
+                .atmosphereAltitude(0.13)
+                .showGraticules(false)
+                .pointOfView(mexicoFocus, 0);
+
+            const presenceGlobeControls = presenceGlobeInstance.controls();
+            presenceGlobeControls.enablePan = false;
+            presenceGlobeControls.enableZoom = false;
+            presenceGlobeControls.autoRotate = false;
+
+            const stateActivityLevels = {
+                'Aguascalientes': 0.3,
+                'Baja California': 0.6,
+                'Baja California Sur': 0.2,
+                'Campeche': 0.2,
+                'Chiapas': 0.4,
+                'Chihuahua': 0.5,
+                'Coahuila': 0.5,
+                'Colima': 0.2,
+                'Distrito Federal': 1.0,
+                'Ciudad de México': 1.0,
+                'Durango': 0.3,
+                'Guanajuato': 0.8,
+                'Guerrero': 0.3,
+                'Hidalgo': 0.4,
+                'Jalisco': 0.9,
+                'México': 0.9,
+                'Michoacán': 0.4,
+                'Morelos': 0.3,
+                'Nayarit': 0.2,
+                'Nuevo León': 0.9,
+                'Oaxaca': 0.4,
+                'Puebla': 0.7,
+                'Querétaro': 0.8,
+                'Quintana Roo': 0.5,
+                'San Luis Potosí': 0.6,
+                'Sinaloa': 0.5,
+                'Sonora': 0.5,
+                'Tabasco': 0.3,
+                'Tamaulipas': 0.6,
+                'Tlaxcala': 0.3,
+                'Veracruz': 0.7,
+                'Yucatán': 0.5,
+                'Zacatecas': 0.3
+            };
+
+            const getCapColor = (feat) => {
+                const name = feat.properties ? feat.properties.name : '';
+                const level = stateActivityLevels[name] || 0.1;
+                
+                if (level <= 0.2) {
+                    // Gris para baja actividad
+                    return `rgba(180, 180, 180, 0.4)`;
+                }
+
+                // Transición de gris a color principal (#e43b14)
+                // Color principal: rgb(228, 59, 20)
+                const r = Math.round(180 + (228 - 180) * level);
+                const g = Math.round(180 + (59 - 180) * level);
+                const b = Math.round(180 + (20 - 180) * level);
+                const alpha = 0.4 + (level * 0.5); // Aumenta opacidad con actividad
+                
+                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+            };
+
+            fetch('https://raw.githubusercontent.com/angelnmara/geojson/master/mexicoHigh.json')
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Failed to load Mexico states GeoJSON');
+                    }
+
+                    return response.json();
+                })
+                .then((geojson) => {
+                    presenceGlobeInstance
+                        .polygonsData(geojson.features || [])
+                        .polygonCapColor(getCapColor)
+                        .polygonSideColor(() => 'rgba(228, 59, 20, 0.05)')
+                        .polygonStrokeColor(() => 'rgba(255,255,255,0.6)')
+                        .polygonAltitude(0.01)
+                        .polygonCapCurvatureResolution(1)
+                        .polygonsTransitionDuration(500)
+                        .polygonLabel(({ properties: d }) => `
+                            <div style="background: rgba(0,0,0,0.8); color: white; padding: 5px 10px; border-radius: 4px; font-size: 13px; font-family: sans-serif;">
+                                <b style="color: #e43b14;">${d.name}</b><br/>
+                                Cobertura: ${Math.round((stateActivityLevels[d.name] || 0.1) * 100)}%
+                            </div>
+                        `)
+                        .onPolygonHover(hoverD => presenceGlobeInstance
+                            .polygonCapColor(d => d === hoverD ? 'rgba(228, 59, 20, 1)' : getCapColor(d))
+                        );
+                })
+                .catch(() => {
+                    // If the GeoJSON cannot be loaded, keep the globe without state divisions.
+                });
+
+            window.addEventListener('resize', function () {
+                if (presenceGlobeResizeFrame) {
+                    cancelAnimationFrame(presenceGlobeResizeFrame);
+                }
+
+                presenceGlobeResizeFrame = requestAnimationFrame(resizePresenceGlobe);
+            });
+        }
+
+        const activatePresenceTarget = (target) => {
+            if (!target) {
+                return;
+            }
+
+            presenceHotspots.forEach((hotspot) => {
+                const isActive = hotspot.dataset.presenceTarget === target;
+                hotspot.classList.toggle('is-active', isActive);
+                hotspot.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            });
+
+            presenceCards.forEach((card) => {
+                const isActive = card.dataset.presenceCard === target;
+                card.classList.toggle('is-active', isActive);
+                if (isActive) {
+                    card.removeAttribute('hidden');
+                } else {
+                    card.setAttribute('hidden', 'hidden');
+                }
+            });
+        };
+
+        presenceHotspots.forEach((hotspot) => {
+            hotspot.addEventListener('click', function () {
+                activatePresenceTarget(this.dataset.presenceTarget);
+
+                if (presenceGlobeInstance && this.dataset.presenceTarget === 'mexico') {
+                    presenceGlobeInstance.pointOfView(mexicoFocus, 900);
+                }
+            });
+        });
+
+        if (presenceHotspots.length) {
+            activatePresenceTarget(presenceHotspots[0].dataset.presenceTarget);
+        }
+    }
+
     // ——————————————————————————————————————————
     // Back to top button
     // ——————————————————————————————————————————
@@ -544,9 +778,6 @@
     // ——————————————————————————————————————————
     // Facts counter
     // ——————————————————————————————————————————
-    initCounterUp($('[data-toggle="counter-up"]'), {
-        delay: 10,
-        time: 2000
-    });
+    initCounterUp($('[data-toggle="counter-up"]'));
 
 })(jQuery);

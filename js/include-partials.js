@@ -27,6 +27,7 @@ const NAV_ROUTE_ALIASES = {
   storage: ['storage'],
   transport: ['transport'],
   distribution: ['distribution'],
+  paqueteria: ['paqueteria'],
   security: ['security'],
   'about-us': ['about-us', 'about'],
   'environmental-responsibility': ['environmental-responsibility'],

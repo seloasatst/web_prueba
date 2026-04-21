@@ -13,15 +13,16 @@ window.I18N_PAGE_TRANSLATIONS = {
         image_2_alt: "Interior de almacén",
         kicker: "Nosotros",
         title: "Especialistas en servicios logísticos, almacenaje y transporte",
-        paragraph_1: "En un corto plazo nos hemos posicionado como compañía líder en la prestación de soluciones logísticas ágiles y seguras para la cadena de suministro farma, tanto del sector gobierno como privado.",
-        paragraph_2: "Junto con nuestros clientes y en alianzas estratégicas a largo plazo, enfrentamos con éxito los cambios dinámicos del mercado.",
+        paragraph_1: "En Seloasa, combinamos la agilidad de una operación moderna con el respaldo y la experiencia de más de 30 años del Grupo Ralca, líderes en el sector farmacéutico nacional. Nos hemos posicionado como compañía líder en soluciones logísticas seguras para la cadena de suministro farma, tanto en el sector gobierno como privado.",
+        paragraph_2: "Nuestra estrecha colaboración con el grupo nos permite ofrecer una infraestructura robusta y un conocimiento profundo del mercado, enfrentando con éxito los cambios dinámicos y garantizando la integridad de cada producto.",
         quote_label: "En Seloasa, sin duda:",
         quote_text: "\"Manejamos tu producto tan bien como manejamos el nuestro\"."
       },
+
       pillars: {
         kicker: "Nuestra Base",
         title: "Una operación construida con propósito, ética y capacidad de respuesta",
-        card_1: { title: "Quiénes Somos", description: "Seloasa es una empresa mexicana dedicada a proporcionar servicios logísticos enfocados en la salud, con estándares de calidad y procesos certificados." },
+        card_1: { title: "Quiénes Somos", description: "Seloasa es la división especializada en logística y distribución del Grupo Ralca. Combinamos más de 30 años de legado en el sector salud con procesos certificados y una flota propia de última generación." },
         card_2: { title: "Misión", description: "Apoyar a nuestro equipo de líderes para satisfacer los requerimientos cambiantes de nuestros clientes, ofreciendo soluciones de calidad, coste-efectivas y éticas." },
         card_3: { title: "Visión", description: "Ser reconocidos por nuestra capacidad de respuesta ágil y sostenible en la cadena de suministro farma, aprovechando oportunidades de negocio y alianzas estratégicas." }
       },
@@ -35,7 +36,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         item_4: { title: "Flexibilidad", description: "Ejecución ágil ante cambios de demanda y dinámica del mercado farma." },
         item_5: { title: "Innovación", description: "Búsqueda constante de nuevas formas de hacer y desarrollar soluciones." },
         item_6: { title: "Compliance", description: "Observancia estricta de estándares regulatorios y éticos del sector." },
-        item_7: { title: "Alianzas", description: "Compromiso de crecimiento conjunto con clientes y aliados estratégicos." },
+        item_7: { title: "Alianzas", description: "Sinergia operativa con el Grupo Ralca para ofrecer soluciones logísticas de alto impacto y alcance nacional." },
         item_8: { title: "Colaboración", description: "Transparencia y búsqueda del \"cómo sí\" en cada proyecto." }
       },
       quality: {
@@ -45,7 +46,20 @@ window.I18N_PAGE_TRANSLATIONS = {
         paragraph_2: "Además, cumplimos con el Sistema de Gestión de Seguridad en el Servicio de Manejo, Transporte y Custodia de Medicamentos conforme a la NORMEX/SGSSMTC/01/2016.",
         paragraph_3: "Resultados satisfactorios en auditorías internacionales nos han posicionado como aliados estratégicos de laboratorios líderes.",
         image_alt: "Sistema de Gestión de Calidad"
+      },
+      synergy: {
+        kicker: "Sinergia Corporativa",
+        title: "Seloasa & Grupo Ralca: Un Legado de Confianza",
+        description: "Seloasa nace como la división logística estratégica del Grupo Ralca, integrando más de tres décadas de especialización en el sector salud con una infraestructura de vanguardia diseñada para la excelencia operativa.",
+        point_1_title: "30+ Años de Experiencia",
+        point_1_description: "Respaldo de un grupo líder en la distribución de medicamentos de alta especialidad.",
+        point_2_title: "Infraestructura Robusta",
+        point_2_description: "Acceso a centros de distribución (CEDIS) estratégicos y tecnología de monitoreo líder.",
+        point_3_title: "Especialización Farma",
+        point_3_description: "Expertos en cadena de frío y manejo de productos críticos para el sector público y privado.",
+        image_alt: "Sinergia Corporativa Seloasa y Ralca"
       }
+
     }
   },
   en: {
@@ -61,15 +75,16 @@ window.I18N_PAGE_TRANSLATIONS = {
         image_2_alt: "Warehouse interior",
         kicker: "About Us",
         title: "Specialists in logistics, storage, and transport services",
-        paragraph_1: "In a short time, we have positioned ourselves as a leading company in agile and secure logistics solutions for the pharmaceutical supply chain, in both the public and private sectors.",
-        paragraph_2: "Together with our clients and through long-term strategic alliances, we successfully face the market's dynamic changes.",
+        paragraph_1: "At Seloasa, we combine the agility of a modern operation with the support and 30+ years of experience of the Ralca Group, leaders in the national pharmaceutical sector. We have positioned ourselves as a leading company in secure logistics solutions for the pharma supply chain, serving both the government and private sectors.",
+        paragraph_2: "Our close collaboration with the group allows us to offer a robust infrastructure and deep market knowledge, successfully navigating dynamic changes and ensuring the integrity of every product.",
         quote_label: "At Seloasa, without a doubt:",
         quote_text: "\"We handle your product as well as we handle our own\"."
       },
+
       pillars: {
         kicker: "Our Foundation",
         title: "An operation built with purpose, ethics, and responsiveness",
-        card_1: { title: "Who We Are", description: "Seloasa is a Mexican company dedicated to providing health-focused logistics services, with quality standards and certified processes." },
+        card_1: { title: "Who We Are", description: "Seloasa is the specialized logistics and distribution division of the Ralca Group. We combine over 30 years of healthcare sector legacy with certified processes and a state-of-the-art private fleet." },
         card_2: { title: "Mission", description: "To support our leadership team in meeting our clients' changing requirements by offering quality, cost-effective, and ethical solutions." },
         card_3: { title: "Vision", description: "To be recognized for our agile and sustainable response capability in the pharmaceutical supply chain, leveraging business opportunities and strategic alliances." }
       },
@@ -83,7 +98,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         item_4: { title: "Flexibility", description: "Agile execution in response to changes in demand and pharmaceutical market dynamics." },
         item_5: { title: "Innovation", description: "Constant pursuit of new ways to act and develop solutions." },
         item_6: { title: "Compliance", description: "Strict adherence to regulatory and ethical standards in the sector." },
-        item_7: { title: "Alliances", description: "Commitment to joint growth with clients and strategic partners." },
+        item_7: { title: "Alliances", description: "Operational synergy with the Ralca Group to offer high-impact logistics solutions with nationwide reach." },
         item_8: { title: "Collaboration", description: "Transparency and a \"how yes\" mindset in every project." }
       },
       quality: {
@@ -93,7 +108,20 @@ window.I18N_PAGE_TRANSLATIONS = {
         paragraph_2: "We also comply with the Security Management System for the Handling, Transport, and Custody of Medicines in accordance with NORMEX/SGSSMTC/01/2016.",
         paragraph_3: "Successful results in international audits have positioned us as strategic partners of leading laboratories.",
         image_alt: "Quality Management System"
+      },
+      synergy: {
+        kicker: "Corporate Synergy",
+        title: "Seloasa & Ralca Group: A Legacy of Trust",
+        description: "Seloasa was born as the strategic logistics division of the Ralca Group, integrating more than three decades of specialization in the healthcare sector with a cutting-edge infrastructure designed for operational excellence.",
+        point_1_title: "30+ Years of Experience",
+        point_1_description: "Backed by a leading group in the distribution of high-specialty medicines.",
+        point_2_title: "Robust Infrastructure",
+        point_2_description: "Access to strategic distribution centers (CEDIS) and leading monitoring technology.",
+        point_3_title: "Pharma Specialization",
+        point_3_description: "Experts in cold chain and critical product handling for the public and private sectors.",
+        image_alt: "Seloasa and Ralca Corporate Synergy"
       }
+
     }
   },
   al: {
@@ -109,15 +137,15 @@ window.I18N_PAGE_TRANSLATIONS = {
         image_2_alt: "Lagerinnenraum",
         kicker: "Über Uns",
         title: "Spezialisten für Logistik-, Lager- und Transportdienstleistungen",
-        paragraph_1: "In kurzer Zeit haben wir uns als führendes Unternehmen für agile und sichere Logistiklösungen in der Pharma-Lieferkette positioniert, sowohl im öffentlichen als auch im privaten Sektor.",
-        paragraph_2: "Gemeinsam mit unseren Kunden und in langfristigen strategischen Allianzen begegnen wir den dynamischen Marktveränderungen erfolgreich.",
+        paragraph_1: "Bei Seloasa verbinden wir die Agilität eines modernen Betriebs mit dem Rückhalt und der über 30-jährigen Erfahrung der Ralca-Gruppe, einem führenden Unternehmen im nationalen Pharmasektor. Wir haben uns als führendes Unternehmen für sichere Logistiklösungen in der Pharma-Lieferkette positioniert und bedienen sowohl den öffentlichen als auch den privaten Sektor.",
+        paragraph_2: "Unsere enge Zusammenarbeit mit der Gruppe ermöglicht es uns, eine robuste Infrastruktur und tiefes Marktsegmentwissen anzubieten, dynamische Veränderungen erfolgreich zu meistern und die Integrität jedes Produkts zu gewährleisten.",
         quote_label: "Bei Seloasa gilt ohne Zweifel:",
         quote_text: "\"Wir behandeln Ihr Produkt so gut, wie wir unser eigenes behandeln\"."
       },
       pillars: {
         kicker: "Unsere Grundlage",
         title: "Ein Betrieb, der auf Sinn, Ethik und Reaktionsfähigkeit aufgebaut ist",
-        card_1: { title: "Wer Wir Sind", description: "Seloasa ist ein mexikanisches Unternehmen, das sich auf gesundheitsorientierte Logistikdienstleistungen mit Qualitätsstandards und zertifizierten Prozessen spezialisiert hat." },
+        card_1: { title: "Wer Wir Sind", description: "Seloasa ist die spezialisierte Logistik- und Vertriebsabteilung der Ralca-Gruppe. Wir kombinieren über 30 Jahre Erbe im Gesundheitssektor mit zertifizierten Prozessen und einer hochmodernen eigenen Flotte." },
         card_2: { title: "Mission", description: "Unser Führungsteam dabei zu unterstützen, die sich ändernden Anforderungen unserer Kunden zu erfüllen, indem wir qualitativ hochwertige, kosteneffiziente und ethische Lösungen anbieten." },
         card_3: { title: "Vision", description: "Für unsere agile und nachhaltige Reaktionsfähigkeit in der pharmazeutischen Lieferkette anerkannt zu werden und dabei Geschäftsmöglichkeiten sowie strategische Allianzen zu nutzen." }
       },
@@ -131,7 +159,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         item_4: { title: "Flexibilität", description: "Agile Umsetzung bei Nachfrageänderungen und Dynamik des Pharmamarktes." },
         item_5: { title: "Innovation", description: "Ständige Suche nach neuen Wegen zur Umsetzung und Entwicklung von Lösungen." },
         item_6: { title: "Compliance", description: "Strikte Einhaltung regulatorischer und ethischer Standards des Sektors." },
-        item_7: { title: "Allianzen", description: "Verpflichtung zu gemeinsamem Wachstum mit Kunden und strategischen Partnern." },
+        item_7: { title: "Allianzen", description: "Operative Synergie mit der Ralca-Gruppe für leistungsstarke Logistiklösungen mit landesweiter Reichweite." },
         item_8: { title: "Zusammenarbeit", description: "Transparenz und die Suche nach dem \"Wie doch\" in jedem Projekt." }
       },
       quality: {
@@ -141,7 +169,20 @@ window.I18N_PAGE_TRANSLATIONS = {
         paragraph_2: "Darüber hinaus erfüllen wir das Sicherheitsmanagementsystem für Handhabung, Transport und Verwahrung von Arzneimitteln gemäß NORMEX/SGSSMTC/01/2016.",
         paragraph_3: "Erfolgreiche Ergebnisse bei internationalen Audits haben uns als strategische Partner führender Labore positioniert.",
         image_alt: "Qualitätsmanagementsystem"
+      },
+      synergy: {
+        kicker: "Unternehmenssynergie",
+        title: "Seloasa & Ralca-Gruppe: Ein Erbe des Vertrauens",
+        description: "Seloasa wurde als strategische Logistikabteilung der Ralca-Gruppe ins Leben gerufen und integriert mehr als drei Jahrzehnte Spezialisierung im Gesundheitssektor mit einer hochmodernen Infrastruktur.",
+        point_1_title: "30+ Jahre Erfahrung",
+        point_1_description: "Unterstützt von einer führenden Gruppe im nationalen Medikamentenvertrieb.",
+        point_2_title: "Robuste Infrastruktur",
+        point_2_description: "Zugang zu strategischen Logistikzentren (CEDIS) und modernster Überwachungstechnologie.",
+        point_3_title: "Pharma-Spezialisierung",
+        point_3_description: "Experten für Kühlketten und den Umgang mit kritischen Produkten für den öffentlichen und privaten Sektor.",
+        image_alt: "Unternehmenssynergie Seloasa und Ralca"
       }
+
     }
   },
   pt: {
@@ -157,15 +198,15 @@ window.I18N_PAGE_TRANSLATIONS = {
         image_2_alt: "Interior do armazém",
         kicker: "Sobre Nós",
         title: "Especialistas em serviços logísticos, armazenagem e transporte",
-        paragraph_1: "Em pouco tempo, nos posicionamos como uma empresa líder na oferta de soluções logísticas ágeis e seguras para a cadeia de suprimento farma, tanto no setor público quanto no privado.",
-        paragraph_2: "Junto com nossos clientes e em alianças estratégicas de longo prazo, enfrentamos com sucesso as mudanças dinâmicas do mercado.",
+        paragraph_1: "Na Seloasa, combinamos a agilidade de uma operação moderna com o suporte e a experiência de mais de 30 anos do Grupo Ralca, líderes no setor farmacêutico nacional. Posicionamo-nos como uma empresa líder em soluções logísticas seguras para a cadeia de suprimentos farma, atendendo tanto ao setor público quanto ao privado.",
+        paragraph_2: "Nossa estreita colaboração com o grupo nos permite oferecer uma infraestrutura robusta e um profundo conhecimento de mercado, enfrentando com sucesso as mudanças dinâmicas e garantindo a integridade de cada produto.",
         quote_label: "Na Seloasa, sem dúvida:",
         quote_text: "\"Cuidamos do seu produto tão bem quanto cuidamos do nosso\"."
       },
       pillars: {
         kicker: "Nossa Base",
         title: "Uma operação construída com propósito, ética e capacidade de resposta",
-        card_1: { title: "Quem Somos", description: "A Seloasa é uma empresa mexicana dedicada a oferecer serviços logísticos focados em saúde, com padrões de qualidade e processos certificados." },
+        card_1: { title: "Quem Somos", description: "A Seloasa é a divisão especializada em logística e distribuição do Grupo Ralca. Combinamos mais de 30 anos de legado no setor de saúde com processos certificados e uma frota própria de última geração." },
         card_2: { title: "Missão", description: "Apoiar nossa equipe de líderes para atender às mudanças nas necessidades dos clientes, oferecendo soluções de qualidade, custo-efetivas e éticas." },
         card_3: { title: "Visão", description: "Ser reconhecidos por nossa capacidade de resposta ágil e sustentável na cadeia de suprimento farma, aproveitando oportunidades de negócio e alianças estratégicas." }
       },
@@ -179,8 +220,8 @@ window.I18N_PAGE_TRANSLATIONS = {
         item_4: { title: "Flexibilidade", description: "Execução ágil diante das mudanças de demanda e da dinâmica do mercado farma." },
         item_5: { title: "Inovação", description: "Busca constante por novas formas de fazer e desenvolver soluções." },
         item_6: { title: "Compliance", description: "Observância rigorosa dos padrões regulatórios e éticos do setor." },
-        item_7: { title: "Alianças", description: "Compromisso com o crescimento conjunto com clientes e parceiros estratégicos." },
-        item_8: { title: "Colaboração", description: "Transparência e busca pelo \"como sim\" em cada projeto." }
+        item_7: { title: "Alianças", description: "Sinergia operacional com o Grupo Ralca para oferecer soluções logísticas de alto impacto e alcance nacional." },
+        item_8: { title: "Colaboração", description: "Transparencia e busca pelo \"como sim\" em cada projeto." }
       },
       quality: {
         kicker: "Qualidade",
@@ -189,6 +230,18 @@ window.I18N_PAGE_TRANSLATIONS = {
         paragraph_2: "Além disso, cumprimos o Sistema de Gestão de Segurança no Serviço de Manuseio, Transporte e Custódia de Medicamentos conforme a NORMEX/SGSSMTC/01/2016.",
         paragraph_3: "Resultados satisfatórios em auditorias internacionais nos posicionaram como aliados estratégicos de laboratórios líderes.",
         image_alt: "Sistema de Gestão da Qualidade"
+      },
+      synergy: {
+        kicker: "Sinergia Corporativa",
+        title: "Seloasa & Grupo Ralca: Um Legado de Confiança",
+        description: "A Seloasa nasceu como a divisão logística estratégica do Grupo Ralca, integrando mais de três décadas de especialização no setor de saúde com uma infraestrutura de ponta projetada para a excelência operacional.",
+        point_1_title: "30+ Anos de Experiência",
+        point_1_description: "Respaldo de um grupo líder na distribuição nacional de medicamentos de alta especialidade.",
+        point_2_title: "Infraestrutura Robusta",
+        point_2_description: "Acesso a centros de distribuição (CEDIS) estratégicos e tecnologia de monitoramento líder.",
+        point_3_title: "Especialização Farma",
+        point_3_description: "Especialistas em cadeia de frio e manuseio de produtos críticos para os setores público e privado.",
+        image_alt: "Sinergia Corporativa Seloasa e Ralca"
       }
     }
   },
@@ -205,15 +258,15 @@ window.I18N_PAGE_TRANSLATIONS = {
         image_2_alt: "Intérieur d'entrepôt",
         kicker: "À Propos",
         title: "Spécialistes des services logistiques, du stockage et du transport",
-        paragraph_1: "En peu de temps, nous nous sommes positionnés comme une entreprise de référence dans la prestation de solutions logistiques agiles et sûres pour la chaîne d'approvisionnement pharmaceutique, aussi bien dans le secteur public que privé.",
-        paragraph_2: "Avec nos clients et grâce à des alliances stratégiques de long terme, nous faisons face avec succès aux changements dynamiques du marché.",
+        paragraph_1: "Chez Seloasa, nous combinons l'agilité d'une opération moderne avec le soutien et l'expérience de plus de 30 ans du Groupe Ralca, leader du secteur pharmaceutique national. Nous nous sommes positionnés comme une entreprise leader dans les solutions logistiques sécurisées pour la chaîne d'approvisionnement pharmaceutique, au service des secteurs public et privé.",
+        paragraph_2: "Notre étroite collaboration avec le groupe nous permet d'offrir une infrastructure robuste et une connaissance approfondie du marché, en naviguant avec succès dans les changements dynamiques et en garantissant l'intégrité de chaque produit.",
         quote_label: "Chez Seloasa, sans aucun doute :",
         quote_text: "\"Nous traitons votre produit aussi bien que le nôtre\"."
       },
       pillars: {
         kicker: "Notre Base",
         title: "Une opération construite avec sens, éthique et capacité de réponse",
-        card_1: { title: "Qui Nous Sommes", description: "Seloasa est une entreprise mexicaine dédiée à la fourniture de services logistiques axés sur la santé, avec des standards de qualité et des processus certifiés." },
+        card_1: { title: "Qui Nous Sommes", description: "Seloasa est la division spécialisée en logistique et distribution du Groupe Ralca. Nous combinons plus de 30 ans d'héritage dans le secteur de la santé avec des processus certifiés et une flotte propre de pointe." },
         card_2: { title: "Mission", description: "Soutenir notre équipe de dirigeants afin de répondre aux besoins changeants de nos clients en offrant des solutions de qualité, rentables et éthiques." },
         card_3: { title: "Vision", description: "Être reconnus pour notre capacité de réponse agile et durable dans la chaîne d'approvisionnement pharmaceutique, en tirant parti des opportunités d'affaires et des alliances stratégiques." }
       },
@@ -227,7 +280,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         item_4: { title: "Flexibilité", description: "Exécution agile face aux changements de la demande et à la dynamique du marché pharmaceutique." },
         item_5: { title: "Innovation", description: "Recherche constante de nouvelles façons d'agir et de développer des solutions." },
         item_6: { title: "Conformité", description: "Respect strict des normes réglementaires et éthiques du secteur." },
-        item_7: { title: "Alliances", description: "Engagement pour une croissance conjointe avec les clients et les partenaires stratégiques." },
+        item_7: { title: "Alliances", description: "Synergie opérationnelle avec le Groupe Ralca pour offrir des solutions logistiques à fort impact et à portée nationale." },
         item_8: { title: "Collaboration", description: "Transparence et recherche du \"comment oui\" dans chaque projet." }
       },
       quality: {
@@ -237,7 +290,20 @@ window.I18N_PAGE_TRANSLATIONS = {
         paragraph_2: "Nous respectons également le Système de Gestion de la Sécurité pour le service de manipulation, transport et garde de médicaments conformément à la NORMEX/SGSSMTC/01/2016.",
         paragraph_3: "Des résultats satisfaisants lors d'audits internationaux nous ont positionnés comme partenaires stratégiques de laboratoires de premier plan.",
         image_alt: "Système de Gestion de la Qualité"
+      },
+      synergy: {
+        kicker: "Synergie Entreprise",
+        title: "Seloasa & Groupe Ralca : Un Héritage de Confiance",
+        description: "Seloasa est née en tant que division logistique stratégique du Groupe Ralca, intégrant plus de trois décennies de spécialisation dans le secteur de la santé avec une infrastructure de pointe conçue pour l'excellence opérationnelle.",
+        point_1_title: "30+ Ans d'Expérience",
+        point_1_description: "Soutenu par un groupe leader dans la distribution nationale de médicaments de spécialité.",
+        point_2_title: "Infrastructure Robuste",
+        point_2_description: "Accès à des centres de distribution (CEDIS) stratégiques et à une technologie de surveillance de pointe.",
+        point_3_title: "Spécialisation Pharma",
+        point_3_description: "Experts de la chaîne du froid et de la manipulation de produits critiques pour les secteurs public et privé.",
+        image_alt: "Synergie Entreprise Seloasa et Ralca"
       }
+
     }
   }
 };

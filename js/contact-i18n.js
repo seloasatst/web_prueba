@@ -6,8 +6,8 @@ window.I18N_PAGE_TRANSLATIONS = {
         title: "Contacto - Servicios Log\u00edsticos Alsera"
       },
       hero: {
+        kicker: "Estamos para ayudarte",
         title_accent: "Cont\u00e1ctanos",
-        title_main: "Estamos para ayudarte",
         description: "Ponte en contacto con el equipo de Seloasa para resolver dudas, solicitar informaci\u00f3n o enviarnos un mensaje directamente.",
         image_alt: "Contacto Seloasa"
       },
@@ -37,8 +37,8 @@ window.I18N_PAGE_TRANSLATIONS = {
         title: "Contact - Servicios Log\u00edsticos Alsera"
       },
       hero: {
+        kicker: "We are here to help",
         title_accent: "Contact Us",
-        title_main: "We are here to help",
         description: "Get in touch with the Seloasa team to resolve questions, request information, or send us a message directly.",
         image_alt: "Seloasa contact"
       },
@@ -68,8 +68,8 @@ window.I18N_PAGE_TRANSLATIONS = {
         title: "Kontakt - Servicios Log\u00edsticos Alsera"
       },
       hero: {
+        kicker: "Wir sind f\u00fcr Sie da",
         title_accent: "Kontaktieren Sie uns",
-        title_main: "Wir sind f\u00fcr Sie da",
         description: "Kontaktieren Sie das Seloasa-Team, um Fragen zu kl\u00e4ren, Informationen anzufordern oder uns direkt eine Nachricht zu senden.",
         image_alt: "Seloasa Kontakt"
       },
@@ -99,8 +99,9 @@ window.I18N_PAGE_TRANSLATIONS = {
         title: "Contato - Servicios Log\u00edsticos Alsera"
       },
       hero: {
+        kicker: "Estamos aqui para ajudar",
         title_accent: "Fale conosco",
-        title_main: "Estamos aqui para ajudar",
+
         description: "Entre em contato com a equipe da Seloasa para esclarecer d\u00favidas, solicitar informa\u00e7\u00f5es ou nos enviar uma mensagem diretamente.",
         image_alt: "Contato Seloasa"
       },
@@ -130,8 +131,8 @@ window.I18N_PAGE_TRANSLATIONS = {
         title: "Contact - Servicios Log\u00edsticos Alsera"
       },
       hero: {
+        kicker: "Nous sommes l\u00e0 pour vous aider",
         title_accent: "Contactez-nous",
-        title_main: "Nous sommes l\u00e0 pour vous aider",
         description: "Prenez contact avec l'\u00e9quipe Seloasa pour r\u00e9pondre \u00e0 vos questions, demander des informations ou nous envoyer un message directement.",
         image_alt: "Contact Seloasa"
       },
