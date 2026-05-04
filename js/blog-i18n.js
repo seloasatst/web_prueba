@@ -8,8 +8,8 @@ window.I18N_PAGE_TRANSLATIONS = {
       hero: {
         title_accent: "Blog y",
         title_main: "noticias",
-        description: "Un espacio para compartir novedades, avances operativos y noticias relevantes relacionadas con la operaci\u00f3n de Seloasa.",
-        image_alt: "Noticias y actualizaciones Seloasa"
+        description: "Un espacio para compartir novedades, avances operativos y noticias relevantes relacionadas con la operaci\u00f3n de SELOASA.",
+        image_alt: "Noticias y actualizaciones SELOASA"
       },
       featured: {
         kicker: "Actualizaci\u00f3n destacada",
@@ -18,7 +18,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         title: "Seguimos fortaleciendo nuestra capacidad operativa con enfoque en control y trazabilidad",
         summary: "Nuestra operaci\u00f3n contin\u00faa reforzando procesos, visibilidad y coordinaci\u00f3n para responder con mayor eficiencia a las necesidades log\u00edsticas de nuestros clientes.",
         image: "img/patio_unidades_dia_banner.jpg",
-        image_alt: "Actualizaci\u00f3n destacada de operaci\u00f3n Seloasa"
+        image_alt: "Actualizaci\u00f3n destacada de operaci\u00f3n SELOASA"
       },
       latest: {
         kicker: "\u00daltimas publicaciones",
@@ -67,8 +67,8 @@ window.I18N_PAGE_TRANSLATIONS = {
       hero: {
         title_accent: "Blog &",
         title_main: "news",
-        description: "A space to share updates, operational progress, and relevant news related to Seloasa's operation.",
-        image_alt: "Seloasa news and updates"
+        description: "A space to share updates, operational progress, and relevant news related to SELOASA's operation.",
+        image_alt: "SELOASA news and updates"
       },
       featured: {
         kicker: "Featured update",
@@ -77,7 +77,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         title: "We continue strengthening our operational capacity with a focus on control and traceability",
         summary: "Our operation keeps reinforcing processes, visibility, and coordination to respond more efficiently to our clients' logistics needs.",
         image: "img/patio_unidades_dia_banner.jpg",
-        image_alt: "Featured Seloasa operations update"
+        image_alt: "Featured SELOASA operations update"
       },
       latest: {
         kicker: "Latest posts",
@@ -126,8 +126,8 @@ window.I18N_PAGE_TRANSLATIONS = {
       hero: {
         title_accent: "Blog &",
         title_main: "Neuigkeiten",
-        description: "Ein Bereich f\u00fcr Neuigkeiten, operative Fortschritte und relevante Meldungen rund um den Betrieb von Seloasa.",
-        image_alt: "Neuigkeiten und Updates von Seloasa"
+        description: "Ein Bereich f\u00fcr Neuigkeiten, operative Fortschritte und relevante Meldungen rund um den Betrieb von SELOASA.",
+        image_alt: "Neuigkeiten und Updates von SELOASA"
       },
       featured: {
         kicker: "Aktuelles Highlight",
@@ -136,7 +136,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         title: "Wir st\u00e4rken unsere operative Kapazit\u00e4t weiter mit Fokus auf Kontrolle und R\u00fcckverfolgbarkeit",
         summary: "Unser Betrieb baut Prozesse, Transparenz und Koordination weiter aus, um effizienter auf die logistischen Anforderungen unserer Kunden zu reagieren.",
         image: "img/patio_unidades_dia_banner.jpg",
-        image_alt: "Hervorgehobenes Betriebsupdate von Seloasa"
+        image_alt: "Hervorgehobenes Betriebsupdate von SELOASA"
       },
       latest: {
         kicker: "Neueste Beitr\u00e4ge",
@@ -185,8 +185,8 @@ window.I18N_PAGE_TRANSLATIONS = {
       hero: {
         title_accent: "Blog e",
         title_main: "not\u00edcias",
-        description: "Um espa\u00e7o para compartilhar novidades, avan\u00e7os operacionais e not\u00edcias relevantes relacionadas \u00e0 opera\u00e7\u00e3o da Seloasa.",
-        image_alt: "Not\u00edcias e atualiza\u00e7\u00f5es da Seloasa"
+        description: "Um espa\u00e7o para compartilhar novidades, avan\u00e7os operacionais e not\u00edcias relevantes relacionadas \u00e0 opera\u00e7\u00e3o da SELOASA.",
+        image_alt: "Not\u00edcias e atualiza\u00e7\u00f5es da SELOASA"
       },
       featured: {
         kicker: "Atualiza\u00e7\u00e3o em destaque",
@@ -195,7 +195,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         title: "Seguimos fortalecendo nossa capacidade operacional com foco em controle e rastreabilidade",
         summary: "Nossa opera\u00e7\u00e3o continua refor\u00e7ando processos, visibilidade e coordena\u00e7\u00e3o para responder com mais efici\u00eancia \u00e0s necessidades log\u00edsticas dos clientes.",
         image: "img/patio_unidades_dia_banner.jpg",
-        image_alt: "Atualiza\u00e7\u00e3o operacional em destaque da Seloasa"
+        image_alt: "Atualiza\u00e7\u00e3o operacional em destaque da SELOASA"
       },
       latest: {
         kicker: "\u00daltimas publica\u00e7\u00f5es",
@@ -244,8 +244,8 @@ window.I18N_PAGE_TRANSLATIONS = {
       hero: {
         title_accent: "Blog et",
         title_main: "actualit\u00e9s",
-        description: "Un espace pour partager des nouveaut\u00e9s, des avanc\u00e9es op\u00e9rationnelles et des informations pertinentes li\u00e9es \u00e0 l'activit\u00e9 de Seloasa.",
-        image_alt: "Actualit\u00e9s et mises \u00e0 jour de Seloasa"
+        description: "Un espace pour partager des nouveaut\u00e9s, des avanc\u00e9es op\u00e9rationnelles et des informations pertinentes li\u00e9es \u00e0 l'activit\u00e9 de SELOASA.",
+        image_alt: "Actualit\u00e9s et mises \u00e0 jour de SELOASA"
       },
       featured: {
         kicker: "Mise \u00e0 jour \u00e0 la une",
@@ -254,7 +254,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         title: "Nous continuons \u00e0 renforcer notre capacit\u00e9 op\u00e9rationnelle avec un accent sur le contr\u00f4le et la tra\u00e7abilit\u00e9",
         summary: "Notre activit\u00e9 continue de renforcer les processus, la visibilit\u00e9 et la coordination afin de r\u00e9pondre plus efficacement aux besoins logistiques de nos clients.",
         image: "img/patio_unidades_dia_banner.jpg",
-        image_alt: "Mise \u00e0 jour op\u00e9rationnelle \u00e0 la une de Seloasa"
+        image_alt: "Mise \u00e0 jour op\u00e9rationnelle \u00e0 la une de SELOASA"
       },
       latest: {
         kicker: "Derni\u00e8res publications",

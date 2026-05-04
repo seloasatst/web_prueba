@@ -14,7 +14,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         description: "La direccion puede haber cambiado o el contenido ya no estar disponible. Te dejamos rutas utiles para retomar el recorrido."
       },
       visual: {
-        image_alt: "Unidad de transporte de Seloasa en operacion",
+        image_alt: "Unidad de transporte de SELOASA en operacion",
         title: "Seguimos en movimiento",
         text: "Te ayudamos a retomar la ruta correcta con accesos rapidos y opciones utiles."
       },
@@ -46,7 +46,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         description: "The address may have changed or the content may no longer be available. Here are useful paths to keep moving."
       },
       visual: {
-        image_alt: "Seloasa transport unit in operation",
+        image_alt: "SELOASA transport unit in operation",
         title: "We are still moving",
         text: "We help you get back on the right route with quick access and useful options."
       },
@@ -78,7 +78,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         description: "Die Adresse wurde moglicherweise geandert oder der Inhalt ist nicht mehr verfugbar. Hier finden Sie nutzliche Wege, um weiterzumachen."
       },
       visual: {
-        image_alt: "Seloasa Transportfahrzeug im Einsatz",
+        image_alt: "SELOASA Transportfahrzeug im Einsatz",
         title: "Wir bleiben in Bewegung",
         text: "Wir helfen Ihnen mit schnellen Zugangen und nutzlichen Optionen zur richtigen Route zuruck."
       },
@@ -110,7 +110,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         description: "O endereco pode ter mudado ou o conteudo nao esta mais disponivel. Aqui estao caminhos uteis para seguir em frente."
       },
       visual: {
-        image_alt: "Unidade de transporte da Seloasa em operacao",
+        image_alt: "Unidade de transporte da SELOASA em operacao",
         title: "Seguimos em movimento",
         text: "Ajudamos voce a retomar a rota correta com acessos rapidos e opcoes uteis."
       },
@@ -142,7 +142,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         description: "L'adresse a peut-etre change ou le contenu n'est plus disponible. Voici des chemins utiles pour continuer."
       },
       visual: {
-        image_alt: "Unite de transport Seloasa en operation",
+        image_alt: "Unite de transport SELOASA en operation",
         title: "Nous restons en mouvement",
         text: "Nous vous aidons a retrouver le bon itineraire avec des acces rapides et des options utiles."
       },

@@ -23,8 +23,8 @@ $origen = (strpos($referer, 'contact') !== false) ? 'contact/' : 'index.html';
 $mail = new PHPMailer(true);
 
 try {
-    configure_site_mailer($mail, 'Formulario Web Seloasa');
-    add_site_mail_recipients($mail, mail_env('CONTACT_FORM_TO', 'yasser.hernandez@seloasa.com.mx'));
+    configure_site_mailer($mail, 'Formulario Web SELOASA');
+    add_site_mail_recipients($mail, mail_env('CONTACT_FORM_TO', 'yasser.hernandez@SELOASA.com.mx'));
     $brandLogoCid = attach_brand_logo($mail);
 
     if (filter_var($correo, FILTER_VALIDATE_EMAIL)) {
@@ -37,7 +37,7 @@ try {
     $mail->Body = build_corporate_email_html(
         'Formulario web',
         'Nuevo mensaje de contacto',
-        'Se recibió un nuevo mensaje desde el formulario de contacto del sitio web de Seloasa.',
+        'Se recibió un nuevo mensaje desde el formulario de contacto del sitio web de SELOASA.',
         [
             ['label' => 'Nombre', 'value' => $nombre !== '' ? $nombre : 'No especificado'],
             ['label' => 'Correo electrónico', 'value' => $correo !== '' ? $correo : 'No especificado'],
@@ -54,7 +54,7 @@ try {
     );
     $mail->AltBody = build_plain_text_email(
         'Nuevo mensaje de contacto',
-        'Se recibió un nuevo mensaje desde el formulario de contacto del sitio web de Seloasa.',
+        'Se recibió un nuevo mensaje desde el formulario de contacto del sitio web de SELOASA.',
         [
             ['label' => 'Nombre', 'value' => $nombre !== '' ? $nombre : 'No especificado'],
             ['label' => 'Correo electrónico', 'value' => $correo !== '' ? $correo : 'No especificado'],

@@ -80,8 +80,8 @@ $safeFileName = preg_replace('/[^A-Za-z0-9._-]/', '_', $originalName);
 $mail = new PHPMailer(true);
 
 try {
-    configure_site_mailer($mail, 'Postulaciones Web Seloasa');
-    add_site_mail_recipients($mail, mail_env('CAREERS_FORM_TO', 'gadiel.palma@seloasa.com.mx'));
+    configure_site_mailer($mail, 'Postulaciones Web SELOASA');
+    add_site_mail_recipients($mail, mail_env('CAREERS_FORM_TO', 'gadiel.palma@SELOASA.com.mx'));
     $brandLogoCid = attach_brand_logo($mail);
     $mail->addAttachment($cvFile['tmp_name'], $safeFileName);
 
@@ -90,7 +90,7 @@ try {
     $mail->Body = build_corporate_email_html(
         'Postulación web',
         'Nueva postulación recibida',
-        'Se registró una nueva candidatura desde la bolsa de trabajo de Seloasa. A continuación encontrarás los datos de la persona postulante.',
+        'Se registró una nueva candidatura desde la bolsa de trabajo de SELOASA. A continuación encontrarás los datos de la persona postulante.',
         [
             ['label' => 'Nombre completo', 'value' => $fullName],
             ['label' => 'Correo electrónico', 'value' => $email],
@@ -106,7 +106,7 @@ try {
     );
     $mail->AltBody = build_plain_text_email(
         'Nueva postulación recibida',
-        'Se registró una nueva candidatura desde la bolsa de trabajo de Seloasa.',
+        'Se registró una nueva candidatura desde la bolsa de trabajo de SELOASA.',
         [
             ['label' => 'Nombre completo', 'value' => $fullName],
             ['label' => 'Correo electrónico', 'value' => $email],

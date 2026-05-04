@@ -8,18 +8,18 @@
       hero: {
         title_accent: "Bolsa de",
         title_main: "trabajo",
-        description: "Conoce oportunidades para integrarte a Seloasa y da seguimiento a nuestras vacantes activas desde un solo lugar.",
-        image_alt: "Equipo Seloasa"
+        description: "Conoce oportunidades para integrarte a SELOASA y da seguimiento a nuestras vacantes activas desde un solo lugar.",
+        image_alt: "Equipo SELOASA"
       },
       overview: {
-        kicker: "Talento Seloasa",
+        kicker: "Talento SELOASA",
         title: "Construye tu siguiente etapa profesional con nosotros",
         description_1: "Buscamos personas que quieran crecer en una operación logística especializada, con enfoque en servicio, cumplimiento y mejora continua.",
         description_2: "En esta página podrás conocer las áreas donde solemos integrar talento, la forma de postularte y el canal oficial para revisar vacantes disponibles.",
         item_1: "Oportunidades vinculadas con almacenaje, transporte, distribución y soporte operativo.",
         item_2: "Procesos alineados con seguridad, calidad, trazabilidad y cumplimiento.",
         item_3: "Consulta de vacantes activas mediante nuestro canal oficial en Indeed.",
-        image_alt: "Operación logística Seloasa"
+        image_alt: "Operación logística SELOASA"
       },
       areas: {
         kicker: "Áreas de oportunidad",
@@ -141,7 +141,7 @@
       cta: {
         kicker: "Canal oficial",
         title: "Consulta vacantes activas en Indeed",
-        description: "Nuestro perfil en Indeed concentra publicaciones activas y es el medio recomendado para conocer nuevas oportunidades laborales dentro de Seloasa.",
+        description: "Nuestro perfil en Indeed concentra publicaciones activas y es el medio recomendado para conocer nuevas oportunidades laborales dentro de SELOASA.",
         button: "Ir a Indeed"
       }
     }
@@ -153,19 +153,19 @@
       },
       hero: {
         title_accent: "Careers",
-        title_main: "at Seloasa",
-        description: "Explore opportunities to join Seloasa and keep track of our active openings from one place.",
-        image_alt: "Seloasa team"
+        title_main: "at SELOASA",
+        description: "Explore opportunities to join SELOASA and keep track of our active openings from one place.",
+        image_alt: "SELOASA team"
       },
       overview: {
-        kicker: "Seloasa Talent",
+        kicker: "SELOASA Talent",
         title: "Build your next professional step with us",
         description_1: "We look for people ready to grow within a specialized logistics operation focused on service, compliance, and continuous improvement.",
         description_2: "On this page you can learn about the areas where we usually add talent, how to apply, and the official channel to review available openings.",
         item_1: "Opportunities related to storage, transport, distribution, and operational support.",
         item_2: "Processes aligned with safety, quality, traceability, and compliance.",
         item_3: "Review active openings through our official Indeed channel.",
-        image_alt: "Seloasa logistics operation"
+        image_alt: "SELOASA logistics operation"
       },
       areas: {
         kicker: "Opportunity Areas",
@@ -287,7 +287,7 @@
       cta: {
         kicker: "Official channel",
         title: "Review active openings on Indeed",
-        description: "Our Indeed profile gathers active postings and is the recommended channel to learn about new career opportunities at Seloasa.",
+        description: "Our Indeed profile gathers active postings and is the recommended channel to learn about new career opportunities at SELOASA.",
         button: "Go to Indeed"
       }
     }
@@ -299,19 +299,19 @@
       },
       hero: {
         title_accent: "Karriere",
-        title_main: "bei Seloasa",
-        description: "Entdecken Sie Möglichkeiten, Teil von Seloasa zu werden, und verfolgen Sie unsere aktuellen Stellenangebote an einem Ort.",
-        image_alt: "Seloasa-Team"
+        title_main: "bei SELOASA",
+        description: "Entdecken Sie Möglichkeiten, Teil von SELOASA zu werden, und verfolgen Sie unsere aktuellen Stellenangebote an einem Ort.",
+        image_alt: "SELOASA-Team"
       },
       overview: {
-        kicker: "Seloasa Talente",
+        kicker: "SELOASA Talente",
         title: "Gestalten Sie Ihren nächsten beruflichen Schritt mit uns",
         description_1: "Wir suchen Menschen, die in einer spezialisierten Logistikoperation mit Fokus auf Service, Compliance und kontinuierliche Verbesserung wachsen möchten.",
         description_2: "Auf dieser Seite erfahren Sie, in welchen Bereichen wir meist Talente integrieren, wie Sie sich bewerben können und über welchen offiziellen Kanal offene Stellen veröffentlicht werden.",
         item_1: "Möglichkeiten in Lagerung, Transport, Distribution und operativer Unterstützung.",
         item_2: "Prozesse im Einklang mit Sicherheit, Qualität, Rückverfolgbarkeit und Compliance.",
         item_3: "Aktive Stellenangebote über unseren offiziellen Indeed-Kanal einsehen.",
-        image_alt: "Logistikbetrieb von Seloasa"
+        image_alt: "Logistikbetrieb von SELOASA"
       },
       areas: {
         kicker: "Einsatzbereiche",
@@ -433,7 +433,7 @@
       cta: {
         kicker: "Offizieller Kanal",
         title: "Aktive Stellen bei Indeed ansehen",
-        description: "Unser Indeed-Profil bündelt aktive Ausschreibungen und ist der empfohlene Kanal, um neue Karrieremöglichkeiten bei Seloasa kennenzulernen.",
+        description: "Unser Indeed-Profil bündelt aktive Ausschreibungen und ist der empfohlene Kanal, um neue Karrieremöglichkeiten bei SELOASA kennenzulernen.",
         button: "Zu Indeed"
       }
     }
@@ -445,19 +445,19 @@
       },
       hero: {
         title_accent: "Carreiras",
-        title_main: "na Seloasa",
-        description: "Conheça oportunidades para fazer parte da Seloasa e acompanhe nossas vagas ativas em um só lugar.",
-        image_alt: "Equipe Seloasa"
+        title_main: "na SELOASA",
+        description: "Conheça oportunidades para fazer parte da SELOASA e acompanhe nossas vagas ativas em um só lugar.",
+        image_alt: "Equipe SELOASA"
       },
       overview: {
-        kicker: "Talento Seloasa",
+        kicker: "Talento SELOASA",
         title: "Construa sua próxima etapa profissional conosco",
         description_1: "Buscamos pessoas que queiram crescer em uma operação logística especializada, com foco em serviço, conformidade e melhoria contínua.",
         description_2: "Nesta página você pode conhecer as áreas em que normalmente integramos talentos, a forma de se candidatar e o canal oficial para revisar vagas disponíveis.",
         item_1: "Oportunidades ligadas a armazenagem, transporte, distribuição e suporte operacional.",
         item_2: "Processos alinhados com segurança, qualidade, rastreabilidade e conformidade.",
         item_3: "Consulte vagas ativas por meio do nosso canal oficial no Indeed.",
-        image_alt: "Operação logística da Seloasa"
+        image_alt: "Operação logística da SELOASA"
       },
       areas: {
         kicker: "Áreas de oportunidade",
@@ -579,7 +579,7 @@
       cta: {
         kicker: "Canal oficial",
         title: "Consulte vagas ativas no Indeed",
-        description: "Nosso perfil no Indeed concentra publicações ativas e é o meio recomendado para conhecer novas oportunidades de carreira na Seloasa.",
+        description: "Nosso perfil no Indeed concentra publicações ativas e é o meio recomendado para conhecer novas oportunidades de carreira na SELOASA.",
         button: "Ir para o Indeed"
       }
     }
@@ -591,19 +591,19 @@
       },
       hero: {
         title_accent: "Carrières",
-        title_main: "chez Seloasa",
-        description: "Découvrez les opportunités pour rejoindre Seloasa et suivez nos postes ouverts depuis un seul endroit.",
-        image_alt: "Équipe Seloasa"
+        title_main: "chez SELOASA",
+        description: "Découvrez les opportunités pour rejoindre SELOASA et suivez nos postes ouverts depuis un seul endroit.",
+        image_alt: "Équipe SELOASA"
       },
       overview: {
-        kicker: "Talents Seloasa",
+        kicker: "Talents SELOASA",
         title: "Construisez votre prochaine étape professionnelle avec nous",
         description_1: "Nous recherchons des personnes souhaitant évoluer dans une opération logistique spécialisée, axée sur le service, la conformité et l'amélioration continue.",
         description_2: "Sur cette page, vous pouvez connaître les domaines dans lesquels nous intégrons habituellement des talents, la manière de postuler et le canal officiel pour consulter les postes disponibles.",
         item_1: "Opportunités liées au stockage, au transport, à la distribution et au support opérationnel.",
         item_2: "Processus alignés sur la sécurité, la qualité, la traçabilité et la conformité.",
         item_3: "Consultez les postes ouverts via notre canal officiel Indeed.",
-        image_alt: "Opération logistique Seloasa"
+        image_alt: "Opération logistique SELOASA"
       },
       areas: {
         kicker: "Domaines d'opportunité",
@@ -725,7 +725,7 @@
       cta: {
         kicker: "Canal officiel",
         title: "Consultez les postes ouverts sur Indeed",
-        description: "Notre profil Indeed regroupe les publications actives et constitue le canal recommandé pour découvrir de nouvelles opportunités de carrière chez Seloasa.",
+        description: "Notre profil Indeed regroupe les publications actives et constitue le canal recommandé pour découvrir de nouvelles opportunités de carrière chez SELOASA.",
         button: "Aller sur Indeed"
       }
     }

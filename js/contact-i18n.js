@@ -8,12 +8,12 @@ window.I18N_PAGE_TRANSLATIONS = {
       hero: {
         kicker: "Estamos para ayudarte",
         title_accent: "Cont\u00e1ctanos",
-        description: "Ponte en contacto con el equipo de Seloasa para resolver dudas, solicitar informaci\u00f3n o enviarnos un mensaje directamente.",
-        image_alt: "Contacto Seloasa"
+        description: "Ponte en contacto con el equipo de SELOASA para resolver dudas, solicitar informaci\u00f3n o enviarnos un mensaje directamente.",
+        image_alt: "Contacto SELOASA"
       },
       panel: {
         kicker: "Ponte en contacto",
-        title: "En Seloasa estamos para ayudarte"
+        title: "En SELOASA estamos para ayudarte"
       },
       form: {
         name_label: "Nombre",
@@ -39,12 +39,12 @@ window.I18N_PAGE_TRANSLATIONS = {
       hero: {
         kicker: "We are here to help",
         title_accent: "Contact Us",
-        description: "Get in touch with the Seloasa team to resolve questions, request information, or send us a message directly.",
-        image_alt: "Seloasa contact"
+        description: "Get in touch with the SELOASA team to resolve questions, request information, or send us a message directly.",
+        image_alt: "SELOASA contact"
       },
       panel: {
         kicker: "Get in touch",
-        title: "At Seloasa we are here to help"
+        title: "At SELOASA we are here to help"
       },
       form: {
         name_label: "Name",
@@ -70,12 +70,12 @@ window.I18N_PAGE_TRANSLATIONS = {
       hero: {
         kicker: "Wir sind f\u00fcr Sie da",
         title_accent: "Kontaktieren Sie uns",
-        description: "Kontaktieren Sie das Seloasa-Team, um Fragen zu kl\u00e4ren, Informationen anzufordern oder uns direkt eine Nachricht zu senden.",
-        image_alt: "Seloasa Kontakt"
+        description: "Kontaktieren Sie das SELOASA-Team, um Fragen zu kl\u00e4ren, Informationen anzufordern oder uns direkt eine Nachricht zu senden.",
+        image_alt: "SELOASA Kontakt"
       },
       panel: {
         kicker: "Kontakt aufnehmen",
-        title: "Bei Seloasa sind wir f\u00fcr Sie da"
+        title: "Bei SELOASA sind wir f\u00fcr Sie da"
       },
       form: {
         name_label: "Name",
@@ -102,12 +102,12 @@ window.I18N_PAGE_TRANSLATIONS = {
         kicker: "Estamos aqui para ajudar",
         title_accent: "Fale conosco",
 
-        description: "Entre em contato com a equipe da Seloasa para esclarecer d\u00favidas, solicitar informa\u00e7\u00f5es ou nos enviar uma mensagem diretamente.",
-        image_alt: "Contato Seloasa"
+        description: "Entre em contato com a equipe da SELOASA para esclarecer d\u00favidas, solicitar informa\u00e7\u00f5es ou nos enviar uma mensagem diretamente.",
+        image_alt: "Contato SELOASA"
       },
       panel: {
         kicker: "Entre em contato",
-        title: "Na Seloasa estamos aqui para ajudar"
+        title: "Na SELOASA estamos aqui para ajudar"
       },
       form: {
         name_label: "Nome",
@@ -133,12 +133,12 @@ window.I18N_PAGE_TRANSLATIONS = {
       hero: {
         kicker: "Nous sommes l\u00e0 pour vous aider",
         title_accent: "Contactez-nous",
-        description: "Prenez contact avec l'\u00e9quipe Seloasa pour r\u00e9pondre \u00e0 vos questions, demander des informations ou nous envoyer un message directement.",
-        image_alt: "Contact Seloasa"
+        description: "Prenez contact avec l'\u00e9quipe SELOASA pour r\u00e9pondre \u00e0 vos questions, demander des informations ou nous envoyer un message directement.",
+        image_alt: "Contact SELOASA"
       },
       panel: {
         kicker: "Prenez contact",
-        title: "Chez Seloasa, nous sommes l\u00e0 pour vous aider"
+        title: "Chez SELOASA, nous sommes l\u00e0 pour vous aider"
       },
       form: {
         name_label: "Nom",

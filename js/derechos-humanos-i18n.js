@@ -32,7 +32,7 @@
         },
         card_2: {
           title: "DECLARACI&Oacute;N EN CONTRA DE LA TRATA DE PERSONAS",
-          body: "En Seloasa sentenciamos la trata de personas. No incorporamos mano de obra esclava y garantizamos que todo trabajo sea voluntario. Las personas tienen derecho a rescindir su contrato en cualquier momento conforme a la ley. Respetamos el marco legal vigente y nuestros reglamentos internos."
+          body: "En SELOASA sentenciamos la trata de personas. No incorporamos mano de obra esclava y garantizamos que todo trabajo sea voluntario. Las personas tienen derecho a rescindir su contrato en cualquier momento conforme a la ley. Respetamos el marco legal vigente y nuestros reglamentos internos."
         },
         card_3: {
           title: "DERECHO DE LIBRE ASOCIACI&Oacute;N",
@@ -78,7 +78,7 @@
         },
         card_2: {
           title: "STATEMENT AGAINST HUMAN TRAFFICKING",
-          body: "At Seloasa, we condemn human trafficking. We do not use slave labor and guarantee that all work is voluntary. People have the right to terminate their contract at any time in accordance with the law. We respect the legal framework in force and our internal regulations."
+          body: "At SELOASA, we condemn human trafficking. We do not use slave labor and guarantee that all work is voluntary. People have the right to terminate their contract at any time in accordance with the law. We respect the legal framework in force and our internal regulations."
         },
         card_3: {
           title: "RIGHT TO FREEDOM OF ASSOCIATION",
@@ -124,7 +124,7 @@
         },
         card_2: {
           title: "ERKL&Auml;RUNG GEGEN MENSCHENHANDEL",
-          body: "Bei Seloasa verurteilen wir Menschenhandel. Wir setzen keine Sklavenarbeit ein und gew&auml;hrleisten, dass jede Arbeit freiwillig erfolgt. Menschen haben das Recht, ihren Vertrag jederzeit gem&auml;&szlig; dem Gesetz zu beenden. Wir respektieren den geltenden rechtlichen Rahmen und unsere internen Vorschriften."
+          body: "Bei SELOASA verurteilen wir Menschenhandel. Wir setzen keine Sklavenarbeit ein und gew&auml;hrleisten, dass jede Arbeit freiwillig erfolgt. Menschen haben das Recht, ihren Vertrag jederzeit gem&auml;&szlig; dem Gesetz zu beenden. Wir respektieren den geltenden rechtlichen Rahmen und unsere internen Vorschriften."
         },
         card_3: {
           title: "RECHT AUF VEREINIGUNGSFREIHEIT",
@@ -170,7 +170,7 @@
         },
         card_2: {
           title: "DECLARA&Ccedil;&Atilde;O CONTRA O TR&Aacute;FICO DE PESSOAS",
-          body: "Na Seloasa, condenamos o tr&aacute;fico de pessoas. N&atilde;o incorporamos m&atilde;o de obra escrava e garantimos que todo trabalho seja volunt&aacute;rio. As pessoas t&ecirc;m o direito de rescindir seu contrato a qualquer momento, de acordo com a lei. Respeitamos o marco legal vigente e nossos regulamentos internos."
+          body: "Na SELOASA, condenamos o tr&aacute;fico de pessoas. N&atilde;o incorporamos m&atilde;o de obra escrava e garantimos que todo trabalho seja volunt&aacute;rio. As pessoas t&ecirc;m o direito de rescindir seu contrato a qualquer momento, de acordo com a lei. Respeitamos o marco legal vigente e nossos regulamentos internos."
         },
         card_3: {
           title: "DIREITO &Agrave; LIVRE ASSOCIA&Ccedil;&Atilde;O",
@@ -216,7 +216,7 @@
         },
         card_2: {
           title: "D&Eacute;CLARATION CONTRE LA TRAITE DES PERSONNES",
-          body: "Chez Seloasa, nous condamnons la traite des personnes. Nous n'int&eacute;grons pas de main-d'oeuvre esclave et garantissons que tout travail soit volontaire. Les personnes ont le droit de mettre fin &agrave; leur contrat &agrave; tout moment conform&eacute;ment &agrave; la loi. Nous respectons le cadre juridique en vigueur et nos r&egrave;glements internes."
+          body: "Chez SELOASA, nous condamnons la traite des personnes. Nous n'int&eacute;grons pas de main-d'oeuvre esclave et garantissons que tout travail soit volontaire. Les personnes ont le droit de mettre fin &agrave; leur contrat &agrave; tout moment conform&eacute;ment &agrave; la loi. Nous respectons le cadre juridique en vigueur et nos r&egrave;glements internes."
         },
         card_3: {
           title: "DROIT &Agrave; LA LIBERT&Eacute; D'ASSOCIATION",

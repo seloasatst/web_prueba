@@ -27,7 +27,7 @@ if (!function_exists('mail_env_int')) {
 if (!function_exists('configure_site_mailer')) {
     function configure_site_mailer(PHPMailer $mail, string $fromName): void
     {
-        $username = mail_env('SMTP_USERNAME', 'gadiel.palma@seloasa.com.mx');
+        $username = mail_env('SMTP_USERNAME', 'gadiel.palma@SELOASA.com.mx');
         $fromEmail = mail_env('SMTP_FROM_EMAIL', $username);
 
         $mail->isSMTP();
@@ -138,7 +138,7 @@ if (!function_exists('attach_brand_logo')) {
                 continue;
             }
 
-            $logoCid = 'seloasa-brand-logo';
+            $logoCid = 'SELOASA-brand-logo';
             $mail->addEmbeddedImage($logoPath, $logoCid, basename($logoPath), 'base64', 'image/png');
             return $logoCid;
         }
@@ -230,7 +230,7 @@ if (!function_exists('build_corporate_email_html')) {
         $fieldsHtml = build_email_fields_html($fields);
         $highlightsHtml = build_email_highlights_html($highlights);
         $logoHtml = $logoCid
-            ? '<img src="cid:' . mail_html_escape($logoCid) . '" alt="Seloasa" width="164" style="display:block;width:164px;max-width:100%;height:auto;border:0;">'
+            ? '<img src="cid:' . mail_html_escape($logoCid) . '" alt="SELOASA" width="164" style="display:block;width:164px;max-width:100%;height:auto;border:0;">'
             : '<div style="font-size:18px;line-height:24px;font-weight:700;letter-spacing:0.04em;color:#1f252b;">Servicios Logísticos Alsera</div>';
 
         $messageHtml = '';
@@ -312,7 +312,7 @@ if (!function_exists('build_corporate_email_html')) {
                       <tr>
                         <td style="padding:18px 24px;">
                           <div style="font-size:12px;line-height:18px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#bf2f0f;">Canal</div>
-                          <div style="margin-top:6px;font-size:14px;line-height:22px;color:#3e3f3f;">Generado automáticamente desde el sitio web de Seloasa.</div>
+                          <div style="margin-top:6px;font-size:14px;line-height:22px;color:#3e3f3f;">Generado automáticamente desde el sitio web de SELOASA.</div>
                           {$footerHtml}
                         </td>
                       </tr>
@@ -372,7 +372,7 @@ if (!function_exists('build_plain_text_email')) {
         }
 
         $lines[] = '';
-        $lines[] = 'Canal: Generado automáticamente desde el sitio web de Seloasa.';
+        $lines[] = 'Canal: Generado automáticamente desde el sitio web de SELOASA.';
 
         if ($footerNote !== null && trim($footerNote) !== '') {
             $lines[] = $footerNote;

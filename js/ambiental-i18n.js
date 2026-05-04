@@ -9,19 +9,19 @@ window.I18N_PAGE_TRANSLATIONS = {
         title_accent: "Responsabilidad",
         title_main: "Ambiental",
         description: "Conoce nuestras pol\u00edticas y acciones para reducir emisiones, gestionar residuos con responsabilidad y dar seguimiento medible al desempe\u00f1o ambiental de la operaci\u00f3n.",
-        image_alt: "Flota Seloasa en operaci\u00f3n"
+        image_alt: "Flota SELOASA en operaci\u00f3n"
       },
       heading: {
         kicker: "Compromiso Ambiental",
-        title: "Pol\u00edticas y Acciones de Seloasa",
+        title: "Pol\u00edticas y Acciones de SELOASA",
         description: "Integramos acciones enfocadas en eficiencia operativa, reducci\u00f3n de impacto ambiental y cumplimiento de lineamientos que fortalecen una operaci\u00f3n log\u00edstica responsable."
       },
       gei: {
         kicker: "Reducci\u00f3n de Emisiones",
         title: "Pol\u00edtica de reducci\u00f3n de emisi\u00f3n de gases de efecto invernadero (GEI)",
         description: "Objetivo: Promover el uso eficiente y sostenible de los recursos de la operaci\u00f3n de la flota de transporte de SELOASA, reduciendo la huella de carbono, mejorando la eficiencia operativa mediante la implementaci\u00f3n de tecnolog\u00edas de transporte.",
-        item_1: "Seloasa integr\u00f3 en su flota unidades motorizadas h\u00edbridas di\u00e9sel.",
-        item_2: "Seloasa integr\u00f3 unidades con caja de carga multi-temperatura, gestionando diferentes cargas sin usar m\u00e1s de una unidad.",
+        item_1: "SELOASA integr\u00f3 en su flota unidades motorizadas h\u00edbridas di\u00e9sel.",
+        item_2: "SELOASA integr\u00f3 unidades con caja de carga multi-temperatura, gestionando diferentes cargas sin usar m\u00e1s de una unidad.",
         item_3: "Obtenci\u00f3n de la certificaci\u00f3n de transporte limpio ante la SEMARNAT.",
         item_4: "Reducci\u00f3n del uso del motor en ralent\u00ed usando energ\u00eda solar generada in situ.",
         item_5: "Inserci\u00f3n de unidades con motor est\u00e1ndar Euro VI para disminuir NOX y PM's.",
@@ -72,19 +72,19 @@ window.I18N_PAGE_TRANSLATIONS = {
         title_accent: "Environmental",
         title_main: "Responsibility",
         description: "Learn about our policies and actions to reduce emissions, manage waste responsibly, and monitor environmental performance throughout the operation.",
-        image_alt: "Seloasa fleet in operation"
+        image_alt: "SELOASA fleet in operation"
       },
       heading: {
         kicker: "Environmental Commitment",
-        title: "Seloasa Policies and Actions",
+        title: "SELOASA Policies and Actions",
         description: "We integrate actions focused on operational efficiency, impact reduction, and compliance with guidelines that strengthen a responsible logistics operation."
       },
       gei: {
         kicker: "Emission Reduction",
         title: "Policy for reducing greenhouse gas (GHG) emissions",
         description: "Objective: Promote the efficient and sustainable use of SELOASA transport fleet resources, reducing carbon footprint and improving operational efficiency through transport technologies.",
-        item_1: "Seloasa integrated hybrid diesel-powered units into its fleet.",
-        item_2: "Seloasa integrated multi-temperature cargo box units, managing different loads without using more than one unit.",
+        item_1: "SELOASA integrated hybrid diesel-powered units into its fleet.",
+        item_2: "SELOASA integrated multi-temperature cargo box units, managing different loads without using more than one unit.",
         item_3: "Obtaining the clean transport certification from SEMARNAT.",
         item_4: "Reducing engine idling through on-site solar-generated energy.",
         item_5: "Incorporating units with Euro VI standard engines to reduce NOX and PM emissions.",
@@ -135,19 +135,19 @@ window.I18N_PAGE_TRANSLATIONS = {
         title_accent: "Umwelt",
         title_main: "Verantwortung",
         description: "Erfahren Sie mehr \u00fcber unsere Richtlinien und Ma\u00dfnahmen zur Emissionsreduzierung, verantwortungsvollen Abfallbewirtschaftung und messbaren \u00dcberwachung der Umweltleistung im Betrieb.",
-        image_alt: "Seloasa-Flotte im Einsatz"
+        image_alt: "SELOASA-Flotte im Einsatz"
       },
       heading: {
         kicker: "Umweltengagement",
-        title: "Richtlinien und Ma\u00dfnahmen von Seloasa",
+        title: "Richtlinien und Ma\u00dfnahmen von SELOASA",
         description: "Wir integrieren Ma\u00dfnahmen mit Fokus auf betriebliche Effizienz, Umweltentlastung und die Einhaltung von Vorgaben, die eine verantwortungsvolle Logistik st\u00e4rken."
       },
       gei: {
         kicker: "Emissionsreduzierung",
         title: "Richtlinie zur Reduzierung von Treibhausgasemissionen (THG)",
         description: "Ziel: Die effiziente und nachhaltige Nutzung der Ressourcen des Fuhrparks von SELOASA f\u00f6rdern, den CO2-Fu\u00dfabdruck reduzieren und die betriebliche Effizienz durch den Einsatz von Transporttechnologien verbessern.",
-        item_1: "Seloasa hat dieselhybride Fahrzeuge in seine Flotte integriert.",
-        item_2: "Seloasa hat Fahrzeuge mit Mehrtemperatur-Laderaum integriert, um unterschiedliche Ladungen ohne Einsatz zus\u00e4tzlicher Fahrzeuge zu transportieren.",
+        item_1: "SELOASA hat dieselhybride Fahrzeuge in seine Flotte integriert.",
+        item_2: "SELOASA hat Fahrzeuge mit Mehrtemperatur-Laderaum integriert, um unterschiedliche Ladungen ohne Einsatz zus\u00e4tzlicher Fahrzeuge zu transportieren.",
         item_3: "Erhalt der Zertifizierung f\u00fcr sauberen Transport durch SEMARNAT.",
         item_4: "Reduzierung des Leerlaufs durch vor Ort erzeugte Solarenergie.",
         item_5: "Einsatz von Fahrzeugen mit Euro-VI-Motoren zur Reduzierung von NOX- und PM-Emissionen.",
@@ -198,19 +198,19 @@ window.I18N_PAGE_TRANSLATIONS = {
         title_accent: "Responsabilidade",
         title_main: "Ambiental",
         description: "Conhe\u00e7a nossas pol\u00edticas e a\u00e7\u00f5es para reduzir emiss\u00f5es, gerir res\u00edduos com responsabilidade e acompanhar de forma mensur\u00e1vel o desempenho ambiental da opera\u00e7\u00e3o.",
-        image_alt: "Frota da Seloasa em opera\u00e7\u00e3o"
+        image_alt: "Frota da SELOASA em opera\u00e7\u00e3o"
       },
       heading: {
         kicker: "Compromisso Ambiental",
-        title: "Pol\u00edticas e A\u00e7\u00f5es da Seloasa",
+        title: "Pol\u00edticas e A\u00e7\u00f5es da SELOASA",
         description: "Integramos a\u00e7\u00f5es focadas em efici\u00eancia operacional, redu\u00e7\u00e3o de impacto ambiental e cumprimento de diretrizes que fortalecem uma opera\u00e7\u00e3o log\u00edstica respons\u00e1vel."
       },
       gei: {
         kicker: "Redu\u00e7\u00e3o de Emiss\u00f5es",
         title: "Pol\u00edtica de redu\u00e7\u00e3o de emiss\u00e3o de gases de efeito estufa (GEE)",
         description: "Objetivo: Promover o uso eficiente e sustent\u00e1vel dos recursos da opera\u00e7\u00e3o da frota de transporte da SELOASA, reduzindo a pegada de carbono e melhorando a efici\u00eancia operacional por meio da implementa\u00e7\u00e3o de tecnologias de transporte.",
-        item_1: "A Seloasa integrou \u00e0 sua frota unidades motorizadas h\u00edbridas a diesel.",
-        item_2: "A Seloasa integrou unidades com caixa de carga multitemperatura, gerenciando diferentes cargas sem usar mais de uma unidade.",
+        item_1: "A SELOASA integrou \u00e0 sua frota unidades motorizadas h\u00edbridas a diesel.",
+        item_2: "A SELOASA integrou unidades com caixa de carga multitemperatura, gerenciando diferentes cargas sem usar mais de uma unidade.",
         item_3: "Obten\u00e7\u00e3o da certifica\u00e7\u00e3o de transporte limpo junto \u00e0 SEMARNAT.",
         item_4: "Redu\u00e7\u00e3o do uso do motor em marcha lenta utilizando energia solar gerada no local.",
         item_5: "Inser\u00e7\u00e3o de unidades com motor padr\u00e3o Euro VI para diminuir NOX e PM's.",
@@ -261,19 +261,19 @@ window.I18N_PAGE_TRANSLATIONS = {
         title_accent: "Responsabilit\u00e9",
         title_main: "Environnementale",
         description: "D\u00e9couvrez nos politiques et actions pour r\u00e9duire les \u00e9missions, g\u00e9rer les d\u00e9chets de mani\u00e8re responsable et suivre de fa\u00e7on mesurable la performance environnementale de l'op\u00e9ration.",
-        image_alt: "Flotte Seloasa en op\u00e9ration"
+        image_alt: "Flotte SELOASA en op\u00e9ration"
       },
       heading: {
         kicker: "Engagement environnemental",
-        title: "Politiques et actions de Seloasa",
+        title: "Politiques et actions de SELOASA",
         description: "Nous int\u00e9grons des actions ax\u00e9es sur l'efficacit\u00e9 op\u00e9rationnelle, la r\u00e9duction de l'impact environnemental et le respect de lignes directrices qui renforcent une op\u00e9ration logistique responsable."
       },
       gei: {
         kicker: "R\u00e9duction des \u00e9missions",
         title: "Politique de r\u00e9duction des \u00e9missions de gaz \u00e0 effet de serre (GES)",
         description: "Objectif : Promouvoir l'utilisation efficace et durable des ressources de la flotte de transport de SELOASA, r\u00e9duire l'empreinte carbone et am\u00e9liorer l'efficacit\u00e9 op\u00e9rationnelle gr\u00e2ce \u00e0 la mise en oeuvre de technologies de transport.",
-        item_1: "Seloasa a int\u00e9gr\u00e9 \u00e0 sa flotte des unit\u00e9s motoris\u00e9es hybrides diesel.",
-        item_2: "Seloasa a int\u00e9gr\u00e9 des unit\u00e9s \u00e0 caisse multi-temp\u00e9rature, g\u00e9rant diff\u00e9rentes charges sans utiliser plus d'une unit\u00e9.",
+        item_1: "SELOASA a int\u00e9gr\u00e9 \u00e0 sa flotte des unit\u00e9s motoris\u00e9es hybrides diesel.",
+        item_2: "SELOASA a int\u00e9gr\u00e9 des unit\u00e9s \u00e0 caisse multi-temp\u00e9rature, g\u00e9rant diff\u00e9rentes charges sans utiliser plus d'une unit\u00e9.",
         item_3: "Obtention de la certification de transport propre aupr\u00e8s de la SEMARNAT.",
         item_4: "R\u00e9duction de l'utilisation du moteur au ralenti gr\u00e2ce \u00e0 l'\u00e9nergie solaire produite sur site.",
         item_5: "Int\u00e9gration d'unit\u00e9s avec moteur norme Euro VI pour r\u00e9duire les NOX et les PM.",

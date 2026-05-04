@@ -8,7 +8,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         description: "Operamos soluciones a la medida para la industria farmac\u00e9utica con c\u00e1maras refrigeradas, \u00e1reas frescas, monitoreo continuo y soporte especializado 24/7.",
         primary_cta: "Cont\u00e1ctanos",
         secondary_cta: "Conoce M\u00e1s",
-        image_alt: "Almacenaje farmac\u00e9utico Seloasa"
+        image_alt: "Almacenaje farmac\u00e9utico SELOASA"
       },
       gallery: {
         image_1_alt: "Almacenaje farma 1",
@@ -80,7 +80,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         description: "We operate tailored solutions for the pharmaceutical industry with refrigerated chambers, cool areas, continuous monitoring, and specialized 24/7 support.",
         primary_cta: "Contact Us",
         secondary_cta: "Learn More",
-        image_alt: "Seloasa pharmaceutical storage"
+        image_alt: "SELOASA pharmaceutical storage"
       },
       gallery: {
         image_1_alt: "Pharma storage 1",
@@ -152,7 +152,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         description: "Wir betreiben ma\u00dfgeschneiderte L\u00f6sungen f\u00fcr die Pharmaindustrie mit K\u00fchlkammern, Frischebereichen, kontinuierlicher \u00dcberwachung und spezialisiertem 24/7-Support.",
         primary_cta: "Kontaktieren Sie uns",
         secondary_cta: "Mehr erfahren",
-        image_alt: "Pharma-Lagerung von Seloasa"
+        image_alt: "Pharma-Lagerung von SELOASA"
       },
       gallery: {
         image_1_alt: "Pharma-Lagerung 1",
@@ -224,7 +224,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         description: "Operamos solu\u00e7\u00f5es sob medida para a ind\u00fastria farmac\u00eautica com c\u00e2maras refrigeradas, \u00e1reas frescas, monitoramento cont\u00ednuo e suporte especializado 24/7.",
         primary_cta: "Fale conosco",
         secondary_cta: "Saiba mais",
-        image_alt: "Armazenagem farmac\u00eautica Seloasa"
+        image_alt: "Armazenagem farmac\u00eautica SELOASA"
       },
       gallery: {
         image_1_alt: "Armazenagem farma 1",
@@ -296,7 +296,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         description: "Nous exploitons des solutions sur mesure pour l'industrie pharmaceutique avec des chambres r\u00e9frig\u00e9r\u00e9es, des zones fra\u00eeches, une surveillance continue et un support sp\u00e9cialis\u00e9 24/7.",
         primary_cta: "Contactez-nous",
         secondary_cta: "En savoir plus",
-        image_alt: "Stockage pharmaceutique Seloasa"
+        image_alt: "Stockage pharmaceutique SELOASA"
       },
       gallery: {
         image_1_alt: "Stockage pharma 1",

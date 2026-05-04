@@ -1257,6 +1257,19 @@ iframe {
     width: 100%;
 }
 
+.about-media-card-home {
+    background: #ffffff;
+}
+
+.about-media-image-home {
+    height: 450px;
+    min-height: 450px;
+    object-fit: contain;
+    object-position: center center;
+    display: block;
+    transform: none !important;
+}
+
 .about-panel {
     background: #ffffff !important;
     padding: 40px;
@@ -2335,6 +2348,11 @@ iframe {
     }
 
     .about-media-image {
+        min-height: 260px;
+    }
+
+    .about-media-image-home {
+        height: 260px;
         min-height: 260px;
     }
 
@@ -4188,7 +4206,7 @@ iframe {
     }
 
     .brand-title::after {
-        content: "Seloasa" !important;
+        content: "SELOASA" !important;
         display: block !important;
         font-size: 1.7rem !important;
         line-height: 1.1 !important;
@@ -6251,6 +6269,51 @@ iframe {
             flex-direction: column;
             justify-content: center;
             height: 100%;
+        }
+
+        .about-synergy-list {
+            display: grid;
+            gap: 18px;
+            margin-top: 6px;
+        }
+
+        .about-synergy-item {
+            display: grid;
+            grid-template-columns: 52px minmax(0, 1fr);
+            gap: 16px;
+            align-items: start;
+        }
+
+        .about-synergy-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, #fff4f0 0%, #fde7e0 100%);
+            color: var(--primary);
+            box-shadow: inset 0 0 0 1px rgba(228, 59, 20, 0.14);
+            font-size: 1.05rem;
+        }
+
+        .about-synergy-copy {
+            min-width: 0;
+        }
+
+        .about-synergy-item-title {
+            margin: 0 0 6px;
+            color: var(--primary);
+            font-size: 0.98rem;
+            line-height: 1.25;
+            font-weight: 800;
+        }
+
+        .about-synergy-item-text {
+            margin: 0;
+            color: #4c5157;
+            font-size: 1rem;
+            line-height: 1.65;
         }
 
         .about-synergy-image {

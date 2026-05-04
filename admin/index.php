@@ -85,7 +85,7 @@ $csrfToken = admin_csrf_token();
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Admin Vacantes - Seloasa</title>
+    <title>Admin Vacantes - SELOASA</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="../css/admin.css" rel="stylesheet">
@@ -95,7 +95,7 @@ $csrfToken = admin_csrf_token();
     <main class="admin-main container py-4 py-lg-5">
         <div class="admin-header-card">
             <div class="admin-brand">
-                <img src="../img/logotipo.png" alt="Seloasa" class="admin-brand-logo" width="171" height="209">
+                <img src="../img/logotipo.png" alt="SELOASA" class="admin-brand-logo" width="171" height="209">
                 <div>
                     <p class="admin-eyebrow mb-2">Panel interno</p>
                     <h1 class="admin-title mb-2">Administracion de vacantes</h1>

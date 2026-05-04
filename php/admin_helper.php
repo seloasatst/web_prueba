@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/mail_helper.php';
 
-const ADMIN_SESSION_NAME = 'seloasa_admin_session';
+const ADMIN_SESSION_NAME = 'SELOASA_admin_session';
 const ADMIN_STORAGE_DIR = __DIR__ . '/storage';
 const ADMIN_VACANCIES_FILE = ADMIN_STORAGE_DIR . '/vacancies.json';
 const ADMIN_LOGIN_ATTEMPTS_FILE = ADMIN_STORAGE_DIR . '/admin_login_attempts.json';
