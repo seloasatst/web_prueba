@@ -43,10 +43,10 @@ window.I18N_PAGE_TRANSLATIONS = {
         }
       },
       sustainable: {
-        image_alt: "Unidad h\u00edbrida SELOASA",
+        image_alt: "Unidad híbrida SELOASA",
         kicker: "Transporte Sustentable",
-        title: "Unidades h\u00edbridas y transporte limpio",
-        description: "En SELOASA, creemos que la log\u00edstica no est\u00e1 re\u00f1ida con el compromiso ambiental. Nuestra flota incorpora unidades h\u00edbridas con menores emisiones de CO2, como parte de nuestra participaci\u00f3n en el programa <strong>Transporte Limpio</strong> impulsado por la SEMARNAT. Adem\u00e1s, abrazamos los principios del <strong>Sustainable Procurement Pledge (SPP)</strong>, una iniciativa internacional que promueve cadenas de suministro sostenibles, \u00e9ticas y responsables.",
+        title: "Flota Híbrida Operativa y Transporte Limpio",
+        description: "En SELOASA, <strong>ya contamos con una flota híbrida activa e integrada a nuestra operación diaria</strong>. Nuestra flota incorpora unidades híbridas diésel-eléctricas con menores emisiones de CO2, como parte de nuestra participación en el programa <strong>Transporte Limpio</strong> impulsado por la SEMARNAT. Además, abrazamos los principios del <strong>Sustainable Procurement Pledge (SPP)</strong>, una iniciativa internacional que promueve cadenas de suministro sostenibles, éticas y responsables.",
         point_1: "Reducci\u00f3n estimada de hasta <strong>25% en emisiones de CO2</strong> por unidad h\u00edbrida.",
         point_2: "Comprometidos con una <strong>disminuci\u00f3n del 15% en el uso de combustibles f\u00f3siles</strong> al cierre del a\u00f1o.",
         point_3: "Adheridos a pr\u00e1cticas de <strong>compras sustentables</strong> en toda nuestra cadena de valor."
@@ -110,8 +110,8 @@ window.I18N_PAGE_TRANSLATIONS = {
       sustainable: {
         image_alt: "SELOASA hybrid unit",
         kicker: "Sustainable Transport",
-        title: "Hybrid units and clean transport",
-        description: "At SELOASA, we believe logistics is compatible with environmental commitment. Our fleet includes hybrid units with lower CO2 emissions as part of our participation in the <strong>Clean Transport</strong> program promoted by SEMARNAT. We also embrace the principles of the <strong>Sustainable Procurement Pledge (SPP)</strong>, an international initiative that promotes sustainable, ethical, and responsible supply chains.",
+        title: "Active Hybrid Fleet and Clean Transport",
+        description: "At SELOASA, <strong>we already operate an active hybrid fleet integrated into our daily logistics</strong>. Our fleet includes hybrid units with lower CO2 emissions as part of our participation in the <strong>Clean Transport</strong> program promoted by SEMARNAT. We also embrace the principles of the <strong>Sustainable Procurement Pledge (SPP)</strong>, an international initiative that promotes sustainable, ethical, and responsible supply chains.",
         point_1: "Estimated reduction of up to <strong>25% in CO2 emissions</strong> per hybrid unit.",
         point_2: "Committed to a <strong>15% reduction in fossil fuel use</strong> by year-end.",
         point_3: "Aligned with <strong>sustainable procurement</strong> practices across our value chain."
@@ -175,8 +175,8 @@ window.I18N_PAGE_TRANSLATIONS = {
       sustainable: {
         image_alt: "Hybride SELOASA-Einheit",
         kicker: "Nachhaltiger Transport",
-        title: "Hybride Einheiten und sauberer Transport",
-        description: "Bei SELOASA glauben wir, dass Logistik und Umweltengagement vereinbar sind. Unsere Flotte umfasst hybride Einheiten mit geringeren CO2-Emissionen im Rahmen unserer Teilnahme am von SEMARNAT gef\u00f6rderten Programm <strong>Transporte Limpio</strong>. Dar\u00fcber hinaus folgen wir den Prinzipien des <strong>Sustainable Procurement Pledge (SPP)</strong>, einer internationalen Initiative f\u00fcr nachhaltige, ethische und verantwortungsvolle Lieferketten.",
+        title: "Operative Hybridflotte und saubere Logistik",
+        description: "Bei SELOASA <strong>verfügen wir bereits über eine aktive Hybridflotte im täglichen Einsatz</strong>. Unsere Flotte umfasst hybride Einheiten mit geringeren CO2-Emissionen im Rahmen unserer Teilnahme am von SEMARNAT geförderten Programm <strong>Transporte Limpio</strong>. Darüber hinaus folgen wir den Prinzipien des <strong>Sustainable Procurement Pledge (SPP)</strong>.",
         point_1: "Gesch\u00e4tzte Reduzierung von bis zu <strong>25% der CO2-Emissionen</strong> pro Hybrideinheit.",
         point_2: "Verpflichtet zu einer <strong>Reduzierung des Einsatzes fossiler Brennstoffe um 15%</strong> bis Jahresende.",
         point_3: "An <strong>nachhaltige Beschaffungspraktiken</strong> entlang der gesamten Wertsch\u00f6pfungskette gebunden."
@@ -240,8 +240,8 @@ window.I18N_PAGE_TRANSLATIONS = {
       sustainable: {
         image_alt: "Unidade h\u00edbrida SELOASA",
         kicker: "Transporte Sustent\u00e1vel",
-        title: "Unidades h\u00edbridas e transporte limpo",
-        description: "Na SELOASA, acreditamos que a log\u00edstica \u00e9 compat\u00edvel com o compromisso ambiental. Nossa frota incorpora unidades h\u00edbridas com menores emiss\u00f5es de CO2 como parte da nossa participa\u00e7\u00e3o no programa <strong>Transporte Limpo</strong> promovido pela SEMARNAT. Al\u00e9m disso, adotamos os princ\u00edpios do <strong>Sustainable Procurement Pledge (SPP)</strong>, uma iniciativa internacional que promove cadeias de suprimento sustent\u00e1veis, \u00e9ticas e respons\u00e1veis.",
+        title: "Frota Híbrida Operacional e Transporte Limpio",
+        description: "Na SELOASA, <strong>já contamos com uma frota híbrida ativa e em operação diária</strong>. Nossa frota incorpora unidades híbridas com menores emissões de CO2 como parte da nossa participação no programa <strong>Transporte Limpio</strong> promovido pela SEMARNAT. Além disso, adotamos os princípios do <strong>Sustainable Procurement Pledge (SPP)</strong>.",
         point_1: "Redu\u00e7\u00e3o estimada de at\u00e9 <strong>25% nas emiss\u00f5es de CO2</strong> por unidade h\u00edbrida.",
         point_2: "Comprometidos com uma <strong>redu\u00e7\u00e3o de 15% no uso de combust\u00edveis f\u00f3sseis</strong> ao final do ano.",
         point_3: "Aderentes a pr\u00e1ticas de <strong>compras sustent\u00e1veis</strong> em toda a nossa cadeia de valor."
@@ -303,10 +303,10 @@ window.I18N_PAGE_TRANSLATIONS = {
         }
       },
       sustainable: {
-        image_alt: "Unit\u00e9 hybride SELOASA",
+        image_alt: "Unité hybride SELOASA",
         kicker: "Transport Durable",
-        title: "Unit\u00e9s hybrides et transport propre",
-        description: "Chez SELOASA, nous pensons que la logistique est compatible avec l'engagement environnemental. Notre flotte int\u00e8gre des unit\u00e9s hybrides \u00e0 plus faibles \u00e9missions de CO2 dans le cadre de notre participation au programme <strong>Transporte Limpio</strong> promu par la SEMARNAT. Nous adh\u00e9rons \u00e9galement aux principes du <strong>Sustainable Procurement Pledge (SPP)</strong>, une initiative internationale qui promeut des cha\u00eenes d'approvisionnement durables, \u00e9thiques et responsables.",
+        title: "Flotte hybride opérationnelle et transport propre",
+        description: "Chez SELOASA, <strong>nous disposons déjà d'une flotte hybride active en opération quotidienne</strong>. Notre flotte intègre des unités hybrides à plus faibles émissions de CO2 dans le cadre de notre participation au programme <strong>Transporte Limpio</strong> promu par la SEMARNAT. Nous adhérons également aux principes du <strong>Sustainable Procurement Pledge (SPP)</strong>.",
         point_1: "R\u00e9duction estim\u00e9e jusqu'\u00e0 <strong>25% des \u00e9missions de CO2</strong> par unit\u00e9 hybride.",
         point_2: "Engag\u00e9s dans une <strong>r\u00e9duction de 15% de l'usage des combustibles fossiles</strong> d'ici la fin de l'ann\u00e9e.",
         point_3: "Align\u00e9s sur des pratiques <strong>d'achats durables</strong> dans toute notre cha\u00eene de valeur."

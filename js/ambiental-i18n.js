@@ -30,7 +30,7 @@ window.I18N_PAGE_TRANSLATIONS = {
       waste: {
         kicker: "Gesti\u00f3n Responsable",
         title: "Pol\u00edtica de Manejo Responsable de Residuos",
-        description: "Servicios Log\u00edsticos Alsera S.A. de C.V. (SELOASA) reafirma su compromiso como Empresa Socialmente Responsable, aline\u00e1ndose a directivas ECOVADIS, PSCI y la iniciativa K-15. Integra acciones REUSE - REDUCE - RECYCLE para minimizar su huella ambiental.",
+        description: "SELOASA reafirma su compromiso como Empresa Socialmente Responsable, alineándose a directivas ECOVADIS, PSCI y nuestro Sistema de Gestión de Calidad (QMS). Integra acciones REUSE - REDUCE - RECYCLE para minimizar su huella ambiental.",
         item_1: "Reducir la cantidad de residuos generados en todas las \u00e1reas de la empresa.",
         item_2: "Reutilizar y reciclar siempre que sea posible; garantizar disposici\u00f3n adecuada y segura.",
         item_3: "Aplicaci\u00f3n a todos los empleados, instalaciones y flota vehicular.",
@@ -93,7 +93,7 @@ window.I18N_PAGE_TRANSLATIONS = {
       waste: {
         kicker: "Responsible Management",
         title: "Responsible Waste Management Policy",
-        description: "Servicios Log\u00edsticos Alsera S.A. de C.V. (SELOASA) reaffirms its commitment as a socially responsible company, aligning with ECOVADIS, PSCI, and the K-15 initiative. It integrates REUSE - REDUCE - RECYCLE actions to minimize its environmental footprint.",
+        description: "SELOASA reaffirms its commitment as a socially responsible company, aligning with ECOVADIS, PSCI, and our Quality Management System (QMS). It integrates REUSE - REDUCE - RECYCLE actions to minimize its environmental footprint.",
         item_1: "Reduce the amount of waste generated in all areas of the company.",
         item_2: "Reuse and recycle whenever possible; ensure proper and safe disposal.",
         item_3: "Applies to all employees, facilities, and vehicle fleet.",
@@ -156,7 +156,7 @@ window.I18N_PAGE_TRANSLATIONS = {
       waste: {
         kicker: "Verantwortungsvolle Steuerung",
         title: "Richtlinie f\u00fcr verantwortungsvolle Abfallbewirtschaftung",
-        description: "Servicios Log\u00edsticos Alsera S.A. de C.V. (SELOASA) bekr\u00e4ftigt sein Engagement als sozial verantwortliches Unternehmen und orientiert sich an den Richtlinien von ECOVADIS, PSCI und der Initiative K-15. Es integriert REUSE - REDUCE - RECYCLE-Ma\u00dfnahmen zur Minimierung seines \u00f6kologischen Fu\u00dfabdrucks.",
+        description: "SELOASA bekräftigt sein Engagement als sozial verantwortliches Unternehmen und orientiert sich an den Richtlinien von ECOVADIS, PSCI und unserem Qualitätsmanagementsystem (QMS). Es integriert REUSE - REDUCE - RECYCLE-Maßnahmen zur Minimierung seines ökologischen Fußabdrucks.",
         item_1: "Die Menge des in allen Unternehmensbereichen erzeugten Abfalls reduzieren.",
         item_2: "Wann immer m\u00f6glich wiederverwenden und recyceln; eine ordnungsgem\u00e4\u00dfe und sichere Entsorgung gew\u00e4hrleisten.",
         item_3: "Gilt f\u00fcr alle Mitarbeitenden, Einrichtungen und den Fuhrpark.",
@@ -164,7 +164,7 @@ window.I18N_PAGE_TRANSLATIONS = {
         subtitle: "Aufgaben des JSHE",
         jshe_title: "Kontinuierliche Steuerung und Kontrolle f\u00fcr ein konsistentes Umweltmanagement",
         jshe_description: "Diese Funktionen st\u00e4rken Pr\u00e4vention, Schulung und operative Analyse, um die Einhaltung der Umweltvorgaben im gesamten Unternehmen sicherzustellen.",
-        jshe_1: "Abf\u00e4lle identifizieren, Kriterien kommunizieren und Wiederverwendung sowie Recycling f\u00f6rdern.",
+        jshe_1: "Abf\u00e4lle identifizieren, Kriterien kommunizieren und Wiederverwendung sowie Recycling f\u00fcrdern.",
         jshe_2: "Umweltschulungen und institutionelle Sensibilisierung umsetzen.",
         jshe_3: "Daten erfassen und analysieren, um das Umweltmanagement zu optimieren.",
         jshe_4: "Sanktionen gem\u00e4\u00df der Einhaltung dieser Richtlinie anwenden.",
@@ -219,7 +219,7 @@ window.I18N_PAGE_TRANSLATIONS = {
       waste: {
         kicker: "Gest\u00e3o Respons\u00e1vel",
         title: "Pol\u00edtica de Gest\u00e3o Respons\u00e1vel de Res\u00edduos",
-        description: "Servicios Log\u00edsticos Alsera S.A. de C.V. (SELOASA) reafirma seu compromisso como Empresa Socialmente Respons\u00e1vel, alinhando-se \u00e0s diretrizes ECOVADIS, PSCI e \u00e0 iniciativa K-15. Integra a\u00e7\u00f5es REUSE - REDUCE - RECYCLE para minimizar sua pegada ambiental.",
+        description: "A SELOASA reafirma seu compromisso como Empresa Socialmente Responsável, alinhando-se às diretrizes ECOVADIS, PSCI e ao nosso Sistema de Gestão da Qualidade (QMS). Integra ações REUSE - REDUCE - RECYCLE para minimizar sua pegada ambiental.",
         item_1: "Reduzir a quantidade de res\u00edduos gerados em todas as \u00e1reas da empresa.",
         item_2: "Reutilizar e reciclar sempre que poss\u00edvel; garantir destina\u00e7\u00e3o adequada e segura.",
         item_3: "Aplica\u00e7\u00e3o a todos os colaboradores, instala\u00e7\u00f5es e frota veicular.",
@@ -282,7 +282,7 @@ window.I18N_PAGE_TRANSLATIONS = {
       waste: {
         kicker: "Gestion responsable",
         title: "Politique de gestion responsable des d\u00e9chets",
-        description: "Servicios Log\u00edsticos Alsera S.A. de C.V. (SELOASA) r\u00e9affirme son engagement en tant qu'entreprise socialement responsable, en s'alignant sur les directives ECOVADIS, PSCI et l'initiative K-15. Elle int\u00e8gre des actions REUSE - REDUCE - RECYCLE afin de minimiser son empreinte environnementale.",
+        description: "SELOASA réaffirme son engagement en tant qu'entreprise socialement responsable, en s'alignant sur les directives ECOVADIS, PSCI et notre Système de Gestion de la Qualité (QMS). Elle intègre des actions REUSE - REDUCE - RECYCLE afin de minimiser son empreinte environnementale.",
         item_1: "R\u00e9duire la quantit\u00e9 de d\u00e9chets g\u00e9n\u00e9r\u00e9s dans toutes les zones de l'entreprise.",
         item_2: "R\u00e9utiliser et recycler chaque fois que possible ; garantir une \u00e9limination ad\u00e9quate et s\u00fbre.",
         item_3: "Application \u00e0 tous les employ\u00e9s, installations et \u00e0 la flotte de v\u00e9hicules.",

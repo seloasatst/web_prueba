@@ -621,66 +621,409 @@
                 .atmosphereColor('#ffffff')
                 .atmosphereAltitude(0.13)
                 .showGraticules(false)
-                .pointOfView(mexicoFocus, 0);
+                .pointOfView(mexicoFocus, 0)
+                .arcsData([])
+                .arcStartLat(d => d.startLat)
+                .arcStartLng(d => d.startLng)
+                .arcEndLat(d => d.endLat)
+                .arcEndLng(d => d.endLng)
+                .arcColor(d => d.color)
+                .arcAltitude(d => d.altitude)
+                .arcStroke(d => d.stroke)
+                .arcDashLength(d => d.dashLength)
+                .arcDashGap(d => d.dashGap)
+                .arcDashAnimateTime(d => d.dashAnimateTime)
+                .pathsData([])
+                .pathPoints(d => d.points)
+                .pathPointLat(p => p[0])
+                .pathPointLng(p => p[1])
+                .pathPointAlt(p => p[2] || 0.012)
+                .pathColor(d => d.color)
+                .pathStroke(d => d.stroke)
+                .pathDashLength(d => d.dashLength)
+                .pathDashGap(d => d.dashGap)
+                .pathDashAnimateTime(d => d.dashAnimateTime)
+                .ringsData([])
+                .ringLat(d => d.lat)
+                .ringLng(d => d.lng)
+                .ringColor(d => d.color)
+                .ringMaxRadius(d => d.maxR)
+                .ringPropagationSpeed(d => d.propagationSpeed)
+                .ringRepeatPeriod(d => d.repeatPeriod)
+                .htmlElementsData([])
+                .htmlLat(d => d.lat)
+                .htmlLng(d => d.lng)
+                .htmlAltitude(d => d.altitude)
+                .htmlElement(d => d.element);
 
             const presenceGlobeControls = presenceGlobeInstance.controls();
             presenceGlobeControls.enablePan = false;
             presenceGlobeControls.enableZoom = false;
             presenceGlobeControls.autoRotate = false;
 
-            const stateActivityLevels = {
-                'Aguascalientes': 0.3,
-                'Baja California': 0.6,
-                'Baja California Sur': 0.2,
-                'Campeche': 0.2,
-                'Chiapas': 0.4,
-                'Chihuahua': 0.5,
-                'Coahuila': 0.5,
-                'Colima': 0.2,
-                'Distrito Federal': 1.0,
-                'Ciudad de México': 1.0,
-                'Durango': 0.3,
-                'Guanajuato': 0.8,
-                'Guerrero': 0.3,
-                'Hidalgo': 0.4,
-                'Jalisco': 0.9,
-                'México': 0.9,
-                'Michoacán': 0.4,
-                'Morelos': 0.3,
-                'Nayarit': 0.2,
-                'Nuevo León': 0.9,
-                'Oaxaca': 0.4,
-                'Puebla': 0.7,
-                'Querétaro': 0.8,
-                'Quintana Roo': 0.5,
-                'San Luis Potosí': 0.6,
-                'Sinaloa': 0.5,
-                'Sonora': 0.5,
-                'Tabasco': 0.3,
-                'Tamaulipas': 0.6,
-                'Tlaxcala': 0.3,
-                'Veracruz': 0.7,
-                'Yucatán': 0.5,
-                'Zacatecas': 0.3
-            };
+            const UNIFORM_ORANGE = 'rgba(228, 59, 20, 0.85)';
+            const HOVER_ORANGE = 'rgba(255, 110, 30, 0.98)';
+            let originHub = { lat: 19.4326, lng: -99.1332, name: 'CDMX' };
+            let hoveredPolygon = null;
+            let activeDispatchAnimation = null;
+            let dispatchToastTimeout = null;
 
-            const getCapColor = (feat) => {
-                const name = feat.properties ? feat.properties.name : '';
-                const level = stateActivityLevels[name] || 0.1;
-                
-                if (level <= 0.2) {
-                    // Gris para baja actividad
-                    return `rgba(180, 180, 180, 0.4)`;
+            const getFeatureCentroid = (feat) => {
+                if (!feat || !feat.geometry) return { lat: 23.6345, lng: -102.5528 };
+                const type = feat.geometry.type;
+                const coords = feat.geometry.coordinates;
+                let sumLat = 0, sumLng = 0, count = 0;
+
+                const processRing = (ring) => {
+                    for (let i = 0; i < ring.length; i++) {
+                        sumLng += ring[i][0];
+                        sumLat += ring[i][1];
+                        count++;
+                    }
+                };
+
+                if (type === 'Polygon') {
+                    processRing(coords[0]);
+                } else if (type === 'MultiPolygon') {
+                    coords.forEach(poly => processRing(poly[0]));
                 }
 
-                // Transición de gris a color principal (#e43b14)
-                // Color principal: rgb(228, 59, 20)
-                const r = Math.round(180 + (228 - 180) * level);
-                const g = Math.round(180 + (59 - 180) * level);
-                const b = Math.round(180 + (20 - 180) * level);
-                const alpha = 0.4 + (level * 0.5); // Aumenta opacidad con actividad
-                
-                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                if (count === 0) return { lat: 23.6345, lng: -102.5528 };
+                return { lat: sumLat / count, lng: sumLng / count };
+            };
+
+            const showMapToast = (title, body, iconClass = 'fa-truck') => {
+                let toastEl = presenceGlobeElement.parentElement.querySelector('.map-dispatch-toast');
+                if (!toastEl) {
+                    toastEl = document.createElement('div');
+                    toastEl.className = 'map-dispatch-toast';
+                    presenceGlobeElement.parentElement.appendChild(toastEl);
+                }
+                toastEl.innerHTML = `
+                    <div class="toast-icon"><i class="fa ${iconClass}"></i></div>
+                    <div class="toast-content">
+                        <span class="toast-title">${title}</span>
+                        <span class="toast-body">${body}</span>
+                    </div>
+                `;
+                toastEl.style.display = 'flex';
+
+                if (dispatchToastTimeout) clearTimeout(dispatchToastTimeout);
+                dispatchToastTimeout = setTimeout(() => {
+                    if (toastEl) toastEl.style.display = 'none';
+                }, 5500);
+            };
+
+            const getHeadingAngle = (lat1, lng1, lat2, lng2) => {
+                const rad = Math.PI / 180;
+                const dLng = (lng2 - lng1) * rad;
+                const lat1Rad = lat1 * rad;
+                const lat2Rad = lat2 * rad;
+
+                const y = Math.sin(dLng) * Math.cos(lat2Rad);
+                const x = Math.cos(lat1Rad) * Math.sin(lat2Rad) - Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(dLng);
+
+                let brng = Math.atan2(y, x) * (180 / Math.PI);
+                return (brng + 360) % 360;
+            };
+
+            const stateCentroidMap = {};
+
+            const getLandWaypoints = (targetName, origin) => {
+                const getPos = (name) => stateCentroidMap[name] || origin;
+                const waypoints = [[origin.lat, origin.lng, 0.02]];
+
+                if (['Yucatán', 'Quintana Roo', 'Campeche'].includes(targetName)) {
+                    // Highway 180 / 185 Southern Gulf Coastal Highway Corridor (strictly on land)
+                    waypoints.push(
+                        [19.0414, -98.2063, 0.02], // Puebla
+                        [18.8819, -96.9248, 0.02], // Córdoba/Orizaba, Veracruz
+                        [18.1408, -94.4608, 0.02], // Coatzacoalcos (Isthmus)
+                        [17.9892, -92.9281, 0.02], // Villahermosa, Tabasco
+                        [18.6044, -90.7441, 0.02]  // Escárcega, Campeche
+                    );
+                    if (targetName === 'Yucatán' || targetName === 'Quintana Roo') {
+                        const campPos = getPos('Campeche');
+                        waypoints.push([campPos.lat, campPos.lng, 0.02]);
+                    }
+                } else if (targetName === 'Tabasco') {
+                    waypoints.push(
+                        [19.0414, -98.2063, 0.02], // Puebla
+                        [18.8819, -96.9248, 0.02], // Veracruz
+                        [18.1408, -94.4608, 0.02]  // Coatzacoalcos
+                    );
+                } else if (targetName === 'Chiapas') {
+                    waypoints.push(
+                        [19.0414, -98.2063, 0.02], // Puebla
+                        [17.0732, -96.7266, 0.02]  // Oaxaca
+                    );
+                } else if (targetName === 'Oaxaca') {
+                    waypoints.push(
+                        [19.0414, -98.2063, 0.02]  // Puebla
+                    );
+                } else if (['Baja California', 'Baja California Sur'].includes(targetName)) {
+                    // Highway 15D Pacific Highway Corridor around the Gulf of California
+                    waypoints.push(
+                        [20.5888, -100.3899, 0.02], // Querétaro
+                        [20.6597, -103.3496, 0.02], // Guadalajara, Jalisco
+                        [21.5039, -104.8947, 0.02], // Tepic, Nayarit
+                        [24.8091, -107.3940, 0.02], // Culiacán, Sinaloa
+                        [29.0729, -110.9559, 0.02], // Hermosillo, Sonora
+                        [32.4561, -114.7719, 0.02]  // San Luis Río Colorado (Sonora/Baja Border)
+                    );
+                    if (targetName === 'Baja California Sur') {
+                        waypoints.push([32.6245, -115.4523, 0.02]); // Mexicali
+                    }
+                } else if (targetName === 'Sonora') {
+                    waypoints.push(
+                        [20.5888, -100.3899, 0.02],
+                        [20.6597, -103.3496, 0.02],
+                        [24.8091, -107.3940, 0.02]  // Sinaloa
+                    );
+                } else if (targetName === 'Sinaloa') {
+                    waypoints.push(
+                        [20.5888, -100.3899, 0.02],
+                        [20.6597, -103.3496, 0.02]  // Jalisco
+                    );
+                } else if (targetName === 'Nayarit' || targetName === 'Colima') {
+                    waypoints.push(
+                        [20.5888, -100.3899, 0.02],
+                        [20.6597, -103.3496, 0.02]  // Jalisco
+                    );
+                } else if (['Chihuahua', 'Durango'].includes(targetName)) {
+                    waypoints.push(
+                        [20.5888, -100.3899, 0.02], // Querétaro
+                        [22.1565, -100.9855, 0.02], // San Luis Potosí
+                        [22.7709, -102.5832, 0.02]  // Zacatecas
+                    );
+                } else if (['Nuevo León', 'Tamaulipas', 'Coahuila'].includes(targetName)) {
+                    waypoints.push(
+                        [20.5888, -100.3899, 0.02], // Querétaro
+                        [22.1565, -100.9855, 0.02]  // San Luis Potosí
+                    );
+                } else if (targetName === 'Guerrero') {
+                    waypoints.push(
+                        [18.9261, -99.2307, 0.02]   // Cuernavaca, Morelos
+                    );
+                } else if (targetName === 'Michoacán') {
+                    waypoints.push(
+                        [19.3552, -99.6569, 0.02]   // Toluca, Estado de México
+                    );
+                } else if (targetName === 'Veracruz') {
+                    waypoints.push(
+                        [19.0414, -98.2063, 0.02]   // Puebla
+                    );
+                }
+
+                // Append target centroid at the end
+                const targetPt = getPos(targetName);
+                waypoints.push([targetPt.lat, targetPt.lng, 0.02]);
+
+                return waypoints;
+            };
+
+            const triggerStateDispatch = (polygon) => {
+                if (!polygon) return;
+                const target = getFeatureCentroid(polygon);
+                const stateName = polygon.properties && polygon.properties.name ? polygon.properties.name : 'Estado';
+                const isPlane = Math.random() < 0.5;
+
+                if (activeDispatchAnimation) {
+                    cancelAnimationFrame(activeDispatchAnimation);
+                    activeDispatchAnimation = null;
+                }
+
+                presenceGlobeInstance.arcsData([]);
+                presenceGlobeInstance.pathsData([]);
+                presenceGlobeInstance.ringsData([]);
+                presenceGlobeInstance.htmlElementsData([]);
+
+                let animStartTime = null;
+
+                if (isPlane) {
+                    // Flight Line (Direct Arching Path, identical style to truck route)
+                    const flightPoints = [];
+                    const numSteps = 35;
+                    for (let i = 0; i <= numSteps; i++) {
+                        const stepT = i / numSteps;
+                        const pLat = originHub.lat + (target.lat - originHub.lat) * stepT;
+                        const pLng = originHub.lng + (target.lng - originHub.lng) * stepT;
+                        const pAlt = 0.015 + Math.sin(stepT * Math.PI) * 0.28;
+                        flightPoints.push([pLat, pLng, pAlt]);
+                    }
+
+                    // Set full flight route line ONCE so Three.js renders it continuously
+                    presenceGlobeInstance.pathsData([{
+                        points: flightPoints,
+                        color: '#ffffff',
+                        stroke: 1.5,
+                        dashLength: 0.15,
+                        dashGap: 0.05,
+                        dashAnimateTime: 1400
+                    }]);
+
+                    const planeMarker = document.createElement('div');
+                    planeMarker.className = 'vehicle-anim-marker';
+                    planeMarker.innerHTML = `
+                        <div class="vehicle-icon-inner">
+                            <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M24 2L28.5 16L44 20L44 24.5L28.5 22.5L26.5 38L31.5 42.5L31.5 45.5L24 43.5L16.5 45.5L16.5 42.5L21.5 38L19.5 22.5L4 24.5L4 20L19.5 16L24 2Z" fill="#e43b14" stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"/>
+                                <circle cx="24" cy="8" r="1.6" fill="#ffffff"/>
+                                <path d="M24 16L24 38" stroke="#ffffff" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/>
+                            </svg>
+                        </div>
+                    `;
+                    const planeIconInner = planeMarker.querySelector('.vehicle-icon-inner');
+
+                    showMapToast('Despacho Aéreo Directo', `Iniciando vuelo directo hacia <strong>${stateName}</strong>`, 'fa-plane');
+
+                    const duration = 2600;
+                    const animatePlane = (now) => {
+                        if (!animStartTime) animStartTime = now;
+                        const elapsed = now - animStartTime;
+                        const t = Math.min(1, elapsed / duration);
+
+                        const curLat = originHub.lat + (target.lat - originHub.lat) * t;
+                        const curLng = originHub.lng + (target.lng - originHub.lng) * t;
+                        const curAlt = 0.05 + Math.sin(t * Math.PI) * 0.28;
+
+                        const currentHeading = getHeadingAngle(curLat, curLng, target.lat, target.lng);
+                        if (planeIconInner) {
+                            planeIconInner.style.transform = `rotate(${currentHeading}deg)`;
+                        }
+
+                        presenceGlobeInstance.htmlElementsData([{
+                            lat: curLat,
+                            lng: curLng,
+                            altitude: curAlt,
+                            element: planeMarker
+                        }]);
+
+                        if (t < 1) {
+                            activeDispatchAnimation = requestAnimationFrame(animatePlane);
+                        } else {
+                            presenceGlobeInstance.ringsData([{
+                                lat: target.lat,
+                                lng: target.lng,
+                                color: 'rgba(228, 59, 20, 0.95)',
+                                maxR: 9,
+                                propagationSpeed: 5,
+                                repeatPeriod: 0
+                            }]);
+
+                            showMapToast('Envío Aéreo Entregado', `Paquete aéreo arribó con éxito a <strong>${stateName}</strong>`, 'fa-check-circle');
+
+                            setTimeout(() => {
+                                presenceGlobeInstance.pathsData([]);
+                                presenceGlobeInstance.htmlElementsData([]);
+                                presenceGlobeInstance.ringsData([]);
+                            }, 5000);
+                        }
+                    };
+
+                    activeDispatchAnimation = requestAnimationFrame(animatePlane);
+                } else {
+                    // Truck Route passing state-by-state on land
+                    const waypoints = getLandWaypoints(stateName, originHub);
+
+                    // Set full truck route line ONCE so Three.js renders it continuously on land
+                    presenceGlobeInstance.pathsData([{
+                        points: waypoints,
+                        color: '#ffffff',
+                        stroke: 1.5,
+                        dashLength: 0.15,
+                        dashGap: 0.05,
+                        dashAnimateTime: 1400
+                    }]);
+
+                    const truckMarker = document.createElement('div');
+                    truckMarker.className = 'vehicle-anim-marker';
+                    truckMarker.innerHTML = `
+                        <div class="vehicle-icon-inner">
+                            <svg width="34" height="44" viewBox="0 0 34 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Side Mirrors -->
+                                <rect x="2" y="9" width="3" height="5" rx="1.5" fill="#1f2937"/>
+                                <rect x="29" y="9" width="3" height="5" rx="1.5" fill="#1f2937"/>
+                                <!-- Front Cab Body -->
+                                <path d="M7 4C7 2.34 8.34 1 10 1H24C25.66 1 27 2.34 27 4V13H7V4Z" fill="#111827"/>
+                                <path d="M9 2.5H25C25.8 2.5 26.5 3.2 26.5 4V10H7.5V4C7.5 3.2 8.2 2.5 9 2.5Z" fill="#e43b14"/>
+                                <!-- Windshield & Reflection -->
+                                <path d="M9.5 4H24.5V8.5H9.5V4Z" fill="#38bdf8" opacity="0.95"/>
+                                <path d="M10 4.5H24V6.5H10V4.5Z" fill="#ffffff" opacity="0.6"/>
+                                <!-- Headlights -->
+                                <circle cx="8.5" cy="1.8" r="1.2" fill="#fef08a"/>
+                                <circle cx="25.5" cy="1.8" r="1.2" fill="#fef08a"/>
+                                <!-- Refrigerated Cargo Box Body -->
+                                <rect x="5" y="12" width="24" height="29" rx="3" fill="#ffffff" stroke="#e43b14" stroke-width="1.8"/>
+                                <!-- Cooling Unit (Thermo/Carrier) Top -->
+                                <rect x="10" y="11" width="14" height="4" rx="1.5" fill="#374151" stroke="#ffffff" stroke-width="0.8"/>
+                                <!-- Roof Accent & Center Divider -->
+                                <line x1="17" y1="15" x2="17" y2="40" stroke="#d1d5db" stroke-width="1.5" stroke-dasharray="3 2"/>
+                                <rect x="7" y="14" width="20" height="2" fill="#e43b14"/>
+                                <!-- Heavy Duty Wheels -->
+                                <rect x="3" y="15" width="2.5" height="7" rx="1" fill="#111827"/>
+                                <rect x="28.5" y="15" width="2.5" height="7" rx="1" fill="#111827"/>
+                                <rect x="3" y="32" width="2.5" height="7" rx="1" fill="#111827"/>
+                                <rect x="28.5" y="32" width="2.5" height="7" rx="1" fill="#111827"/>
+                            </svg>
+                        </div>
+                    `;
+                    const truckIconInner = truckMarker.querySelector('.vehicle-icon-inner');
+
+                    showMapToast('Ruta Terrestre Activa', `Camión transitando hacia <strong>${stateName}</strong>`, 'fa-truck');
+
+                    const duration = Math.max(3000, waypoints.length * 800);
+                    const animateTruck = (now) => {
+                        if (!animStartTime) animStartTime = now;
+                        const elapsed = now - animStartTime;
+                        const t = Math.min(1, elapsed / duration);
+
+                        const totalSegs = waypoints.length - 1;
+                        const segIdx = Math.min(totalSegs - 1, Math.floor(t * totalSegs));
+                        const segT = (t * totalSegs) - segIdx;
+
+                        const pStart = waypoints[segIdx];
+                        const pEnd = waypoints[segIdx + 1];
+
+                        const segHeading = getHeadingAngle(pStart[0], pStart[1], pEnd[0], pEnd[1]);
+                        if (truckIconInner) {
+                            truckIconInner.style.transform = `rotate(${segHeading}deg)`;
+                        }
+
+                        const curLat = pStart[0] + (pEnd[0] - pStart[0]) * segT;
+                        const curLng = pStart[1] + (pEnd[1] - pStart[1]) * segT;
+
+                        presenceGlobeInstance.htmlElementsData([{
+                            lat: curLat,
+                            lng: curLng,
+                            altitude: 0.055,
+                            element: truckMarker
+                        }]);
+
+                        if (t < 1) {
+                            activeDispatchAnimation = requestAnimationFrame(animateTruck);
+                        } else {
+                            presenceGlobeInstance.ringsData([{
+                                lat: target.lat,
+                                lng: target.lng,
+                                color: 'rgba(228, 59, 20, 0.95)',
+                                maxR: 9,
+                                propagationSpeed: 5,
+                                repeatPeriod: 0
+                            }]);
+
+                            showMapToast('Ruta Terrestre Completada', `Camión arribó con éxito a <strong>${stateName}</strong>`, 'fa-check-circle');
+
+                            setTimeout(() => {
+                                presenceGlobeInstance.pathsData([]);
+                                presenceGlobeInstance.htmlElementsData([]);
+                                presenceGlobeInstance.ringsData([]);
+                            }, 5000);
+                        }
+                    };
+
+                    activeDispatchAnimation = requestAnimationFrame(animateTruck);
+                }
             };
 
             fetch('https://raw.githubusercontent.com/angelnmara/geojson/master/mexicoHigh.json')
@@ -692,23 +1035,55 @@
                     return response.json();
                 })
                 .then((geojson) => {
+                    (geojson.features || []).forEach(feat => {
+                        if (feat.properties && feat.properties.name) {
+                            stateCentroidMap[feat.properties.name] = getFeatureCentroid(feat);
+                        }
+                    });
+
+                    // Resolve exact CDMX origin centroid from loaded GeoJSON features
+                    const cdmxFeat = (geojson.features || []).find(f => f.properties && (
+                        f.properties.name === 'Ciudad de México' || 
+                        f.properties.name === 'Distrito Federal'
+                    ));
+                    if (cdmxFeat) {
+                        const cdmxCentroid = getFeatureCentroid(cdmxFeat);
+                        originHub = { lat: cdmxCentroid.lat, lng: cdmxCentroid.lng, name: 'CDMX' };
+                    }
                     presenceGlobeInstance
                         .polygonsData(geojson.features || [])
-                        .polygonCapColor(getCapColor)
-                        .polygonSideColor(() => 'rgba(228, 59, 20, 0.05)')
-                        .polygonStrokeColor(() => 'rgba(255,255,255,0.6)')
-                        .polygonAltitude(0.01)
+                        .polygonCapColor(d => d === hoveredPolygon ? HOVER_ORANGE : UNIFORM_ORANGE)
+                        .polygonSideColor(() => 'rgba(228, 59, 20, 0.25)')
+                        .polygonStrokeColor(d => d === hoveredPolygon ? '#ffffff' : 'rgba(255, 255, 255, 0.65)')
+                        .polygonAltitude(d => d === hoveredPolygon ? 0.045 : 0.01)
                         .polygonCapCurvatureResolution(1)
-                        .polygonsTransitionDuration(500)
+                        .polygonsTransitionDuration(300)
                         .polygonLabel(({ properties: d }) => `
-                            <div style="background: rgba(0,0,0,0.8); color: white; padding: 5px 10px; border-radius: 4px; font-size: 13px; font-family: sans-serif;">
-                                <b style="color: #e43b14;">${d.name}</b><br/>
-                                Cobertura: ${Math.round((stateActivityLevels[d.name] || 0.1) * 100)}%
+                            <div style="background: #ffffff; color: #1f252b; padding: 12px 18px; border-radius: 16px; border: 2px solid #e43b14; box-shadow: none !important; font-family: 'Inter', system-ui, -apple-system, sans-serif; text-align: left; min-width: 195px;">
+                                <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 4px;">
+                                    <div style="font-size: 15px; font-weight: 800; color: #1f252b; letter-spacing: -0.01em;">${d.name}</div>
+                                    <span style="display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; background: rgba(228, 59, 20, 0.08); border: 1px solid rgba(228, 59, 20, 0.2); color: #e43b14; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;">
+                                        <span style="width: 5px; height: 5px; border-radius: 50%; background: #8fc754;"></span> Cobertura
+                                    </span>
+                                </div>
+                                <div style="font-size: 11px; color: #64748b; font-weight: 600; display: flex; align-items: center; gap: 5px;">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#e43b14" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z"/></svg>
+                                    <span>Haz clic para simular envío</span>
+                                </div>
                             </div>
                         `)
-                        .onPolygonHover(hoverD => presenceGlobeInstance
-                            .polygonCapColor(d => d === hoverD ? 'rgba(228, 59, 20, 1)' : getCapColor(d))
-                        );
+                        .onPolygonHover(hoverD => {
+                            hoveredPolygon = hoverD;
+                            presenceGlobeInstance
+                                .polygonAltitude(d => d === hoverD ? 0.045 : 0.01)
+                                .polygonCapColor(d => d === hoverD ? HOVER_ORANGE : UNIFORM_ORANGE)
+                                .polygonStrokeColor(d => d === hoverD ? '#ffffff' : 'rgba(255, 255, 255, 0.65)');
+
+                            if (presenceGlobeElement) {
+                                presenceGlobeElement.style.cursor = hoverD ? 'pointer' : 'default';
+                            }
+                        })
+                        .onPolygonClick(polygon => triggerStateDispatch(polygon));
                 })
                 .catch(() => {
                     // If the GeoJSON cannot be loaded, keep the globe without state divisions.

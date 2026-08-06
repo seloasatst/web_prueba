@@ -2,7 +2,7 @@ window.I18N_PAGE_TRANSLATIONS = {
   ...(window.I18N_PAGE_TRANSLATIONS || {}),
   es: {
     about: {
-      meta: { title: "Servicios Logísticos Alsera | Nosotros" },
+      meta: { title: "SELOASA | Nosotros" },
       hero: {
         title: "<span class='text-primary'>Logística farmacéutica</span> con visión, calidad y respuesta ágil",
         description: "Construimos soluciones integrales de almacenaje, transporte y distribución para una cadena de suministro segura, flexible y confiable.",
@@ -13,8 +13,8 @@ window.I18N_PAGE_TRANSLATIONS = {
         image_2_alt: "Interior de almacén",
         kicker: "Nosotros",
         title: "Especialistas en servicios logísticos, almacenaje y transporte",
-        paragraph_1: "En SELOASA, combinamos la agilidad de una operación moderna con el respaldo y la experiencia de más de 30 años del Grupo RALCA, líderes en el sector farmacéutico nacional. Nos hemos posicionado como compañía líder en soluciones logísticas seguras para la cadena de suministro farma, tanto en el sector gobierno como privado.",
-        paragraph_2: "Nuestra estrecha colaboración con el grupo nos permite ofrecer una infraestructura robusta y un conocimiento profundo del mercado, enfrentando con éxito los cambios dinámicos y garantizando la integridad de cada producto.",
+        paragraph_1: "Con más de <strong>+10 años de trayectoria de SELOASA en la industria</strong>, nos hemos posicionado como una compañía líder en la prestación de soluciones logísticas, almacenaje especializado y transporte seguro para la cadena de suministro farmacéutica y del sector salud, atendiendo tanto al sector público como al privado.",
+        paragraph_2: "Nuestra sólida infraestructura y conocimiento profundo del mercado nos permiten enfrentar con éxito los cambios dinámicos y garantizar la integridad de cada producto.",
         quote_label: "En SELOASA, sin duda:",
         quote_text: "\"Manejamos tu producto tan bien como manejamos el nuestro\"."
       },
@@ -22,7 +22,7 @@ window.I18N_PAGE_TRANSLATIONS = {
       pillars: {
         kicker: "Nuestra Base",
         title: "Una operación construida con propósito, ética y capacidad de respuesta",
-        card_1: { title: "Quiénes Somos", description: "SELOASA es la división especializada en logística y distribución del Grupo RALCA. Combinamos más de 30 años de legado en el sector salud con procesos certificados y una flota propia de última generación." },
+        card_1: { title: "Quiénes Somos", description: "SELOASA cuenta con más de <strong>+10 años de experiencia en la industria</strong>, ofreciendo soluciones logísticas y de distribución especializadas en el sector salud con procesos certificados y una flota propia de última generación." },
         card_2: { title: "Misión", description: "Apoyar a nuestro equipo de líderes para satisfacer los requerimientos cambiantes de nuestros clientes, ofreciendo soluciones de calidad, coste-efectivas y éticas." },
         card_3: { title: "Visión", description: "Ser reconocidos por nuestra capacidad de respuesta ágil y sostenible en la cadena de suministro farma, aprovechando oportunidades de negocio y alianzas estratégicas." }
       },
@@ -36,35 +36,35 @@ window.I18N_PAGE_TRANSLATIONS = {
         item_4: { title: "Flexibilidad", description: "Ejecución ágil ante cambios de demanda y dinámica del mercado farma." },
         item_5: { title: "Innovación", description: "Búsqueda constante de nuevas formas de hacer y desarrollar soluciones." },
         item_6: { title: "Compliance", description: "Observancia estricta de estándares regulatorios y éticos del sector." },
-        item_7: { title: "Alianzas", description: "Sinergia operativa con el Grupo RALCA para ofrecer soluciones logísticas de alto impacto y alcance nacional." },
+        item_7: { title: "Alianzas", description: "Sinergia operativa para ofrecer soluciones logísticas de alto impacto y alcance nacional." },
         item_8: { title: "Colaboración", description: "Transparencia y búsqueda del \"cómo sí\" en cada proyecto." }
       },
       quality: {
-        kicker: "Calidad",
-        title: "Sistema de Gestión de Calidad",
-        paragraph_1: "Todas nuestras actividades están soportadas en un Sistema de Gestión de Calidad (SGC) bajo la NOM-059-SSA1-2015 e ISO 9001:2015, así como en las Buenas Prácticas de Almacenamiento y Distribución (BPAD's).",
-        paragraph_2: "Además, cumplimos con el Sistema de Gestión de Seguridad en el Servicio de Manejo, Transporte y Custodia de Medicamentos conforme a la NORMEX/SGSSMTC/01/2016.",
-        paragraph_3: "Resultados satisfactorios en auditorías internacionales nos han posicionado como aliados estratégicos de laboratorios líderes.",
-        image_alt: "Sistema de Gestión de Calidad"
+        kicker: "Gestión de Calidad",
+        title: "Sistema de Gestión de Calidad (QMS)",
+        paragraph_1: "Todas nuestras actividades están soportadas en un Sistema de Gestión de Calidad (QMS) estructurado para asegurar la estandarización, trazabilidad y control riguroso de cada proceso operativo.",
+        paragraph_2: "Nuestro QMS garantiza el cumplimiento de las Buenas Prácticas de Almacenamiento y Distribución (BPAD), normativas sanitarias vigentes y una gestión de riesgos orientada a la excelencia y la mejora continua.",
+        paragraph_3: "La cultura de calidad en SELOASA involucra a todo el equipo para resguardar la integridad, seguridad y confiabilidad de los productos en toda la cadena de suministro.",
+        image_alt: "Sistema de Gestión de Calidad (QMS)"
       },
       synergy: {
         kicker: "Sinergia Corporativa",
-        title: "SELOASA & Grupo RALCA: Un Legado de Confianza",
-        description: "SELOASA nace como la división logística estratégica del Grupo RALCA, integrando más de tres décadas de especialización en el sector salud con una infraestructura de vanguardia diseñada para la excelencia operativa.",
-        point_1_title: "30+ Años de Experiencia",
-        point_1_description: "Respaldo de un grupo líder en la distribución de medicamentos de alta especialidad.",
+        title: "SELOASA: Excelencia Logística en Salud",
+        description: "SELOASA integra más de una década de especialización en el sector salud con una infraestructura de vanguardia diseñada para la excelencia operativa y la satisfacción total del cliente.",
+        point_1_title: "+10 Años en la Industria",
+        point_1_description: "Trayectoria consolidada de SELOASA ofreciendo servicios logísticos de alta especialidad.",
         point_2_title: "Infraestructura Robusta",
         point_2_description: "Acceso a centros de distribución (CEDIS) estratégicos y tecnología de monitoreo líder.",
         point_3_title: "Especialización Farma",
         point_3_description: "Expertos en cadena de frío y manejo de productos críticos para el sector público y privado.",
-        image_alt: "Sinergia Corporativa SELOASA y RALCA"
+        image_alt: "Sinergia Corporativa SELOASA"
       }
 
     }
   },
   en: {
     about: {
-      meta: { title: "Servicios Logísticos Alsera | About Us" },
+      meta: { title: "SELOASA | About Us" },
       hero: {
         title: "<span class='text-primary'>Pharmaceutical logistics</span> with vision, quality, and agile response",
         description: "We build integrated storage, transport, and distribution solutions for a secure, flexible, and reliable supply chain.",
@@ -75,8 +75,8 @@ window.I18N_PAGE_TRANSLATIONS = {
         image_2_alt: "Warehouse interior",
         kicker: "About Us",
         title: "Specialists in logistics, storage, and transport services",
-        paragraph_1: "At SELOASA, we combine the agility of a modern operation with the support and 30+ years of experience of the RALCA Group, leaders in the national pharmaceutical sector. We have positioned ourselves as a leading company in secure logistics solutions for the pharma supply chain, serving both the government and private sectors.",
-        paragraph_2: "Our close collaboration with the group allows us to offer a robust infrastructure and deep market knowledge, successfully navigating dynamic changes and ensuring the integrity of every product.",
+        paragraph_1: "With more than <strong>10+ years of SELOASA in the industry</strong>, we have positioned ourselves as a leading company providing logistics, specialized storage, and secure transport solutions for the pharmaceutical and healthcare supply chain, serving both government and private sectors.",
+        paragraph_2: "Our solid infrastructure and deep market knowledge allow us to successfully navigate dynamic changes and ensure the integrity of every product.",
         quote_label: "At SELOASA, without a doubt:",
         quote_text: "\"We handle your product as well as we handle our own\"."
       },
@@ -84,7 +84,7 @@ window.I18N_PAGE_TRANSLATIONS = {
       pillars: {
         kicker: "Our Foundation",
         title: "An operation built with purpose, ethics, and responsiveness",
-        card_1: { title: "Who We Are", description: "SELOASA is the specialized logistics and distribution division of the RALCA Group. We combine over 30 years of healthcare sector legacy with certified processes and a state-of-the-art private fleet." },
+        card_1: { title: "Who We Are", description: "SELOASA has over <strong>10+ years of industry experience</strong>, offering specialized healthcare logistics and distribution services with certified processes and a state-of-the-art private fleet." },
         card_2: { title: "Mission", description: "To support our leadership team in meeting our clients' changing requirements by offering quality, cost-effective, and ethical solutions." },
         card_3: { title: "Vision", description: "To be recognized for our agile and sustainable response capability in the pharmaceutical supply chain, leveraging business opportunities and strategic alliances." }
       },
@@ -98,35 +98,35 @@ window.I18N_PAGE_TRANSLATIONS = {
         item_4: { title: "Flexibility", description: "Agile execution in response to changes in demand and pharmaceutical market dynamics." },
         item_5: { title: "Innovation", description: "Constant pursuit of new ways to act and develop solutions." },
         item_6: { title: "Compliance", description: "Strict adherence to regulatory and ethical standards in the sector." },
-        item_7: { title: "Alliances", description: "Operational synergy with the RALCA Group to offer high-impact logistics solutions with nationwide reach." },
+        item_7: { title: "Alliances", description: "Operational synergy to offer high-impact logistics solutions with nationwide reach." },
         item_8: { title: "Collaboration", description: "Transparency and a \"how yes\" mindset in every project." }
       },
       quality: {
-        kicker: "Quality",
-        title: "Quality Management System",
-        paragraph_1: "All our activities are supported by a Quality Management System (QMS) under NOM-059-SSA1-2015 and ISO 9001:2015, as well as Good Storage and Distribution Practices (BPAD's).",
-        paragraph_2: "We also comply with the Security Management System for the Handling, Transport, and Custody of Medicines in accordance with NORMEX/SGSSMTC/01/2016.",
-        paragraph_3: "Successful results in international audits have positioned us as strategic partners of leading laboratories.",
-        image_alt: "Quality Management System"
+        kicker: "Quality Management",
+        title: "Quality Management System (QMS)",
+        paragraph_1: "All our activities are supported by a Quality Management System (QMS) structured to ensure standardization, traceability, and rigorous control of every operational process.",
+        paragraph_2: "Our QMS ensures compliance with Good Storage and Distribution Practices (GDP), applicable health regulations, and risk management oriented toward operational excellence and continuous improvement.",
+        paragraph_3: "The quality culture at SELOASA engages our entire team to safeguard product integrity, security, and reliability throughout the supply chain.",
+        image_alt: "Quality Management System (QMS)"
       },
       synergy: {
         kicker: "Corporate Synergy",
-        title: "SELOASA & RALCA Group: A Legacy of Trust",
-        description: "SELOASA was born as the strategic logistics division of the RALCA Group, integrating more than three decades of specialization in the healthcare sector with a cutting-edge infrastructure designed for operational excellence.",
-        point_1_title: "30+ Years of Experience",
-        point_1_description: "Backed by a leading group in the distribution of high-specialty medicines.",
+        title: "SELOASA: Healthcare Logistics Excellence",
+        description: "SELOASA integrates over a decade of specialization in the healthcare sector with cutting-edge infrastructure designed for operational excellence and total customer satisfaction.",
+        point_1_title: "10+ Years in the Industry",
+        point_1_description: "Consolidated track record of SELOASA offering high-specialty logistics services.",
         point_2_title: "Robust Infrastructure",
         point_2_description: "Access to strategic distribution centers (CEDIS) and leading monitoring technology.",
         point_3_title: "Pharma Specialization",
-        point_3_description: "Experts in cold chain and critical product handling for the public and private sectors.",
-        image_alt: "SELOASA and RALCA Corporate Synergy"
+        point_3_description: "Experts in cold chain and critical product handling for public and private sectors.",
+        image_alt: "SELOASA Corporate Synergy"
       }
 
     }
   },
   al: {
     about: {
-      meta: { title: "Servicios Logísticos Alsera | Über Uns" },
+      meta: { title: "SELOASA | Über Uns" },
       hero: {
         title: "<span class='text-primary'>Pharma-Logistik</span> mit Weitblick, Qualität und schneller Reaktion",
         description: "Wir entwickeln integrierte Lösungen für Lagerung, Transport und Distribution für eine sichere, flexible und zuverlässige Lieferkette.",
@@ -137,15 +137,15 @@ window.I18N_PAGE_TRANSLATIONS = {
         image_2_alt: "Lagerinnenraum",
         kicker: "Über Uns",
         title: "Spezialisten für Logistik-, Lager- und Transportdienstleistungen",
-        paragraph_1: "Bei SELOASA verbinden wir die Agilität eines modernen Betriebs mit dem Rückhalt und der über 30-jährigen Erfahrung der RALCA-Gruppe, einem führenden Unternehmen im nationalen Pharmasektor. Wir haben uns als führendes Unternehmen für sichere Logistiklösungen in der Pharma-Lieferkette positioniert und bedienen sowohl den öffentlichen als auch den privaten Sektor.",
-        paragraph_2: "Unsere enge Zusammenarbeit mit der Gruppe ermöglicht es uns, eine robuste Infrastruktur und tiefes Marktsegmentwissen anzubieten, dynamische Veränderungen erfolgreich zu meistern und die Integrität jedes Produkts zu gewährleisten.",
+        paragraph_1: "Mit mehr als <strong>+10 Jahren Erfahrung von SELOASA in der Branche</strong> haben wir uns als führendes Unternehmen für spezialisierte Logistik-, Lager- und sichere Transportlösungen in der Pharma-Lieferkette etabliert.",
+        paragraph_2: "Unsere solide Infrastruktur und tiefes Marktsegmentwissen ermöglichen es uns, dynamische Veränderungen erfolgreich zu meistern und die Integrität jedes Produkts zu gewährleisten.",
         quote_label: "Bei SELOASA gilt ohne Zweifel:",
         quote_text: "\"Wir behandeln Ihr Produkt so gut, wie wir unser eigenes behandeln\"."
       },
       pillars: {
         kicker: "Unsere Grundlage",
         title: "Ein Betrieb, der auf Sinn, Ethik und Reaktionsfähigkeit aufgebaut ist",
-        card_1: { title: "Wer Wir Sind", description: "SELOASA ist die spezialisierte Logistik- und Vertriebsabteilung der RALCA-Gruppe. Wir kombinieren über 30 Jahre Erbe im Gesundheitssektor mit zertifizierten Prozessen und einer hochmodernen eigenen Flotte." },
+        card_1: { title: "Wer Wir Sind", description: "SELOASA verfügt über mehr als <strong>+10 Jahre Branchenerfahrung</strong> im Bereich Gesundheitslogistik mit zertifizierten Prozessen und einer modernen eigenen Flotte." },
         card_2: { title: "Mission", description: "Unser Führungsteam dabei zu unterstützen, die sich ändernden Anforderungen unserer Kunden zu erfüllen, indem wir qualitativ hochwertige, kosteneffiziente und ethische Lösungen anbieten." },
         card_3: { title: "Vision", description: "Für unsere agile und nachhaltige Reaktionsfähigkeit in der pharmazeutischen Lieferkette anerkannt zu werden und dabei Geschäftsmöglichkeiten sowie strategische Allianzen zu nutzen." }
       },
@@ -159,38 +159,38 @@ window.I18N_PAGE_TRANSLATIONS = {
         item_4: { title: "Flexibilität", description: "Agile Umsetzung bei Nachfrageänderungen und Dynamik des Pharmamarktes." },
         item_5: { title: "Innovation", description: "Ständige Suche nach neuen Wegen zur Umsetzung und Entwicklung von Lösungen." },
         item_6: { title: "Compliance", description: "Strikte Einhaltung regulatorischer und ethischer Standards des Sektors." },
-        item_7: { title: "Allianzen", description: "Operative Synergie mit der RALCA-Gruppe für leistungsstarke Logistiklösungen mit landesweiter Reichweite." },
+        item_7: { title: "Allianzen", description: "Operative Synergie für leistungsstarke Logistiklösungen mit landesweiter Reichweite." },
         item_8: { title: "Zusammenarbeit", description: "Transparenz und die Suche nach dem \"Wie doch\" in jedem Projekt." }
       },
       quality: {
-        kicker: "Qualität",
-        title: "Qualitätsmanagementsystem",
-        paragraph_1: "Alle unsere Aktivitäten werden durch ein Qualitätsmanagementsystem (QMS) gemäß NOM-059-SSA1-2015 und ISO 9001:2015 sowie durch Gute Lager- und Vertriebspraxis (BPAD's) unterstützt.",
-        paragraph_2: "Darüber hinaus erfüllen wir das Sicherheitsmanagementsystem für Handhabung, Transport und Verwahrung von Arzneimitteln gemäß NORMEX/SGSSMTC/01/2016.",
-        paragraph_3: "Erfolgreiche Ergebnisse bei internationalen Audits haben uns als strategische Partner führender Labore positioniert.",
-        image_alt: "Qualitätsmanagementsystem"
+        kicker: "Qualitätsmanagement",
+        title: "Qualitätsmanagementsystem (QMS)",
+        paragraph_1: "Alle unsere Aktivitäten stützen sich auf ein Qualitätsmanagementsystem (QMS), das auf Prozessstandardisierung, Rückverfolgbarkeit und die Kontrolle aller Abläufe ausgerichtet ist.",
+        paragraph_2: "Unser QMS gewährleistet die Einhaltung der Guten Lager- und Vertriebspraxis (GDP), der Gesundheitsstandards sowie ein Risikomanagement zur kontinuierlichen Verbesserung.",
+        paragraph_3: "Die Qualitätskultur bei SELOASA nimmt unser gesamtes Team in die Pflicht, um Produktsicherheit, Integrität und Zuverlässigkeit in der gesamten Lieferkette zu sichern.",
+        image_alt: "Qualitätsmanagementsystem (QMS)"
       },
       synergy: {
         kicker: "Unternehmenssynergie",
-        title: "SELOASA & RALCA-Gruppe: Ein Erbe des Vertrauens",
-        description: "SELOASA wurde als strategische Logistikabteilung der RALCA-Gruppe ins Leben gerufen und integriert mehr als drei Jahrzehnte Spezialisierung im Gesundheitssektor mit einer hochmodernen Infrastruktur.",
-        point_1_title: "30+ Jahre Erfahrung",
-        point_1_description: "Unterstützt von einer führenden Gruppe im nationalen Medikamentenvertrieb.",
+        title: "SELOASA: Exzellenz in der Gesundheitslogistik",
+        description: "SELOASA integriert mehr als ein Jahrzehnt Spezialisierung im Gesundheitssektor mit einer hochmodernen Infrastruktur für operative Exzellenz.",
+        point_1_title: "+10 Jahre Branchenerfahrung",
+        point_1_description: "Konsolidierte Erfahrung von SELOASA mit mehr als 10 Jahren in der Gesundheitslogistikbranche.",
         point_2_title: "Robuste Infrastruktur",
         point_2_description: "Zugang zu strategischen Logistikzentren (CEDIS) und modernster Überwachungstechnologie.",
         point_3_title: "Pharma-Spezialisierung",
         point_3_description: "Experten für Kühlketten und den Umgang mit kritischen Produkten für den öffentlichen und privaten Sektor.",
-        image_alt: "Unternehmenssynergie SELOASA und RALCA"
+        image_alt: "Unternehmenssynergie SELOASA"
       }
 
     }
   },
   pt: {
     about: {
-      meta: { title: "Servicios Logísticos Alsera | Sobre Nós" },
+      meta: { title: "SELOASA | Sobre Nós" },
       hero: {
         title: "<span class='text-primary'>Logística farmacêutica</span> com visão, qualidade e resposta ágil",
-        description: "Construímos soluções integradas de armazenagem, transporte e distribuição para uma cadeia de suprimento segura, flexível e confiável.",
+        description: "Construímos soluções integradas de armazenagem, transporte e distribuição para uma cadeia de suprimentos segura, flexível e confiável.",
         image_alt: "Operação logística SELOASA"
       },
       story: {
@@ -198,17 +198,17 @@ window.I18N_PAGE_TRANSLATIONS = {
         image_2_alt: "Interior do armazém",
         kicker: "Sobre Nós",
         title: "Especialistas em serviços logísticos, armazenagem e transporte",
-        paragraph_1: "Na SELOASA, combinamos a agilidade de uma operação moderna com o suporte e a experiência de mais de 30 anos do Grupo RALCA, líderes no setor farmacêutico nacional. Posicionamo-nos como uma empresa líder em soluções logísticas seguras para a cadeia de suprimentos farma, atendendo tanto ao setor público quanto ao privado.",
-        paragraph_2: "Nossa estreita colaboração com o grupo nos permite oferecer uma infraestrutura robusta e um profundo conhecimento de mercado, enfrentando com sucesso as mudanças dinâmicas e garantindo a integridade de cada produto.",
+        paragraph_1: "Com mais de <strong>+10 anos de atuação da SELOASA na indústria</strong>, posicionamo-nos como uma empresa líder na prestação de soluções logísticas, armazenagem especializada e transporte seguro para a cadeia de suprimentos farmacêutica e de saúde.",
+        paragraph_2: "Nossa sólida infraestrutura e profundo conhecimento de mercado nos permitem enfrentar com sucesso as mudanças dinâmicas e garantir a integridade de cada produto.",
         quote_label: "Na SELOASA, sem dúvida:",
         quote_text: "\"Cuidamos do seu produto tão bem quanto cuidamos do nosso\"."
       },
       pillars: {
         kicker: "Nossa Base",
         title: "Uma operação construída com propósito, ética e capacidade de resposta",
-        card_1: { title: "Quem Somos", description: "A SELOASA é a divisão especializada em logística e distribuição do Grupo RALCA. Combinamos mais de 30 anos de legado no setor de saúde com processos certificados e uma frota própria de última geração." },
+        card_1: { title: "Quem Somos", description: "A SELOASA possui mais de <strong>+10 anos de experiência na indústria</strong>, oferecendo serviços logísticos e de distribuição especializados em saúde com processos certificados e frota própria de ponta." },
         card_2: { title: "Missão", description: "Apoiar nossa equipe de líderes para atender às mudanças nas necessidades dos clientes, oferecendo soluções de qualidade, custo-efetivas e éticas." },
-        card_3: { title: "Visão", description: "Ser reconhecidos por nossa capacidade de resposta ágil e sustentável na cadeia de suprimento farma, aproveitando oportunidades de negócio e alianças estratégicas." }
+        card_3: { title: "Visão", description: "Ser reconhecidos por nossa capacidade de resposta ágil e sustentável na cadeia de suprimentos farma, aproveitando oportunidades de negócio e alianças estratégicas." }
       },
       values: {
         kicker: "Nossos Valores",
@@ -220,34 +220,34 @@ window.I18N_PAGE_TRANSLATIONS = {
         item_4: { title: "Flexibilidade", description: "Execução ágil diante das mudanças de demanda e da dinâmica do mercado farma." },
         item_5: { title: "Inovação", description: "Busca constante por novas formas de fazer e desenvolver soluções." },
         item_6: { title: "Compliance", description: "Observância rigorosa dos padrões regulatórios e éticos do setor." },
-        item_7: { title: "Alianças", description: "Sinergia operacional com o Grupo RALCA para oferecer soluções logísticas de alto impacto e alcance nacional." },
-        item_8: { title: "Colaboração", description: "Transparencia e busca pelo \"como sim\" em cada projeto." }
+        item_7: { title: "Alianças", description: "Sinergia operacional para oferecer soluções logísticas de alto impacto e alcance nacional." },
+        item_8: { title: "Colaboração", description: "Transparência e busca pelo \"como sim\" em cada projeto." }
       },
       quality: {
-        kicker: "Qualidade",
-        title: "Sistema de Gestão da Qualidade",
-        paragraph_1: "Todas as nossas atividades são sustentadas por um Sistema de Gestão da Qualidade (SGQ) sob a NOM-059-SSA1-2015 e ISO 9001:2015, assim como pelas Boas Práticas de Armazenagem e Distribuição (BPAD's).",
-        paragraph_2: "Além disso, cumprimos o Sistema de Gestão de Segurança no Serviço de Manuseio, Transporte e Custódia de Medicamentos conforme a NORMEX/SGSSMTC/01/2016.",
-        paragraph_3: "Resultados satisfatórios em auditorias internacionais nos posicionaram como aliados estratégicos de laboratórios líderes.",
-        image_alt: "Sistema de Gestão da Qualidade"
+        kicker: "Gestão da Qualidade",
+        title: "Sistema de Gestão da Qualidade (QMS)",
+        paragraph_1: "Todas as nossas atividades são sustentadas por um Sistema de Gestão da Qualidade (QMS) estruturado para assegurar a padronização, rastreabilidade e rigoroso controle operacional.",
+        paragraph_2: "Nosso QMS garante o cumprimento das Boas Práticas de Armazenagem e Distribuição (BPAD), normas sanitárias vigentes e gestão de riscos focada na melhoria contínua.",
+        paragraph_3: "A cultura de qualidade na SELOASA envolve toda a nossa equipe para preservar a integridade, segurança e confiabilidade dos produtos em toda a cadeia de suprimentos.",
+        image_alt: "Sistema de Gestão da Qualidade (QMS)"
       },
       synergy: {
         kicker: "Sinergia Corporativa",
-        title: "SELOASA & Grupo RALCA: Um Legado de Confiança",
-        description: "A SELOASA nasceu como a divisão logística estratégica do Grupo RALCA, integrando mais de três décadas de especialização no setor de saúde com uma infraestrutura de ponta projetada para a excelência operacional.",
-        point_1_title: "30+ Anos de Experiência",
-        point_1_description: "Respaldo de um grupo líder na distribuição nacional de medicamentos de alta especialidade.",
+        title: "SELOASA: Excelência em Logística de Saúde",
+        description: "A SELOASA integra mais de uma década de especialização no setor de saúde com uma infraestrutura de ponta projetada para a excelência operacional.",
+        point_1_title: "+10 Anos na Indústria",
+        point_1_description: "Experiência consolidada da SELOASA com mais de 10 anos na indústria de logística em saúde.",
         point_2_title: "Infraestrutura Robusta",
         point_2_description: "Acesso a centros de distribuição (CEDIS) estratégicos e tecnologia de monitoramento líder.",
         point_3_title: "Especialização Farma",
         point_3_description: "Especialistas em cadeia de frio e manuseio de produtos críticos para os setores público e privado.",
-        image_alt: "Sinergia Corporativa SELOASA e RALCA"
+        image_alt: "Sinergia Corporativa SELOASA"
       }
     }
   },
   fr: {
     about: {
-      meta: { title: "Servicios Logísticos Alsera | À Propos" },
+      meta: { title: "SELOASA | À Propos" },
       hero: {
         title: "<span class='text-primary'>Logistique pharmaceutique</span> avec vision, qualité et réactivité",
         description: "Nous construisons des solutions intégrées de stockage, transport et distribution pour une chaîne d'approvisionnement sûre, flexible et fiable.",
@@ -258,15 +258,15 @@ window.I18N_PAGE_TRANSLATIONS = {
         image_2_alt: "Intérieur d'entrepôt",
         kicker: "À Propos",
         title: "Spécialistes des services logistiques, du stockage et du transport",
-        paragraph_1: "Chez SELOASA, nous combinons l'agilité d'une opération moderne avec le soutien et l'expérience de plus de 30 ans du Groupe RALCA, leader du secteur pharmaceutique national. Nous nous sommes positionnés comme une entreprise leader dans les solutions logistiques sécurisées pour la chaîne d'approvisionnement pharmaceutique, au service des secteurs public et privé.",
-        paragraph_2: "Notre étroite collaboration avec le groupe nous permet d'offrir une infrastructure robuste et une connaissance approfondie du marché, en naviguant avec succès dans les changements dynamiques et en garantissant l'intégrité de chaque produit.",
+        paragraph_1: "Avec plus de <strong>+10 ans d'expérience de SELOASA dans l'industrie</strong>, nous nous sommes positionnés comme une entreprise leader offrant des solutions logistiques, de stockage spécialisé et de transport sécurisé pour la chaîne d'approvisionnement pharmaceutique et de santé.",
+        paragraph_2: "Notre solide infrastructure et notre connaissance approfondie du marché nous permettent de naviguer avec succès dans les changements dynamiques et de garantir l'intégrité de chaque produit.",
         quote_label: "Chez SELOASA, sans aucun doute :",
         quote_text: "\"Nous traitons votre produit aussi bien que le nôtre\"."
       },
       pillars: {
         kicker: "Notre Base",
         title: "Une opération construite avec sens, éthique et capacité de réponse",
-        card_1: { title: "Qui Nous Sommes", description: "SELOASA est la division spécialisée en logistique et distribution du Groupe RALCA. Nous combinons plus de 30 ans d'héritage dans le secteur de la santé avec des processus certifiés et une flotte propre de pointe." },
+        card_1: { title: "Qui Nous Sommes", description: "SELOASA compte plus de <strong>+10 ans d'expérience dans l'industrie</strong>, offrant des services logistiques et de distribution spécialisés en santé avec des processus certifiés et une flotte propre moderne." },
         card_2: { title: "Mission", description: "Soutenir notre équipe de dirigeants afin de répondre aux besoins changeants de nos clients en offrant des solutions de qualité, rentables et éthiques." },
         card_3: { title: "Vision", description: "Être reconnus pour notre capacité de réponse agile et durable dans la chaîne d'approvisionnement pharmaceutique, en tirant parti des opportunités d'affaires et des alliances stratégiques." }
       },
@@ -280,28 +280,28 @@ window.I18N_PAGE_TRANSLATIONS = {
         item_4: { title: "Flexibilité", description: "Exécution agile face aux changements de la demande et à la dynamique du marché pharmaceutique." },
         item_5: { title: "Innovation", description: "Recherche constante de nouvelles façons d'agir et de développer des solutions." },
         item_6: { title: "Conformité", description: "Respect strict des normes réglementaires et éthiques du secteur." },
-        item_7: { title: "Alliances", description: "Synergie opérationnelle avec le Groupe RALCA pour offrir des solutions logistiques à fort impact et à portée nationale." },
+        item_7: { title: "Alliances", description: "Synergie opérationnelle pour offrir des solutions logistiques à fort impact et à portée nationale." },
         item_8: { title: "Collaboration", description: "Transparence et recherche du \"comment oui\" dans chaque projet." }
       },
       quality: {
-        kicker: "Qualité",
-        title: "Système de Gestion de la Qualité",
-        paragraph_1: "Toutes nos activités sont soutenues par un Système de Gestion de la Qualité (SGQ) conforme à la NOM-059-SSA1-2015 et à l'ISO 9001:2015, ainsi qu'aux Bonnes Pratiques de Stockage et de Distribution (BPAD's).",
-        paragraph_2: "Nous respectons également le Système de Gestion de la Sécurité pour le service de manipulation, transport et garde de médicaments conformément à la NORMEX/SGSSMTC/01/2016.",
-        paragraph_3: "Des résultats satisfaisants lors d'audits internationaux nous ont positionnés comme partenaires stratégiques de laboratoires de premier plan.",
-        image_alt: "Système de Gestion de la Qualité"
+        kicker: "Gestion de la Qualité",
+        title: "Système de Gestion de la Qualité (QMS)",
+        paragraph_1: "Toutes nos activités s'appuient sur un Système de Gestion de la Qualité (QMS) structuré pour assurer la standardisation, la traçabilité et le contrôle rigoureux de chaque processus opérationnel.",
+        paragraph_2: "Notre QMS garantit le respect des Bonnes Pratiques de Stockage et de Distribution (BPAD), des réglementations sanitaires et une gestion des risques axée sur l'amélioration continue.",
+        paragraph_3: "La culture de qualité chez SELOASA implique toute notre équipe afin de préserver l'intégrité, la sécurité et la fiabilité des produits tout au long de la chaîne d'approvisionnement.",
+        image_alt: "Système de Gestion de la Qualité (QMS)"
       },
       synergy: {
         kicker: "Synergie Entreprise",
-        title: "SELOASA & Groupe RALCA : Un Héritage de Confiance",
-        description: "SELOASA est née en tant que division logistique stratégique du Groupe RALCA, intégrant plus de trois décennies de spécialisation dans le secteur de la santé avec une infrastructure de pointe conçue pour l'excellence opérationnelle.",
-        point_1_title: "30+ Ans d'Expérience",
-        point_1_description: "Soutenu par un groupe leader dans la distribution nationale de médicaments de spécialité.",
+        title: "SELOASA : Excellence en Logistique de Santé",
+        description: "SELOASA intègre plus d'une décennie de spécialisation dans le secteur de la santé avec une infrastructure de pointe conçue pour l'excellence opérationnelle.",
+        point_1_title: "+10 Ans dans l'Industrie",
+        point_1_description: "Expérience consolidée de SELOASA avec plus de 10 ans dans l'industrie de la logistique de santé.",
         point_2_title: "Infrastructure Robuste",
         point_2_description: "Accès à des centres de distribution (CEDIS) stratégiques et à une technologie de surveillance de pointe.",
         point_3_title: "Spécialisation Pharma",
         point_3_description: "Experts de la chaîne du froid et de la manipulation de produits critiques pour les secteurs public et privé.",
-        image_alt: "Synergie Entreprise SELOASA et RALCA"
+        image_alt: "Synergie Entreprise SELOASA"
       }
 
     }

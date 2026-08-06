@@ -24,15 +24,15 @@ window.I18N_PAGE_TRANSLATIONS = {
           description: "Red flexible de ubicaciones estratégicas operadas por nuestros aliados según tu demanda y nivel de servicio."
         },
         point_2: {
-          title: "2-8 °C / 15-25 °C",
+          title: "Control de Temperatura",
           description: "Control total de temperatura en instalaciones certificadas para distintos perfiles de producto."
         },
         point_3: {
-          title: "COFEPRIS",
+          title: "Regulación Sanitaria",
           description: "Instalaciones de aliados estratégicos con autorizaciones, licencias y procesos alineados a la regulación."
         },
         point_4: {
-          title: "ERP Validado",
+          title: "Integración Tecnológica",
           description: "Interfaz operativa, trazabilidad y visibilidad en tiempo real para cada movimiento."
         }
       },
@@ -43,22 +43,18 @@ window.I18N_PAGE_TRANSLATIONS = {
         card_1: {
           title: "Almacén Refrigerado",
           badge: "2-8 °C",
-          description: "Capacidad en instalaciones de nuestros aliados para vacunas y biológicos que requieren cadena de frío continua."
         },
         card_2: {
           title: "Área Fresca",
           badge: "15-25 °C",
-          description: "Espacios controlados en la red de aliados para insumos y dispositivos médicos con tolerancia de temperatura amplia."
         },
         card_3: {
           title: "Almacén Ambiente",
           badge: "Controlado",
-          description: "Soluciones de resguardo con aliados estratégicos para productos no sensibles a temperatura, con vigilancia 24/7."
         },
         card_4: {
           title: "Área de Maquila",
           badge: "GMP",
-          description: "Servicios de acondicionamiento y maquila en instalaciones de aliados calificados bajo normas GMP."
         }
       },
       stats: {

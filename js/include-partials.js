@@ -22,7 +22,7 @@ function updateFooterYear(root = document) {
   });
 }
 
-const NAV_ROUTE_ALIASES = {
+var NAV_ROUTE_ALIASES = window.NAV_ROUTE_ALIASES || {
   home: ['', 'index', 'home'],
   storage: ['storage'],
   transport: ['transport'],
