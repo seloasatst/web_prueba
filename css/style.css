@@ -379,12 +379,15 @@ iframe {
     color: #e43b14 !important;
 }
 
-/* Active/Hover State - Sticky (As in Image) */
+/* Active/Hover State - Sticky Nav (Orange Underline Indicator) */
+.site-navbar .navbar-nav .nav-link {
+    position: relative !important;
+}
+
 .site-navbar.sticky-nav .navbar-nav .nav-link:hover,
 .site-navbar.sticky-nav .navbar-nav .nav-link.active {
     color: #e43b14 !important;
-    background: rgba(228, 59, 20, 0.08) !important;
-    /* Softer brand background */
+    background: transparent !important;
 }
 
 .site-navbar.sticky-nav .navbar-nav .nav-link.active i,
@@ -392,25 +395,29 @@ iframe {
     color: #e43b14 !important;
 }
 
-/* Active Link - Transparent State (Premium Underline) */
+/* Active Link - Underline Indicator for both Scrolled and Unscrolled */
 .site-navbar:not(.sticky-nav) .nav-link.active {
     background: transparent !important;
     color: #ffffff !important;
-    position: relative;
 }
 
-.site-navbar:not(.sticky-nav) .nav-link.active::before {
+.site-navbar .navbar-nav .nav-link.active::before {
     content: "";
     position: absolute;
     bottom: -4px;
-    /* Lowered to not overlap text */
-    left: 10px;
-    /* Adjusted for 12px padding */
-    right: 10px;
-    /* Adjusted for 12px padding */
-    height: 2px;
-    background: #ffffff;
+    left: 8px;
+    right: 8px;
+    height: 3px;
     border-radius: 999px;
+    z-index: 2;
+}
+
+.site-navbar:not(.sticky-nav) .navbar-nav .nav-link.active::before {
+    background: #ffffff !important;
+}
+
+.site-navbar.sticky-nav .navbar-nav .nav-link.active::before {
+    background: #e43b14 !important;
 }
 
 /* Phone Button - Image Match */
