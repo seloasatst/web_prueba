@@ -34,6 +34,8 @@ var NAV_ROUTE_ALIASES = window.NAV_ROUTE_ALIASES || {
   'privacy-notice': ['privacy-notice'],
   'human-rights': ['human-rights'],
   standards: ['standards'],
+  blog: ['blog', 'blog/articulo', 'articulo', 'blog-noticias', 'noticias', 'comunicados'],
+  careers: ['careers', 'bolsa-de-trabajo', 'vacantes'],
   contact: ['contact']
 };
 

@@ -81,7 +81,18 @@ $mail = new PHPMailer(true);
 
 try {
     configure_site_mailer($mail, 'Postulaciones Web SELOASA');
-    add_site_mail_recipients($mail, mail_env('CAREERS_FORM_TO', 'gadiel.palma@SELOASA.com.mx'));
+
+    // Obtener los correos específicos configurados para esta vacante
+    $matchedVacancy = admin_find_vacancy_by_id($vacancyId);
+    $vacancyRecipients = '';
+    if ($matchedVacancy && !empty($matchedVacancy['recipient_emails'])) {
+        $vacancyRecipients = trim((string) $matchedVacancy['recipient_emails']);
+    }
+    if ($vacancyRecipients === '') {
+        $vacancyRecipients = mail_env('CAREERS_FORM_TO', 'gadiel.palma@SELOASA.com.mx');
+    }
+
+    add_site_mail_recipients($mail, $vacancyRecipients);
     $brandLogoCid = attach_brand_logo($mail);
     $mail->addAttachment($cvFile['tmp_name'], $safeFileName);
 
@@ -99,6 +110,7 @@ try {
         [
             ['label' => 'Vacante', 'value' => $safeVacancyTitle],
             ['label' => 'CV adjunto', 'value' => $safeFileName],
+            ['label' => 'Notificado a', 'value' => $vacancyRecipients],
         ],
         null,
         'Uso interno para seguimiento del proceso de reclutamiento.',
@@ -121,6 +133,33 @@ try {
     );
 
     $mail->send();
+
+    // Guardar registro de la postulación en la base de datos MySQL
+    try {
+        require_once __DIR__ . '/db.php';
+        $pdo = get_db_connection();
+        $insApp = $pdo->prepare("
+            INSERT INTO `postulaciones` (
+                `vacante_id`, `vacante_title`, `candidate_name`, `candidate_email`,
+                `candidate_phone`, `cv_filename`, `recipient_emails`, `status`
+            ) VALUES (
+                :vacante_id, :vacante_title, :candidate_name, :candidate_email,
+                :candidate_phone, :cv_filename, :recipient_emails, 'nuevo'
+            )
+        ");
+        $insApp->execute([
+            'vacante_id' => $vacancyId,
+            'vacante_title' => $safeVacancyTitle,
+            'candidate_name' => $fullName,
+            'candidate_email' => $email,
+            'candidate_phone' => $phone,
+            'cv_filename' => $safeFileName,
+            'recipient_emails' => $vacancyRecipients,
+        ]);
+    } catch (Exception $dbEx) {
+        error_log("Error guardando postulación en BD: " . $dbEx->getMessage());
+    }
+
     redirect_application_status($sourcePage, 'success');
 } catch (Exception $e) {
     log_mail_error('enviar_postulacion', $e, $mail);

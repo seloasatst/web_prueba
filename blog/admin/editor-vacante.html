@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <base href="../../">
+  <meta charset="utf-8">
+  <title>Estudio de Vacantes &amp; Empleo | SELOASA</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="noindex, nofollow" name="robots">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/blog-admin.css" rel="stylesheet">
+  <link href="css/blog-editor.css" rel="stylesheet">
+</head>
+
+<body class="editor-studio-body">
+
+  <!-- ======================================================================
+       HEADER SUPERIOR DEL ESTUDIO DE VACANTES
+       ====================================================================== -->
+  <header class="editor-top-nav">
+    <div class="d-flex align-items-center gap-3">
+      <a href="blog/admin/index.html#vacancies" class="editor-back-btn" title="Regresar a la bolsa de trabajo en el panel">
+        <i class="fa fa-arrow-left"></i>
+      </a>
+      <img src="img/logotipo.png" alt="SELOASA" class="editor-logo">
+      <div class="editor-nav-divider"></div>
+      <div class="editor-title-wrap">
+        <h1 class="editor-page-title">Estudio de Vacantes &amp; Empleo</h1>
+        <span class="editor-page-sub" id="vacancyStudioSubtitle">Cargando vacante...</span>
+      </div>
+    </div>
+
+    <!-- Acciones y Controles Superiores -->
+    <div class="d-flex align-items-center gap-2.5">
+      
+      <!-- Botón Probar Postulación -->
+      <button type="button" id="btnTestPostulationHeader" class="editor-btn-secondary" title="Simular cómo el candidato se postula y envía su CV">
+        <i class="fa fa-paper-plane text-primary me-1"></i>
+        <span>Simular Postulación</span>
+      </button>
+
+      <!-- Interruptor Rápido de Publicación -->
+      <div class="editor-header-switch-wrap">
+        <input class="form-check-input" type="checkbox" role="switch" id="headerActiveSwitch">
+        <label class="form-check-label mb-0" for="headerActiveSwitch" id="headerActiveLabel">Borrador Interno</label>
+      </div>
+
+      <!-- Botón Guardar -->
+      <button type="button" id="btnSaveVacancyStudio" class="editor-btn-secondary" title="Guardar cambios">
+        <i class="fa fa-save text-muted me-1"></i>
+        <span>Guardar</span>
+      </button>
+
+      <!-- Botón Publicar Vacante -->
+      <button type="button" id="btnPublishVacancy" class="editor-btn-primary" title="Guardar y publicar de inmediato en la bolsa de trabajo pública">
+        <i class="fa fa-check-circle me-1"></i>
+        <span>Publicar Vacante</span>
+      </button>
+    </div>
+  </header>
+
+
+  <!-- ======================================================================
+       CONTENEDOR SPLIT-SCREEN (50% FORMULARIO / 50% VISTA PREVIA DIRECTA 1:1)
+       ====================================================================== -->
+  <div class="editor-split-container">
+    
+    <!-- COLUMNA IZQUIERDA: FORMULARIO DE EDICIÓN DE VACANTE -->
+    <div class="editor-form-pane">
+      <form id="vacancyStudioForm" onsubmit="return false;">
+
+        <!-- Tarjeta 1: Datos Generales del Puesto -->
+        <div class="card border rounded-3 mb-3 shadow-sm">
+          <div class="card-header bg-light py-2 px-3">
+            <span class="small fw-bold text-dark">
+              <i class="fa fa-briefcase text-primary me-1.5"></i> Datos Principales del Puesto
+            </span>
+          </div>
+          <div class="card-body p-3">
+            <!-- Título y Folio/ID -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-8">
+                <label for="vacancyTitleInput" class="form-label small fw-bold text-dark mb-1">Título del Puesto / Vacante *</label>
+                <input type="text" id="vacancyTitleInput" class="form-control fw-bold" placeholder="Ej: Coordinador de Monitoreo Logístico" required>
+              </div>
+              <div class="col-md-4">
+                <label for="vacancyIdInput" class="form-label small fw-bold text-dark mb-1">Identificador Slug *</label>
+                <input type="text" id="vacancyIdInput" class="form-control font-monospace" placeholder="coordinador-monitoreo-logistico" required>
+              </div>
+            </div>
+
+            <!-- Área Operativa y Modalidad -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="vacancyAreaInput" class="form-label small fw-bold text-dark mb-1">Área / Departamento *</label>
+                <div class="input-group input-group-sm">
+                  <input type="text" id="vacancyAreaInput" class="form-control" placeholder="Ej: Monitoreo" value="Monitoreo">
+                  <select id="vacancyAreaSelect" class="form-select" style="max-width: 140px;">
+                    <option value="custom">Sugerencias...</option>
+                    <option value="Monitoreo">Monitoreo</option>
+                    <option value="Almacén">Almacén</option>
+                    <option value="Transporte">Transporte</option>
+                    <option value="Calidad">Calidad</option>
+                    <option value="Tráfico">Tráfico</option>
+                    <option value="Mantenimiento">Mantenimiento</option>
+                    <option value="Administración">Administración</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="vacancyModeSelect" class="form-label small fw-bold text-dark mb-1">Modalidad de Trabajo</label>
+                <select id="vacancyModeSelect" class="form-select form-select-sm">
+                  <option value="Presencial">Presencial en Centro Operativo</option>
+                  <option value="Operación en ruta">Operación en ruta nacional</option>
+                  <option value="Híbrido">Híbrido (Presencial / Home Office)</option>
+                  <option value="Remoto">Remoto</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Ubicación, Horario y Orden -->
+            <div class="row g-3">
+              <div class="col-md-5">
+                <label for="vacancyLocationInput" class="form-label small fw-bold text-dark mb-1">Ubicación / Base Operativa *</label>
+                <input type="text" id="vacancyLocationInput" class="form-control form-control-sm" placeholder="Ej: Lerma, Estado de México" value="Lerma, Estado de México">
+              </div>
+              <div class="col-md-4">
+                <label for="vacancyScheduleInput" class="form-label small fw-bold text-dark mb-1">Jornada / Horario *</label>
+                <input type="text" id="vacancyScheduleInput" class="form-control form-control-sm" placeholder="Ej: Tiempo completo / Turnos rotativos" value="Tiempo completo">
+              </div>
+              <div class="col-md-3">
+                <label for="vacancySortOrderInput" class="form-label small fw-bold text-dark mb-1">Orden de Prioridad</label>
+                <input type="number" id="vacancySortOrderInput" class="form-control form-control-sm" min="1" max="999" value="10">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: Correos de Recepción de Postulaciones (CAMPO CLAVE) -->
+        <div class="card border rounded-3 mb-3 shadow-sm border-primary-subtle" style="background: #fbfdff;">
+          <div class="card-header bg-primary-subtle py-2 px-3 d-flex align-items-center justify-content-between">
+            <span class="small fw-bold text-primary">
+              <i class="fa fa-envelope-open-text me-1.5"></i> A qué Correos debe de llegar la Postulación *
+            </span>
+            <span class="badge bg-primary text-white" style="font-size: 10px;">Recepción de CVs</span>
+          </div>
+          <div class="card-body p-3">
+            <label for="vacancyRecipientEmailsInput" class="form-label small fw-bold text-dark mb-1">
+              Correos Electrónicos Destinatarios (separados por coma) *
+            </label>
+            <div class="input-group mb-2">
+              <span class="input-group-text bg-white"><i class="fa fa-at text-muted"></i></span>
+              <input type="text" id="vacancyRecipientEmailsInput" class="form-control font-monospace" placeholder="gadiel.palma@SELOASA.com.mx, rh@seloasa.com.mx" value="gadiel.palma@SELOASA.com.mx, rh@seloasa.com.mx" required>
+            </div>
+            
+            <div class="d-flex align-items-center gap-1.5 flex-wrap mb-2">
+              <span class="text-muted small" style="font-size: 11px;">Insertar rápido:</span>
+              <button type="button" class="vacancy-email-preset-btn" data-email="gadiel.palma@SELOASA.com.mx">+ gadiel.palma@SELOASA.com.mx</button>
+              <button type="button" class="vacancy-email-preset-btn" data-email="rh@seloasa.com.mx">+ rh@seloasa.com.mx</button>
+              <button type="button" class="vacancy-email-preset-btn" data-email="reclutamiento@seloasa.com.mx">+ reclutamiento@seloasa.com.mx</button>
+              <button type="button" class="vacancy-email-preset-btn" data-email="operaciones@seloasa.com.mx">+ operaciones@seloasa.com.mx</button>
+            </div>
+
+            <div class="form-text text-muted" style="font-size: 0.75rem; line-height: 1.4;">
+              <i class="fa fa-info-circle text-primary me-1"></i>
+              Cuando un candidato llene el formulario y adjunte su CV para esta vacante, el correo corporativo se enviará de inmediato a estas direcciones con los datos del aspirante y su archivo adjunto.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta 3: Resumen o Descripción General del Puesto -->
+        <div class="card border rounded-3 mb-3 shadow-sm">
+          <div class="card-header bg-light py-2 px-3">
+            <span class="small fw-bold text-dark">
+              <i class="fa fa-align-left text-primary me-1.5"></i> Resumen de la Posición
+            </span>
+          </div>
+          <div class="card-body p-3">
+            <label for="vacancySummaryInput" class="form-label small fw-bold text-dark mb-1">Descripción Breve del Puesto *</label>
+            <textarea id="vacancySummaryInput" class="form-control" rows="3" placeholder="Describe brevemente el rol, su impacto en la cadena de frío y los objetivos de la posición..." required></textarea>
+            <div class="form-text small" style="font-size: 0.72rem;">
+              Este párrafo se muestra como encabezado de la tarjeta para captar el interés de los candidatos calificados.
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta 4: Requisitos & Responsabilidades Clave -->
+        <div class="card border rounded-3 mb-4 shadow-sm">
+          <div class="card-header bg-light py-2 px-3 d-flex align-items-center justify-content-between">
+            <span class="small fw-bold text-dark">
+              <i class="fa fa-list-check text-primary me-1.5"></i> Requisitos &amp; Responsabilidades Clave
+            </span>
+            <button type="button" id="btnAddPointRow" class="btn btn-sm btn-outline-primary py-0 px-2 fw-bold" style="font-size: 0.75rem;">
+              <i class="fa fa-plus me-1"></i> Agregar Punto
+            </button>
+          </div>
+          <div class="card-body p-3">
+            <div id="vacancyPointsContainer">
+              <!-- Filas dinámicas inyectadas por js/vacancy-editor.js -->
+            </div>
+            <div class="mt-2 text-end">
+              <button type="button" class="btn btn-sm btn-light border text-primary fw-semibold" onclick="document.getElementById('btnAddPointRow').click();" style="font-size: 0.78rem;">
+                <i class="fa fa-plus-circle me-1"></i> Añadir otro requisito o responsabilidad
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+
+    <!-- COLUMNA DERECHA: VISTA PREVIA DIRECTA EN TIEMPO REAL 1:1 -->
+    <div class="editor-preview-pane" id="editorPreviewPane">
+      
+      <!-- Barra superior de la vista previa -->
+      <div class="popup-preview-header">
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2.5 py-1" style="font-size: 11px;">
+            <i class="fa fa-circle text-success me-1" style="font-size: 7px;"></i> Vista Previa en Vivo 1:1
+          </span>
+          <span class="text-muted small" style="font-size: 11.5px;">Simulación exacta de la bolsa de trabajo</span>
+        </div>
+        <div>
+          <button type="button" class="btn btn-sm btn-light border py-1 px-2.5 text-muted" style="font-size: 11.5px;" onclick="window.open('careers/', '_blank')">
+            <i class="fa fa-external-link-alt text-primary me-1" style="font-size: 10px;"></i> Ver Bolsa Pública
+          </button>
+        </div>
+      </div>
+
+      <!-- Lienzo con tarjeta oficial de vacante SELOASA -->
+      <div class="vacancy-stage-canvas">
+        <div class="vacancy-stage-content animate-pop-in" id="liveVacancyPreviewCanvas">
+          <!-- Inyectado en tiempo real por js/vacancy-editor.js -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast de Guardado Exitoso -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1090">
+    <div id="saveSuccessToast" class="toast align-items-center text-white bg-success border-0 shadow-lg d-none" role="alert" aria-live="assertive" aria-atomic="true" style="display: block;">
+      <div class="d-flex">
+        <div class="toast-body fw-bold">
+          <i class="fa fa-check-circle me-2"></i> Vacante guardada y sincronizada exitosamente.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/vacancy-editor.js"></script>
+</body>
+
+</html>

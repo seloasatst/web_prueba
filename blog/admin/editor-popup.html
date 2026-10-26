@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <base href="../../">
+  <meta charset="utf-8">
+  <title>Estudio de Pop-ups y Avisos Oficiales | SELOASA</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="noindex, nofollow" name="robots">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/site-popup.css" rel="stylesheet">
+  <link href="css/blog-admin.css" rel="stylesheet">
+  <link href="css/blog-editor.css" rel="stylesheet">
+</head>
+
+<body class="editor-studio-body">
+
+  <!-- ======================================================================
+       HEADER SUPERIOR DEL ESTUDIO DE POP-UPS
+       ====================================================================== -->
+  <header class="editor-top-nav">
+    <div class="d-flex align-items-center gap-3">
+      <a href="blog/admin/" class="editor-back-btn" title="Regresar al panel de control">
+        <i class="fa fa-arrow-left"></i>
+      </a>
+      <img src="img/logotipo.png" alt="SELOASA" class="editor-logo">
+      <div class="editor-nav-divider"></div>
+      <div class="editor-title-wrap">
+        <h1 class="editor-page-title">Estudio de Pop-ups &amp; Avisos</h1>
+        <span class="editor-page-sub" id="popupStudioSubtitle">Cargando aviso emergente...</span>
+      </div>
+    </div>
+
+    <!-- Acciones y Controles -->
+    <div class="d-flex align-items-center gap-2.5">
+      
+      <!-- Reiniciar Animación Preview -->
+      <button type="button" id="btnReplayPreview" class="editor-btn-secondary" title="Reiniciar animación del pop-up en la vista previa">
+        <i class="fa fa-redo text-muted"></i>
+        <span>Reiniciar Entrada</span>
+      </button>
+
+      <!-- Interruptor Rápido de Activación -->
+      <div class="editor-header-switch-wrap">
+        <input class="form-check-input" type="checkbox" role="switch" id="headerActiveSwitch">
+        <label class="form-check-label mb-0" for="headerActiveSwitch" id="headerActiveLabel">Inactivo</label>
+      </div>
+
+      <!-- Botón Guardar -->
+      <button type="button" id="btnSavePopupStudio" class="editor-btn-secondary">
+        <i class="fa fa-save text-muted"></i>
+        <span>Guardar</span>
+      </button>
+
+      <!-- Botón Publicar y Activar -->
+      <button type="button" id="btnPublishAndActivate" class="editor-btn-primary">
+        <i class="fa fa-check-circle"></i>
+        <span>Activar en Web</span>
+      </button>
+    </div>
+  </header>
+
+
+  <!-- ======================================================================
+       CONTENEDOR SPLIT-SCREEN (50% FORMULARIO / 50% VISTA PREVIA DIRECTA)
+       ====================================================================== -->
+  <div class="editor-split-container">
+    
+    <!-- COLUMNA IZQUIERDA: FORMULARIO DE CONFIGURACIÓN DEL POP-UP -->
+    <div class="editor-form-pane">
+      <form id="popupStudioForm" onsubmit="return false;">
+        <input type="hidden" id="popupTypeHidden" value="alerta">
+        <input type="hidden" id="popupLayoutHidden" value="top">
+
+        <!-- Selector Visual de Disposición / Estructura (4 Diseños) -->
+        <div class="mb-4">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <label class="form-label small fw-bold text-dark mb-0">
+              <i class="fa fa-th-large text-primary me-1.5"></i> Disposición &amp; Diseño Visual (4 Opciones)
+            </label>
+            <span class="small text-muted" style="font-size: 11px;">Estructura de imagen y contenido</span>
+          </div>
+          <div class="row g-2">
+            <div class="col-6 col-md-3">
+              <div class="popup-layout-card selected" data-layout="top">
+                <div class="popup-wireframe wireframe-top">
+                  <div class="wf-img-top"></div>
+                  <div class="wf-body">
+                    <div class="wf-line title"></div>
+                    <div class="wf-line"></div>
+                  </div>
+                </div>
+                <div class="popup-layout-title">Banner Arriba</div>
+                <span class="popup-layout-desc">Clásico vertical</span>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <div class="popup-layout-card" data-layout="left">
+                <div class="popup-wireframe wireframe-left">
+                  <div class="wf-img-left"></div>
+                  <div class="wf-body-right">
+                    <div class="wf-line title"></div>
+                    <div class="wf-line"></div>
+                  </div>
+                </div>
+                <div class="popup-layout-title">Imagen Izquierda</div>
+                <span class="popup-layout-desc">Split horizontal</span>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <div class="popup-layout-card" data-layout="right">
+                <div class="popup-wireframe wireframe-right">
+                  <div class="wf-body-left">
+                    <div class="wf-line title"></div>
+                    <div class="wf-line"></div>
+                  </div>
+                  <div class="wf-img-right"></div>
+                </div>
+                <div class="popup-layout-title">Imagen Derecha</div>
+                <span class="popup-layout-desc">Split inverso</span>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+              <div class="popup-layout-card" data-layout="bg">
+                <div class="popup-wireframe wireframe-bg">
+                  <div class="wf-bg-overlay">
+                    <div class="wf-line title white"></div>
+                    <div class="wf-line white"></div>
+                  </div>
+                </div>
+                <div class="popup-layout-title">Fondo Completo</div>
+                <span class="popup-layout-desc">Full background</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selector Visual del Estilo de Aviso -->
+        <div class="mb-4">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <label class="form-label small fw-bold text-dark mb-0">
+              <i class="fa fa-layer-group text-primary me-1.5"></i> Estilo &amp; Jerarquía del Aviso
+            </label>
+            <span class="small text-muted" style="font-size: 11px;">Elige el tema visual del pop-up</span>
+          </div>
+          <div class="row g-2.5">
+            <div class="col-md-4">
+              <div class="popup-type-card type-alerta selected" data-type="alerta">
+                <div class="popup-type-stripe alerta"></div>
+                <div class="d-flex align-items-center justify-content-between mb-1.5">
+                  <div class="popup-type-card-title text-danger mb-0"><i class="fa fa-exclamation-triangle me-1.5"></i> Normativa COFEPRIS</div>
+                  <i class="fa fa-check-circle popup-type-check"></i>
+                </div>
+                <p class="popup-type-card-desc mb-0">Urgencia máxima, cumplimiento sanitario y directrices oficiales.</p>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="popup-type-card type-comunicado" data-type="comunicado">
+                <div class="popup-type-stripe comunicado"></div>
+                <div class="d-flex align-items-center justify-content-between mb-1.5">
+                  <div class="popup-type-card-title text-dark mb-0"><i class="fa fa-bullhorn me-1.5"></i> Comunicado Operativo</div>
+                  <i class="fa fa-check-circle popup-type-check"></i>
+                </div>
+                <p class="popup-type-card-desc mb-0">Rutas nacionales, protocolos de lluvia o contingencias de flota.</p>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="popup-type-card type-informativo" data-type="informativo">
+                <div class="popup-type-stripe informativo"></div>
+                <div class="d-flex align-items-center justify-content-between mb-1.5">
+                  <div class="popup-type-card-title text-primary mb-0"><i class="fa fa-info-circle me-1.5"></i> Aviso Informativo</div>
+                  <i class="fa fa-check-circle popup-type-check"></i>
+                </div>
+                <p class="popup-type-card-desc mb-0">Nuevas certificaciones, mejoras de servicio y atención al cliente.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Título y Folio/ID -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-8">
+            <label for="popupTitleInput" class="form-label small fw-bold text-dark mb-1">Título Principal del Pop-up *</label>
+            <input type="text" id="popupTitleInput" class="form-control fw-bold" placeholder="Ej: Actualización Normativa COFEPRIS & GDP 2026" required>
+          </div>
+          <div class="col-md-4">
+            <label for="popupIdInput" class="form-label small fw-bold text-dark mb-1">ID Único (Identificador) *</label>
+            <input type="text" id="popupIdInput" class="form-control font-monospace" placeholder="popup-cofepris-2026" required>
+          </div>
+        </div>
+
+        <!-- Subtítulo / Área Emisora -->
+        <div class="mb-3">
+          <label for="popupSubtitleInput" class="form-label small fw-bold text-dark mb-1">
+            Subtítulo / Área Emisora <span class="text-muted fw-normal" style="font-size: 11px;">(Opcional)</span>
+          </label>
+          <input type="text" id="popupSubtitleInput" class="form-control" placeholder="Ej: Aviso Oficial de Seguridad y Cumplimiento Farmacéutico">
+          <input type="hidden" id="popupBadgeInput" value="">
+        </div>
+
+        <!-- Imagen de Portada con Presets -->
+        <div class="mb-3">
+          <label for="popupImageInput" class="form-label small fw-bold text-dark mb-1">Imagen del Pop-up (Opcional)</label>
+          <div class="input-group input-group-sm">
+            <input type="text" id="popupImageInput" class="form-control" placeholder="img/patio_unidades_dia_banner.jpg" value="img/patio_unidades_dia_banner.jpg">
+            <button class="btn editor-btn-dropdown dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <i class="fa fa-images me-1 text-muted"></i> Seleccionar imagen
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow-sm border" style="font-size: 13px;">
+              <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('popupImageInput').value='img/patio_unidades_dia_banner.jpg'; document.getElementById('popupImageInput').dispatchEvent(new Event('input'));"><i class="fa fa-truck me-2 text-primary"></i> Patio Unidades Día (Oficial)</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('popupImageInput').value='img/feature.jpg'; document.getElementById('popupImageInput').dispatchEvent(new Event('input'));"><i class="fa fa-road me-2 text-primary"></i> Flota en Carretera</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('popupImageInput').value='img/about.jpg'; document.getElementById('popupImageInput').dispatchEvent(new Event('input'));"><i class="fa fa-warehouse me-2 text-primary"></i> Instalaciones y Calidad</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('popupImageInput').value='img/hero-1.jpg'; document.getElementById('popupImageInput').dispatchEvent(new Event('input'));"><i class="fa fa-shield-alt me-2 text-primary"></i> Hero Logística</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item text-danger" href="javascript:void(0)" onclick="document.getElementById('popupImageInput').value=''; document.getElementById('popupImageInput').dispatchEvent(new Event('input'));"><i class="fa fa-times me-2"></i> Sin Imagen (Solo Texto)</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Mensaje / Contenido Principal -->
+        <div class="mb-3">
+          <label for="popupMessageInput" class="form-label small fw-bold text-dark mb-1">
+            <i class="fa fa-align-left text-primary me-1"></i> Mensaje del Pop-up (HTML o Párrafos) *
+          </label>
+          <textarea id="popupMessageInput" class="form-control" rows="4" placeholder="<p>Escribe aquí el texto detallado del comunicado o alerta...</p>" required></textarea>
+          <div class="form-text small" style="font-size: 0.72rem;">
+            <i class="fa fa-info-circle text-muted me-1"></i> Puedes usar etiquetas HTML como <code>&lt;p&gt;</code>, <code>&lt;strong&gt;</code> y <code>&lt;ul&gt;</code>.
+          </div>
+        </div>
+
+        <!-- Botones de Acción: Primario y Secundario (Opcionales) -->
+        <div class="card border rounded-3 mb-4 shadow-sm">
+          <div class="card-header bg-light py-2 px-3 d-flex align-items-center justify-content-between">
+            <span class="small fw-bold text-dark">
+              <i class="fa fa-mouse-pointer text-primary me-2"></i> Botones de Acción <span class="badge bg-light text-muted border ms-1" style="font-size: 10px;">Opcionales</span>
+            </span>
+            <span class="small text-muted" style="font-size: 11px;">Deja el texto vacío para no mostrar un botón</span>
+          </div>
+          <div class="card-body p-3">
+            <div class="row g-2 mb-3">
+              <div class="col-md-6">
+                <label for="popupBtnPrimaryTextInput" class="form-label small fw-bold text-dark mb-1">
+                  Texto Botón Primario <span class="text-muted fw-normal" style="font-size: 11px;">(Opcional)</span>
+                </label>
+                <input type="text" id="popupBtnPrimaryTextInput" class="form-control form-control-sm" placeholder="Ej: Ver Comunicado (vacío para ocultar)">
+              </div>
+              <div class="col-md-6">
+                <label for="popupBtnPrimaryUrlInput" class="form-label small fw-bold text-dark mb-1">
+                  Enlace / URL de Destino <span class="text-muted fw-normal" style="font-size: 11px;">(Opcional)</span>
+                </label>
+                <input type="text" id="popupBtnPrimaryUrlInput" class="form-control form-control-sm font-monospace" placeholder="blog/articulo.html?id=featured">
+              </div>
+            </div>
+
+            <div class="row g-2">
+              <div class="col-md-6">
+                <label for="popupBtnSecondaryTextInput" class="form-label small fw-bold text-dark mb-1">
+                  Texto Botón Secundario (Cerrar) <span class="text-muted fw-normal" style="font-size: 11px;">(Opcional)</span>
+                </label>
+                <input type="text" id="popupBtnSecondaryTextInput" class="form-control form-control-sm" placeholder="Ej: Entendido (vacío para ocultar)">
+              </div>
+            </div>
+
+            <div class="row g-2 mt-2 pt-2 border-top">
+              <div class="col-12">
+                <label for="popupFooterTextInput" class="form-label small fw-bold text-dark mb-1">
+                  Texto de Pie de Página / Certificación <span class="text-muted fw-normal" style="font-size: 11px;">(Opcional)</span>
+                </label>
+                <input type="text" id="popupFooterTextInput" class="form-control form-control-sm" placeholder="Dejar vacío para usar el pie de página institucional automático">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reglas de Visualización y Frecuencia -->
+        <div class="card border rounded-3 mb-4 shadow-sm">
+          <div class="card-header bg-light py-2 px-3">
+            <span class="small fw-bold text-dark">
+              <i class="fa fa-cog text-primary me-2"></i> Reglas de Visualización en el Sitio Web
+            </span>
+          </div>
+          <div class="card-body p-3">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label for="popupFrequencySelect" class="form-label small fw-bold text-dark mb-1">Frecuencia de Despliegue</label>
+                <select id="popupFrequencySelect" class="form-select form-select-sm">
+                  <option value="session">1 vez por sesión (Recomendado)</option>
+                  <option value="always">Siempre (En cada carga de página)</option>
+                </select>
+                <div class="form-text small" style="font-size: 0.72rem;">
+                  1x por sesión no incomoda al visitante que ya lo cerró.
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <label for="popupDelayInput" class="form-label small fw-bold text-dark mb-1">Tiempo de Retardo (Segundos)</label>
+                <input type="number" id="popupDelayInput" class="form-control form-control-sm" min="0" max="30" step="0.5" value="1.5">
+                <div class="form-text small" style="font-size: 0.72rem;">
+                  Segundos tras cargar la página antes de mostrarse.
+                </div>
+              </div>
+
+              <div class="col-12 border-top pt-3">
+                <div class="form-check form-switch d-flex align-items-center gap-2">
+                  <input class="form-check-input" type="checkbox" role="switch" id="popupActiveCheckbox">
+                  <label class="form-check-label fw-bold text-dark mb-0" for="popupActiveCheckbox">
+                    Activar este pop-up de inmediato en la web pública
+                  </label>
+                </div>
+                <div class="small text-muted ps-4" style="font-size: 0.75rem;">
+                  Al activar este pop-up, cualquier otro aviso anterior se desactivará automáticamente.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+
+    <!-- COLUMNA DERECHA: VISTA PREVIA DIRECTA EN TIEMPO REAL (SIN MARCO DE PESTAÑA) -->
+    <div class="editor-preview-pane" id="editorPreviewPane">
+      
+      <!-- Aviso si se simuló el cierre -->
+      <div id="previewClosedNotice" class="alert alert-info py-2 px-3 small d-flex align-items-center justify-content-between mb-3 d-none">
+        <span><i class="fa fa-info-circle me-1"></i> Has cerrado la vista previa del pop-up.</span>
+        <button type="button" id="btnReopenFromNotice" class="btn btn-sm btn-primary py-0 px-2 rounded-pill fw-bold" style="font-size: 0.75rem;">
+          <i class="fa fa-redo me-1"></i> Reabrir
+        </button>
+      </div>
+
+      <!-- Barra superior de la vista previa -->
+      <div class="popup-preview-header">
+        <div class="d-flex align-items-center gap-2">
+          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2.5 py-1" style="font-size: 11px;">
+            <i class="fa fa-circle text-success me-1" style="font-size: 7px;"></i> Vista Previa en Vivo
+          </span>
+          <span class="text-muted small" style="font-size: 11.5px;">Simulación 1:1 en web pública</span>
+        </div>
+        <div>
+          <button type="button" id="btnReplayPreviewHeader" class="btn btn-sm btn-light border py-1 px-2.5 text-muted" style="font-size: 11.5px;" title="Reiniciar animación de entrada">
+            <i class="fa fa-play text-primary me-1" style="font-size: 10px;"></i> Probar Animación
+          </button>
+        </div>
+      </div>
+
+      <!-- Lienzo Directo con fondo realista de página web y backdrop -->
+      <div class="popup-stage-canvas">
+        <div class="popup-stage-backdrop-overlay"></div>
+        <div class="popup-stage-content animate-pop-in" id="livePopupPreviewCanvas">
+          <!-- Renderizado en tiempo real por js/popup-editor.js -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast de Guardado Exitoso -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1090">
+    <div id="saveSuccessToast" class="toast align-items-center text-white bg-success border-0 shadow-lg d-none" role="alert" aria-live="assertive" aria-atomic="true" style="display: block;">
+      <div class="d-flex">
+        <div class="toast-body fw-bold">
+          <i class="fa fa-check-circle me-2"></i> Pop-up guardado y sincronizado exitosamente.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/site-popup.js"></script>
+  <script src="js/popup-editor.js"></script>
+</body>
+
+</html>

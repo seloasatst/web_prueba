@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Embed - SELOASA</title>
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #0b0f19;
+      color: #f1f5f9;
+    }
+
+    #embedContainer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #0b0f19;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #embedFrame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background-color: #ffffff;
+      flex: 1;
+    }
+
+    /* Floating Control Bar */
+    .test-toolbar {
+      position: fixed;
+      top: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .test-toolbar.collapsed {
+      transform: translateX(-50%) translateY(-75px);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .test-toolbar-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #e43b14;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding-right: 6px;
+      border-right: 1px solid rgba(255, 255, 255, 0.14);
+      user-select: none;
+    }
+
+    .test-url-form {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .test-url-input {
+      min-width: 280px;
+      max-width: 420px;
+      padding: 6px 14px;
+      font-size: 0.82rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .test-url-input:focus {
+      border-color: #e43b14;
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .test-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 6px 14px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: rgba(255, 255, 255, 0.10);
+      color: #f1f5f9;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .test-btn:hover {
+      background: rgba(255, 255, 255, 0.20);
+      color: #ffffff;
+    }
+
+    .test-btn-primary {
+      background: #e43b14;
+      color: #ffffff;
+    }
+
+    .test-btn-primary:hover {
+      background: #ff481f;
+    }
+
+    .test-btn-icon {
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border-radius: 50%;
+    }
+
+    /* Floating toggle when toolbar is collapsed */
+    .test-toggle-pill {
+      position: fixed;
+      top: 12px;
+      right: 16px;
+      z-index: 10000;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #cbd5e1;
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .test-toggle-pill:hover {
+      background: rgba(228, 59, 20, 0.95);
+      color: #ffffff;
+      border-color: #e43b14;
+    }
+
+    /* Loading indicator bar */
+    .test-loader-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #e43b14, #ff6b3d, #e43b14);
+      background-size: 200% 100%;
+      animation: loaderSlide 1.2s infinite linear;
+      z-index: 10001;
+      display: none;
+    }
+
+    .test-loader-bar.active {
+      display: block;
+    }
+
+    @keyframes loaderSlide {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    @media (max-width: 768px) {
+      .test-toolbar {
+        width: calc(100% - 24px);
+        max-width: none;
+        flex-wrap: wrap;
+        border-radius: 18px;
+        padding: 10px;
+      }
+      .test-url-input {
+        min-width: 0;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="test-loader-bar" id="loaderBar"></div>
+
+  <!-- Discrete toggle button when bar is collapsed -->
+  <button type="button" class="test-toggle-pill" id="toggleToolbarBtn" title="Mostrar/ocultar barra de control">
+    <i class="fa fa-sliders-h"></i>
+    <span>Controles</span>
+  </button>
+
+  <!-- Floating Control Bar -->
+  <header class="test-toolbar" id="toolbar">
+    <div class="test-toolbar-brand">
+      <i class="fa fa-layer-group"></i>
+      <span>Test</span>
+    </div>
+
+    <form class="test-url-form" id="urlForm">
+      <input
+        type="text"
+        class="test-url-input"
+        id="urlInput"
+        placeholder="http://127.0.0.1:8000 o URL a embeber"
+        autocomplete="off"
+        spellcheck="false"
+      >
+      <button type="submit" class="test-btn test-btn-primary" title="Cargar URL">
+        <i class="fa fa-arrow-right"></i>
+        <span>Cargar</span>
+      </button>
+    </form>
+
+    <button type="button" class="test-btn test-btn-icon" id="reloadBtn" title="Recargar frame">
+      <i class="fa fa-sync-alt"></i>
+    </button>
+
+    <a href="#" target="_blank" rel="noopener noreferrer" class="test-btn test-btn-icon" id="openExternalBtn" title="Abrir en nueva pestaña">
+      <i class="fa fa-external-link-alt"></i>
+    </a>
+
+    <button type="button" class="test-btn test-btn-icon" id="closeBarBtn" title="Ocultar barra (Pantalla completa)">
+      <i class="fa fa-times"></i>
+    </button>
+  </header>
+
+  <main id="embedContainer">
+    <iframe
+      id="embedFrame"
+      src="about:blank"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
+  </main>
+
+  <script>
+    (function () {
+      const DEFAULT_TARGET = 'http://127.0.0.1:8000';
+      const frame = document.getElementById('embedFrame');
+      const input = document.getElementById('urlInput');
+      const form = document.getElementById('urlForm');
+      const reloadBtn = document.getElementById('reloadBtn');
+      const openExternalBtn = document.getElementById('openExternalBtn');
+      const toolbar = document.getElementById('toolbar');
+      const toggleBtn = document.getElementById('toggleToolbarBtn');
+      const closeBarBtn = document.getElementById('closeBarBtn');
+      const loader = document.getElementById('loaderBar');
+
+      function sanitizeUrl(raw) {
+        if (!raw) return DEFAULT_TARGET;
+        let trimmed = String(raw).trim();
+        if (!/^https?:\/\//i.test(trimmed) && !trimmed.startsWith('/') && !trimmed.startsWith('about:')) {
+          trimmed = 'http://' + trimmed;
+        }
+        return trimmed;
+      }
+
+      function loadUrl(targetUrl, updateHistory = true) {
+        const cleanUrl = sanitizeUrl(targetUrl);
+        loader.classList.add('active');
+        input.value = cleanUrl;
+        openExternalBtn.href = cleanUrl;
+        frame.src = cleanUrl;
+
+        if (updateHistory) {
+          const currentParams = new URLSearchParams(window.location.search);
+          currentParams.set('url', cleanUrl);
+          const newUrl = window.location.pathname + '?' + currentParams.toString();
+          window.history.replaceState({}, '', newUrl);
+        }
+      }
+
+      frame.addEventListener('load', function () {
+        loader.classList.remove('active');
+      });
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        loadUrl(input.value);
+      });
+
+      reloadBtn.addEventListener('click', function () {
+        loader.classList.add('active');
+        const current = frame.src;
+        frame.src = 'about:blank';
+        setTimeout(() => {
+          frame.src = current;
+        }, 50);
+      });
+
+      closeBarBtn.addEventListener('click', function () {
+        toolbar.classList.add('collapsed');
+      });
+
+      toggleBtn.addEventListener('click', function () {
+        toolbar.classList.toggle('collapsed');
+        if (!toolbar.classList.contains('collapsed')) {
+          input.focus();
+        }
+      });
+
+      // Keyboard shortcut (Escape or Ctrl+K) to toggle toolbar
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' || ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k')) {
+          toolbar.classList.toggle('collapsed');
+        }
+      });
+
+      // Initial load: parse query parameter ?url= or default to http://127.0.0.1:8000
+      const params = new URLSearchParams(window.location.search);
+      const initialUrl = params.get('url') || params.get('src') || DEFAULT_TARGET;
+      loadUrl(initialUrl, false);
+    })();
+  </script>
+</body>
+</html>

@@ -79,6 +79,7 @@ if (!function_exists('admin_default_vacancies')) {
                 'mode' => 'Presencial',
                 'location' => 'Lerma, Estado de Mexico',
                 'schedule' => 'Tiempo completo',
+                'recipient_emails' => 'gadiel.palma@SELOASA.com.mx, rh@seloasa.com.mx',
                 'summary' => 'Responsable de dar seguimiento a la operacion diaria, visibilidad de unidades e incidencias durante el trayecto.',
                 'points' => [
                     'Monitoreo de rutas, GPS y eventos criticos en tiempo real.',
@@ -97,6 +98,7 @@ if (!function_exists('admin_default_vacancies')) {
                 'mode' => 'Presencial',
                 'location' => 'Lerma, Estado de Mexico',
                 'schedule' => 'Tiempo completo',
+                'recipient_emails' => 'gadiel.palma@SELOASA.com.mx, almacen@seloasa.com.mx',
                 'summary' => 'Perfil orientado al manejo seguro de producto, control documental y operacion diaria dentro de almacenes especializados.',
                 'points' => [
                     'Recepcion, surtido y acomodo de producto conforme a proceso.',
@@ -115,6 +117,7 @@ if (!function_exists('admin_default_vacancies')) {
                 'mode' => 'Operacion en ruta',
                 'location' => 'Cobertura local y foranea',
                 'schedule' => 'Tiempo completo',
+                'recipient_emails' => 'gadiel.palma@SELOASA.com.mx, operaciones@seloasa.com.mx',
                 'summary' => 'Vacante enfocada en entregas con control de temperatura, cumplimiento documental y operacion segura de unidades.',
                 'points' => [
                     'Traslado de producto sensible bajo lineamientos de cadena de frio.',
@@ -160,6 +163,26 @@ if (!function_exists('admin_write_json_file')) {
 if (!function_exists('admin_get_vacancy_store')) {
     function admin_get_vacancy_store(): array
     {
+        try {
+            require_once __DIR__ . '/db.php';
+            $pdo = get_db_connection();
+            $stmt = $pdo->query("SELECT * FROM `vacantes` ORDER BY `sort_order` ASC, `created_at` DESC");
+            $rows = $stmt->fetchAll();
+            if (!empty($rows)) {
+                $items = array_map(function ($v) {
+                    $v['points'] = !empty($v['points']) ? json_decode($v['points'], true) : [];
+                    if (!is_array($v['points'])) $v['points'] = [];
+                    return $v;
+                }, $rows);
+                return [
+                    'updated_at' => date('c'),
+                    'items' => array_values($items),
+                ];
+            }
+        } catch (Exception $e) {
+            error_log("Error al leer vacantes de BD: " . $e->getMessage());
+        }
+
         admin_storage_ensure();
 
         $default = [
@@ -810,7 +833,21 @@ if (!function_exists('admin_is_authenticated')) {
         $authenticated = !empty($_SESSION['admin_authenticated']);
         $fingerprint = (string) ($_SESSION['admin_fingerprint'] ?? '');
 
-        return $authenticated && $fingerprint !== '' && hash_equals($fingerprint, admin_session_fingerprint());
+        if ($authenticated && $fingerprint !== '' && hash_equals($fingerprint, admin_session_fingerprint())) {
+            return true;
+        }
+
+        // Respaldo por cabecera Authorization: Bearer o X-Admin-Token
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['HTTP_X_ADMIN_TOKEN'] ?? '';
+        if ($authHeader !== '') {
+            $token = str_starts_with($authHeader, 'Bearer ') ? substr($authHeader, 7) : $authHeader;
+            $expectedToken = admin_access_token();
+            if ($expectedToken !== '' && hash_equals($expectedToken, trim($token))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
 

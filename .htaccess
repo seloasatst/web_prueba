@@ -1,10 +1,29 @@
-Options -MultiViews
+# Deshabilitar listado de directorios y negociación
+Options -Indexes -MultiViews
 
 DirectoryIndex index.html index.php
 
 <IfModule mod_negotiation.c>
     Options -MultiViews
 </IfModule>
+
+# Cabeceras de Seguridad HTTP
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    Header unset X-Powered-By
+</IfModule>
+
+# Bloquear acceso a archivos sensibles y de configuración
+<FilesMatch "^(\.env|\.git|\.vscode|composer\.(json|lock)|package(-lock)?\.json|.*\.log|.*\.sql)$">
+    Require all denied
+</FilesMatch>
+
+# Bloquear acceso a directorios de almacenamiento interno
+RedirectMatch 403 ^/shipping/php/(storage|logs)/.*$
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
@@ -17,3 +36,4 @@ DirectoryIndex index.html index.php
 </IfModule>
 
 ErrorDocument 404 /404/
+

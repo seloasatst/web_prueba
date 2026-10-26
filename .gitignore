@@ -1,0 +1,13 @@
+# Environment variables
+.env
+.env.local
+
+# Dependency directories
+/vendor/
+/node_modules/
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+.idea/
+*.log

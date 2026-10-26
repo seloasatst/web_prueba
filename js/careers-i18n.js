@@ -1,4 +1,4 @@
-﻿window.I18N_PAGE_TRANSLATIONS = {
+window.I18N_PAGE_TRANSLATIONS = {
   ...(window.I18N_PAGE_TRANSLATIONS || {}),
   es: {
     careersPage: {
@@ -37,50 +37,7 @@
         title: "Oportunidades disponibles para integrarte al equipo",
         description: "Estas vacantes se actualizan desde nuestro panel interno de reclutamiento y puedes postular directamente desde esta pagina.",
         apply_button: "Postularme",
-        items: [
-          {
-            id: "coordinador-monitoreo-logistico",
-            area: "Monitoreo",
-            mode: "Presencial",
-            title: "Coordinador de Monitoreo Logístico",
-            location: "Lerma, Estado de México",
-            schedule: "Tiempo completo",
-            summary: "Responsable de dar seguimiento a la operación diaria, visibilidad de unidades e incidencias durante el trayecto.",
-            points: [
-              "Monitoreo de rutas, GPS y eventos críticos en tiempo real.",
-              "Comunicación con operación y clientes ante desviaciones o alertas.",
-              "Seguimiento de reportes, evidencias y control de indicadores operativos."
-            ]
-          },
-          {
-            id: "auxiliar-almacen-farmaceutico",
-            area: "Almacén",
-            mode: "Presencial",
-            title: "Auxiliar de Almacén Farmacéutico",
-            location: "Lerma, Estado de México",
-            schedule: "Tiempo completo",
-            summary: "Perfil orientado al manejo seguro de producto, control documental y operación diaria dentro de almacenes especializados.",
-            points: [
-              "Recepción, surtido y acomodo de producto conforme a proceso.",
-              "Control de lotes, caducidades y condiciones de temperatura.",
-              "Apoyo en inventarios, limpieza operativa y trazabilidad."
-            ]
-          },
-          {
-            id: "operador-transporte-refrigerado",
-            area: "Transporte",
-            mode: "Operación en ruta",
-            title: "Operador de Transporte Refrigerado",
-            location: "Cobertura local y foránea",
-            schedule: "Tiempo completo",
-            summary: "Vacante enfocada en entregas con control de temperatura, cumplimiento documental y operación segura de unidades.",
-            points: [
-              "Traslado de producto sensible bajo lineamientos de cadena de frío.",
-              "Verificación de unidad, evidencias de entrega y documentación de ruta.",
-              "Cumplimiento de protocolos de seguridad y atención al cliente en entrega."
-            ]
-          }
-        ]
+        items: []
       },
       application: {
         kicker: "Postulación directa",
@@ -183,50 +140,7 @@
         title: "Available opportunities to join the team",
         description: "These openings are updated from our internal recruiting panel and candidates can apply directly from this page.",
         apply_button: "Apply now",
-        items: [
-          {
-            id: "coordinador-monitoreo-logistico",
-            area: "Monitoring",
-            mode: "On-site",
-            title: "Logistics Monitoring Coordinator",
-            location: "Lerma, State of Mexico",
-            schedule: "Full time",
-            summary: "Role focused on daily operational follow-up, fleet visibility, and incident tracking throughout the journey.",
-            points: [
-              "Monitor routes, GPS activity, and critical events in real time.",
-              "Communicate with operations and clients when deviations or alerts occur.",
-              "Track reports, evidence, and operational KPI control."
-            ]
-          },
-          {
-            id: "auxiliar-almacen-farmaceutico",
-            area: "Warehouse",
-            mode: "On-site",
-            title: "Pharmaceutical Warehouse Assistant",
-            location: "Lerma, State of Mexico",
-            schedule: "Full time",
-            summary: "Profile focused on safe product handling, document control, and daily work within specialized warehouse operations.",
-            points: [
-              "Receive, pick, and store product according to process.",
-              "Control batches, expirations, and temperature conditions.",
-              "Support inventories, operational cleanliness, and traceability."
-            ]
-          },
-          {
-            id: "operador-transporte-refrigerado",
-            area: "Transport",
-            mode: "Route operation",
-            title: "Refrigerated Transport Operator",
-            location: "Local and long-haul coverage",
-            schedule: "Full time",
-            summary: "Position focused on temperature-controlled deliveries, documentation compliance, and safe vehicle operation.",
-            points: [
-              "Move sensitive product under cold-chain guidelines.",
-              "Verify vehicle condition, delivery evidence, and route documentation.",
-              "Follow security protocols and customer service standards during delivery."
-            ]
-          }
-        ]
+        items: []
       },
       application: {
         kicker: "Direct application",
@@ -329,50 +243,7 @@
         title: "Verfügbare Möglichkeiten, Teil des Teams zu werden",
         description: "Diese Stellen werden uber unser internes Recruiting-Panel aktualisiert und Bewerbungen konnen direkt auf dieser Seite eingereicht werden.",
         apply_button: "Jetzt bewerben",
-        items: [
-          {
-            id: "coordinador-monitoreo-logistico",
-            area: "Monitoring",
-            mode: "Vor Ort",
-            title: "Koordinator für Logistik-Monitoring",
-            location: "Lerma, Bundesstaat Mexiko",
-            schedule: "Vollzeit",
-            summary: "Rolle für die tägliche operative Nachverfolgung, Fahrzeugtransparenz und das Management von Zwischenfällen während der Route.",
-            points: [
-              "Überwachung von Routen, GPS und kritischen Ereignissen in Echtzeit.",
-              "Kommunikation mit Betrieb und Kunden bei Abweichungen oder Warnmeldungen.",
-              "Nachverfolgung von Berichten, Nachweisen und operativen Kennzahlen."
-            ]
-          },
-          {
-            id: "auxiliar-almacen-farmaceutico",
-            area: "Lager",
-            mode: "Vor Ort",
-            title: "Mitarbeiter Pharma-Lager",
-            location: "Lerma, Bundesstaat Mexiko",
-            schedule: "Vollzeit",
-            summary: "Profil mit Fokus auf sicheren Produktumgang, Dokumentenkontrolle und tägliche Arbeit in spezialisierten Lagerprozessen.",
-            points: [
-              "Wareneingang, Kommissionierung und Einlagerung gemäß Prozess.",
-              "Kontrolle von Chargen, Verfallsdaten und Temperaturbedingungen.",
-              "Unterstützung bei Inventuren, operativer Sauberkeit und Rückverfolgbarkeit."
-            ]
-          },
-          {
-            id: "operador-transporte-refrigerado",
-            area: "Transport",
-            mode: "Routenbetrieb",
-            title: "Fahrer für Kühltransport",
-            location: "Lokale und Fernrouten",
-            schedule: "Vollzeit",
-            summary: "Position mit Fokus auf temperaturgeführte Lieferungen, Dokumentationskonformität und sicheren Fahrzeugeinsatz.",
-            points: [
-              "Transport sensibler Produkte nach Kühlkettenvorgaben.",
-              "Prüfung des Fahrzeugs, Zustellnachweise und Routenunterlagen.",
-              "Einhaltung von Sicherheitsprotokollen und Kundenservice bei der Zustellung."
-            ]
-          }
-        ]
+        items: []
       },
       application: {
         kicker: "Direktbewerbung",
@@ -475,50 +346,7 @@
         title: "Oportunidades disponíveis para integrar a equipe",
         description: "Essas vagas sao atualizadas em nosso painel interno de recrutamento e as candidaturas podem ser enviadas diretamente nesta pagina.",
         apply_button: "Candidatar-me",
-        items: [
-          {
-            id: "coordinador-monitoreo-logistico",
-            area: "Monitoramento",
-            mode: "Presencial",
-            title: "Coordenador de Monitoramento Logístico",
-            location: "Lerma, Estado do México",
-            schedule: "Tempo integral",
-            summary: "Função voltada ao acompanhamento diário da operação, visibilidade das unidades e gestão de incidentes durante a rota.",
-            points: [
-              "Monitoramento de rotas, GPS e eventos críticos em tempo real.",
-              "Comunicação com operação e clientes em caso de desvios ou alertas.",
-              "Acompanhamento de relatórios, evidências e indicadores operacionais."
-            ]
-          },
-          {
-            id: "auxiliar-almacen-farmaceutico",
-            area: "Armazém",
-            mode: "Presencial",
-            title: "Auxiliar de Armazém Farmacêutico",
-            location: "Lerma, Estado do México",
-            schedule: "Tempo integral",
-            summary: "Perfil orientado ao manuseio seguro de produtos, controle documental e operação diária em armazéns especializados.",
-            points: [
-              "Recebimento, separação e acomodação de produtos conforme o processo.",
-              "Controle de lotes, vencimentos e condições de temperatura.",
-              "Apoio em inventários, limpeza operacional e rastreabilidade."
-            ]
-          },
-          {
-            id: "operador-transporte-refrigerado",
-            area: "Transporte",
-            mode: "Operação em rota",
-            title: "Operador de Transporte Refrigerado",
-            location: "Cobertura local e rodoviária",
-            schedule: "Tempo integral",
-            summary: "Vaga voltada a entregas com controle de temperatura, conformidade documental e operação segura das unidades.",
-            points: [
-              "Transporte de produtos sensíveis sob diretrizes de cadeia do frio.",
-              "Verificação da unidade, comprovantes de entrega e documentação da rota.",
-              "Cumprimento de protocolos de segurança e atendimento ao cliente na entrega."
-            ]
-          }
-        ]
+        items: []
       },
       application: {
         kicker: "Candidatura direta",
@@ -621,50 +449,7 @@
         title: "Opportunités disponibles pour rejoindre l'équipe",
         description: "Ces postes sont mis a jour depuis notre panneau interne de recrutement et les candidatures peuvent etre envoyees directement depuis cette page.",
         apply_button: "Postuler",
-        items: [
-          {
-            id: "coordinador-monitoreo-logistico",
-            area: "Supervision",
-            mode: "Présentiel",
-            title: "Coordinateur de supervision logistique",
-            location: "Lerma, État de Mexico",
-            schedule: "Temps plein",
-            summary: "Rôle chargé du suivi quotidien de l'opération, de la visibilité des unités et de la gestion des incidents pendant le trajet.",
-            points: [
-              "Suivi des itinéraires, du GPS et des événements critiques en temps réel.",
-              "Communication avec l'opération et les clients en cas d'écarts ou d'alertes.",
-              "Suivi des rapports, des preuves et des indicateurs opérationnels."
-            ]
-          },
-          {
-            id: "auxiliar-almacen-farmaceutico",
-            area: "Entrepôt",
-            mode: "Présentiel",
-            title: "Assistant d'entrepôt pharmaceutique",
-            location: "Lerma, État de Mexico",
-            schedule: "Temps plein",
-            summary: "Profil orienté vers la manipulation sécurisée des produits, le contrôle documentaire et l'activité quotidienne dans des entrepôts spécialisés.",
-            points: [
-              "Réception, préparation et rangement des produits selon le processus.",
-              "Contrôle des lots, des dates de péremption et des conditions de température.",
-              "Soutien aux inventaires, à la propreté opérationnelle et à la traçabilité."
-            ]
-          },
-          {
-            id: "operador-transporte-refrigerado",
-            area: "Transport",
-            mode: "Opération en tournée",
-            title: "Opérateur de transport réfrigéré",
-            location: "Couverture locale et longue distance",
-            schedule: "Temps plein",
-            summary: "Poste axé sur les livraisons sous température contrôlée, la conformité documentaire et l'exploitation sécurisée des véhicules.",
-            points: [
-              "Transport de produits sensibles selon les exigences de la chaîne du froid.",
-              "Vérification du véhicule, des preuves de livraison et de la documentation de route.",
-              "Respect des protocoles de sécurité et du service au client lors de la livraison."
-            ]
-          }
-        ]
+        items: []
       },
       application: {
         kicker: "Candidature directe",

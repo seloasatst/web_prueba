@@ -1,6 +1,14 @@
 (function ($) {
     "use strict";
 
+    // Auto-inicialización global de Google Analytics y rastreo de conversiones
+    if (!window.SELOASA_ANALYTICS && !document.querySelector('script[src*="site-analytics.js"]')) {
+        var _saScript = document.createElement('script');
+        _saScript.src = 'js/site-analytics.js';
+        _saScript.defer = true;
+        document.head.appendChild(_saScript);
+    }
+
     function initCounterUp($elements) {
         if (!$elements.length) return;
 

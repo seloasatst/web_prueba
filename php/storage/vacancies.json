@@ -1,5 +1,5 @@
 {
-    "updated_at": "2026-04-06T18:00:00-06:00",
+    "updated_at": "2026-10-26T18:00:00-06:00",
     "items": [
         {
             "id": "coordinador-monitoreo-logistico",
@@ -10,14 +10,15 @@
             "mode": "Presencial",
             "location": "Lerma, Estado de Mexico",
             "schedule": "Tiempo completo",
-            "summary": "Responsable de dar seguimiento a la operacion diaria, visibilidad de unidades e incidencias durante el trayecto.",
+            "recipient_emails": "gadiel.palma@SELOASA.com.mx, rh@seloasa.com.mx",
+            "summary": "Responsable de dar seguimiento a la operacion diaria, visibilidad de unidades e incidencias durante el trayecto con monitoreo satelital continuo.",
             "points": [
-                "Monitoreo de rutas, GPS y eventos criticos en tiempo real.",
-                "Comunicacion con operacion y clientes ante desviaciones o alertas.",
-                "Seguimiento de reportes, evidencias y control de indicadores operativos."
+                "Monitoreo de rutas, GPS y eventos criticos en tiempo real 24/7/365.",
+                "Comunicacion fluida con operadores y clientes ante desviaciones de ruta o alertas térmicas.",
+                "Seguimiento puntual de reportes, evidencias de entrega y control de indicadores operativos."
             ],
             "created_at": "2026-04-06T18:00:00-06:00",
-            "updated_at": "2026-04-06T18:00:00-06:00"
+            "updated_at": "2026-10-26T18:00:00-06:00"
         },
         {
             "id": "auxiliar-almacen-farmaceutico",
@@ -28,14 +29,15 @@
             "mode": "Presencial",
             "location": "Lerma, Estado de Mexico",
             "schedule": "Tiempo completo",
-            "summary": "Perfil orientado al manejo seguro de producto, control documental y operacion diaria dentro de almacenes especializados.",
+            "recipient_emails": "gadiel.palma@SELOASA.com.mx, almacen@seloasa.com.mx",
+            "summary": "Perfil orientado al manejo seguro de producto, control documental y operacion diaria dentro de almacenes especializados con estricta cadena de frío.",
             "points": [
-                "Recepcion, surtido y acomodo de producto conforme a proceso.",
-                "Control de lotes, caducidades y condiciones de temperatura.",
-                "Apoyo en inventarios, limpieza operativa y trazabilidad."
+                "Recepcion, surtido y acomodo de producto conforme a proceso y normativa sanitaria.",
+                "Control riguroso de lotes, caducidades y condiciones de temperatura requeridas.",
+                "Apoyo continuo en inventarios ciclicos, orden operativo y trazabilidad documental."
             ],
             "created_at": "2026-04-06T18:00:00-06:00",
-            "updated_at": "2026-04-06T18:00:00-06:00"
+            "updated_at": "2026-10-26T18:00:00-06:00"
         },
         {
             "id": "operador-transporte-refrigerado",
@@ -46,14 +48,15 @@
             "mode": "Operacion en ruta",
             "location": "Cobertura local y foranea",
             "schedule": "Tiempo completo",
-            "summary": "Vacante enfocada en entregas con control de temperatura, cumplimiento documental y operacion segura de unidades.",
+            "recipient_emails": "gadiel.palma@SELOASA.com.mx, operaciones@seloasa.com.mx",
+            "summary": "Vacante enfocada en conduccion profesional, entregas con control de temperatura estricta, cumplimiento documental y operacion segura de unidades.",
             "points": [
-                "Traslado de producto sensible bajo lineamientos de cadena de frio.",
-                "Verificacion de unidad, evidencias de entrega y documentacion de ruta.",
-                "Cumplimiento de protocolos de seguridad y atencion al cliente en entrega."
+                "Traslado y custodia de producto biológico y farmacéutico bajo cadena de frío certificada.",
+                "Inspección físico-mecánica de la unidad, termógrafo y sellos de seguridad antes de cada salida.",
+                "Cumplimiento de protocolos de seguridad vial, trazabilidad GPS y trato institucional."
             ],
             "created_at": "2026-04-06T18:00:00-06:00",
-            "updated_at": "2026-04-06T18:00:00-06:00"
+            "updated_at": "2026-10-26T18:00:00-06:00"
         }
     ]
 }

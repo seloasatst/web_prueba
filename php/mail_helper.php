@@ -5,6 +5,15 @@ use PHPMailer\PHPMailer\PHPMailer;
 if (!function_exists('mail_env')) {
     function mail_env(string $key, ?string $default = null): ?string
     {
+        if (function_exists('load_site_env')) {
+            load_site_env();
+        } elseif (file_exists(__DIR__ . '/db.php')) {
+            require_once __DIR__ . '/db.php';
+            if (function_exists('load_site_env')) {
+                load_site_env();
+            }
+        }
+
         $value = $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key);
 
         if ($value === false || $value === null) {

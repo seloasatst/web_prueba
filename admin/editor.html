@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <base href="../">
+  <meta charset="utf-8">
+  <title>Estudio de Redacción y Vista Previa en Tiempo Real | SELOASA</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="noindex, nofollow" name="robots">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/blog-templates.css" rel="stylesheet">
+  <link href="css/blog-admin.css" rel="stylesheet">
+  <link href="css/blog-editor.css" rel="stylesheet">
+</head>
+
+<body class="editor-studio-body">
+
+  <!-- ======================================================================
+       HEADER SUPERIOR DEL ESTUDIO DE EDICIÓN
+       ====================================================================== -->
+  <header class="editor-top-nav">
+    <!-- Zona Izquierda: Navegación y Logotipo -->
+    <div class="editor-nav-left">
+      <a href="admin/noticias.html" class="editor-back-btn" title="Volver al panel de noticias y blog">
+        <i class="fa fa-arrow-left"></i>
+      </a>
+      <a href="admin/noticias.html" class="editor-brand-link" title="Panel SELOASA">
+        <img src="img/logotipo.png" alt="SELOASA" class="editor-logo">
+      </a>
+    </div>
+
+    <!-- Zona Derecha: Dispositivos de Simulación, Estado y Guardado -->
+    <div class="editor-nav-right">
+      
+      <!-- Selector Segmentado de Dispositivo (Apple / Linear style) -->
+      <div class="editor-device-segmented" role="group" aria-label="Simular dispositivo">
+        <button type="button" class="btn-device-switch active" data-device="desktop" title="Vista Escritorio (100%)">
+          <i class="fa fa-desktop"></i>
+          <span class="d-none d-lg-inline ms-1">Escritorio</span>
+        </button>
+        <button type="button" class="btn-device-switch" data-device="tablet" title="Vista Tablet (768px)">
+          <i class="fa fa-tablet-alt"></i>
+          <span class="d-none d-lg-inline ms-1">Tablet</span>
+        </button>
+        <button type="button" class="btn-device-switch" data-device="mobile" title="Vista Móvil (420px)">
+          <i class="fa fa-mobile-alt"></i>
+          <span class="d-none d-lg-inline ms-1">Móvil</span>
+        </button>
+      </div>
+
+      <!-- Ver en Web Pública (si ya está guardada) -->
+      <a href="#" target="_blank" rel="noopener noreferrer" id="btnViewPublicPost" class="editor-btn-secondary d-none" title="Ver en la web pública">
+        <i class="fa fa-external-link-alt text-primary"></i>
+        <span>Ver en Web</span>
+      </a>
+
+      <!-- Interruptor Rápido de Publicación con Indicador Dot -->
+      <div class="editor-header-switch-wrap" title="Alternar publicación web / borrador">
+        <span class="status-indicator-dot draft" id="headerStatusDot"></span>
+        <label class="form-check-label mb-0" for="headerStatusSwitch" id="headerStatusLabel">Borrador</label>
+        <input class="form-check-input" type="checkbox" role="switch" id="headerStatusSwitch">
+      </div>
+
+      <!-- Botón Guardar Cambios -->
+      <button type="button" id="btnSaveStudio" class="editor-btn-primary" title="Guardar cambios (Ctrl+S)">
+        <i class="fa fa-save"></i>
+        <span>Guardar Cambios</span>
+        <kbd class="editor-kbd-hint d-none d-xl-inline-block">Ctrl+S</kbd>
+      </button>
+    </div>
+  </header>
+
+
+  <!-- ======================================================================
+       CONTENEDOR SPLIT-SCREEN (50% FORMULARIO / 50% VISTA PREVIA EN VIVO)
+       ====================================================================== -->
+  <div class="editor-split-container">
+    
+    <!-- COLUMNA IZQUIERDA: FORMULARIO DE REDACCIÓN Y EDITOR VISUAL -->
+    <div class="editor-form-pane">
+      <form id="studioForm">
+        <input type="hidden" id="postTypeHidden" value="comunicado">
+
+        <!-- Encabezado del Estudio de Redacción dentro del Formulario -->
+        <div class="editor-form-header mb-4 pb-3 border-bottom">
+          <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+            <span class="badge bg-light text-dark border px-2.5 py-1 rounded-pill small fw-bold" id="editorPostTypeBadge">
+              <i class="fa fa-bullhorn text-primary me-1"></i> Comunicado Oficial
+            </span>
+            <span class="text-muted small">&bull;</span>
+            <span class="text-muted small fw-semibold">Noticias &amp; Blog SELOASA</span>
+          </div>
+          <h2 class="h4 fw-bold text-dark mb-1" style="letter-spacing: -0.01em;">Estudio de Redacción &amp; Maquetación</h2>
+          <p class="text-muted small mb-0" id="editorPageSubtitle">
+            Editando: Cargando publicación...
+          </p>
+        </div>
+
+        <!-- Selector Visual de Plantilla Estructural -->
+        <div class="mb-4">
+          <label class="form-label small fw-bold text-dark mb-2">
+            <i class="fa fa-palette text-primary me-1"></i> Estructura y Plantilla de Diseño:
+          </label>
+          <div class="row g-2">
+            <div class="col-md-4">
+              <div class="type-selector-card selected" data-type="comunicado">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <i class="fa fa-bullhorn text-primary"></i>
+                  <div class="type-selector-title">1. Comunicado</div>
+                </div>
+                <p class="type-selector-desc">Circular oficial, membrete institucional, folio, recuadro de resolución ejecutiva y descarga PDF.</p>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="type-selector-card" data-type="noticia">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <i class="fa fa-newspaper text-success"></i>
+                  <div class="type-selector-title">2. Noticia</div>
+                </div>
+                <p class="type-selector-desc">Hero panorámico superior, franja de telemetría y especificaciones de equipamiento.</p>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="type-selector-card" data-type="blog">
+                <div class="d-flex align-items-center gap-2 mb-1">
+                  <i class="fa fa-bookmark text-secondary"></i>
+                  <div class="type-selector-title">3. Blog Farma</div>
+                </div>
+                <p class="type-selector-desc">Lectura editorial centrada, autor técnico, caja de puntos clave e infografía térmica.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Título y Slug -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-8">
+            <label for="postTitleInput" class="form-label small fw-bold text-dark mb-1">Título de la Publicación *</label>
+            <input type="text" id="postTitleInput" class="form-control form-control-lg fw-bold" placeholder="Escribe el título aquí..." required>
+          </div>
+          <div class="col-md-4">
+            <label for="postIdInput" class="form-label small fw-bold text-dark mb-1">ID Único (URL / Folio) *</label>
+            <input type="text" id="postIdInput" class="form-control font-monospace" placeholder="ej: noticia-nueva-ruta" required>
+          </div>
+        </div>
+
+        <!-- Metadatos de Publicación -->
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label for="postDeptInput" class="form-label small fw-bold text-dark mb-1">Departamento / Área Emisora</label>
+            <input type="text" id="postDeptInput" class="form-control" placeholder="Ej: Aseguramiento de Calidad y Tráfico">
+          </div>
+          <div class="col-md-6">
+            <label for="postCategoryInput" class="form-label small fw-bold text-dark mb-1">Etiqueta de Categoría</label>
+            <input type="text" id="postCategoryInput" class="form-control" placeholder="Ej: Comunicado Oficial">
+          </div>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-md-4">
+            <label for="postDateInput" class="form-label small fw-bold text-dark mb-1">Fecha</label>
+            <input type="text" id="postDateInput" class="form-control" placeholder="Ej: Mayo 2026">
+          </div>
+          <div class="col-md-4">
+            <label for="postReadTimeInput" class="form-label small fw-bold text-dark mb-1">Tiempo de Lectura</label>
+            <input type="text" id="postReadTimeInput" class="form-control" placeholder="Ej: 3 min">
+          </div>
+          <div class="col-md-4">
+            <label for="postStatusSelect" class="form-label small fw-bold text-dark mb-1">Estado</label>
+            <select id="postStatusSelect" class="form-select">
+              <option value="published">Publicada</option>
+              <option value="draft">Borrador</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Imagen de Portada -->
+        <div class="mb-3">
+          <label for="postImageInput" class="form-label small fw-bold text-dark mb-1">Imagen de Portada</label>
+          <div class="input-group">
+            <input type="text" id="postImageInput" class="form-control" placeholder="img/patio_unidades_dia_banner.jpg" value="img/patio_unidades_dia_banner.jpg">
+            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Seleccionar imagen</button>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/patio_unidades_dia_banner.jpg'; document.getElementById('postImageInput').dispatchEvent(new Event('input'));">Patio Unidades Día (Oficial)</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/feature.jpg'; document.getElementById('postImageInput').dispatchEvent(new Event('input'));">Flota en Carretera (Noticias)</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/about.jpg'; document.getElementById('postImageInput').dispatchEvent(new Event('input'));">Instalaciones y Calidad (Blog)</a></li>
+              <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/hero-1.jpg'; document.getElementById('postImageInput').dispatchEvent(new Event('input'));">Hero Logística</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Resumen Ejecutivo -->
+        <div class="mb-3">
+          <label for="postSummaryInput" class="form-label small fw-bold text-dark mb-1">Resumen Ejecutivo (Lead / Introducción) *</label>
+          <textarea id="postSummaryInput" class="form-control" rows="3" placeholder="Escribe el resumen ejecutivo de la publicación..." required></textarea>
+        </div>
+
+        <!-- Editor Visual Enriquecido (WYSIWYG) -->
+        <div class="mb-4">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <div class="d-flex align-items-center gap-2">
+              <label class="form-label small fw-bold text-dark mb-0">
+                <i class="fa fa-pen-fancy text-primary me-1"></i> Redacción del Contenido (Editor Visual)
+              </label>
+              <span class="visual-mode-badge" id="editorModeBadge">
+                <i class="fa fa-check-circle me-1"></i> Modo Visual
+              </span>
+            </div>
+            <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2 rounded-pill" id="btnToggleCodeView" style="font-size: 0.75rem;">
+              <i class="fa fa-code me-1"></i> Ver Código HTML
+            </button>
+          </div>
+
+          <div class="visual-editor-container">
+            <!-- Barra de herramientas visual -->
+            <div class="visual-editor-toolbar" id="visualToolbar">
+              <div class="visual-toolbar-group">
+                <button type="button" class="visual-toolbar-btn" data-cmd="undo" title="Deshacer (Ctrl+Z)"><i class="fa fa-undo"></i></button>
+                <button type="button" class="visual-toolbar-btn" data-cmd="redo" title="Rehacer (Ctrl+Y)"><i class="fa fa-redo"></i></button>
+              </div>
+
+              <div class="visual-toolbar-group">
+                <button type="button" class="visual-toolbar-btn fw-bold" data-cmd="formatBlock" data-val="h4" title="Título de Sección (H4)"><i class="fa fa-heading"></i></button>
+                <button type="button" class="visual-toolbar-btn" data-cmd="formatBlock" data-val="p" title="Párrafo normal"><i class="fa fa-paragraph"></i></button>
+              </div>
+
+              <div class="visual-toolbar-group">
+                <button type="button" class="visual-toolbar-btn" data-cmd="bold" title="Negrita (Ctrl+B)"><i class="fa fa-bold"></i></button>
+                <button type="button" class="visual-toolbar-btn" data-cmd="italic" title="Cursiva (Ctrl+I)"><i class="fa fa-italic"></i></button>
+                <button type="button" class="visual-toolbar-btn" data-cmd="underline" title="Subrayado (Ctrl+U)"><i class="fa fa-underline"></i></button>
+              </div>
+
+              <div class="visual-toolbar-group">
+                <button type="button" class="visual-toolbar-btn" data-cmd="insertUnorderedList" title="Lista con viñetas"><i class="fa fa-list-ul"></i></button>
+                <button type="button" class="visual-toolbar-btn" data-cmd="insertOrderedList" title="Lista numerada"><i class="fa fa-list-ol"></i></button>
+              </div>
+
+              <div class="visual-toolbar-group">
+                <button type="button" class="visual-toolbar-btn" data-cmd="formatBlock" data-val="blockquote" title="Cita o frase destacada"><i class="fa fa-quote-left"></i></button>
+                <button type="button" class="visual-toolbar-btn" id="btnInsertHighlightBox" title="Insertar cuadro destacado de resolución"><i class="fa fa-certificate text-primary"></i></button>
+              </div>
+
+              <div class="visual-toolbar-group">
+                <button type="button" class="visual-toolbar-btn" data-cmd="removeFormat" title="Limpiar formato"><i class="fa fa-eraser"></i></button>
+              </div>
+            </div>
+
+            <!-- Lienzo de Edición Visual Contenteditable (100% Visual) -->
+            <div id="postContentVisualEditor" class="visual-editor-area" contenteditable="true" data-placeholder="Comienza a redactar el cuerpo de la publicación aquí..."></div>
+
+            <!-- Textarea de código alternativo (oculto por defecto) -->
+            <textarea id="postContentInput" class="form-control font-monospace border-0 rounded-0 d-none" rows="10" style="font-size: 0.88rem;"></textarea>
+          </div>
+          <div class="d-flex align-items-center justify-content-between mt-1 text-muted small" style="font-size: 0.78rem;">
+            <span><i class="fa fa-magic text-primary me-1"></i> Cada cambio que hagas se refleja en tiempo real en la pantalla derecha.</span>
+            <span id="editorWordCount">0 palabras</span>
+          </div>
+        </div>
+
+        <!-- Sección: Documento Oficial PDF & Marco Normativo (Barra Lateral) -->
+        <div class="card border rounded-3 mb-4 shadow-sm" id="sectionSidebarExtras">
+          <div class="card-header bg-light py-2 px-3 d-flex align-items-center justify-content-between">
+            <span class="small fw-bold text-dark">
+              <i class="fa fa-file-pdf text-primary me-2"></i> Documento Oficial PDF & Marco Normativo (Barra Lateral)
+            </span>
+            <span class="badge bg-white text-primary border small fw-bold">Plantilla 1: Comunicado</span>
+          </div>
+          <div class="card-body p-3">
+            
+            <!-- Bloque 1: Documento Oficial PDF (Opcional) -->
+            <div class="d-flex align-items-center justify-content-between mb-2 pb-1 border-bottom">
+              <div class="d-flex align-items-center gap-2">
+                <i class="fa fa-file-pdf text-danger"></i>
+                <span class="fw-bold small text-dark">1. Recuadro de Documento PDF (Opcional)</span>
+              </div>
+              <div class="form-check form-switch mb-0 d-flex align-items-center gap-2">
+                <input class="form-check-input" type="checkbox" role="switch" id="postPdfEnabledSwitch" checked>
+                <label class="form-check-label mb-0 small fw-bold" for="postPdfEnabledSwitch" id="postPdfEnabledLabel" style="font-size: 11.5px; color: #15803d; cursor: pointer;">Activo (Visible)</label>
+              </div>
+            </div>
+            <div id="postPdfFieldsContainer" class="row g-2 mb-3">
+              <div class="col-md-6">
+                <label for="postPdfTitleInput" class="form-label small fw-bold text-dark mb-1">Título del Recuadro</label>
+                <input type="text" id="postPdfTitleInput" class="form-control form-control-sm" placeholder="Documento Oficial PDF" value="Documento Oficial PDF">
+              </div>
+              <div class="col-md-6">
+                <label for="postPdfUrlInput" class="form-label small fw-bold text-dark mb-1">Enlace o Archivo PDF (URL)</label>
+                <input type="text" id="postPdfUrlInput" class="form-control form-control-sm font-monospace" placeholder="docs_pdf/protocolo_seguridad.pdf" value="docs_pdf/protocolo_seguridad.pdf">
+              </div>
+              <div class="col-md-6">
+                <label for="postPdfBtnTextInput" class="form-label small fw-bold text-dark mb-1">Texto del Botón de Descarga</label>
+                <input type="text" id="postPdfBtnTextInput" class="form-control form-control-sm" placeholder="Descargar Circular en PDF" value="Descargar Circular en PDF">
+              </div>
+              <div class="col-md-6">
+                <label for="postPdfDescInput" class="form-label small fw-bold text-dark mb-1">Descripción del Archivo</label>
+                <input type="text" id="postPdfDescInput" class="form-control form-control-sm" placeholder="Descarga la circular completa membretada con anexos técnicos para auditorías." value="Descarga la circular completa membretada con anexos técnicos para auditorías.">
+              </div>
+            </div>
+
+            <!-- Bloque 2: Marco Normativo (Opcional) -->
+            <div class="d-flex align-items-center justify-content-between mb-2 pb-1 border-bottom">
+              <div class="d-flex align-items-center gap-2">
+                <i class="fa fa-clipboard-check text-success"></i>
+                <span class="fw-bold small text-dark">2. Recuadro de Marco Normativo (Opcional)</span>
+              </div>
+              <div class="form-check form-switch mb-0 d-flex align-items-center gap-2">
+                <input class="form-check-input" type="checkbox" role="switch" id="postNormativaEnabledSwitch" checked>
+                <label class="form-check-label mb-0 small fw-bold" for="postNormativaEnabledSwitch" id="postNormativaEnabledLabel" style="font-size: 11.5px; color: #15803d; cursor: pointer;">Activo (Visible)</label>
+              </div>
+            </div>
+            <div id="postNormativaFieldsContainer" class="row g-2">
+              <div class="col-md-6">
+                <label for="postNormativaTitleInput" class="form-label small fw-bold text-dark mb-1">Título del Recuadro</label>
+                <input type="text" id="postNormativaTitleInput" class="form-control form-control-sm" placeholder="Marco Normativo" value="Marco Normativo">
+              </div>
+              <div class="col-12">
+                <label for="postNormativaItemsInput" class="form-label small fw-bold text-dark mb-1">
+                  Normas o Puntos de Cumplimiento (una por renglón)
+                </label>
+                <textarea id="postNormativaItemsInput" class="form-control form-control-sm font-monospace" rows="3" placeholder="NOM-059-SSA1: Buenas prácticas de distribución.&#10;NOM-072-SSA1: Trazabilidad e insumos para la salud.&#10;Directrices GDP: Monitoreo térmico continuo.">NOM-059-SSA1: Buenas prácticas de distribución.
+NOM-072-SSA1: Trazabilidad e insumos para la salud.
+Directrices GDP: Monitoreo térmico continuo.</textarea>
+                <div class="form-text small" style="font-size: 0.72rem;">
+                  <i class="fa fa-info-circle text-primary me-1"></i> Escribe cada norma en un renglón. Separa el identificador de la descripción con dos puntos <code>:</code> (ej: <code>NOM-059-SSA1: Buenas prácticas de distribución.</code>).
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+
+    <!-- COLUMNA DERECHA: VISTA PREVIA DIRECTA EN TIEMPO REAL (SIN MARCO DE PESTAÑA) -->
+    <div class="editor-preview-pane" id="editorPreviewPane">
+      <div class="live-preview-canvas" id="livePreviewHost">
+        <!-- Renderizado directo de la plantilla en tiempo real -->
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast de Guardado Exitoso -->
+  <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1090">
+    <div id="saveSuccessToast" class="toast align-items-center text-white bg-success border-0 shadow-lg d-none" role="alert" aria-live="assertive" aria-atomic="true" style="display: block;">
+      <div class="d-flex">
+        <div class="toast-body fw-bold">
+          <i class="fa fa-check-circle me-2"></i> Publicación guardada y sincronizada exitosamente.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/blog-i18n.js"></script>
+  <script src="js/blog-editor.js"></script>
+</body>
+
+</html>

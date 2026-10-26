@@ -1,11 +1,25 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
   <base href="../">
   <meta charset="utf-8">
-  <title data-i18n="blogPage.meta.title">Blog y noticias - Servicios Logísticos Alsera</title>
+  <title data-i18n="blogPage.meta.title">Blog, Noticias y Comunicados - Servicios Logísticos Alsera</title>
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="Comunicados oficiales, noticias operativas y artículos especializados de logística y transporte farmacéutico de SELOASA." name="description">
+  <!-- Google Search Console Verification -->
+  <meta name="google-site-verification" content="googledad7aead427a1fd1">
+
+  <!-- Google tag (gtag.js) - Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4TT87FS1QJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4TT87FS1QJ', { send_page_view: true });
+  </script>
+  <script src="php/seo_config.php"></script>
+  <script src="js/site-analytics.js" defer></script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,6 +33,7 @@
 
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/style.css" rel="stylesheet">
+  <link href="css/site-popup.css" rel="stylesheet">
 </head>
 
 <body>
@@ -30,10 +45,10 @@
       <div class="row g-0 align-items-stretch">
         <div class="col-12 col-lg-6 hero-split-content-wrap">
           <div class="hero-split-content service-hero-content">
-            <h1 class="hero-title"><span class="text-primary" data-i18n="blogPage.hero.title_accent">Blog y</span><br><span data-i18n="blogPage.hero.title_main">noticias</span></h1>
-            <p class="hero-description" data-i18n="blogPage.hero.description">Un espacio para compartir novedades, avances operativos y noticias relevantes relacionadas con la operación de SELOASA.</p>
+            <h1 class="hero-title"><span class="text-primary" data-i18n="blogPage.hero.title_accent">Blog, Noticias y</span><br><span data-i18n="blogPage.hero.title_main">comunicados</span></h1>
+            <p class="hero-description" data-i18n="blogPage.hero.description">Un espacio oficial para compartir comunicados institucionales, novedades operativas sobre cadena de frío y artículos de análisis logístico farma.</p>
             <div class="hero-actions mt-4">
-                <a href="#blogLatestSection" class="btn btn-primary btn-hero-primary" data-i18n="blogPage.hero.primary_cta">Leer Novedades</a>
+                <a href="#blogLatestSection" class="btn btn-primary btn-hero-primary" data-i18n="blogPage.hero.primary_cta">Ver Comunicados y Noticias</a>
                 <a href="contact/" class="btn btn-secondary btn-hero-secondary" data-i18n="blogPage.hero.secondary_cta">Contáctanos</a>
             </div>
           </div>
@@ -49,19 +64,29 @@
     <div class="container py-5">
       <div class="row g-4 g-lg-5 align-items-stretch">
         <div class="col-lg-6 wow fadeInLeft" data-wow-delay="0.1s">
-          <div class="about-media-card blog-featured-media h-100">
-            <img id="blogFeaturedImage" src="img/patio_unidades_dia_banner.jpg" alt="Actualización destacada" class="img-fluid w-100 blog-featured-image">
+          <div class="about-media-card blog-featured-media h-100 position-relative">
+            <a href="blog/articulo.html?id=featured" target="_blank" rel="noopener noreferrer" class="d-block h-100">
+              <img id="blogFeaturedImage" src="img/patio_unidades_dia_banner.jpg" alt="Actualización destacada" class="img-fluid w-100 blog-featured-image h-100" style="object-fit: cover; min-height: 320px;">
+            </a>
+            <span class="home-blog-pill badge-pill-comunicado" style="top: 18px; left: 18px;">
+              <i class="fa fa-bullhorn me-1"></i> <span id="blogFeaturedBadge">Comunicado Oficial</span>
+            </span>
           </div>
         </div>
         <div class="col-lg-6 wow fadeInRight" data-wow-delay="0.1s">
-          <div class="fact-panel blog-featured-panel h-100">
-            <h6 class="text-uppercase fact-kicker" id="blogFeaturedKicker">Actualización destacada</h6>
-            <div class="blog-featured-meta">
-              <span id="blogFeaturedCategory" class="blog-meta-pill">Operación</span>
-              <span id="blogFeaturedDate" class="blog-meta-date">Abril 2026</span>
+          <div class="about-panel service-detail-panel blog-featured-panel h-100 d-flex flex-column justify-content-center p-4 p-lg-5">
+            <h6 class="text-uppercase about-kicker mb-2" id="blogFeaturedKicker">Comunicado Oficial Destacado</h6>
+            <h2 id="blogFeaturedTitle" class="about-title mb-3">Actualización de Protocolos de Seguridad y Cumplimiento Normativo COFEPRIS & GDP 2026</h2>
+            <p id="blogFeaturedSummary" class="about-intro mb-3">Informamos a nuestros clientes y socios comerciales sobre la actualización integral de los protocolos de control térmico, trazabilidad y blindaje en todas nuestras rutas activas.</p>
+            <div class="mb-4 text-muted pt-2 border-top d-flex align-items-center gap-3" style="font-size: 0.82rem;">
+              <span><i class="far fa-calendar-alt text-muted me-1"></i> <span id="blogFeaturedDate" class="blog-meta-date">Mayo 2026</span></span>
+              <span><i class="far fa-clock text-muted me-1"></i> 3 min de lectura</span>
             </div>
-            <h2 id="blogFeaturedTitle" class="fact-title blog-featured-title">Seguimos fortaleciendo nuestra capacidad operativa con enfoque en control y trazabilidad</h2>
-            <p id="blogFeaturedSummary" class="fact-description blog-featured-text">Conoce la actualización destacada más reciente y el contexto operativo que la acompaña.</p>
+            <div>
+              <a id="blogFeaturedReadBtn" href="blog/articulo.html?id=featured" target="_blank" rel="noopener noreferrer" class="btn-slide">
+                <i class="fa fa-arrow-right"></i><span data-i18n="blogPage.featured.read_full">Leer comunicado completo</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -70,26 +95,80 @@
 
   <section id="blogLatestSection" class="container-xxl blog-latest-section py-5">
     <div class="container py-5">
-      <div class="about-pillars-heading text-center mx-auto wow fadeInUp" data-wow-delay="0.1s">
-        <h6 class="text-uppercase about-kicker" data-i18n="blogPage.latest.kicker">Últimas publicaciones</h6>
-        <h1 class="about-title" data-i18n="blogPage.latest.title">Notas y novedades recientes</h1>
-        <p class="about-intro" data-i18n="blogPage.latest.description">Actualizaciones breves sobre capacidades, seguridad, cumplimiento y avances que impactan positivamente la operación.</p>
+      <div class="about-pillars-heading text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s">
+        <h6 class="text-uppercase about-kicker" data-i18n="blogPage.latest.kicker">Publicaciones Recientes</h6>
+        <h1 class="about-title" data-i18n="blogPage.latest.title">Comunicados, Noticias y Artículos</h1>
+        <p class="about-intro" data-i18n="blogPage.latest.description">Explora avisos formales, reportes de infraestructura y mejores prácticas logísticas con los filtros temáticos.</p>
+      </div>
+
+      <!-- Filter Tabs and Search Bar -->
+      <div class="row align-items-center justify-content-between g-3 mb-5 wow fadeInUp" data-wow-delay="0.2s">
+        <div class="col-12 col-lg-8">
+          <div class="blog-filter-pills d-flex flex-nowrap align-items-center gap-2" role="tablist">
+            <button type="button" class="blog-filter-btn active" data-filter="all">
+              <i class="fa fa-th-large me-1"></i> <span data-i18n="blogPage.filters.all">Todos</span>
+            </button>
+            <button type="button" class="blog-filter-btn" data-filter="comunicado">
+              <i class="fa fa-bullhorn me-1"></i> <span data-i18n="blogPage.filters.comunicados">Comunicados Oficiales</span>
+            </button>
+            <button type="button" class="blog-filter-btn" data-filter="noticia">
+              <i class="fa fa-newspaper me-1"></i> <span data-i18n="blogPage.filters.noticias">Noticias Operativas</span>
+            </button>
+            <button type="button" class="blog-filter-btn" data-filter="blog">
+              <i class="fa fa-bookmark me-1"></i> <span data-i18n="blogPage.filters.blog">Blog Farma</span>
+            </button>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4">
+          <div class="blog-search-wrapper position-relative">
+            <i class="fa fa-search blog-search-icon"></i>
+            <input type="text" id="blogSearchInput" class="form-control blog-search-input" placeholder="Buscar por palabra clave..." data-i18n-placeholder="blogPage.search_placeholder" aria-label="Buscar noticias o comunicados">
+          </div>
+        </div>
       </div>
 
       <div id="blogNewsGrid" class="row g-4"></div>
-    </div>
-  </section>
-
-  <section class="container-xxl blog-cta-section py-5">
-    <div class="container py-5">
-      <div class="about-panel blog-cta-panel text-center wow fadeInUp" data-wow-delay="0.1s">
-        <h6 class="text-uppercase about-kicker" data-i18n="blogPage.cta.kicker">Mantente al tanto</h6>
-        <h2 class="about-title mb-3" data-i18n="blogPage.cta.title">Conversemos sobre actualizaciones, capacidades y novedades relevantes para tu operación</h2>
-        <p class="about-intro mb-4" data-i18n="blogPage.cta.description">Si quieres más información sobre una noticia o una capacidad específica, podemos ayudarte desde contacto.</p>
-        <a href="contact/" class="btn btn-primary about-cta" data-i18n="blogPage.cta.button">Ir a contacto</a>
+      <div id="blogNoResults" class="text-center py-5 d-none">
+        <i class="fa fa-search fa-3x text-muted mb-3"></i>
+        <h4 class="text-muted" data-i18n="blogPage.no_results_title">No se encontraron publicaciones</h4>
+        <p class="text-muted" data-i18n="blogPage.no_results_desc">Prueba con otra palabra clave o selecciona otra categoría.</p>
       </div>
     </div>
   </section>
+
+  <section class="container-xxl py-5 article-cta-section">
+    <div class="container py-2">
+      <div class="article-cta-panel text-center position-relative overflow-hidden p-4 p-md-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="article-cta-glow"></div>
+
+        <h2 class="fw-bold text-dark mb-3 article-cta-title" data-i18n="blogPage.cta.title">
+          Conversemos sobre actualizaciones, capacidades y novedades relevantes para tu operación
+        </h2>
+
+        <p class="text-muted mb-4 article-cta-desc" data-i18n="blogPage.cta.description">
+          Si quieres más información sobre un comunicado o una capacidad específica, nuestro equipo técnico y operativo está listo para atenderte.
+        </p>
+
+        <div class="d-flex align-items-center justify-content-center gap-3 flex-wrap mb-4">
+          <a href="contact/" class="btn btn-primary rounded-pill px-4 py-3 fw-bold shadow-sm d-inline-flex align-items-center gap-2 article-cta-btn-primary" data-i18n="blogPage.cta.button">
+            <i class="fa fa-paper-plane"></i>
+            <span>Ir a contacto</span>
+          </a>
+          <a href="tel:+527282828050" class="btn btn-outline-primary rounded-pill px-4 py-3 fw-bold d-inline-flex align-items-center gap-2 article-cta-btn-phone">
+            <i class="fa fa-phone-alt"></i>
+            <span>+52 (728) 282 8050</span>
+          </a>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-center gap-4 text-muted small flex-wrap pt-3 article-cta-trust">
+          <span><i class="fa fa-shield-alt text-primary me-1"></i> Cumplimiento COFEPRIS & GDP</span>
+          <span><i class="fa fa-temperature-low text-primary me-1"></i> Monitoreo Térmico 24/7</span>
+          <span><i class="fa fa-clock text-primary me-1"></i> Asesoría Inmediata</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
 
   <div data-include="partials/footer.html"></div>
   <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top" aria-label="Regresar al inicio" data-i18n-aria-label="common.back_to_top_aria"><i class="bi bi-arrow-up"></i></a>
@@ -105,6 +184,7 @@
   <script src="js/i18n.js"></script>
   <script src="js/include-partials.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/site-popup.js"></script>
 </body>
 
 </html>

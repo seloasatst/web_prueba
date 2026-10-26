@@ -1,0 +1,14 @@
+# ==============================================================================
+# SELOASA - Directivas de Rastreo para Robots y Motores de Búsqueda
+# ==============================================================================
+
+User-agent: *
+Allow: /
+
+# Excluir rutas administrativas internas y APIs de backend
+Disallow: /admin/
+Disallow: /blog/admin/
+Disallow: /php/
+
+# Archivo de mapa del sitio para Google Search Console
+Sitemap: https://seloasa.com.mx/sitemap.xml

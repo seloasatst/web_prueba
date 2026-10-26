@@ -127,9 +127,8 @@
       .replace(/'/g, '&#39;');
   }
 
-  function getFallbackVacancyItems(lang) {
-    const content = getPageContent(lang);
-    return content && content.vacancies && Array.isArray(content.vacancies.items) ? content.vacancies.items : [];
+  function getFallbackVacancyItems() {
+    return [];
   }
 
   function normalizeVacancyPoints(points) {
@@ -170,8 +169,28 @@
   }
 
   async function loadVacancyItems(lang) {
-    if (Array.isArray(vacancyItemsCache) && vacancyItemsCacheSource === 'remote') {
+    if (Array.isArray(vacancyItemsCache) && (vacancyItemsCacheSource === 'remote' || vacancyItemsCacheSource === 'local')) {
       return vacancyItemsCache;
+    }
+
+    try {
+      const localStored = localStorage.getItem('seloasa_careers_vacancies');
+      if (localStored) {
+        const parsed = JSON.parse(localStored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const publicItems = parsed
+            .filter(v => v.status === 'published')
+            .map(normalizeVacancyItem)
+            .filter(Boolean);
+          if (publicItems.length > 0) {
+            vacancyItemsCache = publicItems;
+            vacancyItemsCacheSource = 'local';
+            return publicItems;
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Error reading local vacancies:', e);
     }
 
     if (vacancyFetchPromise) {
@@ -198,7 +217,7 @@
         vacancyItemsCacheSource = 'remote';
         return items;
       })
-      .catch(() => getFallbackVacancyItems(lang).map(normalizeVacancyItem).filter(Boolean))
+      .catch(() => [])
       .finally(() => {
         vacancyFetchPromise = null;
       });
@@ -500,9 +519,12 @@
       const uiCopy = getVacancyUiCopy(lang);
       container.innerHTML = `
         <div class="col-12">
-          <article class="careers-vacancy-card h-100">
-            <h3 class="careers-vacancy-title mb-3">${escapeHtml(uiCopy.emptyTitle)}</h3>
-            <p class="careers-vacancy-summary mb-0">${escapeHtml(uiCopy.emptyMessage)}</p>
+          <article class="careers-vacancy-card careers-vacancy-empty text-center py-5">
+            <div class="careers-empty-icon mb-3">
+              <i class="fa fa-briefcase fa-2x text-primary"></i>
+            </div>
+            <h3 class="careers-vacancy-title mb-2">${escapeHtml(uiCopy.emptyTitle)}</h3>
+            <p class="careers-vacancy-summary mb-0 text-muted">${escapeHtml(uiCopy.emptyMessage)}</p>
           </article>
         </div>
       `;
@@ -512,21 +534,38 @@
     container.innerHTML = vacancyItems.map((job) => `
       <div class="col-lg-4 col-md-6">
         <article class="careers-vacancy-card h-100">
-          <div class="careers-vacancy-top">
-            <span class="careers-vacancy-pill">${escapeHtml(job.area)}</span>
-            <span class="careers-vacancy-pill">${escapeHtml(job.mode)}</span>
-          </div>
-          <h3 class="careers-vacancy-title mb-3">${escapeHtml(job.title)}</h3>
+          <div class="careers-vacancy-accent-bar"></div>
+          <h3 class="careers-vacancy-title">${escapeHtml(job.title)}</h3>
           <div class="careers-vacancy-meta">
-            <div class="careers-vacancy-meta-row"><i class="fa fa-map-marker-alt"></i><span>${escapeHtml(job.location)}</span></div>
-            <div class="careers-vacancy-meta-row"><i class="fa fa-clock"></i><span>${escapeHtml(job.schedule)}</span></div>
+            <div class="careers-vacancy-meta-item">
+              <i class="fa fa-map-marker-alt"></i>
+              <span>${escapeHtml(job.location)}</span>
+            </div>
+            <div class="careers-vacancy-meta-item">
+              <i class="fa fa-briefcase"></i>
+              <span>${escapeHtml(job.mode)}</span>
+            </div>
+            <div class="careers-vacancy-meta-item">
+              <i class="fa fa-clock"></i>
+              <span>${escapeHtml(job.schedule)}</span>
+            </div>
           </div>
-          <p class="careers-vacancy-summary mb-0">${escapeHtml(job.summary)}</p>
-          <ul class="careers-vacancy-list">
-            ${job.points.map((point) => `<li><i class="fa fa-check-circle"></i><span>${escapeHtml(point)}</span></li>`).join('')}
-          </ul>
-          <div class="careers-vacancy-actions">
-            <button type="button" class="btn btn-primary btn-hero-primary" data-careers-apply="${escapeHtml(job.id)}">${escapeHtml(content.vacancies.apply_button)}</button>
+          <p class="careers-vacancy-summary">${escapeHtml(job.summary)}</p>
+          <div class="careers-vacancy-requirements">
+            <ul class="careers-vacancy-list">
+              ${job.points.map((point) => `
+                <li>
+                  <span class="careers-list-check"><i class="fa fa-check"></i></span>
+                  <span class="careers-list-text">${escapeHtml(point)}</span>
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+          <div class="careers-vacancy-actions mt-auto">
+            <button type="button" class="btn btn-primary careers-vacancy-btn w-100" data-careers-apply="${escapeHtml(job.id)}">
+              <span>${escapeHtml(content.vacancies.apply_button)}</span>
+              <i class="fa fa-arrow-right ms-2 transition-arrow"></i>
+            </button>
           </div>
         </article>
       </div>
@@ -699,7 +738,54 @@
     }
 
     if (cv) {
-      cv.addEventListener('change', () => validateCvField(cv, getMessages()));
+      const dropzone = document.getElementById('careerCvDropzone');
+      const icon = document.getElementById('careerCvIcon');
+      const mainText = document.getElementById('careerCvMainText');
+      const nameDisplay = document.getElementById('careerCvFileName');
+
+      const updateCvDisplay = () => {
+        const file = cv.files && cv.files[0];
+        if (file) {
+          if (mainText) mainText.classList.add('d-none');
+          if (nameDisplay) {
+            nameDisplay.textContent = file.name + ' (' + (file.size / (1024 * 1024)).toFixed(2) + ' MB)';
+            nameDisplay.classList.remove('d-none');
+          }
+          if (icon) icon.innerHTML = '<i class="fa fa-file-pdf text-success"></i>';
+          if (dropzone) dropzone.classList.add('has-file');
+        } else {
+          if (mainText) mainText.classList.remove('d-none');
+          if (nameDisplay) nameDisplay.classList.add('d-none');
+          if (icon) icon.innerHTML = '<i class="fa fa-cloud-upload-alt text-primary"></i>';
+          if (dropzone) dropzone.classList.remove('has-file');
+        }
+        validateCvField(cv, getMessages());
+      };
+
+      cv.addEventListener('change', updateCvDisplay);
+
+      if (dropzone) {
+        ['dragenter', 'dragover'].forEach((eventName) => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+          });
+        });
+
+        ['dragleave', 'drop'].forEach((eventName) => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+          });
+        });
+
+        dropzone.addEventListener('drop', (e) => {
+          if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+            cv.files = e.dataTransfer.files;
+            updateCvDisplay();
+          }
+        });
+      }
     }
 
     form.addEventListener('submit', (event) => {

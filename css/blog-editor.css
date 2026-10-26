@@ -1,0 +1,898 @@
+/* ==========================================================================
+   SELOASA - ESTUDIO DE EDICIÓN Y VISTA PREVIA EN TIEMPO REAL 2026
+   ========================================================================== */
+
+:root {
+  --editor-header-h: 68px;
+  --admin-primary: #e43b14;
+  --admin-primary-gradient: linear-gradient(135deg, #e43b14 0%, #ff4d26 100%);
+  --admin-primary-glow: 0 4px 16px -2px rgba(228, 59, 20, 0.38);
+  --admin-dark: #0f172a;
+  --admin-border: #e2e8f0;
+  --admin-bg: #f8fafc;
+}
+
+body.editor-studio-body {
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  background-color: var(--admin-bg);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--admin-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Header Superior Fijo */
+/* Header Superior Fijo */
+.editor-top-nav {
+  height: 62px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--admin-border);
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  position: relative;
+  z-index: 1030;
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.04);
+}
+
+.editor-nav-left,
+.editor-top-nav > div:first-child {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.editor-back-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1px solid #d0d5dd;
+  background-color: #ffffff;
+  color: #344054;
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.editor-back-btn:hover {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+  color: #0f172a;
+  transform: translateX(-1px);
+}
+
+.editor-brand-link {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.editor-logo,
+.editor-top-nav img,
+.editor-nav-back img {
+  height: 26px !important;
+  max-height: 26px !important;
+  width: auto !important;
+  max-width: 130px !important;
+  object-fit: contain !important;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.editor-nav-divider {
+  width: 1px;
+  height: 26px;
+  background-color: #e2e8f0;
+  flex-shrink: 0;
+}
+
+.editor-title-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 0;
+  flex: 1 1 auto;
+  line-height: 1.25;
+}
+
+.editor-title-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 500;
+  margin-bottom: 2px;
+  white-space: nowrap;
+}
+
+.editor-breadcrumb {
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.68rem;
+}
+
+.editor-meta-dot {
+  color: #cbd5e1;
+  font-size: 0.75rem;
+}
+
+.editor-structure-pill {
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  padding: 1px 8px !important;
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+  color: #334155 !important;
+}
+
+.editor-page-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.editor-page-sub {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.editor-nav-right,
+.editor-top-nav > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 0 auto;
+}
+
+/* Selector Segmentado de Dispositivo (Apple / Linear style) */
+.editor-device-segmented {
+  display: inline-flex;
+  align-items: center;
+  background-color: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 3px;
+  gap: 3px;
+}
+
+.btn-device-switch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.btn-device-switch i {
+  font-size: 13px;
+}
+
+.btn-device-switch:hover {
+  color: #0f172a;
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.btn-device-switch.active {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  font-weight: 700;
+}
+
+.editor-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 13px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border: 1px solid #d0d5dd;
+  background-color: #ffffff;
+  color: #344054;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.editor-btn-secondary:hover {
+  background-color: #f8fafc;
+  border-color: #98a2b3;
+  color: #101828;
+}
+
+/* Interruptor Rápido de Estado con Dot Indicador */
+.editor-header-switch-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 34px;
+  padding: 0 12px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.editor-header-switch-wrap:hover {
+  border-color: #cbd5e1;
+  background-color: #f1f5f9;
+}
+
+.status-indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.status-indicator-dot.published {
+  background-color: #12b76a;
+  box-shadow: 0 0 0 3px rgba(18, 183, 106, 0.2);
+}
+
+.status-indicator-dot.draft {
+  background-color: #94a3b8;
+  box-shadow: none;
+}
+
+.editor-header-switch-wrap .form-check-input {
+  cursor: pointer;
+  width: 32px;
+  height: 17px;
+  margin-top: 0;
+}
+
+.editor-header-switch-wrap .form-check-input:checked {
+  background-color: #12b76a;
+  border-color: #12b76a;
+}
+
+.editor-header-switch-wrap label {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  user-select: none;
+  color: #334155;
+  white-space: nowrap;
+}
+
+/* Botón Guardar Cambios Primario */
+.editor-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 15px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border: none;
+  background: var(--admin-primary-gradient);
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  box-shadow: 0 2px 6px rgba(228, 59, 20, 0.25);
+  white-space: nowrap;
+}
+
+.editor-btn-primary:hover {
+  background: linear-gradient(135deg, #cf320d 0%, #e43b14 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(228, 59, 20, 0.38);
+  transform: translateY(-1px);
+}
+
+.editor-btn-primary:active {
+  transform: translateY(0);
+}
+
+.editor-kbd-hint {
+  font-size: 10px;
+  font-family: inherit;
+  background-color: rgba(0, 0, 0, 0.18);
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 1px 5px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-left: 2px;
+}
+
+/* Contenedor Split Screen */
+.editor-split-container {
+  display: flex !important;
+  flex-direction: row !important;
+  height: calc(100vh - 64px);
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Panel Izquierdo: Formulario de Redacción (50% Ancho) */
+.editor-form-pane {
+  width: 50% !important;
+  flex: 0 0 50% !important;
+  max-width: 50% !important;
+  height: 100%;
+  overflow-y: auto;
+  padding: 24px 28px 70px;
+  background-color: #ffffff;
+  border-right: 1px solid var(--admin-border);
+}
+
+/* Encabezado del Formulario de Redacción */
+.editor-form-header {
+  position: relative;
+}
+
+.editor-form-header h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.015em;
+  margin-bottom: 4px;
+}
+
+.editor-form-header p {
+  font-size: 0.84rem;
+  color: #64748b;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* Panel Derecho: Vista Previa en Vivo */
+.editor-preview-pane {
+  width: 50% !important;
+  flex: 0 0 50% !important;
+  max-width: 50% !important;
+  height: 100%;
+  overflow-y: auto !important;
+  overflow-x: hidden;
+  padding: 20px 24px 70px;
+  background-color: #f1f5f9;
+  border-left: 1px solid var(--admin-border);
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Lienzo de simulación de dispositivo para artículos */
+.live-preview-canvas {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  transition: max-width 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-radius 0.3s ease, padding 0.3s ease;
+  min-height: 100%;
+}
+
+.live-preview-canvas.device-tablet {
+  max-width: 768px !important;
+  background-color: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 16px 45px rgba(15, 23, 42, 0.14);
+  padding: 24px 20px;
+  margin: 10px auto 30px;
+}
+
+.live-preview-canvas.device-mobile {
+  max-width: 420px !important;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 16px 45px rgba(15, 23, 42, 0.16);
+  padding: 16px 12px;
+  margin: 10px auto 30px;
+}
+
+.popup-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+/* Scrollbars discretas y modernas */
+.editor-preview-pane::-webkit-scrollbar,
+.editor-form-pane::-webkit-scrollbar {
+  width: 6px;
+}
+
+.editor-preview-pane::-webkit-scrollbar-track,
+.editor-form-pane::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.editor-preview-pane::-webkit-scrollbar-thumb,
+.editor-form-pane::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 999px;
+}
+
+.editor-preview-pane::-webkit-scrollbar-thumb:hover,
+.editor-form-pane::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ==========================================================================
+   ESTUDIO DE POP-UPS: SELECTOR DE ESTILOS RADICALMENTE DIFERENCIADOS
+   ========================================================================== */
+.popup-type-card {
+  position: relative;
+  border: 1.5px solid #e2e8f0;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px 14px 12px;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+}
+
+.popup-type-stripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+}
+
+.popup-type-stripe.alerta { background-color: #dc2626; }
+.popup-type-stripe.comunicado { background-color: #0f172a; }
+.popup-type-stripe.informativo { background-color: #0284c7; }
+
+.popup-type-card:hover {
+  border-color: #94a3b8;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.popup-type-card.selected.type-alerta {
+  border-color: #dc2626;
+  background: #fffafa;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.12), 0 4px 12px rgba(220, 38, 38, 0.08);
+}
+
+.popup-type-card.selected.type-comunicado {
+  border-color: #0f172a;
+  background: #f8fafc;
+  box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.12), 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.popup-type-card.selected.type-informativo {
+  border-color: #0284c7;
+  background: #f0f9ff;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15), 0 4px 12px rgba(2, 132, 199, 0.08);
+}
+
+.popup-type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: 9999px;
+}
+
+.popup-type-badge.alerta {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fee2e2;
+}
+
+.popup-type-badge.comunicado {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+}
+
+.popup-type-badge.informativo {
+  background-color: #eff6ff;
+  color: #0284c7;
+  border: 1px solid #dbeafe;
+}
+
+.popup-type-check {
+  font-size: 14px;
+  color: transparent;
+  transition: color 0.15s ease;
+}
+
+.popup-type-card.selected.type-alerta .popup-type-check { color: #dc2626; }
+.popup-type-card.selected.type-comunicado .popup-type-check { color: #0f172a; }
+.popup-type-card.selected.type-informativo .popup-type-check { color: #0284c7; }
+
+.popup-type-card-title {
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #0f172a;
+  margin-bottom: 3px;
+}
+
+.popup-type-card-desc {
+  font-size: 0.72rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.35;
+}
+
+.editor-btn-dropdown {
+  background-color: #ffffff;
+  border: 1px solid #d0d5dd;
+  color: #344054;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.editor-btn-dropdown:hover {
+  background-color: #f8fafc;
+  border-color: #98a2b3;
+  color: #101828;
+}
+
+/* ==========================================================================
+   SELECTOR DE DISPOSICIÓN / ESTRUCTURA VISUAL (4 DISEÑOS)
+   ========================================================================== */
+.popup-layout-card {
+  border: 1.5px solid #e2e8f0;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 10px 8px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: center;
+  user-select: none;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.popup-layout-card:hover {
+  border-color: #94a3b8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+}
+
+.popup-layout-card.selected {
+  border-color: var(--admin-primary);
+  background-color: #fff9f8;
+  box-shadow: 0 0 0 3px rgba(228, 59, 20, 0.12);
+}
+
+/* Micro-Wireframes Visuales para cada layout */
+.popup-wireframe {
+  width: 100%;
+  max-width: 90px;
+  height: 52px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  margin-bottom: 8px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+/* Wireframe Top: imagen arriba, texto abajo */
+.popup-wireframe.wireframe-top {
+  display: flex;
+  flex-direction: column;
+}
+.wf-img-top {
+  width: 100%;
+  height: 45%;
+  background: #94a3b8;
+}
+.wf-body {
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.wf-line {
+  height: 3px;
+  background: #cbd5e1;
+  border-radius: 2px;
+  width: 90%;
+}
+.wf-line.title {
+  width: 70%;
+  background: #64748b;
+  height: 4px;
+}
+.wf-line.white {
+  background: rgba(255, 255, 255, 0.7);
+}
+.wf-line.title.white {
+  background: #ffffff;
+}
+
+/* Wireframe Left: imagen izq, texto der */
+.popup-wireframe.wireframe-left {
+  display: flex;
+  flex-direction: row;
+}
+.wf-img-left {
+  width: 45%;
+  height: 100%;
+  background: #94a3b8;
+}
+.wf-body-right {
+  width: 55%;
+  padding: 6px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  justify-content: center;
+}
+
+/* Wireframe Right: texto izq, imagen der */
+.popup-wireframe.wireframe-right {
+  display: flex;
+  flex-direction: row;
+}
+.wf-body-left {
+  width: 55%;
+  padding: 6px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  justify-content: center;
+}
+.wf-img-right {
+  width: 45%;
+  height: 100%;
+  background: #94a3b8;
+}
+
+/* Wireframe BG: Full background cover */
+.popup-wireframe.wireframe-bg {
+  background: #334155;
+  display: flex;
+  align-items: flex-end;
+}
+.wf-bg-overlay {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(15,23,42,0.2) 0%, rgba(15,23,42,0.9) 100%);
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  justify-content: flex-end;
+}
+
+.popup-layout-card.selected .wf-img-top,
+.popup-layout-card.selected .wf-img-left,
+.popup-layout-card.selected .wf-img-right {
+  background: var(--admin-primary);
+}
+
+.popup-layout-card.selected .popup-wireframe.wireframe-bg {
+  background: #7f1d1d;
+}
+
+.popup-layout-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.popup-layout-desc {
+  font-size: 10px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* Escenario de Simulación en Vivo para Pop-up */
+.popup-stage-canvas {
+  position: relative;
+  min-height: 600px;
+  background: #1e293b url('../img/patio_unidades_dia_banner.jpg') center/cover no-repeat;
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 30px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.18);
+}
+
+.popup-stage-backdrop-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.68);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1;
+}
+
+.popup-stage-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 760px;
+}
+
+.animate-pop-in {
+  animation: popupStudioIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes popupStudioIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ==========================================================================
+   ESTUDIO DE VACANTES & EMPLEO (BOLSA DE TRABAJO)
+   ========================================================================== */
+.vacancy-stage-canvas {
+  position: relative;
+  min-height: 620px;
+  background: #f1f5f9 radial-gradient(#cbd5e1 1px, transparent 1px) [0 0 / 20px 20px];
+  border: 1px solid #cbd5e1;
+  border-radius: 16px;
+  padding: 34px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 16px 40px -10px rgba(15, 23, 42, 0.08);
+}
+
+.vacancy-stage-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 480px;
+}
+
+.vacancy-preview-email-tag {
+  background: #eff6ff;
+  border: 1px dashed #93c5fd;
+  color: #1e40af;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  word-break: break-all;
+}
+
+.vacancy-preview-email-tag strong {
+  color: #1e3a8a;
+  font-weight: 700;
+}
+
+.vacancy-point-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.vacancy-point-row .form-control {
+  font-size: 0.85rem;
+}
+
+.vacancy-point-del-btn {
+  background: transparent;
+  border: 1px solid #fee2e2;
+  color: #ef4444;
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.vacancy-point-del-btn:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+}
+
+.vacancy-email-preset-btn {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vacancy-email-preset-btn:hover {
+  background: #eff6ff;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+
+/* Modal de Simulación de Postulación en el Preview */
+.vacancy-sim-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(4px);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.vacancy-sim-modal-card {
+  background: #ffffff;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 440px;
+  padding: 24px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+  max-height: 90vh;
+  overflow-y: auto;
+}

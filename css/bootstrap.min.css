@@ -3446,7 +3446,7 @@ fieldset:disabled .btn {
 }
 
 .btn-outline-primary:hover {
-    color: #000;
+    color: #fff;
     background-color: #e24311;
     border-color: #e24311
 }
@@ -3461,7 +3461,7 @@ fieldset:disabled .btn {
 .btn-outline-primary:active,
 .btn-outline-primary.active,
 .btn-outline-primary.dropdown-toggle.show {
-    color: #000;
+    color: #fff;
     background-color: #e24311;
     border-color: #e24311
 }

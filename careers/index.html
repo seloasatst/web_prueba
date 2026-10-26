@@ -9,6 +9,20 @@
   <meta content="Explora la bolsa de trabajo de SELOASA y consulta oportunidades en operacion logistica, calidad, soporte y servicio al cliente." name="description">
   <meta content="vacantes logistica, bolsa de trabajo SELOASA, empleos transporte y almacen" name="keywords">
   <meta content="index, follow" name="robots">
+  <!-- Google Search Console Verification -->
+  <meta name="google-site-verification" content="googledad7aead427a1fd1">
+
+  <!-- Google tag (gtag.js) - Google Analytics 4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4TT87FS1QJ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4TT87FS1QJ', { send_page_view: true });
+  </script>
+  <script src="php/seo_config.php"></script>
+  <script src="js/site-analytics.js" defer></script>
+
   <meta content="#e43b14" name="theme-color">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -187,7 +201,7 @@
                       <input type="tel" class="form-control" id="careerPhone" name="phone" placeholder="+52 55 1234 5678" data-i18n-placeholder="careersPage.form.phone_placeholder" inputmode="tel" maxlength="20" autocomplete="tel" aria-describedby="careerPhoneHelp" required>
                       <label for="careerPhone" data-i18n="careersPage.form.phone_label">Teléfono con lada</label>
                     </div>
-                    <small id="careerPhoneHelp" class="careers-file-help careers-phone-help" data-i18n="careersPage.form.phone_help">Incluye lada. Ejemplo: +52 55 1234 5678.</small>
+                    <small id="careerPhoneHelp" class="careers-phone-help"><i class="fa fa-info-circle me-1 text-primary"></i><span data-i18n="careersPage.form.phone_help">Incluye lada. Ejemplo: +52 55 1234 5678.</span></small>
                   </div>
 
                   <div class="col-md-6">
@@ -199,14 +213,33 @@
                     </div>
                   </div>
 
-                  <div class="col-12">
-                    <label class="careers-file-label" for="careerCvFile" data-i18n="careersPage.form.cv_label">CV adjunto</label>
-                    <input class="form-control careers-file-input" type="file" id="careerCvFile" name="cv" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
-                    <small class="careers-file-help" data-i18n="careersPage.form.cv_help">Formatos permitidos: PDF, DOC, DOCX. Tamaño máximo: 5 MB.</small>
+                  <div class="col-12 mt-3">
+                    <label class="careers-file-label fw-bold mb-2 text-dark" for="careerCvFile">
+                      <span data-i18n="careersPage.form.cv_label">CV adjunto</span> <span class="text-danger">*</span>
+                    </label>
+                    <div class="careers-file-dropzone" id="careerCvDropzone">
+                      <input class="careers-file-native-input" type="file" id="careerCvFile" name="cv" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
+                      <div class="careers-file-dropzone-inner">
+                        <div class="careers-file-dropzone-icon" id="careerCvIcon">
+                          <i class="fa fa-cloud-upload-alt"></i>
+                        </div>
+                        <div class="careers-file-dropzone-text">
+                          <div class="careers-file-main-text" id="careerCvMainText">
+                            <span class="careers-file-browse text-primary fw-bold">Adjuntar archivo</span>
+                            <span class="text-muted ms-1">o arrastra tu CV aquí</span>
+                          </div>
+                          <div class="careers-file-name-display d-none text-dark fw-bold" id="careerCvFileName"></div>
+                          <div class="careers-file-subtext text-muted" id="careerCvHelpText" data-i18n="careersPage.form.cv_help">Formatos permitidos: PDF, DOC, DOCX. Tamaño máximo: 5 MB.</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  <div class="col-12">
-                    <button class="btn btn-primary btn-hero-primary w-100" type="submit" data-i18n="careersPage.form.submit">Enviar postulación</button>
+                  <div class="col-12 pt-2">
+                    <button class="btn btn-primary careers-form-submit-btn w-100" type="submit">
+                      <span data-i18n="careersPage.form.submit">Enviar postulación</span>
+                      <i class="fa fa-paper-plane ms-2 transition-send"></i>
+                    </button>
                   </div>
                 </div>
               </form>

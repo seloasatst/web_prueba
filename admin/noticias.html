@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <base href="../">
+  <meta charset="utf-8">
+  <title>Administrador de Noticias y Blog | SELOASA</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="noindex, nofollow" name="robots">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/blog-templates.css" rel="stylesheet">
+  <link href="css/site-popup.css" rel="stylesheet">
+  <link href="css/blog-admin.css" rel="stylesheet">
+</head>
+
+<body class="admin-body">
+
+  <!-- ======================================================================
+       PANTALLA DE ACCESO: LOGIN (CORREO/CONTRASEÑA) + 2FA GOOGLE AUTHENTICATOR
+       ====================================================================== -->
+  <div id="authWrapper" class="admin-auth-wrapper">
+    <div class="admin-auth-card">
+      <div class="text-center">
+        <img src="img/logotipo.png" alt="SELOASA" class="admin-auth-logo">
+        <h2 class="admin-auth-title">Control Central SELOASA</h2>
+        <p class="admin-auth-sub">Panel integral de gestión: Noticias, Bolsa de Trabajo & Pop-ups</p>
+
+        <!-- Indicador de 2 Pasos -->
+        <div class="auth-step-indicator">
+          <div id="step1Indicator" class="auth-step-pill active">
+            <i class="fa fa-envelope"></i> 1. Credenciales
+          </div>
+          <div class="text-muted small">&bull;&bull;&bull;</div>
+          <div id="step2Indicator" class="auth-step-pill">
+            <i class="fa fa-shield-alt"></i> 2. Google 2FA
+          </div>
+        </div>
+      </div>
+
+      <!-- Alerta de Errores de Autenticación -->
+      <div id="authErrorAlert" class="alert alert-danger py-2 small fw-bold d-none text-center" role="alert"></div>
+
+      <!-- PASO 1: CORREO Y CONTRASEÑA -->
+      <div id="step1Section">
+        <form id="adminLoginForm">
+          <div class="mb-3">
+            <label for="adminEmailInput" class="form-label small fw-bold text-dark mb-1">
+              <i class="fa fa-envelope text-primary me-1"></i> Correo Electrónico
+            </label>
+            <input type="email" id="adminEmailInput" class="form-control" placeholder="admin@seloasa.com.mx" value="admin@seloasa.com.mx" required autocomplete="email">
+          </div>
+
+          <div class="mb-3">
+            <label for="adminPasswordInput" class="form-label small fw-bold text-dark mb-1">
+              <i class="fa fa-lock text-primary me-1"></i> Contraseña
+            </label>
+            <div class="input-group">
+              <input type="password" id="adminPasswordInput" class="form-control" placeholder="••••••••••••" value="Seloasa2026!" required autocomplete="current-password">
+              <button class="btn btn-outline-secondary" type="button" id="togglePasswordBtn" aria-label="Mostrar u ocultar contraseña">
+                <i class="fa fa-eye"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" id="rememberMeCheck" checked>
+            <label class="form-check-label small text-muted" for="rememberMeCheck">
+              Mantener sesión iniciada en este dispositivo
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
+            <span>Continuar a Verificación 2FA</span>
+            <i class="fa fa-arrow-right"></i>
+          </button>
+        </form>
+
+        <!-- Tarjeta de ayuda rápida con credenciales institucionales -->
+        <div class="mt-4 p-3 bg-light border rounded-3 small">
+          <div class="fw-bold text-dark mb-1"><i class="fa fa-info-circle text-primary me-1"></i> Credenciales Institucionales:</div>
+          <div class="text-muted">Correo: <code class="text-dark fw-bold">admin@seloasa.com.mx</code></div>
+          <div class="text-muted">Contraseña: <code class="text-dark fw-bold">Seloasa2026!</code></div>
+        </div>
+      </div>
+
+      <!-- PASO 2: AUTENTICACIÓN DE DOS PASOS (GOOGLE AUTHENTICATOR) -->
+      <div id="step2Section" class="d-none">
+        <div class="text-center mb-3">
+          <div class="d-inline-flex align-items-center justify-content-center bg-danger bg-opacity-10 text-primary rounded-circle mb-2" style="width: 56px; height: 56px; font-size: 1.5rem;">
+            <i class="fa fa-mobile-alt"></i>
+          </div>
+          <h5 class="fw-bold text-dark mb-1">Código Google Authenticator</h5>
+          <p class="small text-muted mb-0">Ingresa el código numérico de 6 dígitos generado en tu aplicación.</p>
+        </div>
+
+        <!-- Barra y Contador de tiempo de expiración (30s) -->
+        <div class="d-flex align-items-center justify-content-between small text-muted mb-1">
+          <span>Ventana de expiración:</span>
+          <span id="totpSecondsText" class="fw-bold text-primary font-monospace">30s</span>
+        </div>
+        <div class="totp-timer-bar-wrap">
+          <div id="totpTimerBar" class="totp-timer-bar"></div>
+        </div>
+
+        <form id="adminTotpForm">
+          <!-- Inputs individuales de 6 dígitos -->
+          <div class="totp-digits-group">
+            <input type="text" maxlength="1" class="totp-digit-input" inputmode="numeric" autocomplete="one-time-code" required>
+            <input type="text" maxlength="1" class="totp-digit-input" inputmode="numeric">
+            <input type="text" maxlength="1" class="totp-digit-input" inputmode="numeric">
+            <input type="text" maxlength="1" class="totp-digit-input" inputmode="numeric">
+            <input type="text" maxlength="1" class="totp-digit-input" inputmode="numeric">
+            <input type="text" maxlength="1" class="totp-digit-input" inputmode="numeric">
+          </div>
+
+          <button type="submit" id="verifyTotpBtn" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 mb-2">
+            <i class="fa fa-check-circle"></i>
+            <span>Verificar y Acceder al Panel</span>
+          </button>
+
+          <button type="button" id="backToStep1Btn" class="btn btn-link text-muted small w-100 text-decoration-none">
+            <i class="fa fa-arrow-left me-1"></i> Regresar a correo y contraseña
+          </button>
+        </form>
+
+        <!-- Acordeón / Colapsable para Configurar Google Authenticator por primera vez -->
+        <div class="mt-3 pt-3 border-top text-center">
+          <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1" type="button" data-bs-toggle="collapse" data-bs-target="#qrSetupCollapse">
+            <i class="fa fa-qrcode me-1"></i> ¿Primera vez con Google Authenticator?
+          </button>
+
+          <div class="collapse mt-3 text-start" id="qrSetupCollapse">
+            <div class="qr-box-card">
+              <h6 class="fw-bold text-dark mb-1 text-center"><i class="fa fa-qrcode text-primary me-1"></i> Configuración de 2FA</h6>
+              <p class="small text-muted mb-2 text-center">Escanea este código QR desde la app <strong>Google Authenticator</strong> en tu celular o ingresa la clave secreta manualmente.</p>
+              
+              <div class="qr-canvas-holder">
+                <canvas id="qrCodeCanvas"></canvas>
+              </div>
+
+              <div class="text-center mb-2">
+                <div class="small text-muted">Clave secreta Base32:</div>
+                <div class="secret-key-display" id="totpSecretKeyDisplay">------</div>
+                <div>
+                  <button type="button" class="btn btn-sm btn-light border py-1 px-3 mt-1" id="copySecretBtn">
+                    <i class="fa fa-copy me-1"></i> Copiar clave
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-2 bg-white rounded border small mt-2 d-none" id="totpLiveCodePreviewBox">
+                <div class="fw-bold text-dark"><i class="fa fa-shield-alt text-primary me-1"></i> Token de seguridad:</div>
+                <div class="d-flex align-items-center justify-content-between mt-1">
+                  <span class="font-monospace fw-bold text-primary fs-5" id="totpLiveCodePreview">------</span>
+                  <span class="badge bg-light text-muted border">RFC 6238</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       DASHBOARD: PANEL PRINCIPAL DE ADMINISTRACIÓN DE PUBLICACIONES
+       ====================================================================== -->
+  <div id="dashboardWrapper" class="d-none">
+    
+    <!-- Header / Navbar Principal (Una sola fila, limpio, sin duplicados) -->
+    <header class="admin-topbar">
+      <div class="admin-topbar-inner">
+        <!-- Marca / Logo -->
+        <a href="admin/noticias.html" class="admin-brand">
+          <img src="img/logotipo.png" alt="SELOASA" class="admin-brand-logo">
+          <span class="admin-brand-sep">/</span>
+          <span class="admin-brand-text">Admin</span>
+        </a>
+
+        <!-- Navegación de Secciones en el Centro -->
+        <nav class="admin-nav-tabs">
+          <button type="button" class="admin-nav-tab active" id="navItemPosts" data-module="posts">
+            <i class="fa fa-newspaper"></i>
+            <span>Noticias &amp; Blog</span>
+            <span class="admin-nav-count" id="navBadgePostsCount">0</span>
+          </button>
+          <button type="button" class="admin-nav-tab" id="navItemVacancies" data-module="vacancies">
+            <i class="fa fa-briefcase"></i>
+            <span>Bolsa de Trabajo</span>
+            <span class="admin-nav-count" id="navBadgeVacanciesCount">0</span>
+          </button>
+          <button type="button" class="admin-nav-tab" id="navItemPopups" data-module="popups">
+            <i class="fa fa-bullhorn"></i>
+            <span>Pop-ups</span>
+            <span class="admin-nav-count admin-count-accent" id="navBadgePopupsActive">1</span>
+          </button>
+        </nav>
+
+        <!-- Botón Salir Discreto -->
+        <button type="button" id="adminLogoutBtn" class="btn-topbar-logout" title="Cerrar sesión">
+          <i class="fa fa-sign-out-alt"></i>
+          <span>Salir</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="container py-4">
+
+      <!-- ======================================================================
+           SECCIÓN MÓDULO 1: PUBLICACIONES Y NOTICIAS
+           ====================================================================== -->
+      <div id="modulePostsSection">
+        
+        <!-- Encabezado de Sección -->
+        <div class="admin-section-header">
+          <div>
+            <h1 class="admin-section-title">Noticias y Comunicados</h1>
+            <p class="admin-section-sub">Gestiona comunicados oficiales, notas técnicas y artículos del blog de SELOASA.</p>
+          </div>
+          <div>
+            <a href="admin/editor.html?new=1" target="_blank" rel="noopener noreferrer" id="btnNewPost" class="btn-primary-action" title="Abrir estudio de redacción en pestaña nueva">
+              <i class="fa fa-plus"></i>
+              <span>Nueva Publicación</span>
+            </a>
+          </div>
+        </div>
+
+      <!-- KPI Cards: Métricas de Publicaciones -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+          <div class="admin-kpi-card">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="admin-kpi-lbl">Total Publicaciones</span>
+              <div class="admin-kpi-icon kpi-icon-all"><i class="fa fa-layer-group"></i></div>
+            </div>
+            <div class="admin-kpi-val" id="kpiTotalCount">0</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="admin-kpi-card">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="admin-kpi-lbl">Comunicados Oficiales</span>
+              <div class="admin-kpi-icon kpi-icon-comunicado"><i class="fa fa-bullhorn"></i></div>
+            </div>
+            <div class="admin-kpi-val" id="kpiComunicadosCount">0</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="admin-kpi-card">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="admin-kpi-lbl">Noticias Operativas</span>
+              <div class="admin-kpi-icon kpi-icon-noticia"><i class="fa fa-newspaper"></i></div>
+            </div>
+            <div class="admin-kpi-val" id="kpiNoticiasCount">0</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="admin-kpi-card">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="admin-kpi-lbl">Blog Farma</span>
+              <div class="admin-kpi-icon kpi-icon-blog"><i class="fa fa-bookmark"></i></div>
+            </div>
+            <div class="admin-kpi-val" id="kpiBlogCount">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Filtros y Búsqueda -->
+      <div class="admin-toolbar-card">
+        <div class="row g-3 align-items-center justify-content-between">
+          <div class="col-12 col-md-auto d-flex align-items-center gap-2 flex-wrap">
+            <span class="small fw-bold text-muted me-1">Filtrar:</span>
+            <button type="button" class="admin-filter-pill-btn active" data-filter-type="all">
+              <i class="fa fa-th-large me-1"></i> Todos
+            </button>
+            <button type="button" class="admin-filter-pill-btn" data-filter-type="comunicado">
+              <i class="fa fa-bullhorn me-1"></i> Comunicados
+            </button>
+            <button type="button" class="admin-filter-pill-btn" data-filter-type="noticia">
+              <i class="fa fa-newspaper me-1"></i> Noticias
+            </button>
+            <button type="button" class="admin-filter-pill-btn" data-filter-type="blog">
+              <i class="fa fa-bookmark me-1"></i> Blog Farma
+            </button>
+          </div>
+
+          <div class="col-12 col-md-5 d-flex align-items-center gap-2">
+            <div class="input-group input-group-sm">
+              <span class="input-group-text bg-light border-end-0"><i class="fa fa-search text-muted"></i></span>
+              <input type="text" id="adminSearchInput" class="form-control border-start-0" placeholder="Buscar por título, ID o departamento...">
+            </div>
+            <select id="statusFilterSelect" class="form-select form-select-sm" style="max-width: 140px;">
+              <option value="all">Estado: Todos</option>
+              <option value="published">Publicados</option>
+              <option value="draft">Borradores</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de Publicaciones -->
+      <div class="admin-table-card mb-4">
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead>
+              <tr>
+                <th>Miniatura</th>
+                <th>Publicación & Folio</th>
+                <th>Tipo / Plantilla</th>
+                <th>Fecha & Tiempo</th>
+                <th>Estado</th>
+                <th class="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="postsTableBody">
+              <!-- Inyectado dinámicamente por js/blog-admin.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <div id="tableNoResultsRow" class="text-center py-5 d-none">
+          <i class="fa fa-folder-open fa-3x text-muted mb-3"></i>
+          <h5 class="text-muted">No se encontraron publicaciones con ese criterio</h5>
+          <p class="small text-muted mb-0">Prueba ajustando el término de búsqueda o cambiando el filtro de categoría.</p>
+        </div>
+      </div>
+
+      <!-- Herramientas de Datos (Copia de Seguridad y Restauración) -->
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3 bg-white border rounded-3 small">
+        <div class="d-flex align-items-center gap-2 text-muted">
+          <i class="fa fa-database text-primary"></i>
+          <span>Los cambios se sincronizan en tiempo real con el catálogo y las vistas de detalle.</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button type="button" id="btnExportJson" class="btn btn-sm btn-outline-dark rounded-pill px-3">
+            <i class="fa fa-download me-1"></i> Respaldar JSON
+          </button>
+          <button type="button" id="btnResetDefaults" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+            <i class="fa fa-undo me-1"></i> Restaurar Originales
+          </button>
+        </div>
+      </div>
+      </div> <!-- Fin #modulePostsSection -->
+
+      <!-- ======================================================================
+           SECCIÓN MÓDULO 2: BOLSA DE TRABAJO & GESTIÓN DE VACANTES
+           ====================================================================== -->
+      <div id="moduleVacanciesSection" class="d-none">
+        
+        <!-- Encabezado de Sección -->
+        <div class="admin-section-header">
+          <div>
+            <h1 class="admin-section-title">Bolsa de Trabajo</h1>
+            <p class="admin-section-sub">Administra vacantes y oportunidades de empleo en SELOASA.</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <a href="careers/" target="_blank" rel="noopener noreferrer" class="btn-topbar-link" title="Ver bolsa pública">
+              <i class="fa fa-external-link-alt"></i>
+              <span>Ver Web</span>
+            </a>
+            <a href="admin/editor-vacante.html?new=1" target="_blank" rel="noopener noreferrer" id="btnNewVacancy" class="btn-primary-action" title="Crear una nueva vacante en el estudio dedicado">
+              <i class="fa fa-plus"></i>
+              <span>Nueva Vacante</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- KPI Cards: Métricas de Vacantes -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Total Vacantes</span>
+                <div class="admin-kpi-icon kpi-icon-all"><i class="fa fa-briefcase"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiVacanciesTotalCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Publicadas en Web</span>
+                <div class="admin-kpi-icon kpi-icon-noticia"><i class="fa fa-check-circle"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiVacanciesPublishedCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">En Borrador</span>
+                <div class="admin-kpi-icon kpi-icon-blog"><i class="fa fa-edit"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiVacanciesDraftCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Áreas Operativas</span>
+                <div class="admin-kpi-icon kpi-icon-comunicado"><i class="fa fa-sitemap"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiVacanciesAreasCount">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de Búsqueda y Filtros de Vacantes -->
+        <div class="admin-table-card mb-4">
+          <div class="admin-toolbar-wrap p-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <div class="input-group input-group-sm" style="width: 280px;">
+                <span class="input-group-text bg-white border-end-0"><i class="fa fa-search text-muted"></i></span>
+                <input type="text" id="adminVacancySearchInput" class="form-control border-start-0" placeholder="Buscar vacante por título, área o lugar...">
+              </div>
+              <select id="vacancyAreaFilterSelect" class="form-select form-select-sm" style="width: 170px;">
+                <option value="all">Todas las áreas</option>
+                <option value="Monitoreo">Monitoreo</option>
+                <option value="Almacén">Almacén</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Aseguramiento de Calidad">Calidad</option>
+                <option value="Tráfico">Tráfico</option>
+              </select>
+              <select id="vacancyStatusFilterSelect" class="form-select form-select-sm" style="width: 140px;">
+                <option value="all">Estado: Todos</option>
+                <option value="published">Publicadas</option>
+                <option value="draft">Borradores</option>
+              </select>
+            </div>
+            <div>
+              <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-light border text-muted" style="font-size: 11.5px;">
+                <i class="fa fa-info-circle text-muted"></i>
+                <span>Las vacantes con estado <strong>Publicada</strong> son visibles en <code>careers/</code>.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabla de Vacantes -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="vacanciesTable">
+              <thead class="table-light text-muted small text-uppercase">
+                <tr>
+                  <th>Puesto &amp; Folio</th>
+                  <th style="width: 130px;">Área</th>
+                  <th style="width: 150px;">Ubicación</th>
+                  <th style="width: 175px;">Correos Destino</th>
+                  <th style="width: 125px;">Estado en Web</th>
+                  <th style="width: 135px;" class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="vacanciesTableBody">
+                <!-- Inyectado dinámicamente por js/blog-admin.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="vacanciesNoResultsRow" class="p-5 text-center text-muted d-none">
+            <i class="fa fa-briefcase fa-3x mb-3 text-secondary opacity-50"></i>
+            <h6 class="fw-bold">No se encontraron vacantes</h6>
+            <p class="small mb-0">Prueba cambiando los filtros de búsqueda o crea una nueva vacante de empleo.</p>
+          </div>
+        </div>
+
+      </div> <!-- Fin #moduleVacanciesSection -->
+
+      <!-- ======================================================================
+           SECCIÓN MÓDULO 3: GESTIÓN DE POP-UPS Y AVISOS EMERGENTES
+           ====================================================================== -->
+      <div id="modulePopupsSection" class="d-none">
+        
+        <!-- Encabezado de Sección -->
+        <div class="admin-section-header">
+          <div>
+            <h1 class="admin-section-title">Pop-ups &amp; Avisos</h1>
+            <p class="admin-section-sub">Configura avisos emergentes para circulares operativas y normativas COFEPRIS.</p>
+          </div>
+          <div>
+            <a href="admin/editor-popup.html?new=1" target="_blank" rel="noopener noreferrer" id="btnNewPopup" class="btn-primary-action" title="Crear un nuevo pop-up">
+              <i class="fa fa-plus"></i>
+              <span>Nuevo Pop-up</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- KPI Cards: Métricas de Pop-ups -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Total Pop-ups</span>
+                <div class="admin-kpi-icon kpi-icon-all"><i class="fa fa-window-restore"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiPopupsTotalCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Pop-up Activo en Web</span>
+                <div class="admin-kpi-icon kpi-icon-noticia"><i class="fa fa-check-circle"></i></div>
+              </div>
+              <div class="admin-kpi-val text-success" id="kpiPopupsActiveName" style="font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                Ninguno
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Alertas Urgentes</span>
+                <div class="admin-kpi-icon kpi-icon-comunicado"><i class="fa fa-exclamation-triangle"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiPopupsAlertCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Frecuencia por Defecto</span>
+                <div class="admin-kpi-icon kpi-icon-blog"><i class="fa fa-user-clock"></i></div>
+              </div>
+              <div class="admin-kpi-val" style="font-size: 1.05rem;">1x Sesión</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de Búsqueda y Filtros de Pop-ups -->
+        <div class="admin-table-card mb-4">
+          <div class="admin-toolbar-wrap p-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <div class="input-group input-group-sm" style="width: 280px;">
+                <span class="input-group-text bg-white border-end-0"><i class="fa fa-search text-muted"></i></span>
+                <input type="text" id="adminPopupSearchInput" class="form-control border-start-0" placeholder="Buscar pop-up por título o texto...">
+              </div>
+              <select id="popupTypeFilterSelect" class="form-select form-select-sm" style="width: 170px;">
+                <option value="all">Todos los estilos</option>
+                <option value="alerta">Alertas COFEPRIS</option>
+                <option value="comunicado">Comunicados</option>
+                <option value="informativo">Informativos</option>
+              </select>
+            </div>
+            <div>
+              <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-light border text-muted" style="font-size: 11.5px;">
+                <i class="fa fa-info-circle text-muted"></i>
+                <span>Solo el aviso con interruptor <strong>Activo</strong> se muestra en la web pública.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabla de Pop-ups -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="popupsTable">
+              <thead class="table-light text-muted small text-uppercase">
+                <tr>
+                  <th style="width: 70px;" class="text-center">Banner</th>
+                  <th>Título &amp; Mensaje</th>
+                  <th style="width: 140px;">Estilo &amp; Diseño</th>
+                  <th style="width: 120px;">Frecuencia</th>
+                  <th style="width: 110px;">Activo en Web</th>
+                  <th style="width: 135px;" class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="popupsTableBody">
+                <!-- Inyectado dinámicamente por js/blog-admin.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="popupsNoResultsRow" class="p-5 text-center text-muted d-none">
+            <i class="fa fa-bullhorn fa-3x mb-3 text-secondary opacity-50"></i>
+            <h6 class="fw-bold">No se encontraron pop-ups</h6>
+            <p class="small mb-0">Crea un nuevo pop-up para publicar un aviso emergente en la web.</p>
+          </div>
+        </div>
+
+      </div> <!-- Fin #modulePopupsSection -->
+
+    </main>
+  </div>
+
+
+  <!-- ======================================================================
+       MODAL: CREAR / EDITAR PUBLICACIÓN
+       ====================================================================== -->
+  <div class="modal fade" id="postEditorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+        <div class="modal-header border-bottom py-3 px-4" style="background-color: #fcfcfc;">
+          <h5 class="modal-title fw-bold text-dark" id="postModalTitle">
+            <i class="fa fa-edit text-primary me-2"></i> Nueva Publicación
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <form id="postEditorForm">
+            <input type="hidden" id="postTypeHidden" value="comunicado">
+
+            <!-- Selector Visual de Estructura de Plantilla -->
+            <div class="mb-4">
+              <label class="form-label small fw-bold text-dark mb-2">
+                <i class="fa fa-palette text-primary me-1"></i> Tipo de Publicación (Aplica su Estructura Original):
+              </label>
+              <div class="row g-2">
+                <div class="col-md-4">
+                  <div class="type-selector-card selected" data-type="comunicado">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                      <i class="fa fa-bullhorn text-primary"></i>
+                      <div class="type-selector-title">1. Comunicado</div>
+                    </div>
+                    <p class="type-selector-desc">Circular oficial membretada, folio, recuadro de resolución ejecutiva y descarga PDF.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="type-selector-card" data-type="noticia">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                      <i class="fa fa-newspaper text-success"></i>
+                      <div class="type-selector-title">2. Noticia</div>
+                    </div>
+                    <p class="type-selector-desc">Hero panorámico completo, franja de telemetría y ficha técnica de equipamiento.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="type-selector-card" data-type="blog">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                      <i class="fa fa-bookmark text-secondary"></i>
+                      <div class="type-selector-title">3. Blog Farma</div>
+                    </div>
+                    <p class="type-selector-desc">Lectura editorial centrada, autor técnico, caja de puntos clave e infografía térmica.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Título y Slug -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-8">
+                <label for="postTitleInput" class="form-label small fw-bold text-dark mb-1">Título de la Publicación *</label>
+                <input type="text" id="postTitleInput" class="form-control" placeholder="Ej: Nueva Certificación de Monitoreo Térmico 2026" required>
+              </div>
+              <div class="col-md-4">
+                <label for="postIdInput" class="form-label small fw-bold text-dark mb-1">ID Único (URL / Folio) *</label>
+                <input type="text" id="postIdInput" class="form-control font-monospace" placeholder="ej: noticia-nueva-ruta" required>
+              </div>
+            </div>
+
+            <!-- Metadatos: Departamento, Categoría, Fecha, Lectura -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="postDeptInput" class="form-label small fw-bold text-dark mb-1">Departamento / Área Emisora</label>
+                <input type="text" id="postDeptInput" class="form-control" placeholder="Ej: Aseguramiento de Calidad y Tráfico">
+              </div>
+              <div class="col-md-6">
+                <label for="postCategoryInput" class="form-label small fw-bold text-dark mb-1">Etiqueta de Categoría</label>
+                <input type="text" id="postCategoryInput" class="form-control" placeholder="Ej: Comunicado Oficial">
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <label for="postDateInput" class="form-label small fw-bold text-dark mb-1">Fecha</label>
+                <input type="text" id="postDateInput" class="form-control" placeholder="Ej: Mayo 2026">
+              </div>
+              <div class="col-md-4">
+                <label for="postReadTimeInput" class="form-label small fw-bold text-dark mb-1">Tiempo de Lectura</label>
+                <input type="text" id="postReadTimeInput" class="form-control" placeholder="Ej: 3 min">
+              </div>
+              <div class="col-md-4">
+                <label for="postStatusSelect" class="form-label small fw-bold text-dark mb-1">Estado</label>
+                <select id="postStatusSelect" class="form-select">
+                  <option value="published">Publicada</option>
+                  <option value="draft">Borrador</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Imagen de Portada -->
+            <div class="mb-3">
+              <label for="postImageInput" class="form-label small fw-bold text-dark mb-1">Ruta o URL de Imagen</label>
+              <div class="input-group">
+                <input type="text" id="postImageInput" class="form-control" placeholder="img/patio_unidades_dia_banner.jpg" value="img/patio_unidades_dia_banner.jpg">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Imágenes del sistema</button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/patio_unidades_dia_banner.jpg'">Patio Unidades Día (Oficial)</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/feature.jpg'">Flota en Carretera (Noticias)</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/about.jpg'">Instalaciones y Calidad (Blog)</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/hero-1.jpg'">Hero Logística</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Resumen Ejecutivo -->
+            <div class="mb-3">
+              <label for="postSummaryInput" class="form-label small fw-bold text-dark mb-1">Resumen Ejecutivo (Lead / Introducción) *</label>
+              <textarea id="postSummaryInput" class="form-control" rows="2" placeholder="Breve descripción que resume los puntos más importantes de la publicación..." required></textarea>
+            </div>
+
+            <!-- Contenido Completo del Artículo (Editor Visual WYSIWYG) -->
+            <div class="mb-3">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <div class="d-flex align-items-center gap-2">
+                  <label class="form-label small fw-bold text-dark mb-0">
+                    <i class="fa fa-pen-fancy text-primary me-1"></i> Contenido de la Publicación (Editor Visual)
+                  </label>
+                  <span class="visual-mode-badge" id="editorModeBadge">
+                    <i class="fa fa-check-circle me-1"></i> Modo Visual
+                  </span>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2 rounded-pill" id="btnToggleCodeView" title="Alternar entre editor visual y código" style="font-size: 0.75rem;">
+                  <i class="fa fa-code me-1"></i> Ver Código HTML
+                </button>
+              </div>
+
+              <div class="visual-editor-container">
+                <!-- Barra de herramientas visual -->
+                <div class="visual-editor-toolbar" id="visualToolbar">
+                  <div class="visual-toolbar-group">
+                    <button type="button" class="visual-toolbar-btn" data-cmd="undo" title="Deshacer (Ctrl+Z)"><i class="fa fa-undo"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="redo" title="Rehacer (Ctrl+Y)"><i class="fa fa-redo"></i></button>
+                  </div>
+
+                  <div class="visual-toolbar-group">
+                    <button type="button" class="visual-toolbar-btn fw-bold" data-cmd="formatBlock" data-val="h4" title="Título de Sección (H4)"><i class="fa fa-heading"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="formatBlock" data-val="p" title="Párrafo normal"><i class="fa fa-paragraph"></i></button>
+                  </div>
+
+                  <div class="visual-toolbar-group">
+                    <button type="button" class="visual-toolbar-btn" data-cmd="bold" title="Negrita (Ctrl+B)"><i class="fa fa-bold"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="italic" title="Cursiva (Ctrl+I)"><i class="fa fa-italic"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="underline" title="Subrayado (Ctrl+U)"><i class="fa fa-underline"></i></button>
+                  </div>
+
+                  <div class="visual-toolbar-group">
+                    <button type="button" class="visual-toolbar-btn" data-cmd="insertUnorderedList" title="Lista con viñetas"><i class="fa fa-list-ul"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="insertOrderedList" title="Lista numerada"><i class="fa fa-list-ol"></i></button>
+                  </div>
+
+                  <div class="visual-toolbar-group">
+                    <button type="button" class="visual-toolbar-btn" data-cmd="formatBlock" data-val="blockquote" title="Cita o frase destacada"><i class="fa fa-quote-left"></i></button>
+                    <button type="button" class="visual-toolbar-btn" id="btnInsertHighlightBox" title="Insertar cuadro destacado de calidad"><i class="fa fa-certificate text-primary"></i></button>
+                  </div>
+
+                  <div class="visual-toolbar-group">
+                    <button type="button" class="visual-toolbar-btn" data-cmd="removeFormat" title="Limpiar formato"><i class="fa fa-eraser"></i></button>
+                  </div>
+                </div>
+
+                <!-- Lienzo de Edición Visual Contenteditable (NO muestra etiquetas HTML) -->
+                <div id="postContentVisualEditor" class="visual-editor-area" contenteditable="true" data-placeholder="Haz clic aquí para escribir el contenido de la publicación de forma visual..."></div>
+
+                <!-- Textarea de código alternativo (oculto por defecto) -->
+                <textarea id="postContentInput" class="form-control font-monospace border-0 rounded-0 d-none" rows="8" style="font-size: 0.88rem;"></textarea>
+              </div>
+              <div class="d-flex align-items-center justify-content-between mt-1 text-muted small" style="font-size: 0.78rem;">
+                <span><i class="fa fa-magic text-primary me-1"></i> Editor visual WYSIWYG: Escribe y formatea de forma visual, sin tocar código HTML.</span>
+                <span id="editorWordCount">0 palabras</span>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer border-top py-3 px-4">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btnSavePost" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
+            <i class="fa fa-save"></i>
+            <span>Guardar Publicación</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL: CREAR / EDITAR VACANTE (BOLSA DE TRABAJO)
+       ====================================================================== -->
+  <div class="modal fade" id="vacancyEditorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+        <div class="modal-header border-bottom py-3 px-4" style="background-color: #fcfcfc;">
+          <h5 class="modal-title fw-bold text-dark" id="vacancyModalTitle">
+            <i class="fa fa-briefcase text-primary me-2"></i> Nueva Vacante de Empleo
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <form id="vacancyEditorForm" onsubmit="return false;">
+            <input type="hidden" id="vacancyExistingIdHidden" value="">
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-8">
+                <label for="vacancyTitleInput" class="form-label small fw-bold text-dark mb-1">Título del Puesto *</label>
+                <input type="text" id="vacancyTitleInput" class="form-control fw-bold" placeholder="Ej: Coordinador de Monitoreo Logístico" required>
+              </div>
+              <div class="col-md-4">
+                <label for="vacancyIdInput" class="form-label small fw-bold text-dark mb-1">ID Único (URL / Folio) *</label>
+                <input type="text" id="vacancyIdInput" class="form-control font-monospace" placeholder="coordinador-monitoreo" required>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="vacancyAreaInput" class="form-label small fw-bold text-dark mb-1">Área o Departamento *</label>
+                <input type="text" id="vacancyAreaInput" class="form-control" list="areasDatalist" placeholder="Ej: Monitoreo, Almacén, Transporte" required>
+                <datalist id="areasDatalist">
+                  <option value="Monitoreo">
+                  <option value="Almacén">
+                  <option value="Transporte">
+                  <option value="Aseguramiento de Calidad">
+                  <option value="Tráfico">
+                  <option value="Recursos Humanos">
+                  <option value="Mantenimiento">
+                </datalist>
+              </div>
+              <div class="col-md-6">
+                <label for="vacancyModeInput" class="form-label small fw-bold text-dark mb-1">Modalidad de Trabajo *</label>
+                <select id="vacancyModeInput" class="form-select">
+                  <option value="Presencial">Presencial</option>
+                  <option value="Operación en ruta">Operación en ruta</option>
+                  <option value="Híbrido">Híbrido</option>
+                  <option value="Remoto">Remoto</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="vacancyLocationInput" class="form-label small fw-bold text-dark mb-1">Ubicación / Sede *</label>
+                <input type="text" id="vacancyLocationInput" class="form-control" placeholder="Ej: Lerma, Estado de México" value="Lerma, Estado de México" required>
+              </div>
+              <div class="col-md-3">
+                <label for="vacancyScheduleInput" class="form-label small fw-bold text-dark mb-1">Jornada Laboral *</label>
+                <input type="text" id="vacancyScheduleInput" class="form-control" placeholder="Ej: Tiempo completo" value="Tiempo completo" required>
+              </div>
+              <div class="col-md-3">
+                <label for="vacancyStatusSelect" class="form-label small fw-bold text-dark mb-1">Estado</label>
+                <select id="vacancyStatusSelect" class="form-select">
+                  <option value="published">Publicada</option>
+                  <option value="draft">Borrador</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="vacancySummaryInput" class="form-label small fw-bold text-dark mb-1">Resumen del Puesto (Introducción) *</label>
+              <textarea id="vacancySummaryInput" class="form-control" rows="2" placeholder="Describe brevemente el objetivo general del puesto..." required></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="vacancyPointsInput" class="form-label small fw-bold text-dark mb-1">
+                Responsabilidades o Puntos Clave (Una línea por punto) *
+              </label>
+              <textarea id="vacancyPointsInput" class="form-control font-monospace" rows="4" placeholder="Monitoreo de rutas, GPS y eventos críticos en tiempo real.&#10;Comunicación con operación y clientes ante desviaciones.&#10;Seguimiento de reportes y evidencias operativas." required></textarea>
+              <div class="form-text small" style="font-size: 0.72rem;">
+                <i class="fa fa-info-circle text-primary me-1"></i> Escribe cada responsabilidad o requisito en un renglón separado. Se mostrarán con viñetas en la bolsa de trabajo.
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label for="vacancySortOrderInput" class="form-label small fw-bold text-dark mb-1">Orden de Visualización</label>
+                <input type="number" id="vacancySortOrderInput" class="form-control form-control-sm" min="0" max="9999" value="10">
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer border-top py-3 px-4">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btnSaveVacancy" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
+            <i class="fa fa-save"></i>
+            <span>Guardar Vacante</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/blog-i18n.js"></script>
+  <script src="js/totp-auth.js"></script>
+  <script src="js/site-popup.js"></script>
+  <script src="js/blog-admin.js"></script>
+</body>
+
+</html>

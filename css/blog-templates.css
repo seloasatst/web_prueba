@@ -1,0 +1,437 @@
+/* ==========================================================================
+   SELOASA - ESTRUCTURAS DE DETALLE DE ARTÍCULO (EN BASE AL DISEÑO ORIGINAL)
+   Colores originales:
+   - Primario: #e43b14 (Rojo SELOASA)
+   - Oscuro: #222222 (Gris carbón / Negro)
+   - Claro / Fondos: #f7f7f7 (Gris suave institucional)
+   - Blanco: #ffffff
+   - Bordes: #e5e7eb / #dee2e6
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   ESTRUCTURA 1: COMUNICADO OFICIAL (FORMATO DOCUMENTO / CIRCULAR INSTITUCIONAL)
+   -------------------------------------------------------------------------- */
+.comunicado-doc-wrapper {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-top: 5px solid #e43b14;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  padding: 40px;
+}
+
+@media (max-width: 768px) {
+  .comunicado-doc-wrapper {
+    padding: 24px 18px;
+  }
+}
+
+.comunicado-doc-header {
+  border-bottom: 2px solid #222222;
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+}
+
+.comunicado-badge-oficial {
+  background-color: #e43b14;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.comunicado-folio-box {
+  font-family: monospace;
+  font-size: 0.82rem;
+  color: #555555;
+  background-color: #f7f7f7;
+  border: 1px solid #dee2e6;
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+.comunicado-doc-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222222;
+  line-height: 1.3;
+  margin-bottom: 15px;
+}
+
+.comunicado-meta-bar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  color: #666666;
+  font-size: 0.85rem;
+  padding: 10px 0;
+  border-top: 1px solid #e5e7eb;
+  border-bottom: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+}
+
+.comunicado-resolucion-box {
+  background-color: #f7f7f7;
+  border-left: 4px solid #e43b14;
+  padding: 18px 22px;
+  margin: 25px 0;
+  border-radius: 0 6px 6px 0;
+}
+
+.comunicado-resolucion-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #e43b14;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+
+.comunicado-resolucion-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #222222;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.comunicado-body-text {
+  color: #333333;
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 30px;
+}
+
+.comunicado-body-text ul,
+.comunicado-body-text ol {
+  padding-left: 20px;
+  margin-bottom: 20px;
+}
+
+.comunicado-body-text li {
+  margin-bottom: 8px;
+}
+
+.comunicado-firma-seccion {
+  background-color: #f7f7f7;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  padding: 22px;
+  margin-top: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.comunicado-firma-autoridad {
+  font-weight: 700;
+  color: #222222;
+  font-size: 0.95rem;
+}
+
+.comunicado-firma-sub {
+  color: #666666;
+  font-size: 0.82rem;
+}
+
+.comunicado-sidebar-card {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 25px;
+}
+
+.btn-comunicado-pdf {
+  background-color: #e43b14;
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 50px;
+  padding: 12px 20px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+}
+
+.btn-comunicado-pdf:hover {
+  background-color: #bf2f0f;
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   ESTRUCTURA 2: NOTICIA OPERATIVA (MEDIA SPLIT & HERO PANORÁMICO CON MÉTRICAS)
+   -------------------------------------------------------------------------- */
+.noticia-hero-banner {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 30px;
+  max-height: 440px;
+}
+
+.noticia-hero-img {
+  width: 100%;
+  height: 440px;
+  object-fit: cover;
+  display: block;
+}
+
+.noticia-hero-tag {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: #e43b14;
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 4px;
+}
+
+.noticia-metrics-row {
+  display: flex;
+  background-color: #f7f7f7;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 18px 10px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.noticia-metric-item {
+  flex: 1 1 25%;
+  text-align: center;
+  padding: 8px 12px;
+  border-right: 1px solid #dee2e6;
+}
+
+.noticia-metric-item:last-child {
+  border-right: none;
+}
+
+@media (max-width: 768px) {
+  .noticia-metric-item {
+    flex: 1 1 50%;
+    border-bottom: 1px solid #dee2e6;
+  }
+}
+
+.noticia-metric-val {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #e43b14;
+  line-height: 1.2;
+}
+
+.noticia-metric-lbl {
+  font-size: 0.75rem;
+  color: #666666;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+.noticia-main-card {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 35px;
+  margin-bottom: 30px;
+}
+
+.noticia-specs-box {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-top: 3px solid #e43b14;
+  border-radius: 6px;
+  padding: 20px;
+  margin: 25px 0;
+}
+
+.noticia-specs-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #222222;
+  margin-bottom: 12px;
+}
+
+/* --------------------------------------------------------------------------
+   ESTRUCTURA 3: BLOG FARMA / ARTÍCULO TÉCNICO (LECTURA EDITORIAL & DIVULGACIÓN)
+   -------------------------------------------------------------------------- */
+.blog-reading-container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.blog-editorial-card {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 45px;
+  margin-bottom: 35px;
+}
+
+@media (max-width: 768px) {
+  .blog-editorial-card {
+    padding: 24px 18px;
+  }
+}
+
+.blog-author-strip {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.blog-author-avatar {
+  width: 46px;
+  height: 46px;
+  background-color: #222222;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.blog-key-takeaways-card {
+  background-color: #f7f7f7;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 22px 26px;
+  margin: 28px 0;
+}
+
+.blog-takeaways-heading {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #222222;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.blog-takeaways-heading i {
+  color: #e43b14;
+}
+
+.blog-takeaway-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 0.92rem;
+  color: #444444;
+  line-height: 1.5;
+}
+
+.blog-takeaway-row:last-child {
+  margin-bottom: 0;
+}
+
+.blog-takeaway-row i {
+  color: #e43b14;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.blog-pull-quote {
+  border-left: 4px solid #e43b14;
+  background-color: #f7f7f7;
+  padding: 20px 24px;
+  margin: 30px 0;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: #222222;
+  line-height: 1.6;
+}
+
+.blog-thermal-infobox {
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding: 22px;
+  margin: 28px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.blog-thermal-pill {
+  text-align: center;
+  padding: 10px 18px;
+  background: #f7f7f7;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  flex: 1 1 200px;
+}
+
+.blog-thermal-deg {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #e43b14;
+}
+
+.blog-author-bio-footer {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 25px;
+  margin-top: 35px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* --------------------------------------------------------------------------
+   ESTILOS COMUNES DE RECOMENDADOS Y NAVEGACIÓN (COLOR ORIGINAL)
+   -------------------------------------------------------------------------- */
+.sidebar-rec-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.sidebar-rec-item:hover {
+  background-color: #f7f7f7;
+}
+
+.sidebar-rec-img {
+  width: 70px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.sidebar-rec-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #222222;
+  line-height: 1.35;
+  margin-bottom: 4px;
+}
+
+.sidebar-rec-item:hover .sidebar-rec-title {
+  color: #e43b14;
+}
