@@ -28,10 +28,26 @@ RedirectMatch 403 ^/shipping/php/(storage|logs)/.*$
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
+    # 1. Links Bonitos para Artículos de Blog:
+    # Soporta tanto /blog/articulo/mi-slug como /blog/mi-slug
+    RewriteRule ^blog/articulo/([a-zA-Z0-9_\-]+)/?$ blog/articulo.html?id=$1 [QSA,L]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^blog/([a-zA-Z0-9_\-]+)/?$ blog/articulo.html?id=$1 [QSA,L]
+
+    # 2. Permitir URLs limpias sin extensión .html (ej: /admin/noticias -> /admin/noticias.html)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME}.html -f
+    RewriteRule ^(.*)$ $1.html [L]
+
+    # 3. Permitir archivos y carpetas reales existentes
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
+    # 4. Cualquier otra ruta no encontrada redirige a 404
     RewriteRule ^ - [R=404,L]
 </IfModule>
 

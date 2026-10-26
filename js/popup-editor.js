@@ -476,7 +476,7 @@
         message: '<p>Informamos a nuestros clientes sobre las nuevas disposiciones operativas y de aseguramiento de calidad en rutas de alta especialidad.</p>',
         image: 'img/patio_unidades_dia_banner.jpg',
         btn_primary_text: 'Ver Comunicado Oficial',
-        btn_primary_url: 'blog/articulo.html?id=featured',
+        btn_primary_url: 'blog/comunicado-gdp-2026',
         btn_secondary_text: 'Entendido, continuar navegando',
         custom_footer: '',
         active: false,

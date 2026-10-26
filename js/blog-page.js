@@ -86,8 +86,8 @@
     if (summary) summary.textContent = content.featured.summary;
 
     if (readBtn) {
-      const featId = (content.featured && content.featured.id) ? content.featured.id : 'featured';
-      readBtn.setAttribute('href', `blog/articulo.html?id=${encodeURIComponent(featId)}`);
+      const featId = (content.featured && content.featured.id) ? content.featured.id : 'comunicado-gdp-2026';
+      readBtn.setAttribute('href', `blog/${encodeURIComponent(featId)}`);
       readBtn.setAttribute('target', '_blank');
       readBtn.setAttribute('rel', 'noopener noreferrer');
     }
@@ -134,7 +134,7 @@
       else if (lang === 'pt') btnText = item.type === 'comunicado' ? 'Ver comunicado' : 'Ler mais';
       else if (lang === 'fr') btnText = item.type === 'comunicado' ? 'Voir communiqué' : 'Lire la suite';
 
-      const targetUrl = `blog/articulo.html?id=${encodeURIComponent(item.id || index)}`;
+      const targetUrl = `blog/${encodeURIComponent(item.id || index)}`;
 
       return `
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="${(0.1 + (index % 3) * 0.15).toFixed(2)}s">
@@ -177,7 +177,7 @@
         if (e.target.closest('a')) {
           return;
         }
-        window.open(`blog/articulo.html?id=${encodeURIComponent(post.id || '')}`, '_blank', 'noopener,noreferrer');
+        window.open(`blog/${encodeURIComponent(post.id || '')}`, '_blank', 'noopener,noreferrer');
       });
     });
   }

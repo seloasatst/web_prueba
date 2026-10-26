@@ -20,6 +20,24 @@
     return urlParams.get(param);
   }
 
+  function getPostIdFromUrl() {
+    // 1. Obtener de parámetro ?id= (retrocompatibilidad)
+    const queryId = getQueryParam('id');
+    if (queryId) return queryId;
+
+    // 2. Obtener de Pretty URL (/blog/slug o /blog/articulo/slug)
+    const pathname = window.location.pathname.replace(/\/+$/, '');
+    const segments = pathname.split('/').filter(Boolean);
+    if (segments.length > 0) {
+      const last = decodeURIComponent(segments[segments.length - 1]);
+      if (!['blog', 'articulo', 'articulo.html', 'index.html', 'shipping'].includes(last.toLowerCase())) {
+        return last;
+      }
+    }
+
+    return 'featured';
+  }
+
   function normalizeLang(lang) {
     if (!lang) return 'es';
     const value = String(lang).toLowerCase();
@@ -470,7 +488,7 @@
      ========================================================================== */
   function renderArticle(lang) {
     const content = getBlogContent(lang);
-    const postId = getQueryParam('id') || 'featured';
+    const postId = getPostIdFromUrl();
 
     function renderPostObject(post, allContent) {
       if (!post) return;
@@ -494,7 +512,7 @@
 
       host.innerHTML = renderedHtml;
       renderRecommendations(allContent, post.id, post.type);
-      initCopyAction();
+      initCopyAction(post.id);
     }
 
     if (content) {
@@ -543,16 +561,17 @@
     // Si es tipo blog, renderizamos en columnas de 3 (grid inferior)
     if (postType === 'blog') {
       container.innerHTML = recommendations.map(item => {
+        const itemUrl = `blog/${encodeURIComponent(item.id || '')}`;
         return `
           <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
-              <a href="blog/articulo.html?id=${encodeURIComponent(item.id || '')}">
+              <a href="${itemUrl}">
                 <img src="${item.image}" alt="" class="card-img-top w-100" style="height: 140px; object-fit: cover;">
               </a>
               <div class="card-body p-3 d-flex flex-column">
                 <span class="badge bg-light text-dark border mb-1 align-self-start small" style="font-size: 0.7rem;">${item.category || 'SELOASA'}</span>
                 <h6 class="small fw-bold mb-1">
-                  <a href="blog/articulo.html?id=${encodeURIComponent(item.id || '')}" class="text-dark text-decoration-none hover-primary">
+                  <a href="${itemUrl}" class="text-dark text-decoration-none hover-primary">
                     ${item.title}
                   </a>
                 </h6>
@@ -567,8 +586,9 @@
     } else {
       // Si es comunicado o noticia, renderizamos formato lista en sidebar
       container.innerHTML = recommendations.map(item => {
+        const itemUrl = `blog/${encodeURIComponent(item.id || '')}`;
         return `
-          <a href="blog/articulo.html?id=${encodeURIComponent(item.id || '')}" class="sidebar-rec-item">
+          <a href="${itemUrl}" class="sidebar-rec-item">
             <img src="${item.image}" alt="" class="sidebar-rec-img">
             <div class="overflow-hidden">
               <div class="small text-muted" style="font-size: 0.7rem;">${item.category || 'SELOASA'}</div>
@@ -581,11 +601,16 @@
     }
   }
 
-  function initCopyAction() {
+  function initCopyAction(currentPostId) {
     document.querySelectorAll('.btn-copy-article').forEach(btn => {
       btn.addEventListener('click', function () {
+        const targetId = currentPostId || getPostIdFromUrl();
+        const baseOrigin = window.location.origin;
+        const prefix = window.location.pathname.includes('/shipping/') ? '/shipping/blog/' : '/blog/';
+        const prettyUrl = `${baseOrigin}${prefix}${encodeURIComponent(targetId)}`;
+
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(window.location.href).then(() => {
+          navigator.clipboard.writeText(prettyUrl).then(() => {
             const originalHtml = btn.innerHTML;
             btn.innerHTML = '<i class="fa fa-check me-1"></i> ¡Enlace copiado!';
             setTimeout(() => {
@@ -593,7 +618,7 @@
             }, 2500);
           });
         } else {
-          alert('Enlace: ' + window.location.href);
+          prompt('Copia este enlace:', prettyUrl);
         }
       });
     });

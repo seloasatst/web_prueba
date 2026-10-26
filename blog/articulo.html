@@ -1,7 +1,22 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
+  <script>
+    (function () {
+      var pathname = window.location.pathname;
+      var baseDir = '/';
+      var shippingIdx = pathname.indexOf('/shipping/');
+      if (shippingIdx !== -1) {
+        baseDir = pathname.substring(0, shippingIdx + '/shipping/'.length);
+      }
+      var baseTag = document.querySelector('base') || document.createElement('base');
+      baseTag.setAttribute('href', baseDir);
+      if (!baseTag.parentNode) {
+        document.head.insertBefore(baseTag, document.head.firstChild);
+      }
+    })();
+  </script>
   <base href="../">
   <meta charset="utf-8">
   <title id="articlePageTitle">Detalle de Publicación | Servicios Logísticos Alsera</title>

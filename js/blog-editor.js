@@ -415,7 +415,7 @@
     const currentStructureBadge = document.getElementById('previewStructureName');
 
     if (addressBar) {
-      addressBar.textContent = `https://seloasa.com.mx/blog/articulo.html?id=${encodeURIComponent(post.id)}`;
+      addressBar.textContent = `https://seloasa.com.mx/blog/${encodeURIComponent(post.id)}`;
     }
 
     if (currentStructureBadge) {
@@ -668,7 +668,7 @@
 
       const viewPublicBtn = document.getElementById('btnViewPublicPost');
       if (viewPublicBtn && p.id) {
-        viewPublicBtn.setAttribute('href', `blog/articulo.html?id=${encodeURIComponent(p.id)}`);
+        viewPublicBtn.setAttribute('href', `blog/${encodeURIComponent(p.id)}`);
         viewPublicBtn.classList.remove('d-none');
       }
 
@@ -839,7 +839,7 @@
     // Actualizar botón de vista pública
     const viewPublicBtn = document.getElementById('btnViewPublicPost');
     if (viewPublicBtn) {
-      viewPublicBtn.setAttribute('href', `blog/articulo.html?id=${encodeURIComponent(postData.id)}`);
+      viewPublicBtn.setAttribute('href', `blog/${encodeURIComponent(postData.id)}`);
       viewPublicBtn.classList.remove('d-none');
     }
 

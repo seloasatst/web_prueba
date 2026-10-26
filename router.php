@@ -11,6 +11,27 @@ if ($normalizedPath === '') {
 
 $resolvedPath = $documentRoot . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $normalizedPath);
 
+// 1. Pretty URLs para Blog
+if (preg_match('#^blog/articulo/([a-zA-Z0-9_\-]+)/?$#', $normalizedPath, $matches)) {
+    $_GET['id'] = $matches[1];
+    include $documentRoot . DIRECTORY_SEPARATOR . 'blog' . DIRECTORY_SEPARATOR . 'articulo.html';
+    return true;
+}
+
+if (preg_match('#^blog/([a-zA-Z0-9_\-]+)/?$#', $normalizedPath, $matches)) {
+    if (!is_dir($documentRoot . DIRECTORY_SEPARATOR . 'blog' . DIRECTORY_SEPARATOR . $matches[1])) {
+        $_GET['id'] = $matches[1];
+        include $documentRoot . DIRECTORY_SEPARATOR . 'blog' . DIRECTORY_SEPARATOR . 'articulo.html';
+        return true;
+    }
+}
+
+// 2. URLs sin extensión .html (ej. admin/noticias -> admin/noticias.html)
+if (is_file($resolvedPath . '.html')) {
+    include $resolvedPath . '.html';
+    return true;
+}
+
 if (is_file($resolvedPath)) {
     return false;
 }
@@ -26,6 +47,7 @@ if (is_dir($resolvedPath)) {
         }
     }
 }
+
 
 $errorPage = $documentRoot . DIRECTORY_SEPARATOR . '404' . DIRECTORY_SEPARATOR . 'index.html';
 $errorMarkup = file_get_contents($errorPage);
