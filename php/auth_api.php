@@ -5,23 +5,38 @@
  * Protege contra fuerza bruta y genera sesiones seguras HttpOnly.
  */
 
-require_once __DIR__ . '/db.php';
+ini_set('display_errors', '0');
+error_reporting(E_ALL);
+ob_start();
+
 require_once __DIR__ . '/admin_helper.php';
+
+// Limpiar cualquier salida accidental previa a los encabezados
+if (ob_get_length()) {
+    ob_clean();
+}
 
 header('Content-Type: application/json; charset=UTF-8');
 header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: SAMEORIGIN');
 
-// CORS restringido al mismo origen
+// CORS robusto para desarrollo local, file:// y producción
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $host = $_SERVER['HTTP_HOST'] ?? '';
-if ($origin !== '' && str_contains($origin, $host)) {
+if ($origin === 'null') {
+    header('Access-Control-Allow-Origin: null');
+    header('Access-Control-Allow-Credentials: true');
+} elseif ($origin === '') {
+    header('Access-Control-Allow-Origin: *');
+} elseif (preg_match('#^https?://(localhost|127\.0\.0\.1)(:\d+)?$#i', $origin) || ($host !== '' && str_contains($origin, $host))) {
     header("Access-Control-Allow-Origin: {$origin}");
     header('Access-Control-Allow-Credentials: true');
+} else {
+    header('Access-Control-Allow-Origin: *');
 }
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type, X-CSRF-Token');
+header('Access-Control-Allow-Headers: Content-Type, X-CSRF-Token, Authorization');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204);
@@ -58,19 +73,36 @@ if ($action === 'check') {
 }
 
 /* ==========================================================================
-   POST: PASO 1 - VALIDACIÓN DE EMAIL Y CONTRASEÑA
+   GET: OBTENER LISTA DE CORREOS AUTORIZADOS
    ========================================================================== */
-if ($action === 'login_step1' && $method === 'POST') {
+if ($action === 'get_allowed_emails') {
+    if (!admin_is_authenticated()) {
+        http_response_code(403);
+        echo json_encode(['success' => false, 'error' => 'No autorizado']);
+        exit;
+    }
+    echo json_encode([
+        'success' => true,
+        'emails' => admin_get_allowed_emails(),
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+/* ==========================================================================
+   POST: PASO 1A - SOLICITUD DE CÓDIGO POR CORREO (SIN CONTRASEÑA)
+   Verifica que el correo esté en la lista autorizada y envía OTP de 6 dígitos.
+   Vigencia estricta: 10 minutos (600 segundos).
+   ========================================================================== */
+if (($action === 'request_email_code' || $action === 'login_step1') && $method === 'POST') {
     $rawInput = file_get_contents('php://input');
     $payload = json_decode($rawInput, true);
     if (!is_array($payload)) {
         $payload = $_POST;
     }
 
-    $email = trim((string) ($payload['email'] ?? ''));
-    $password = (string) ($payload['password'] ?? '');
+    $email = strtolower(trim((string) ($payload['email'] ?? '')));
 
-    // 1. Verificar bloqueo por intentos fallidos
+    // 1. Verificar bloqueo por fuerza bruta
     $status = admin_login_attempt_status();
     if (!empty($status['blocked'])) {
         http_response_code(429);
@@ -82,50 +114,106 @@ if ($action === 'login_step1' && $method === 'POST') {
         exit;
     }
 
-    if ($email === '' || $password === '') {
+    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
         http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'Ingresa tu correo y contraseña.'], JSON_UNESCAPED_UNICODE);
-        exit;
-    }
-
-    // 2. Validar correo
-    $isEmailValid = (strcasecmp($email, $adminEmail) === 0);
-
-    // 3. Validar contraseña (bcrypt hash o fallback seguro)
-    $isPasswordValid = false;
-    if ($adminPasswordHash !== '' && str_starts_with($adminPasswordHash, '$2y$')) {
-        $isPasswordValid = password_verify($password, $adminPasswordHash);
-    } else {
-        // Fallback por si la variable tiene contraseña en texto plano en .env
-        $fallbackPass = admin_env('ADMIN_PASSWORD', 'Seloasa2026!');
-        $isPasswordValid = hash_equals($fallbackPass, $password);
-    }
-
-    if (!$isEmailValid || !$isPasswordValid) {
-        admin_register_login_failure();
-        http_response_code(401);
         echo json_encode([
             'success' => false,
-            'error' => 'Correo o contraseña incorrectos. Verifica tus credenciales.'
+            'error' => 'Ingresa un correo electrónico institucional válido.'
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
-    // Paso 1 superado: registrar en sesión temporal (expira en 5 minutos)
-    $_SESSION['auth_step1_passed'] = true;
-    $_SESSION['auth_step1_time'] = time();
-    $_SESSION['auth_step1_email'] = $email;
+    // 2. Verificar que el correo esté en la lista autorizada
+    if (!admin_is_email_allowed($email)) {
+        admin_register_login_failure();
+        http_response_code(403);
+        echo json_encode([
+            'success' => false,
+            'error' => 'El correo ingresado no cuenta con autorización administrativa en SELOASA.'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    // 3. Generar código OTP de 6 dígitos con vigencia de 10 minutos
+    $otpData = admin_generate_email_otp($email);
+    $code = $otpData['code'];
+    $expiresIn = $otpData['expires_in'];
+
+    // 4. Enviar correo electrónico con el código
+    $sendResult = admin_send_otp_email($email, $code, $expiresIn);
 
     echo json_encode([
         'success' => true,
-        'step' => 2,
-        'message' => 'Credenciales verificadas. Ingresa tu código de 6 dígitos de Google Authenticator.'
+        'email' => $email,
+        'expires_in' => $expiresIn, // 600 segundos (10 minutos)
+        'message' => "Código de acceso enviado a tu correo institucional.",
+        'email_sent' => !empty($sendResult['sent'])
     ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
 /* ==========================================================================
-   POST: PASO 2 - VALIDACIÓN DEL CÓDIGO 2FA (GOOGLE AUTHENTICATOR)
+   POST: PASO 1B - VERIFICACIÓN DEL CÓDIGO DE 6 DÍGITOS DEL CORREO
+   Válido solo si no han pasado 10 minutos. Al ser válido, pasa al paso de Google 2FA.
+   ========================================================================== */
+if ($action === 'verify_email_code' && $method === 'POST') {
+    $rawInput = file_get_contents('php://input');
+    $payload = json_decode($rawInput, true);
+    if (!is_array($payload)) {
+        $payload = $_POST;
+    }
+
+    $email = strtolower(trim((string) ($payload['email'] ?? '')));
+    $code = preg_replace('/\D/', '', (string) ($payload['code'] ?? ''));
+
+    // 1. Verificar bloqueo por fuerza bruta
+    $status = admin_login_attempt_status();
+    if (!empty($status['blocked'])) {
+        http_response_code(429);
+        echo json_encode([
+            'success' => false,
+            'blocked' => true,
+            'error' => "Demasiados intentos fallidos. Bloqueado por seguridad durante {$status['seconds']} segundos."
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if ($email === '' || strlen($code) !== 6) {
+        http_response_code(400);
+        echo json_encode([
+            'success' => false,
+            'error' => 'Ingresa los 6 dígitos del código enviado a tu correo.'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    // 2. Validar OTP y vigencia de 10 minutos
+    $verifyResult = admin_verify_email_otp($email, $code);
+
+    if (empty($verifyResult['valid'])) {
+        admin_register_login_failure();
+        $httpCode = !empty($verifyResult['expired']) ? 400 : 401;
+        http_response_code($httpCode);
+        echo json_encode([
+            'success' => false,
+            'expired' => !empty($verifyResult['expired']),
+            'error' => $verifyResult['error'] ?? 'Código de correo incorrecto o expirado.'
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    // Paso 1 completado exitosamente: continuar al código de Google Authenticator
+    echo json_encode([
+        'success' => true,
+        'step' => 2,
+        'email' => $email,
+        'message' => 'Código de correo verificado correctamente. Ahora ingresa tu código de Google Authenticator.'
+    ], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+/* ==========================================================================
+   POST: PASO 2 - VALIDACIÓN DEL CÓDIGO DE GOOGLE AUTHENTICATOR (2FA)
    ========================================================================== */
 if ($action === 'login_step2' && $method === 'POST') {
     $rawInput = file_get_contents('php://input');
@@ -134,18 +222,18 @@ if ($action === 'login_step2' && $method === 'POST') {
         $payload = $_POST;
     }
 
-    $code = trim((string) ($payload['code'] ?? ''));
+    $code = preg_replace('/\D/', '', trim((string) ($payload['code'] ?? '')));
     $remember = !empty($payload['remember']);
 
-    // Verificar que el Paso 1 se haya completado en los últimos 300 segundos
+    // Verificar que el Paso 1 (correo verificado) se haya completado en los últimos 600 segundos (10 min)
     $step1Passed = !empty($_SESSION['auth_step1_passed']);
     $step1Time = (int) ($_SESSION['auth_step1_time'] ?? 0);
-    if (!$step1Passed || (time() - $step1Time) > 300) {
-        unset($_SESSION['auth_step1_passed'], $_SESSION['auth_step1_time']);
+    if (!$step1Passed || (time() - $step1Time) > 600) {
+        unset($_SESSION['auth_step1_passed'], $_SESSION['auth_step1_time'], $_SESSION['auth_step1_email']);
         http_response_code(403);
         echo json_encode([
             'success' => false,
-            'error' => 'La sesión del primer paso expiró. Por favor ingresa tus credenciales nuevamente.'
+            'error' => 'La sesión de verificación por correo expiró (vigencia de 10 minutos). Solicita un nuevo código.'
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }

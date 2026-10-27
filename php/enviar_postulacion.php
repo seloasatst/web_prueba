@@ -134,20 +134,9 @@ try {
 
     $mail->send();
 
-    // Guardar registro de la postulación en la base de datos MySQL
+    // Guardar registro de la postulación en almacenamiento JSON seguro
     try {
-        require_once __DIR__ . '/db.php';
-        $pdo = get_db_connection();
-        $insApp = $pdo->prepare("
-            INSERT INTO `postulaciones` (
-                `vacante_id`, `vacante_title`, `candidate_name`, `candidate_email`,
-                `candidate_phone`, `cv_filename`, `recipient_emails`, `status`
-            ) VALUES (
-                :vacante_id, :vacante_title, :candidate_name, :candidate_email,
-                :candidate_phone, :cv_filename, :recipient_emails, 'nuevo'
-            )
-        ");
-        $insApp->execute([
+        admin_append_postulacion([
             'vacante_id' => $vacancyId,
             'vacante_title' => $safeVacancyTitle,
             'candidate_name' => $fullName,
@@ -155,9 +144,11 @@ try {
             'candidate_phone' => $phone,
             'cv_filename' => $safeFileName,
             'recipient_emails' => $vacancyRecipients,
+            'status' => 'nuevo',
+            'created_at' => date('c')
         ]);
-    } catch (Exception $dbEx) {
-        error_log("Error guardando postulación en BD: " . $dbEx->getMessage());
+    } catch (Exception $storeEx) {
+        error_log("Error guardando postulación en JSON: " . $storeEx->getMessage());
     }
 
     redirect_application_status($sourcePage, 'success');

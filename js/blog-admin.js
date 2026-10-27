@@ -29,7 +29,39 @@
   let totpIntervalId = null;
 
   /* ==========================================================================
-     GESTOR DE SESIÓN Y AUTENTICACIÓN SEGURA (PHP BACKEND)
+     RESOLUCIÓN DINÁMICA DE APIS (Soporta Apache :80, Live Server :5500-:5501, file://)
+     ========================================================================== */
+  function getBackendApiUrl(endpoint) {
+    const isFile = window.location.protocol === 'file:';
+    const port = window.location.port;
+    const isDevServer = port && port !== '80' && port !== '443';
+
+    if (isFile || isDevServer) {
+      const host = window.location.hostname === 'localhost' ? 'localhost' : '127.0.0.1';
+      return `http://${host}/shipping/` + endpoint.replace(/^\/+/, '');
+    }
+    return endpoint;
+  }
+  window.getBackendApiUrl = getBackendApiUrl;
+
+  function getApiFetchOptions(method = 'GET', body = null) {
+    const isFile = window.location.protocol === 'file:';
+    const opts = {
+      method: method,
+      headers: { 'Content-Type': 'application/json' }
+    };
+    if (!isFile) {
+      opts.credentials = 'include';
+    }
+    if (body !== null) {
+      opts.body = typeof body === 'string' ? body : JSON.stringify(body);
+    }
+    return opts;
+  }
+  window.getApiFetchOptions = getApiFetchOptions;
+
+  /* ==========================================================================
+     GESTOR DE SESIÓN Y VISTAS (LOGIN VS DASHBOARD)
      ========================================================================== */
 
   function isAuthenticated() {
@@ -50,6 +82,45 @@
     localStorage.removeItem(STORAGE_KEYS.AUTH_SESSION);
   }
 
+  function showDashboardView() {
+    const authWrapper = document.getElementById('authWrapper');
+    const dashboardWrapper = document.getElementById('dashboardWrapper');
+    if (authWrapper) authWrapper.classList.add('d-none');
+    if (dashboardWrapper) dashboardWrapper.classList.remove('d-none');
+
+    // Sincronizar publicaciones, pop-ups y vacantes con el backend
+    loadPosts();
+    loadPopups();
+    loadVacancies();
+  }
+
+  function showAuthView() {
+    const authWrapper = document.getElementById('authWrapper');
+    const dashboardWrapper = document.getElementById('dashboardWrapper');
+    if (dashboardWrapper) dashboardWrapper.classList.add('d-none');
+    if (authWrapper) authWrapper.classList.remove('d-none');
+
+    const step1Section = document.getElementById('step1Section');
+    const step2Section = document.getElementById('step2Section');
+    const substepEmailFormWrap = document.getElementById('substepEmailFormWrap');
+    const substepEmailCodeWrap = document.getElementById('substepEmailCodeWrap');
+    const step1Indicator = document.getElementById('step1Indicator');
+    const step2Indicator = document.getElementById('step2Indicator');
+
+    if (step1Section) step1Section.classList.remove('d-none');
+    if (step2Section) step2Section.classList.add('d-none');
+    if (substepEmailFormWrap) substepEmailFormWrap.classList.remove('d-none');
+    if (substepEmailCodeWrap) substepEmailCodeWrap.classList.add('d-none');
+    if (step1Indicator) {
+      step1Indicator.classList.add('active');
+      step1Indicator.classList.remove('completed');
+    }
+    if (step2Indicator) {
+      step2Indicator.classList.remove('active');
+      step2Indicator.classList.remove('completed');
+    }
+  }
+
   /* ==========================================================================
      ALMACÉN DE DATOS DE PUBLICACIONES
      ========================================================================== */
@@ -67,8 +138,8 @@
       console.warn('Error al leer posts de cache local:', e);
     }
 
-    // Consultar directamente la Base de Datos MySQL
-    fetch('php/noticias_api.php')
+    // Consultar directamente la API de Noticias
+    fetch(getBackendApiUrl('php/noticias_api.php'), getApiFetchOptions('GET'))
       .then(res => res.json())
       .then(data => {
         if (data && data.success && Array.isArray(data.items)) {
@@ -87,12 +158,8 @@
     try {
       localStorage.setItem(STORAGE_KEYS.POSTS_DATA, JSON.stringify(currentPosts));
       window.dispatchEvent(new Event('storage'));
-      fetch('php/noticias_api.php', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: currentPosts })
-      }).catch(e => console.error('Error al guardar publicaciones en MySQL:', e));
+      fetch(getBackendApiUrl('php/noticias_api.php'), getApiFetchOptions('POST', { items: currentPosts }))
+        .catch(e => console.error('Error al guardar publicaciones:', e));
     } catch (e) {
       console.error('Error al guardar publicaciones:', e);
     }
@@ -101,88 +168,233 @@
   /* ==========================================================================
      VISTAS: LOGIN Y 2FA
      ========================================================================== */
+  /* ==========================================================================
+     VISTAS: ACCESO SIN CONTRASEÑA (CÓDIGO EMAIL 10 MIN + GOOGLE 2FA)
+     ========================================================================== */
+  let emailOtpIntervalId = null;
+  let currentTargetEmail = '';
+
+  function getAuthApiUrl(query) {
+    return getBackendApiUrl('php/auth_api.php' + (query ? '?' + query.replace(/^\?/, '') : ''));
+  }
+
+  function getAuthFetchOptions(method, body) {
+    return getApiFetchOptions(method, body);
+  }
+
+  async function parseFetchResponse(res) {
+    const text = await res.text();
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      return {
+        success: false,
+        error: (res.status === 404 ? 'Servicio no encontrado (404). ' : 'Servidor respondió (' + res.status + '): ') + (text ? text.substring(0, 150) : 'Sin datos')
+      };
+    }
+  }
+
   function initAuthFlow() {
-    const loginForm = document.getElementById('adminLoginForm');
+    const emailRequestForm = document.getElementById('adminEmailRequestForm');
+    const emailVerifyForm = document.getElementById('adminEmailVerifyForm');
     const totpForm = document.getElementById('adminTotpForm');
-    const authErrorAlert = document.getElementById('authErrorAlert');
     const step1Indicator = document.getElementById('step1Indicator');
     const step2Indicator = document.getElementById('step2Indicator');
     const step1Section = document.getElementById('step1Section');
     const step2Section = document.getElementById('step2Section');
+    const substepEmailFormWrap = document.getElementById('substepEmailFormWrap');
+    const substepEmailCodeWrap = document.getElementById('substepEmailCodeWrap');
+    const sentEmailTargetDisplay = document.getElementById('sentEmailTargetDisplay');
 
-    // Toggle Mostrar/Ocultar contraseña
-    const togglePassBtn = document.getElementById('togglePasswordBtn');
-    const passInput = document.getElementById('adminPasswordInput');
-    if (togglePassBtn && passInput) {
-      togglePassBtn.addEventListener('click', function () {
-        const isPass = passInput.type === 'password';
-        passInput.type = isPass ? 'text' : 'password';
-        togglePassBtn.innerHTML = isPass ? '<i class="fa fa-eye-slash"></i>' : '<i class="fa fa-eye"></i>';
+    // Detección de protocolo file:///
+    if (window.location.protocol === 'file:') {
+      const isUnderBlog = window.location.pathname.includes('/blog/');
+      const serverUrl = isUnderBlog ? 'http://localhost/shipping/blog/admin/index.html' : 'http://localhost/shipping/admin/noticias.html';
+      const fileNotice = document.getElementById('fileProtocolNotice');
+      const fileRedirectLink = document.getElementById('fileProtocolRedirectLink');
+      if (fileNotice) {
+        fileNotice.classList.remove('d-none');
+        if (fileRedirectLink) fileRedirectLink.href = serverUrl;
+      }
+    }
+
+    // SUB-PASO 1A: Solicitud de Código de 6 Dígitos por Correo (Sin contraseña)
+    if (emailRequestForm) {
+      emailRequestForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        hideAuthMessages();
+
+        const email = (document.getElementById('adminEmailInput').value || '').trim();
+        if (!email) {
+          showAuthError('Por favor ingresa un correo institucional.');
+          return;
+        }
+
+        const submitBtn = document.getElementById('btnRequestEmailCode');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Enviando código...';
+        }
+
+        fetch(getAuthApiUrl('action=request_email_code'), getAuthFetchOptions('POST', { email: email }))
+          .then(parseFetchResponse)
+          .then(data => {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = '<i class="fa fa-paper-plane me-1"></i><span>Enviar Código de 6 Dígitos</span>';
+            }
+
+            if (data && data.success) {
+              currentTargetEmail = email;
+              if (sentEmailTargetDisplay) sentEmailTargetDisplay.textContent = email;
+
+              // Mostrar sub-paso 1B
+              substepEmailFormWrap.classList.add('d-none');
+              substepEmailCodeWrap.classList.remove('d-none');
+              hideAuthMessages();
+
+              // Iniciar cronómetro de 10 minutos (600s)
+              startEmailOtpCountdown(data.expires_in || 600);
+              setupDigitInputs('.email-digit-input', 'btnVerifyEmailOtp');
+            } else {
+              showAuthError(data.error || 'El correo ingresado no cuenta con autorización administrativa.');
+            }
+          })
+          .catch(err => {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = '<i class="fa fa-paper-plane me-1"></i><span>Enviar Código de 6 Dígitos</span>';
+            }
+            if (window.location.protocol === 'file:') {
+              showAuthError('No fue posible contactar a Apache desde file:///. Abre el panel ingresando en tu navegador a: http://localhost/shipping/admin/noticias.html (o http://localhost/shipping/blog/admin/index.html)');
+            } else {
+              showAuthError('Error de comunicación con el servidor: ' + (err.message || 'Verifica que Apache esté activo en XAMPP.'));
+            }
+          });
       });
     }
 
-    // Paso 1: Envío de Correo y Contraseña validado en el servidor
-    if (loginForm) {
-      loginForm.addEventListener('submit', function (e) {
+    // SUB-PASO 1B: Verificación del Código de 6 Dígitos del Correo (10 minutos)
+    if (emailVerifyForm) {
+      emailVerifyForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        authErrorAlert.classList.add('d-none');
+        hideAuthMessages();
 
-        const email = (document.getElementById('adminEmailInput').value || '').trim();
-        const password = (document.getElementById('adminPasswordInput').value || '').trim();
+        const code = getEnteredDigitCode('.email-digit-input');
+        if (code.length !== 6) {
+          showAuthError('Ingresa el código completo de 6 dígitos enviado a tu correo.');
+          return;
+        }
 
-        const submitBtn = loginForm.querySelector('button[type="submit"]');
-        if (submitBtn) submitBtn.disabled = true;
+        const verifyBtn = document.getElementById('btnVerifyEmailOtp');
+        if (verifyBtn) {
+          verifyBtn.disabled = true;
+          verifyBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Validando código...';
+        }
 
-        fetch('php/auth_api.php?action=login_step1', {
-          method: 'POST',
-          credentials: 'include',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email, password: password })
-        })
-          .then(res => res.json())
+        fetch(getAuthApiUrl('action=verify_email_code'), getAuthFetchOptions('POST', { email: currentTargetEmail, code: code }))
+          .then(parseFetchResponse)
           .then(data => {
-            if (submitBtn) submitBtn.disabled = false;
+            if (verifyBtn) {
+              verifyBtn.disabled = false;
+              verifyBtn.innerHTML = '<span>Continuar a Google 2FA</span><i class="fa fa-arrow-right ms-1"></i>';
+            }
+
             if (data && data.success) {
+              stopEmailOtpCountdown();
+              hideAuthMessages();
+
+              // Transición a PASO 2: GOOGLE AUTHENTICATOR (2FA)
               step1Section.classList.add('d-none');
               step2Section.classList.remove('d-none');
               step1Indicator.classList.remove('active');
               step1Indicator.classList.add('completed');
               step2Indicator.classList.add('active');
 
-              setupTotpInputs();
+              setupDigitInputs('.google-digit-input', 'verifyTotpBtn');
               startTotpCountdown();
               renderQrSetup();
             } else {
-              showAuthError(data.error || 'Correo o contraseña incorrectos. Revisa tus credenciales.');
+              showAuthError(data.error || 'Código de correo incorrecto o expirado.');
+              clearDigitInputs('.email-digit-input');
             }
           })
           .catch(err => {
-            if (submitBtn) submitBtn.disabled = false;
-            showAuthError('Error de conexión con el servidor de autenticación.');
+            if (verifyBtn) {
+              verifyBtn.disabled = false;
+              verifyBtn.innerHTML = '<span>Continuar a Google 2FA</span><i class="fa fa-arrow-right ms-1"></i>';
+            }
+            showAuthError('Error de conexión al verificar el código de correo: ' + (err.message || 'Revisa tu conexión.'));
           });
       });
     }
 
-    // Regresar de Paso 2 a Paso 1
+    // Botón Reenviar Código de Correo
+    const btnResendEmailOtp = document.getElementById('btnResendEmailOtp');
+    if (btnResendEmailOtp) {
+      btnResendEmailOtp.addEventListener('click', function () {
+        if (!currentTargetEmail) return;
+        btnResendEmailOtp.disabled = true;
+        btnResendEmailOtp.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i> Reenviando...';
+
+        fetch(getAuthApiUrl('action=request_email_code'), getAuthFetchOptions('POST', { email: currentTargetEmail }))
+          .then(parseFetchResponse)
+          .then(data => {
+            if (data && data.success) {
+              showAuthSuccess('Nuevo código de 6 dígitos enviado. Tienes 10 minutos para ingresarlo.');
+              startEmailOtpCountdown(data.expires_in || 600);
+              clearDigitInputs('.email-digit-input');
+            } else {
+              showAuthError(data.error || 'No fue posible reenviar el código.');
+            }
+            setTimeout(() => {
+              btnResendEmailOtp.disabled = false;
+              btnResendEmailOtp.innerHTML = '<i class="fa fa-sync-alt me-1"></i> Reenviar código';
+            }, 3000);
+          })
+          .catch(() => {
+            showAuthError('Error de comunicación al reenviar el código.');
+            btnResendEmailOtp.disabled = false;
+            btnResendEmailOtp.innerHTML = '<i class="fa fa-sync-alt me-1"></i> Reenviar código';
+          });
+      });
+    }
+
+    // Botón Cambiar Correo
+    const btnChangeEmail = document.getElementById('btnChangeEmail');
+    if (btnChangeEmail) {
+      btnChangeEmail.addEventListener('click', function () {
+        stopEmailOtpCountdown();
+        hideAuthMessages();
+        clearDigitInputs('.email-digit-input');
+        substepEmailCodeWrap.classList.add('d-none');
+        substepEmailFormWrap.classList.remove('d-none');
+      });
+    }
+
+    // Regresar de Paso 2 (Google 2FA) a Paso 1 (Correo)
     const backToStep1Btn = document.getElementById('backToStep1Btn');
     if (backToStep1Btn) {
       backToStep1Btn.addEventListener('click', function () {
+        stopTotpCountdown();
+        hideAuthMessages();
         step2Section.classList.add('d-none');
         step1Section.classList.remove('d-none');
         step2Indicator.classList.remove('active');
         step1Indicator.classList.remove('completed');
         step1Indicator.classList.add('active');
-        stopTotpCountdown();
+        substepEmailCodeWrap.classList.remove('d-none');
+        substepEmailFormWrap.classList.add('d-none');
       });
     }
 
-    // Paso 2: Verificación de código 2FA en el servidor
+    // Paso 2: Verificación de código Google Authenticator (TOTP)
     if (totpForm) {
       totpForm.addEventListener('submit', function (e) {
         e.preventDefault();
-        authErrorAlert.classList.add('d-none');
+        hideAuthMessages();
 
-        const code = getEnteredTotpCode();
+        const code = getEnteredDigitCode('.google-digit-input');
         if (code.length !== 6) {
           showAuthError('Ingresa el código completo de 6 dígitos de Google Authenticator.');
           return;
@@ -192,48 +404,85 @@
         if (verifyBtn) verifyBtn.disabled = true;
         const rememberMe = document.getElementById('rememberMeCheck')?.checked || false;
 
-        fetch('php/auth_api.php?action=login_step2', {
-          method: 'POST',
-          credentials: 'include',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ code: code, remember: rememberMe })
-        })
-          .then(res => res.json())
+        fetch(getAuthApiUrl('action=login_step2'), getAuthFetchOptions('POST', { code: code, remember: rememberMe }))
+          .then(parseFetchResponse)
           .then(data => {
             if (verifyBtn) verifyBtn.disabled = false;
             if (data && data.success) {
               setAuthenticated(rememberMe);
               stopTotpCountdown();
+              stopEmailOtpCountdown();
               showDashboardView();
             } else {
-              showAuthError(data.error || 'Código de verificación incorrecto o expirado.');
-              clearTotpInputs();
+              showAuthError(data.error || 'Código de Google Authenticator incorrecto o expirado.');
+              clearDigitInputs('.google-digit-input');
             }
           })
           .catch(err => {
             if (verifyBtn) verifyBtn.disabled = false;
-            showAuthError('Error al validar código con el servidor.');
+            showAuthError('Error al validar código 2FA con el servidor: ' + (err.message || 'Verifica tu conexión.'));
           });
       });
     }
   }
 
-  function showAuthError(msg) {
-    const authErrorAlert = document.getElementById('authErrorAlert');
-    if (authErrorAlert) {
-      authErrorAlert.textContent = msg;
-      authErrorAlert.classList.remove('d-none');
+  function startEmailOtpCountdown(seconds) {
+    stopEmailOtpCountdown();
+    const countdownText = document.getElementById('emailOtpCountdownText');
+    const progressBar = document.getElementById('emailOtpProgressBar');
+    const totalSeconds = seconds || 600;
+    let remaining = totalSeconds;
+
+    function formatTime(s) {
+      const mins = Math.floor(s / 60);
+      const secs = s % 60;
+      return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')} min`;
+    }
+
+    function tick() {
+      if (countdownText) countdownText.textContent = formatTime(remaining);
+      if (progressBar) {
+        const pct = Math.max(0, (remaining / totalSeconds) * 100);
+        progressBar.style.width = pct + '%';
+        if (pct < 20) {
+          progressBar.className = 'progress-bar bg-danger';
+        } else if (pct < 50) {
+          progressBar.className = 'progress-bar bg-warning';
+        } else {
+          progressBar.className = 'progress-bar bg-primary';
+        }
+      }
+
+      if (remaining <= 0) {
+        stopEmailOtpCountdown();
+        showAuthError('El código de 6 dígitos ha expirado (vigencia de 10 minutos cumplida). Solicita un nuevo código.');
+        const verifyBtn = document.getElementById('btnVerifyEmailOtp');
+        if (verifyBtn) verifyBtn.disabled = true;
+        return;
+      }
+
+      remaining--;
+    }
+
+    tick();
+    emailOtpIntervalId = setInterval(tick, 1000);
+  }
+
+  function stopEmailOtpCountdown() {
+    if (emailOtpIntervalId) {
+      clearInterval(emailOtpIntervalId);
+      emailOtpIntervalId = null;
     }
   }
 
-  function setupTotpInputs() {
-    const digitInputs = document.querySelectorAll('.totp-digit-input');
+  function setupDigitInputs(selector, submitBtnId) {
+    const digitInputs = document.querySelectorAll(selector);
     if (!digitInputs || digitInputs.length === 0) return;
 
     digitInputs.forEach((input, index) => {
       input.value = '';
 
-      input.addEventListener('input', function (e) {
+      input.addEventListener('input', function () {
         const val = this.value.replace(/\D/g, '');
         this.value = val ? val[0] : '';
 
@@ -241,9 +490,8 @@
           digitInputs[index + 1].focus();
         }
 
-        // Si se han ingresado los 6 dígitos, auto-enviar el formulario
-        if (getEnteredTotpCode().length === 6) {
-          document.getElementById('verifyTotpBtn')?.click();
+        if (getEnteredDigitCode(selector).length === 6 && submitBtnId) {
+          document.getElementById(submitBtnId)?.click();
         }
       });
 
@@ -253,7 +501,6 @@
         }
       });
 
-      // Permitir pegar el código de 6 dígitos directamente
       input.addEventListener('paste', function (e) {
         e.preventDefault();
         const pasted = (e.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').trim();
@@ -262,7 +509,9 @@
             if (digitInputs[i]) digitInputs[i].value = char;
           });
           digitInputs[5].focus();
-          document.getElementById('verifyTotpBtn')?.click();
+          if (submitBtnId) {
+            document.getElementById(submitBtnId)?.click();
+          }
         }
       });
     });
@@ -272,8 +521,8 @@
     }, 150);
   }
 
-  function getEnteredTotpCode() {
-    const digitInputs = document.querySelectorAll('.totp-digit-input');
+  function getEnteredDigitCode(selector) {
+    const digitInputs = document.querySelectorAll(selector);
     let code = '';
     digitInputs.forEach(inp => {
       code += (inp.value || '').trim();
@@ -281,10 +530,37 @@
     return code;
   }
 
-  function clearTotpInputs() {
-    const digitInputs = document.querySelectorAll('.totp-digit-input');
+  function clearDigitInputs(selector) {
+    const digitInputs = document.querySelectorAll(selector);
     digitInputs.forEach(inp => { inp.value = ''; });
     digitInputs[0]?.focus();
+  }
+
+  function showAuthError(msg) {
+    const authErrorAlert = document.getElementById('authErrorAlert');
+    const authSuccessAlert = document.getElementById('authSuccessAlert');
+    if (authSuccessAlert) authSuccessAlert.classList.add('d-none');
+    if (authErrorAlert) {
+      authErrorAlert.textContent = msg;
+      authErrorAlert.classList.remove('d-none');
+    }
+  }
+
+  function showAuthSuccess(msg) {
+    const authErrorAlert = document.getElementById('authErrorAlert');
+    const authSuccessAlert = document.getElementById('authSuccessAlert');
+    if (authErrorAlert) authErrorAlert.classList.add('d-none');
+    if (authSuccessAlert) {
+      authSuccessAlert.textContent = msg;
+      authSuccessAlert.classList.remove('d-none');
+    }
+  }
+
+  function hideAuthMessages() {
+    const authErrorAlert = document.getElementById('authErrorAlert');
+    const authSuccessAlert = document.getElementById('authSuccessAlert');
+    if (authErrorAlert) authErrorAlert.classList.add('d-none');
+    if (authSuccessAlert) authSuccessAlert.classList.add('d-none');
   }
 
   function startTotpCountdown() {
@@ -319,8 +595,8 @@
     const secretDisplay = document.getElementById('totpSecretKeyDisplay');
     const copySecretBtn = document.getElementById('copySecretBtn');
 
-    fetch('php/auth_api.php?action=setup_2fa', { credentials: 'include' })
-      .then(res => res.json())
+    fetch(getAuthApiUrl('action=setup_2fa'), getAuthFetchOptions('GET'))
+      .then(parseFetchResponse)
       .then(data => {
         if (data && data.success) {
           if (secretDisplay) secretDisplay.textContent = data.secret;
@@ -428,6 +704,22 @@
     });
   }
 
+  function renderLangIndicators(translations) {
+    const t = translations || {};
+    const langs = [
+      { code: 'es', flag: '🇪🇸', title: 'Español (Base)', active: true },
+      { code: 'en', flag: '🇺🇸', title: 'English', active: Boolean(t.en && (t.en.title || t.en.message)) },
+      { code: 'al', flag: '🇩🇪', title: 'Deutsch', active: Boolean(t.al && (t.al.title || t.al.message)) },
+      { code: 'pt', flag: '🇧🇷', title: 'Português', active: Boolean(t.pt && (t.pt.title || t.pt.message)) },
+      { code: 'fr', flag: '🇫🇷', title: 'Français', active: Boolean(t.fr && (t.fr.title || t.fr.message)) }
+    ];
+    return `
+      <div class="d-inline-flex align-items-center gap-1 mt-1" title="Disponibilidad en 5 idiomas">
+        ${langs.map(l => `<span style="font-size: 0.75rem; opacity: ${l.active ? '1' : '0.22'}; filter: ${l.active ? 'none' : 'grayscale(1)'}; cursor: help;" title="${l.title}: ${l.active ? '✓ Completado' : 'Pendiente (Usa Español como respaldo)'}">${l.flag}</span>`).join('')}
+      </div>
+    `;
+  }
+
   function renderPostsTable() {
     const tbody = document.getElementById('postsTableBody');
     const noResultsRow = document.getElementById('tableNoResultsRow');
@@ -473,6 +765,7 @@
             <div class="text-muted small font-monospace" style="font-size: 0.78rem;">
               ID: ${post.id} &bull; ${post.dept || 'SELOASA'}
             </div>
+            ${renderLangIndicators(post.translations)}
           </td>
           <td>
             <span class="admin-badge-type ${typeBadgeClass}">
@@ -891,8 +1184,8 @@
       try {
         localStorage.setItem(STORAGE_KEYS.POSTS_DATA, JSON.stringify(currentPosts));
         window.dispatchEvent(new Event('storage'));
-        fetch('php/noticias_api.php?id=' + encodeURIComponent(id), { method: 'DELETE', credentials: 'include' })
-          .catch(err => console.warn('Error al eliminar noticia de BD:', err));
+        fetch(getBackendApiUrl('php/noticias_api.php?id=' + encodeURIComponent(id)), getApiFetchOptions('DELETE'))
+          .catch(err => console.warn('Error al eliminar noticia:', err));
       } catch (e) {}
       renderKpis();
       renderPostsTable();
@@ -933,8 +1226,8 @@
       console.warn('Error al leer popups de cache local:', e);
     }
 
-    // Consultar directamente la Base de Datos MySQL
-    fetch('php/popup_api.php')
+    // Consultar directamente la API de Pop-ups
+    fetch(getBackendApiUrl('php/popup_api.php'), getApiFetchOptions('GET'))
       .then(res => res.json())
       .then(data => {
         if (data && data.success && Array.isArray(data.items)) {
@@ -950,7 +1243,7 @@
           renderPopupsTable();
         }
       })
-      .catch(err => console.warn('Sync popups BD error:', err));
+      .catch(err => console.warn('Sync popups error:', err));
 
     return currentPopups;
   }
@@ -964,12 +1257,8 @@
       } else {
         localStorage.removeItem(STORAGE_KEYS.ACTIVE_POPUP_ID);
       }
-      fetch('php/popup_api.php', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: currentPopups })
-      }).catch(err => console.warn('Error sincronizando popups con BD:', err));
+      fetch(getBackendApiUrl('php/popup_api.php'), getApiFetchOptions('POST', { items: currentPopups }))
+        .catch(err => console.warn('Error sincronizando popups:', err));
     } catch (e) {
       console.error('Error al guardar popups:', e);
     }
@@ -1069,6 +1358,7 @@
             <div class="admin-popup-snippet text-truncate" style="max-width: 360px;">
               ${snippet}
             </div>
+            ${renderLangIndicators(popup.translations)}
           </td>
           <td>
             <div class="d-flex flex-column gap-1">
@@ -1150,13 +1440,9 @@
     renderPopupsKpis();
     renderPopupsTable();
 
-    // Sincronizar activación atómica en MySQL
-    fetch('php/popup_api.php', {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ activate_id: willBeActive ? id : '' })
-    }).catch(err => console.warn('Sync popup active error:', err));
+    // Sincronizar activación atómica en la API
+    fetch(getBackendApiUrl('php/popup_api.php'), getApiFetchOptions('POST', { activate_id: willBeActive ? id : '' }))
+      .catch(err => console.warn('Sync popup active error:', err));
   }
 
   function deletePopup(id) {
@@ -1167,8 +1453,8 @@
       currentPopups = currentPopups.filter(p => p.id !== id);
       try {
         localStorage.setItem(STORAGE_KEYS.POPUPS_DATA, JSON.stringify(currentPopups));
-        fetch('php/popup_api.php?id=' + encodeURIComponent(id), { method: 'DELETE', credentials: 'include' })
-          .catch(err => console.warn('Error al eliminar popup de BD:', err));
+        fetch(getBackendApiUrl('php/popup_api.php?id=' + encodeURIComponent(id)), getApiFetchOptions('DELETE'))
+          .catch(err => console.warn('Error al eliminar popup:', err));
       } catch (e) {}
       renderPopupsKpis();
       renderPopupsTable();
@@ -1203,8 +1489,8 @@
       console.warn('Error al leer vacantes de cache local:', e);
     }
 
-    // Consultar directamente la Base de Datos MySQL
-    fetch('php/vacantes_api.php')
+    // Consultar directamente la API de Vacantes
+    fetch(getBackendApiUrl('php/vacantes_api.php'), getApiFetchOptions('GET'))
       .then(res => res.json())
       .then(data => {
         if (data && data.success && Array.isArray(data.items)) {
@@ -1214,7 +1500,7 @@
           renderVacanciesTable();
         }
       })
-      .catch(err => console.warn('Sync vacantes BD error:', err));
+      .catch(err => console.warn('Sync vacantes error:', err));
 
     return currentVacancies;
   }
@@ -1223,12 +1509,8 @@
     try {
       localStorage.setItem(STORAGE_KEYS.VACANCIES_DATA, JSON.stringify(currentVacancies, null, 2));
       window.dispatchEvent(new Event('storage'));
-      fetch('php/vacantes_api.php', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: currentVacancies })
-      }).catch(err => console.warn('Sync vacantes API error:', err));
+      fetch(getBackendApiUrl('php/vacantes_api.php'), getApiFetchOptions('POST', { items: currentVacancies }))
+        .catch(err => console.warn('Sync vacantes API error:', err));
     } catch (e) {
       console.error('Error al guardar vacantes:', e);
     }
@@ -1315,6 +1597,7 @@
             <div class="text-muted small font-monospace" style="font-size: 0.78rem;">
               ID: ${v.id} &bull; <span class="badge bg-light text-dark border">${v.mode || 'Presencial'}</span>
             </div>
+            ${renderLangIndicators(v.translations)}
           </td>
           <td>
             <span class="admin-badge-area ${areaClass}">
@@ -1512,8 +1795,8 @@
       currentVacancies = currentVacancies.filter(item => item.id !== id);
       try {
         localStorage.setItem(STORAGE_KEYS.VACANCIES_DATA, JSON.stringify(currentVacancies));
-        fetch('php/vacantes_api.php?id=' + encodeURIComponent(id), { method: 'DELETE', credentials: 'include' })
-          .catch(err => console.warn('Error al eliminar vacante de BD:', err));
+        fetch(getBackendApiUrl('php/vacantes_api.php?id=' + encodeURIComponent(id)), getApiFetchOptions('DELETE'))
+          .catch(err => console.warn('Error al eliminar vacante:', err));
       } catch (e) {}
       renderVacanciesKpis();
       renderVacanciesTable();
@@ -1560,8 +1843,8 @@
     initAuthFlow();
 
     // Comprobar con el servidor si ya existe sesión activa
-    fetch('php/auth_api.php?action=check', { credentials: 'include' })
-      .then(res => res.json())
+    fetch(getAuthApiUrl('action=check'), getAuthFetchOptions('GET'))
+      .then(parseFetchResponse)
       .then(data => {
         if (data && data.authenticated) {
           setAuthenticated();
@@ -1581,7 +1864,7 @@
 
     // Botón Cerrar Sesión
     document.getElementById('adminLogoutBtn')?.addEventListener('click', function () {
-      fetch('php/auth_api.php?action=logout', { method: 'POST', credentials: 'include' })
+      fetch(getAuthApiUrl('action=logout'), getAuthFetchOptions('POST'))
         .finally(() => {
           clearAuthentication();
           showAuthView();

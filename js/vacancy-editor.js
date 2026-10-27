@@ -7,15 +7,37 @@
 (function () {
   'use strict';
 
+  function getBackendApiUrl(endpoint) {
+    if (typeof window.getBackendApiUrl === 'function') {
+      return window.getBackendApiUrl(endpoint);
+    }
+    const isFile = window.location.protocol === 'file:';
+    const port = window.location.port;
+    const isDevServer = port && port !== '80' && port !== '443';
+    if (isFile || isDevServer) {
+      const host = window.location.hostname === 'localhost' ? 'localhost' : '127.0.0.1';
+      return `http://${host}/shipping/` + endpoint.replace(/^\/+/, '');
+    }
+    return endpoint;
+  }
+
   const STORAGE_KEYS = {
     VACANCIES_DATA: 'seloasa_careers_vacancies'
   };
 
-  const API_ENDPOINT = 'php/vacantes_api.php';
+  const API_ENDPOINT = getBackendApiUrl('php/vacantes_api.php');
 
   let currentVacancies = [];
   let editingVacancyId = null;
   let isNewVacancy = false;
+  let currentVacancyLang = 'es';
+  let vacancyTranslations = {
+    es: {},
+    en: {},
+    al: {},
+    pt: {},
+    fr: {}
+  };
 
   function escapeHtml(text) {
     if (!text) return '';
@@ -107,17 +129,31 @@
     };
   }
 
-  function setFormData(data) {
-    if (!data) return;
+  function getTranslatableVacancyFields() {
+    const points = [];
+    document.querySelectorAll('.vacancy-point-input').forEach(input => {
+      const val = input.value.trim();
+      if (val) points.push(val);
+    });
 
-    if (document.getElementById('vacancyIdInput')) {
-      document.getElementById('vacancyIdInput').value = data.id || '';
-    }
+    return {
+      title: document.getElementById('vacancyTitleInput')?.value.trim() || '',
+      area: document.getElementById('vacancyAreaInput')?.value.trim() || '',
+      mode: document.getElementById('vacancyModeSelect')?.value || 'Presencial',
+      location: document.getElementById('vacancyLocationInput')?.value.trim() || '',
+      schedule: document.getElementById('vacancyScheduleInput')?.value.trim() || '',
+      summary: document.getElementById('vacancySummaryInput')?.value.trim() || '',
+      points: points.length > 0 ? points : ['Requisito o responsabilidad clave de la posición.']
+    };
+  }
+
+  function setTranslatableVacancyFields(data) {
+    data = data || {};
     if (document.getElementById('vacancyTitleInput')) {
       document.getElementById('vacancyTitleInput').value = data.title || '';
     }
     if (document.getElementById('vacancyAreaInput')) {
-      document.getElementById('vacancyAreaInput').value = data.area || 'Monitoreo';
+      document.getElementById('vacancyAreaInput').value = data.area || '';
     }
     if (document.getElementById('vacancyAreaSelect')) {
       document.getElementById('vacancyAreaSelect').value = data.area || 'custom';
@@ -126,19 +162,81 @@
       document.getElementById('vacancyModeSelect').value = data.mode || 'Presencial';
     }
     if (document.getElementById('vacancyLocationInput')) {
-      document.getElementById('vacancyLocationInput').value = data.location || 'Lerma, Estado de México';
+      document.getElementById('vacancyLocationInput').value = data.location || '';
     }
     if (document.getElementById('vacancyScheduleInput')) {
-      document.getElementById('vacancyScheduleInput').value = data.schedule || 'Tiempo completo';
+      document.getElementById('vacancyScheduleInput').value = data.schedule || '';
+    }
+    if (document.getElementById('vacancySummaryInput')) {
+      document.getElementById('vacancySummaryInput').value = data.summary || '';
+    }
+
+    renderPointsInputs(data.points || []);
+  }
+
+  function updateVacancyLangBadges() {
+    const langKeys = ['es', 'en', 'al', 'pt', 'fr'];
+    langKeys.forEach(l => {
+      const badge = document.getElementById(`vacLangBadge-${l}`);
+      if (!badge) return;
+      const data = vacancyTranslations[l] || {};
+      const isTranslated = Boolean(data.title && data.title.trim().length > 0);
+      if (l === 'es') {
+        badge.textContent = isTranslated ? 'Base OK' : 'Base';
+        badge.className = 'badge bg-success ms-1 small';
+      } else {
+        badge.textContent = isTranslated ? '✓ Traducido' : 'Pendiente';
+        badge.className = isTranslated ? 'badge bg-success ms-1 small' : 'badge bg-light text-muted border ms-1 small';
+      }
+    });
+  }
+
+  function switchVacancyLanguage(newLang) {
+    if (newLang === currentVacancyLang) return;
+
+    vacancyTranslations[currentVacancyLang] = getTranslatableVacancyFields();
+    updateVacancyLangBadges();
+
+    currentVacancyLang = newLang;
+
+    document.querySelectorAll('.vacancy-lang-tab-btn').forEach(btn => {
+      const bLang = btn.getAttribute('data-lang');
+      if (bLang === newLang) {
+        btn.className = 'btn btn-sm btn-outline-primary active rounded-pill fw-bold px-3 py-1.5 vacancy-lang-tab-btn';
+      } else {
+        btn.className = 'btn btn-sm btn-outline-secondary rounded-pill fw-bold px-3 py-1.5 vacancy-lang-tab-btn';
+      }
+    });
+
+    const langNames = {
+      es: { flag: '🇪🇸', name: 'Español (Principal)' },
+      en: { flag: '🇺🇸', name: 'English' },
+      al: { flag: '🇩🇪', name: 'Deutsch' },
+      pt: { flag: '🇧🇷', name: 'Português' },
+      fr: { flag: '🇫🇷', name: 'Français' }
+    };
+    const info = langNames[newLang] || { flag: '🌐', name: newLang };
+    const indicator = document.getElementById('vacancyActiveLangIndicator');
+    if (indicator) {
+      indicator.innerHTML = `<span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-0.5 rounded-pill"><i class="fa fa-pen me-1"></i> Idioma en edición: ${info.flag} ${info.name}</span>`;
+    }
+
+    const targetData = vacancyTranslations[newLang] || {};
+    setTranslatableVacancyFields(targetData);
+    renderLivePreview();
+  }
+
+  function setFormData(data) {
+    if (!data) return;
+
+    if (document.getElementById('vacancyIdInput')) {
+      document.getElementById('vacancyIdInput').value = data.id || '';
     }
     if (document.getElementById('vacancySortOrderInput')) {
       document.getElementById('vacancySortOrderInput').value = data.sort_order !== undefined ? data.sort_order : 10;
     }
     if (document.getElementById('vacancyRecipientEmailsInput')) {
       document.getElementById('vacancyRecipientEmailsInput').value = data.recipient_emails || 'gadiel.palma@SELOASA.com.mx, rh@seloasa.com.mx';
-    }
-    if (document.getElementById('vacancySummaryInput')) {
-      document.getElementById('vacancySummaryInput').value = data.summary || '';
     }
 
     const isPublished = data.status === 'published';
@@ -147,8 +245,28 @@
     if (switchEl) switchEl.checked = isPublished;
     if (labelEl) labelEl.textContent = isPublished ? 'Publicada en Web' : 'Borrador Interno';
 
-    // Generar lista de puntos
-    renderPointsInputs(data.points || []);
+    // Cargar matriz de traducciones para los 5 idiomas
+    vacancyTranslations = {
+      es: (data.translations && data.translations.es) ? { ...data.translations.es } : {
+        title: data.title || '',
+        area: data.area || 'Monitoreo',
+        mode: data.mode || 'Presencial',
+        location: data.location || 'Lerma, Estado de México',
+        schedule: data.schedule || 'Tiempo completo',
+        summary: data.summary || '',
+        points: Array.isArray(data.points) ? data.points : ['Requisito o responsabilidad clave de la posición.']
+      },
+      en: (data.translations && data.translations.en) ? { ...data.translations.en } : {},
+      al: (data.translations && data.translations.al) ? { ...data.translations.al } : {},
+      pt: (data.translations && data.translations.pt) ? { ...data.translations.pt } : {},
+      fr: (data.translations && data.translations.fr) ? { ...data.translations.fr } : {}
+    };
+
+    currentVacancyLang = 'es';
+    updateVacancyLangBadges();
+
+    // Cargar la versión en Español por defecto
+    setTranslatableVacancyFields(vacancyTranslations.es);
     renderLivePreview();
   }
 
@@ -334,16 +452,32 @@
   }
 
   function saveVacancy(publishNow = false) {
+    // 1. Guardar cambios del idioma activo en la matriz
+    vacancyTranslations[currentVacancyLang] = getTranslatableVacancyFields();
+
     const data = getFormData();
 
+    // 2. Adjuntar traducciones de los 5 idiomas
+    data.translations = vacancyTranslations;
+
+    // Asegurar que campos base vengan del español
+    const esData = vacancyTranslations.es || {};
+    if (esData.title) data.title = esData.title;
+    if (esData.area) data.area = esData.area;
+    if (esData.mode) data.mode = esData.mode;
+    if (esData.location) data.location = esData.location;
+    if (esData.schedule) data.schedule = esData.schedule;
+    if (esData.summary) data.summary = esData.summary;
+    if (esData.points && esData.points.length > 0) data.points = esData.points;
+
     if (!data.title || data.title === 'Título del Puesto') {
-      alert('Por favor ingresa un título descriptivo para la vacante.');
+      alert('Por favor ingresa un título descriptivo para la vacante en Español.');
       document.getElementById('vacancyTitleInput')?.focus();
       return;
     }
 
     if (!data.summary) {
-      alert('Por favor ingresa un resumen o descripción general del puesto.');
+      alert('Por favor ingresa un resumen o descripción general del puesto en Español.');
       document.getElementById('vacancySummaryInput')?.focus();
       return;
     }
@@ -559,8 +693,30 @@
       saveVacancy(false);
     });
 
-    document.getElementById('btnPublishVacancy')?.addEventListener('click', function () {
-      saveVacancy(true);
+    // Vincular clic en pestañas de idioma de vacantes
+    document.querySelectorAll('.vacancy-lang-tab-btn').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const l = this.getAttribute('data-lang');
+        if (l) switchVacancyLanguage(l);
+      });
+    });
+
+    // Copiar desde español en vacantes
+    document.getElementById('btnCopyVacancyFromSpanish')?.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (currentVacancyLang === 'es') {
+        alert('Ya estás editando la versión base en Español.');
+        return;
+      }
+      const esData = vacancyTranslations.es || {};
+      if (!esData.title) {
+        vacancyTranslations.es = getTranslatableVacancyFields();
+      }
+      setTranslatableVacancyFields(vacancyTranslations.es);
+      vacancyTranslations[currentVacancyLang] = JSON.parse(JSON.stringify(vacancyTranslations.es));
+      updateVacancyLangBadges();
+      renderLivePreview();
     });
 
     renderLivePreview();

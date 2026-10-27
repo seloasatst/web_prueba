@@ -1,10 +1,9 @@
 <?php
 /**
- * SELOASA - API REST de Postulaciones y Candidaturas Recibidas (MySQL / PDO)
- * Gestiona el registro de candidatos que enviaron su CV desde la bolsa de trabajo.
+ * SELOASA - API REST de Postulaciones y Candidaturas Recibidas (Almacenamiento JSON Seguro)
+ * Gestiona el registro de candidatos que enviaron su CV desde la bolsa de trabajo en php/storage/postulaciones.json
  */
 
-require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/admin_helper.php';
 
 header('Content-Type: application/json; charset=UTF-8');
@@ -36,15 +35,9 @@ if (!admin_is_authenticated()) {
     exit;
 }
 
-try {
-    $pdo = get_db_connection();
-} catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'Error de conexión a BD: ' . $e->getMessage()]);
-    exit;
-}
-
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+$store = admin_get_postulaciones_store();
+$items = $store['items'];
 
 /* ==========================================================================
    GET: OBTENER POSTULACIONES
@@ -53,30 +46,30 @@ if ($method === 'GET') {
     $vacanteId = isset($_GET['vacante_id']) ? trim($_GET['vacante_id']) : '';
     $status = isset($_GET['status']) ? trim($_GET['status']) : '';
 
-    $sql = "SELECT * FROM `postulaciones` WHERE 1=1";
-    $params = [];
-
     if ($vacanteId !== '' && $vacanteId !== 'all') {
-        $sql .= " AND `vacante_id` = :vacante_id";
-        $params['vacante_id'] = $vacanteId;
+        $items = array_values(array_filter($items, function ($p) use ($vacanteId) {
+            return ($p['vacante_id'] ?? '') === $vacanteId;
+        }));
     }
 
     if ($status !== '' && $status !== 'all') {
-        $sql .= " AND `status` = :status";
-        $params['status'] = $status;
+        $items = array_values(array_filter($items, function ($p) use ($status) {
+            return ($p['status'] ?? '') === $status;
+        }));
     }
 
-    $sql .= " ORDER BY `created_at` DESC";
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute($params);
-    $items = $stmt->fetchAll();
+    // Ordenar por created_at descendente
+    usort($items, function ($a, $b) {
+        $timeA = strtotime($a['created_at'] ?? 'now');
+        $timeB = strtotime($b['created_at'] ?? 'now');
+        return $timeB <=> $timeA;
+    });
 
     echo json_encode([
         'success' => true,
         'count' => count($items),
         'items' => $items,
-        'updated_at' => date('c')
+        'updated_at' => $store['updated_at'] ?? date('c')
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
 }
@@ -88,48 +81,63 @@ if ($method === 'POST') {
     $raw = file_get_contents('php://input');
     $payload = json_decode($raw, true);
 
-    if (!is_array($payload) || empty($payload['id'])) {
+    if (!is_array($payload) || !isset($payload['id'])) {
         http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'Se requiere el id de la postulación']);
+        echo json_encode(['success' => false, 'error' => 'Se requiere el id de la postulación'], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
-    $id = (int)$payload['id'];
+    $id = (int) $payload['id'];
     $newStatus = trim($payload['status'] ?? 'revisado');
+    $updated = false;
 
-    $stmt = $pdo->prepare("UPDATE `postulaciones` SET `status` = :status WHERE `id` = :id");
-    $stmt->execute([
-        'status' => $newStatus,
-        'id' => $id
-    ]);
+    foreach ($items as $idx => $cand) {
+        if ((int) ($cand['id'] ?? 0) === $id) {
+            $items[$idx]['status'] = $newStatus;
+            $items[$idx]['updated_at'] = date('c');
+            $updated = true;
+            break;
+        }
+    }
 
-    echo json_encode(['success' => true, 'message' => 'Estado de postulación actualizado']);
+    if ($updated) {
+        admin_save_postulaciones_store($items);
+        echo json_encode(['success' => true, 'message' => 'Estado de postulación actualizado correctamente']);
+    } else {
+        http_response_code(404);
+        echo json_encode(['success' => false, 'error' => 'Postulación no encontrada']);
+    }
     exit;
 }
 
 /* ==========================================================================
-   DELETE: ELIMINAR REGISTRO DE POSTULACIÓN
+   DELETE: ELIMINAR POSTULACIÓN
    ========================================================================== */
 if ($method === 'DELETE') {
-    $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+    $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
     if ($id <= 0) {
         $raw = file_get_contents('php://input');
-        $pl = json_decode($raw, true);
-        $id = isset($pl['id']) ? (int)$pl['id'] : 0;
+        $data = json_decode($raw, true);
+        $id = (int) ($data['id'] ?? 0);
     }
 
     if ($id <= 0) {
         http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'ID no válido']);
+        echo json_encode(['success' => false, 'error' => 'ID inválido de postulación'], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
-    $stmt = $pdo->prepare("DELETE FROM `postulaciones` WHERE `id` = :id");
-    $stmt->execute(['id' => $id]);
+    $filtered = array_values(array_filter($items, function ($p) use ($id) {
+        return (int) ($p['id'] ?? 0) !== $id;
+    }));
 
-    echo json_encode(['success' => true, 'message' => 'Postulación eliminada del registro']);
+    if (count($filtered) === count($items)) {
+        http_response_code(404);
+        echo json_encode(['success' => false, 'error' => 'Postulación no encontrada para eliminar']);
+        exit;
+    }
+
+    admin_save_postulaciones_store($filtered);
+    echo json_encode(['success' => true, 'message' => 'Postulación eliminada']);
     exit;
 }
-
-http_response_code(405);
-echo json_encode(['success' => false, 'error' => 'Método no permitido']);

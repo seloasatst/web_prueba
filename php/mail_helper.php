@@ -2,17 +2,58 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 
+if (!function_exists('load_site_env')) {
+    function load_site_env(?string $path = null): void
+    {
+        static $loaded = false;
+        if ($loaded) {
+            return;
+        }
+        $loaded = true;
+
+        if ($path === null) {
+            $path = dirname(__DIR__) . DIRECTORY_SEPARATOR . '.env';
+        }
+
+        if (!file_exists($path) || !is_readable($path)) {
+            return;
+        }
+
+        $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if ($lines === false) {
+            return;
+        }
+
+        foreach ($lines as $line) {
+            $line = trim($line);
+            if ($line === '' || str_starts_with($line, '#')) {
+                continue;
+            }
+
+            if (strpos($line, '=') !== false) {
+                list($key, $val) = explode('=', $line, 2);
+                $key = trim($key);
+                $val = trim($val);
+
+                if ((str_starts_with($val, '"') && str_ends_with($val, '"')) ||
+                    (str_starts_with($val, "'") && str_ends_with($val, "'"))) {
+                    $val = substr($val, 1, -1);
+                }
+
+                if (!array_key_exists($key, $_SERVER) && !array_key_exists($key, $_ENV)) {
+                    putenv("{$key}={$val}");
+                    $_ENV[$key] = $val;
+                    $_SERVER[$key] = $val;
+                }
+            }
+        }
+    }
+}
+
 if (!function_exists('mail_env')) {
     function mail_env(string $key, ?string $default = null): ?string
     {
-        if (function_exists('load_site_env')) {
-            load_site_env();
-        } elseif (file_exists(__DIR__ . '/db.php')) {
-            require_once __DIR__ . '/db.php';
-            if (function_exists('load_site_env')) {
-                load_site_env();
-            }
-        }
+        load_site_env();
 
         $value = $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key);
 

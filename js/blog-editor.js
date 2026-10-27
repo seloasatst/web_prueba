@@ -10,12 +10,33 @@
   let currentPosts = [];
   let editingId = null;
   let isCodeModeActive = false;
+  let currentEditLang = 'es';
+  let postTranslations = {
+    es: {},
+    en: {},
+    al: {},
+    pt: {},
+    fr: {}
+  };
+
+  function getBackendApiUrl(endpoint) {
+    if (typeof window.getBackendApiUrl === 'function') {
+      return window.getBackendApiUrl(endpoint);
+    }
+    const isFile = window.location.protocol === 'file:';
+    const port = window.location.port;
+    const isDevServer = port && port !== '80' && port !== '443';
+    if (isFile || isDevServer) {
+      const host = window.location.hostname === 'localhost' ? 'localhost' : '127.0.0.1';
+      return `http://${host}/shipping/` + endpoint.replace(/^\/+/, '');
+    }
+    return endpoint;
+  }
 
   function getQueryParam(param) {
     const params = new URLSearchParams(window.location.search);
     return params.get(param);
   }
-
 
   function loadPosts() {
     try {
@@ -30,7 +51,7 @@
       console.warn('Error reading posts:', e);
     }
 
-    fetch('php/noticias_api.php')
+    fetch(getBackendApiUrl('php/noticias_api.php'))
       .then(res => res.json())
       .then(data => {
         if (data && data.success && Array.isArray(data.items)) {
@@ -47,7 +68,7 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(currentPosts));
       window.dispatchEvent(new Event('storage'));
-      fetch('php/noticias_api.php', {
+      fetch(getBackendApiUrl('php/noticias_api.php'), {
         method: 'POST',
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
@@ -648,21 +669,139 @@
 
     const defaultNormativa = `NOM-059-SSA1: Buenas prácticas de distribución.\nNOM-072-SSA1: Trazabilidad e insumos para la salud.\nDirectrices GDP: Monitoreo térmico continuo.`;
 
+    function getTranslatableFormFields() {
+      const visualEditor = document.getElementById('postContentVisualEditor');
+      const contentTextarea = document.getElementById('postContentInput');
+      const content = isCodeModeActive ? (contentTextarea?.value || '') : (visualEditor?.innerHTML || '');
+      return {
+        title: (titleInput?.value || '').trim(),
+        summary: (summaryInput?.value || '').trim(),
+        content: content,
+        category: (categoryInput?.value || '').trim(),
+        dept: (deptInput?.value || '').trim(),
+        pdf_title: (pdfTitleInput?.value || '').trim(),
+        pdf_btn_text: (pdfBtnTextInput?.value || '').trim(),
+        pdf_desc: (pdfDescInput?.value || '').trim(),
+        normativa_title: (normativaTitleInput?.value || '').trim(),
+        normativa_items: (normativaItemsInput?.value || '').trim()
+      };
+    }
+
+    function setTranslatableFormFields(data) {
+      data = data || {};
+      if (titleInput) titleInput.value = data.title || '';
+      if (summaryInput) summaryInput.value = data.summary || '';
+      if (categoryInput) categoryInput.value = data.category || '';
+      if (deptInput) deptInput.value = data.dept || '';
+
+      const contentVal = data.content || (data.summary ? `<p>${data.summary}</p>` : '');
+      if (contentInput) contentInput.value = contentVal;
+      if (visualEditor) {
+        visualEditor.innerHTML = contentVal;
+        updateVisualWordCount();
+      }
+
+      if (pdfTitleInput) pdfTitleInput.value = data.pdf_title || '';
+      if (pdfBtnTextInput) pdfBtnTextInput.value = data.pdf_btn_text || '';
+      if (pdfDescInput) pdfDescInput.value = data.pdf_desc || '';
+      if (normativaTitleInput) normativaTitleInput.value = data.normativa_title || '';
+      if (normativaItemsInput) normativaItemsInput.value = data.normativa_items || '';
+    }
+
+    function updateLangBadges() {
+      const langKeys = ['es', 'en', 'al', 'pt', 'fr'];
+      langKeys.forEach(l => {
+        const badge = document.getElementById(`langBadge-${l}`);
+        if (!badge) return;
+        const data = postTranslations[l] || {};
+        const isTranslated = Boolean(data.title && data.title.trim().length > 0);
+        if (l === 'es') {
+          badge.textContent = isTranslated ? 'Base OK' : 'Base';
+          badge.className = 'badge bg-success ms-1 small';
+        } else {
+          badge.textContent = isTranslated ? '✓ Traducido' : 'Pendiente';
+          badge.className = isTranslated ? 'badge bg-success ms-1 small' : 'badge bg-light text-muted border ms-1 small';
+        }
+      });
+    }
+
+    function switchEditLanguage(newLang) {
+      if (newLang === currentEditLang) return;
+
+      // 1. Guardar contenido actual en el idioma previo
+      postTranslations[currentEditLang] = getTranslatableFormFields();
+      updateLangBadges();
+
+      currentEditLang = newLang;
+
+      // 2. Actualizar estilos de pestañas
+      document.querySelectorAll('.lang-tab-btn').forEach(btn => {
+        const bLang = btn.getAttribute('data-lang');
+        if (bLang === newLang) {
+          btn.className = 'btn btn-sm btn-outline-primary active rounded-pill fw-bold px-3 py-1.5 lang-tab-btn';
+        } else {
+          btn.className = 'btn btn-sm btn-outline-secondary rounded-pill fw-bold px-3 py-1.5 lang-tab-btn';
+        }
+      });
+
+      // 3. Actualizar indicador
+      const langNames = {
+        es: { flag: '🇪🇸', name: 'Español (Principal)' },
+        en: { flag: '🇺🇸', name: 'English' },
+        al: { flag: '🇩🇪', name: 'Deutsch' },
+        pt: { flag: '🇧🇷', name: 'Português' },
+        fr: { flag: '🇫🇷', name: 'Français' }
+      };
+      const info = langNames[newLang] || { flag: '🌐', name: newLang };
+      const indicator = document.getElementById('activeLangIndicator');
+      if (indicator) {
+        indicator.innerHTML = `<span class="badge bg-primary-subtle text-primary border border-primary-subtle px-2 py-0.5 rounded-pill"><i class="fa fa-pen me-1"></i> Idioma en edición: ${info.flag} ${info.name}</span>`;
+      }
+
+      // 4. Cargar contenido del idioma seleccionado
+      const targetData = postTranslations[newLang] || {};
+      setTranslatableFormFields(targetData);
+      updateLivePreview();
+    }
+
+    // Vincular clic en pestañas de idioma
+    document.querySelectorAll('.lang-tab-btn').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const l = this.getAttribute('data-lang');
+        if (l) switchEditLanguage(l);
+      });
+    });
+
+    // Botón copiar desde español
+    document.getElementById('btnCopyFromSpanish')?.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (currentEditLang === 'es') {
+        alert('Ya te encuentras en la versión en Español.');
+        return;
+      }
+      const esData = postTranslations.es || {};
+      if (!esData.title) {
+        // Asegurar que español esté guardado
+        postTranslations.es = getTranslatableFormFields();
+      }
+      setTranslatableFormFields(postTranslations.es);
+      postTranslations[currentEditLang] = { ...postTranslations.es };
+      updateLangBadges();
+      updateLivePreview();
+    });
+
     function applyPostToForm(p) {
       if (!p) return;
       editingId = p.id || editingId;
       updateHeaderTitle(p.title || '');
       selectType(p.type || 'comunicado');
 
-      if (titleInput) titleInput.value = p.title || '';
       if (idInput) idInput.value = p.id || '';
-      if (categoryInput) categoryInput.value = p.category || (p.type === 'comunicado' ? 'Comunicado Oficial' : p.type === 'noticia' ? 'Noticia Operativa' : 'Blog Farma');
-      if (deptInput) deptInput.value = p.dept || 'Dirección General & Aseguramiento de Calidad';
       if (dateInput) dateInput.value = p.date || 'Mayo 2026';
       if (readTimeInput) readTimeInput.value = p.read_time || '3 min';
       if (statusSelect) statusSelect.value = p.status || 'published';
       if (imageInput) imageInput.value = p.image || 'img/patio_unidades_dia_banner.jpg';
-      if (summaryInput) summaryInput.value = p.summary || '';
 
       syncHeaderStatus(p.status || 'published');
 
@@ -672,23 +811,35 @@
         viewPublicBtn.classList.remove('d-none');
       }
 
-      const initialContent = p.content || (p.summary ? `<p>${p.summary}</p>` : '');
-      if (contentInput) contentInput.value = initialContent;
-      if (visualEditor) {
-        visualEditor.innerHTML = initialContent;
-        updateVisualWordCount();
-      }
-
       syncPdfSwitch(p.pdf_enabled !== false);
       syncNormativaSwitch(p.normativa_enabled !== false);
-
-      if (pdfTitleInput) pdfTitleInput.value = p.pdf_title || 'Documento Oficial PDF';
       if (pdfUrlInput) pdfUrlInput.value = p.pdf_url || 'docs_pdf/protocolo_seguridad.pdf';
-      if (pdfBtnTextInput) pdfBtnTextInput.value = p.pdf_btn_text || 'Descargar Circular en PDF';
-      if (pdfDescInput) pdfDescInput.value = p.pdf_desc || 'Descarga la circular completa membretada con anexos técnicos para auditorías.';
-      if (normativaTitleInput) normativaTitleInput.value = p.normativa_title || 'Marco Normativo';
-      if (normativaItemsInput) normativaItemsInput.value = p.normativa_items || defaultNormativa;
 
+      // Cargar matriz de traducciones para los 5 idiomas
+      postTranslations = {
+        es: (p.translations && p.translations.es) ? { ...p.translations.es } : {
+          title: p.title || '',
+          summary: p.summary || '',
+          content: p.content || (p.summary ? `<p>${p.summary}</p>` : ''),
+          category: p.category || (p.type === 'comunicado' ? 'Comunicado Oficial' : p.type === 'noticia' ? 'Noticia Operativa' : 'Blog Farma'),
+          dept: p.dept || 'Dirección General & Aseguramiento de Calidad',
+          pdf_title: p.pdf_title || 'Documento Oficial PDF',
+          pdf_btn_text: p.pdf_btn_text || 'Descargar Circular en PDF',
+          pdf_desc: p.pdf_desc || 'Descarga la circular completa membretada con anexos técnicos para auditorías.',
+          normativa_title: p.normativa_title || 'Marco Normativo',
+          normativa_items: p.normativa_items || defaultNormativa
+        },
+        en: (p.translations && p.translations.en) ? { ...p.translations.en } : {},
+        al: (p.translations && p.translations.al) ? { ...p.translations.al } : {},
+        pt: (p.translations && p.translations.pt) ? { ...p.translations.pt } : {},
+        fr: (p.translations && p.translations.fr) ? { ...p.translations.fr } : {}
+      };
+
+      currentEditLang = 'es';
+      updateLangBadges();
+
+      // Cargar la versión en Español por defecto
+      setTranslatableFormFields(postTranslations.es);
       updateLivePreview();
     }
 
@@ -700,19 +851,21 @@
       syncHeaderStatus('published');
       syncPdfSwitch(true);
       syncNormativaSwitch(true);
+      postTranslations = { es: {}, en: {}, al: {}, pt: {}, fr: {} };
+      updateLangBadges();
       updateLivePreview();
     }
 
-    // Consultar Base de Datos MySQL si estamos editando un artículo
+    // Consultar API si estamos editando un artículo
     if (paramId && !isNew) {
-      fetch('php/noticias_api.php?id=' + encodeURIComponent(paramId))
+      fetch(getBackendApiUrl('php/noticias_api.php?id=' + encodeURIComponent(paramId)))
         .then(res => res.json())
         .then(data => {
           if (data && data.success && data.item) {
             applyPostToForm(data.item);
           }
         })
-        .catch(err => console.warn('Fetch noticia individual BD error:', err));
+        .catch(err => console.warn('Fetch noticia individual API error:', err));
     }
 
     statusSelect?.addEventListener('change', function () {
@@ -731,7 +884,7 @@
     if (titleInput) {
       titleInput.addEventListener('input', function () {
         updateHeaderTitle(titleInput.value);
-        if (!editingId && idInput) {
+        if (!editingId && idInput && currentEditLang === 'es') {
           idInput.value = generateSlug(titleInput.value);
         }
         updateLivePreview();
@@ -808,10 +961,36 @@
      GUARDADO Y ACCIONES
      ========================================================================== */
   function savePostData() {
+    // 1. Guardar cambios del idioma activo en el almacén de traducciones
+    const currentFields = {
+      title: (document.getElementById('postTitleInput')?.value || '').trim(),
+      summary: (document.getElementById('postSummaryInput')?.value || '').trim(),
+      content: isCodeModeActive ? (document.getElementById('postContentInput')?.value || '') : (document.getElementById('postContentVisualEditor')?.innerHTML || ''),
+      category: (document.getElementById('postCategoryInput')?.value || '').trim(),
+      dept: (document.getElementById('postDeptInput')?.value || '').trim(),
+      pdf_title: (document.getElementById('postPdfTitleInput')?.value || '').trim(),
+      pdf_btn_text: (document.getElementById('postPdfBtnTextInput')?.value || '').trim(),
+      pdf_desc: (document.getElementById('postPdfDescInput')?.value || '').trim(),
+      normativa_title: (document.getElementById('postNormativaTitleInput')?.value || '').trim(),
+      normativa_items: (document.getElementById('postNormativaItemsInput')?.value || '').trim()
+    };
+    postTranslations[currentEditLang] = currentFields;
+
     const postData = getCurrentFormData();
 
+    // Asegurar que las propiedades base reflejen la versión en español si existe
+    const esData = postTranslations.es || {};
+    if (esData.title) postData.title = esData.title;
+    if (esData.summary) postData.summary = esData.summary;
+    if (esData.content) postData.content = esData.content;
+    if (esData.category) postData.category = esData.category;
+    if (esData.dept) postData.dept = esData.dept;
+
+    // Adjuntar las traducciones de los 5 idiomas
+    postData.translations = postTranslations;
+
     if (!postData.title || postData.title === 'Título de la Publicación') {
-      alert('Por favor ingresa un título para la publicación.');
+      alert('Por favor ingresa un título para la publicación en Español.');
       document.getElementById('postTitleInput')?.focus();
       return;
     }

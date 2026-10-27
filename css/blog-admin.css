@@ -1028,3 +1028,24 @@ body.admin-body {
   display: inline-block;
   margin: 6px 0;
 }
+
+.auth-icon-circle {
+  width: 56px;
+  height: 56px;
+  font-size: 1.45rem;
+  background: var(--admin-primary, #e43b14);
+  color: #ffffff;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.65rem;
+  box-shadow: 0 4px 14px rgba(228, 59, 20, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.auth-icon-circle:hover {
+  transform: scale(1.05);
+}
+
+

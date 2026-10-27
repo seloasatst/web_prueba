@@ -94,6 +94,35 @@
     };
   }
 
+  function getLocalizedPost(post, lang) {
+    if (!post) return post;
+    const safeLang = normalizeLang(lang);
+    const t = (post.translations && post.translations[safeLang]) ? post.translations[safeLang] : null;
+    if (!t) return post;
+    return {
+      ...post,
+      title: t.title || post.title,
+      summary: t.summary || post.summary,
+      content: t.content || post.content,
+      category: t.category || post.category,
+      badge: t.badge || post.badge,
+      dept: t.dept || post.dept,
+      pdf_title: t.pdf_title || post.pdf_title,
+      pdf_desc: t.pdf_desc || post.pdf_desc,
+      normativa_title: t.normativa_title || post.normativa_title,
+      normativa_items: t.normativa_items || post.normativa_items,
+      metric_1_label: t.metric_1_label || post.metric_1_label,
+      metric_2_label: t.metric_2_label || post.metric_2_label,
+      metric_3_label: t.metric_3_label || post.metric_3_label,
+      metric_4_label: t.metric_4_label || post.metric_4_label,
+      quote_text: t.quote_text || post.quote_text,
+      quote_author: t.quote_author || post.quote_author,
+      takeaways: t.takeaways || post.takeaways,
+      author_name: t.author_name || post.author_name,
+      author_role: t.author_role || post.author_role
+    };
+  }
+
   function findPost(content, postId) {
     if (!content) return null;
 
@@ -487,32 +516,35 @@
      RENDERIZADOR PRINCIPAL: DETECCIÓN Y MONTAJE SEGÚN EL TIPO DE PUBLICACIÓN
      ========================================================================== */
   function renderArticle(lang) {
-    const content = getBlogContent(lang);
+    const activeLang = normalizeLang(lang || getCurrentLang());
+    const content = getBlogContent(activeLang);
     const postId = getPostIdFromUrl();
 
     function renderPostObject(post, allContent) {
       if (!post) return;
+      const localizedPost = getLocalizedPost(post, activeLang);
+
       const pageTitle = document.getElementById('articlePageTitle');
       const metaDesc = document.getElementById('articleMetaDesc');
-      if (pageTitle) pageTitle.textContent = `${post.title} | SELOASA`;
-      if (metaDesc && post.summary) metaDesc.setAttribute('content', post.summary);
+      if (pageTitle) pageTitle.textContent = `${localizedPost.title} | SELOASA`;
+      if (metaDesc && localizedPost.summary) metaDesc.setAttribute('content', localizedPost.summary);
 
       const host = document.getElementById('articleRenderHost');
       if (!host) return;
 
       // SEGÚN EL TIPO, MONTAMOS LA ESTRUCTURA CORRESPONDIENTE
       let renderedHtml = '';
-      if (post.type === 'comunicado') {
-        renderedHtml = renderEstructuraComunicado(post, allContent);
-      } else if (post.type === 'noticia') {
-        renderedHtml = renderEstructuraNoticia(post, allContent);
+      if (localizedPost.type === 'comunicado') {
+        renderedHtml = renderEstructuraComunicado(localizedPost, allContent);
+      } else if (localizedPost.type === 'noticia') {
+        renderedHtml = renderEstructuraNoticia(localizedPost, allContent);
       } else {
-        renderedHtml = renderEstructuraBlog(post, allContent);
+        renderedHtml = renderEstructuraBlog(localizedPost, allContent);
       }
 
       host.innerHTML = renderedHtml;
-      renderRecommendations(allContent, post.id, post.type);
-      initCopyAction(post.id);
+      renderRecommendations(allContent, localizedPost.id, localizedPost.type, activeLang);
+      initCopyAction(localizedPost.id);
     }
 
     if (content) {
@@ -520,7 +552,7 @@
       if (initialPost) renderPostObject(initialPost, content);
     }
 
-    // Consultar Base de Datos MySQL
+    // Consultar API de almacenamiento JSON
     fetch('php/noticias_api.php?id=' + encodeURIComponent(postId))
       .then(res => res.json())
       .then(data => {
@@ -540,12 +572,13 @@
             .catch(() => renderPostObject(dbPost, content));
         }
       })
-      .catch(err => console.warn('Fetch noticia individual BD error en blog-detail:', err));
+      .catch(err => console.warn('Fetch noticia individual storage error en blog-detail:', err));
   }
 
-  function renderRecommendations(content, currentId, postType) {
+  function renderRecommendations(content, currentId, postType, lang) {
     const container = document.getElementById('articleSidebarRecs');
     if (!container || !content) return;
+    const activeLang = normalizeLang(lang || getCurrentLang());
 
     let items = [];
     if (content.latest && Array.isArray(content.latest.items)) {
@@ -556,7 +589,7 @@
       items.unshift({ ...content.featured, id: 'featured' });
     }
 
-    const recommendations = items.slice(0, 3);
+    const recommendations = items.slice(0, 3).map(it => getLocalizedPost(it, activeLang));
 
     // Si es tipo blog, renderizamos en columnas de 3 (grid inferior)
     if (postType === 'blog') {
@@ -626,6 +659,10 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     renderArticle(getCurrentLang());
+
+    document.addEventListener('site-language-changed', function (e) {
+      renderArticle(e.detail?.lang || getCurrentLang());
+    });
 
     window.addEventListener('languageChanged', function (e) {
       renderArticle(e.detail?.language || getCurrentLang());

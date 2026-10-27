@@ -5,10 +5,15 @@ require_once __DIR__ . '/mail_helper.php';
 const ADMIN_SESSION_NAME = 'SELOASA_admin_session';
 const ADMIN_STORAGE_DIR = __DIR__ . '/storage';
 const ADMIN_VACANCIES_FILE = ADMIN_STORAGE_DIR . '/vacancies.json';
+const ADMIN_NOTICIAS_FILE = ADMIN_STORAGE_DIR . '/noticias.json';
+const ADMIN_POPUPS_FILE = ADMIN_STORAGE_DIR . '/popups.json';
+const ADMIN_POSTULACIONES_FILE = ADMIN_STORAGE_DIR . '/postulaciones.json';
+const ADMIN_ALLOWED_EMAILS_FILE = ADMIN_STORAGE_DIR . '/admin_allowed_emails.json';
 const ADMIN_LOGIN_ATTEMPTS_FILE = ADMIN_STORAGE_DIR . '/admin_login_attempts.json';
 const ADMIN_LOGIN_WINDOW_SECONDS = 600;
 const ADMIN_LOGIN_BLOCK_SECONDS = 900;
 const ADMIN_LOGIN_MAX_ATTEMPTS = 5;
+const ADMIN_EMAIL_OTP_LIFETIME = 600; // Vigencia estricta de 10 minutos (600 segundos)
 
 if (!function_exists('admin_env')) {
     function admin_env(string $key, ?string $default = null): ?string
@@ -31,16 +36,18 @@ if (!function_exists('admin_start_session')) {
             return;
         }
 
-        session_name(ADMIN_SESSION_NAME);
-        session_set_cookie_params([
-            'lifetime' => 0,
-            'path' => '/',
-            'secure' => admin_is_secure_request(),
-            'httponly' => true,
-            'samesite' => 'Lax',
-        ]);
+        if (!headers_sent()) {
+            session_name(ADMIN_SESSION_NAME);
+            session_set_cookie_params([
+                'lifetime' => 0,
+                'path' => '/',
+                'secure' => admin_is_secure_request(),
+                'httponly' => true,
+                'samesite' => 'Lax',
+            ]);
+        }
 
-        session_start();
+        @session_start();
     }
 }
 
@@ -58,9 +65,262 @@ if (!function_exists('admin_storage_ensure')) {
             ]);
         }
 
+        if (!is_file(ADMIN_NOTICIAS_FILE)) {
+            admin_write_json_file(ADMIN_NOTICIAS_FILE, [
+                'updated_at' => date('c'),
+                'items' => admin_default_posts(),
+            ]);
+        }
+
+        if (!is_file(ADMIN_POPUPS_FILE)) {
+            admin_write_json_file(ADMIN_POPUPS_FILE, [
+                'updated_at' => date('c'),
+                'items' => admin_default_popups(),
+            ]);
+        }
+
+        if (!is_file(ADMIN_POSTULACIONES_FILE)) {
+            admin_write_json_file(ADMIN_POSTULACIONES_FILE, [
+                'updated_at' => date('c'),
+                'items' => [],
+            ]);
+        }
+
+        if (!is_file(ADMIN_ALLOWED_EMAILS_FILE)) {
+            admin_write_json_file(ADMIN_ALLOWED_EMAILS_FILE, [
+                'updated_at' => date('c'),
+                'emails' => admin_default_allowed_emails(),
+            ]);
+        }
+
         if (!is_file(ADMIN_LOGIN_ATTEMPTS_FILE)) {
             admin_write_json_file(ADMIN_LOGIN_ATTEMPTS_FILE, []);
         }
+    }
+}
+
+if (!function_exists('admin_default_allowed_emails')) {
+    function admin_default_allowed_emails(): array
+    {
+        return [
+            'admin@seloasa.com.mx',
+            'gadiel.palma@seloasa.com.mx',
+            'rh@seloasa.com.mx',
+            'almacen@seloasa.com.mx',
+            'direccion@seloasa.com.mx',
+            'yasser.hernandez@seloasa.com.mx',
+            'ti@seloasa.com.mx'
+        ];
+    }
+}
+
+if (!function_exists('admin_get_allowed_emails')) {
+    function admin_get_allowed_emails(): array
+    {
+        admin_storage_ensure();
+        $default = [
+            'updated_at' => date('c'),
+            'emails' => admin_default_allowed_emails(),
+        ];
+        $store = admin_read_json_file(ADMIN_ALLOWED_EMAILS_FILE, $default);
+        $emails = is_array($store['emails'] ?? null) ? $store['emails'] : admin_default_allowed_emails();
+
+        // Verificar si hay correos adicionales definidos en .env
+        $envEmails = admin_env('ADMIN_ALLOWED_EMAILS', '');
+        if ($envEmails !== '') {
+            foreach (preg_split('/[\s,;]+/', $envEmails) as $e) {
+                $e = strtolower(trim($e));
+                if ($e !== '' && !in_array($e, $emails, true)) {
+                    $emails[] = $e;
+                }
+            }
+        }
+
+        return array_values(array_unique(array_map('strtolower', array_map('trim', $emails))));
+    }
+}
+
+if (!function_exists('admin_is_email_allowed')) {
+    function admin_is_email_allowed(string $email): bool
+    {
+        $normalized = strtolower(trim($email));
+        if ($normalized === '' || !filter_var($normalized, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+        $allowed = admin_get_allowed_emails();
+        return in_array($normalized, $allowed, true);
+    }
+}
+
+if (!function_exists('admin_generate_email_otp')) {
+    function admin_generate_email_otp(string $email): array
+    {
+        admin_start_session();
+        $code = str_pad((string) random_int(100000, 999999), 6, '0', STR_PAD_LEFT);
+        $expiresAt = time() + ADMIN_EMAIL_OTP_LIFETIME;
+
+        $_SESSION['auth_email_otp'] = $code;
+        $_SESSION['auth_email_otp_expires'] = $expiresAt;
+        $_SESSION['auth_email_otp_target'] = strtolower(trim($email));
+        $_SESSION['auth_email_otp_created'] = time();
+
+        return [
+            'code' => $code,
+            'expires_at' => $expiresAt,
+            'expires_in' => ADMIN_EMAIL_OTP_LIFETIME,
+        ];
+    }
+}
+
+if (!function_exists('admin_verify_email_otp')) {
+    function admin_verify_email_otp(string $email, string $code): array
+    {
+        admin_start_session();
+        $normalizedEmail = strtolower(trim($email));
+        $normalizedCode = preg_replace('/\D/', '', trim($code));
+
+        $sessionCode = (string) ($_SESSION['auth_email_otp'] ?? '');
+        $expiresAt = (int) ($_SESSION['auth_email_otp_expires'] ?? 0);
+        $targetEmail = (string) ($_SESSION['auth_email_otp_target'] ?? '');
+
+        if ($sessionCode === '' || $targetEmail === '' || $expiresAt === 0) {
+            return [
+                'valid' => false,
+                'error' => 'No hay ningún código activo pendiente. Solicita uno nuevo introduciendo tu correo.'
+            ];
+        }
+
+        if (strcasecmp($normalizedEmail, $targetEmail) !== 0) {
+            return [
+                'valid' => false,
+                'error' => 'El correo no coincide con el destinatario del código emitido.'
+            ];
+        }
+
+        if (time() > $expiresAt) {
+            unset($_SESSION['auth_email_otp'], $_SESSION['auth_email_otp_expires']);
+            return [
+                'valid' => false,
+                'expired' => true,
+                'error' => 'El código ha expirado (vigencia estricta de 10 minutos). Solicita un nuevo código.'
+            ];
+        }
+
+        if (!hash_equals($sessionCode, $normalizedCode)) {
+            return [
+                'valid' => false,
+                'error' => 'Código de 6 dígitos incorrecto. Revisa el correo recibido.'
+            ];
+        }
+
+        // OTP válido: limpiar código de un solo uso
+        unset($_SESSION['auth_email_otp'], $_SESSION['auth_email_otp_expires']);
+
+        // Registrar paso 1 superado (correo verificado)
+        $_SESSION['auth_step1_passed'] = true;
+        $_SESSION['auth_step1_time'] = time();
+        $_SESSION['auth_step1_email'] = $targetEmail;
+
+        return [
+            'valid' => true,
+            'email' => $targetEmail
+        ];
+    }
+}
+
+if (!function_exists('admin_send_otp_email')) {
+    function admin_send_otp_email(string $email, string $code, int $expiresInSeconds = 600): array
+    {
+        $minutes = (int) round($expiresInSeconds / 60);
+        $expiryTimeStr = date('H:i:s', time() + $expiresInSeconds);
+
+        $subject = "SELOASA - Tu código de acceso administrativo: {$code}";
+
+        $htmlBody = <<<HTML
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{$subject}</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f5f6f7;font-family:Arial,Helvetica,sans-serif;color:#1f252b;">
+  <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f5f6f7;padding:32px 16px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="max-width:580px;background:#ffffff;border-radius:24px;border:1px solid #ececec;box-shadow:0 18px 45px rgba(31,37,43,0.08);overflow:hidden;">
+          <tr>
+            <td style="height:6px;background:linear-gradient(90deg,#e43b14 0%,#bf2f0f 100%);"></td>
+          </tr>
+          <tr>
+            <td style="padding:32px 32px 24px;text-align:center;">
+              <div style="font-size:12px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#e43b14;margin-bottom:8px;">Control de Seguridad &bull; SELOASA</div>
+              <h2 style="margin:0 0 12px;color:#1f252b;font-size:24px;font-weight:800;">Código de Verificación</h2>
+              <p style="margin:0 0 24px;color:#5b6167;font-size:15px;line-height:1.5;">Has solicitado acceder al panel administrativo de SELOASA. Ingresa este código numérico en la pantalla de acceso para continuar con el segundo factor (Google Authenticator).</p>
+              
+              <!-- Recuadro del Código OTP -->
+              <div style="background:#fcf1ee;border:2px dashed #e43b14;border-radius:16px;padding:20px;margin:0 auto 24px;max-width:320px;">
+                <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#bf2f0f;margin-bottom:6px;">Clave Temporal de Acceso</div>
+                <div style="font-size:38px;font-weight:900;letter-spacing:8px;color:#e43b14;font-family:Consolas,monospace;">{$code}</div>
+                <div style="margin-top:8px;font-size:12px;color:#7a8086;">Válida durante <strong>{$minutes} minutos</strong> (hasta las {$expiryTimeStr})</div>
+              </div>
+
+              <div style="background:#f7f7f7;border-radius:12px;padding:14px 18px;text-align:left;font-size:13px;color:#555;line-height:1.5;">
+                <strong><span style="color:#e43b14;">&#9888;</span> Importante:</strong>
+                <ul style="margin:6px 0 0;padding-left:18px;">
+                  <li>Este código es de un solo uso y expirará automáticamente en {$minutes} minutos.</li>
+                  <li>Tras ingresarlo, el sistema te solicitará tu código de <strong>Google Authenticator</strong>.</li>
+                  <li>Si no solicitaste este código, notifica de inmediato al equipo de TI.</li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:16px 32px;background:#fafafa;border-top:1px solid #f0f0f0;text-align:center;font-size:12px;color:#999;">
+              Servicios Logísticos Alsera S.A. de C.V. &bull; Lerma, Estado de México
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+HTML;
+
+        $mailSent = false;
+        $errorMsg = '';
+
+        if (class_exists('PHPMailer\\PHPMailer\\PHPMailer')) {
+            try {
+                $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+                configure_site_mailer($mail, 'Seguridad SELOASA');
+                $mailTimeout = (int) admin_env('SMTP_TIMEOUT', '10');
+                $mail->Timeout = $mailTimeout > 0 ? $mailTimeout : 10;
+                $mail->addAddress($email);
+                $mail->isHTML(true);
+                $mail->Subject = $subject;
+                $mail->Body = $htmlBody;
+                $mail->AltBody = "SELOASA - Código de Acceso Administrativo\n\nTu código es: {$code}\nVálido durante {$minutes} minutos (hasta las {$expiryTimeStr}).\n\nSi no lo solicitaste, ignora este mensaje.";
+                $mail->send();
+                $mailSent = true;
+            } catch (Throwable $e) {
+                $errorMsg = $e->getMessage();
+                error_log("Error enviando OTP email a {$email}: " . $errorMsg);
+            }
+        }
+
+        if (!$mailSent) {
+            $headers = "MIME-Version: 1.0\r\n";
+            $headers .= "Content-Type: text/html; charset=UTF-8\r\n";
+            $headers .= "From: Seguridad SELOASA <no-reply@seloasa.com.mx>\r\n";
+            $headers .= "X-Mailer: PHP/" . phpversion();
+            $mailSent = @mail($email, $subject, $htmlBody, $headers);
+        }
+
+        return [
+            'sent' => $mailSent,
+            'error' => $errorMsg
+        ];
     }
 }
 
@@ -156,33 +416,179 @@ if (!function_exists('admin_write_json_file')) {
             return false;
         }
 
+        $dir = dirname($path);
+        if (!is_dir($dir)) {
+            @mkdir($dir, 0775, true);
+        }
+
+        $tmpFile = @tempnam($dir, 'seloasa_tmp_');
+        if ($tmpFile !== false) {
+            $written = @file_put_contents($tmpFile, $json . PHP_EOL, LOCK_EX);
+            if ($written !== false) {
+                if (@rename($tmpFile, $path)) {
+                    @chmod($path, 0664);
+                    return true;
+                }
+                @copy($tmpFile, $path);
+                @unlink($tmpFile);
+                @chmod($path, 0664);
+                return true;
+            }
+            @unlink($tmpFile);
+        }
+
         return @file_put_contents($path, $json . PHP_EOL, LOCK_EX) !== false;
+    }
+}
+
+if (!function_exists('admin_default_posts')) {
+    function admin_default_posts(): array
+    {
+        $now = date('c');
+        return [
+            [
+                'id' => 'comunicado-gdp-2026',
+                'type' => 'comunicado',
+                'category' => 'Comunicado Oficial',
+                'badge_class' => 'badge-pill-comunicado',
+                'status' => 'published',
+                'is_featured' => true,
+                'title' => 'Comunicado Oficial: Certificación en Buenas Prácticas de Distribución (GDP) y Renovación de Protocolos 2026',
+                'summary' => 'SELOASA ratifica su liderazgo en el transporte farmacéutico nacional al renovar su sistema de aseguramiento de calidad térmica conforme a los más estrictos estándares regulatorios internacionales y de COFEPRIS.',
+                'content' => '<p>Como parte de nuestro compromiso permanente con la salud pública y la integridad de los tratamientos médicos en México, SELOASA informa a sus clientes, socios comerciales y autoridades sanitarias sobre la exitosa culminación del proceso de recertificación y actualización de sus <strong>Buenas Prácticas de Distribución (GDP)</strong> para el ciclo operativo 2026.</p><h4>1. Actualización Integral de la Cadena de Frío</h4><p>Nuestra flota e instalaciones en el Centro Logístico Lerma han sido auditadas bajo esquemas de monitoreo continuo con sensores calibrados trazables ante el Centro Nacional de Metrología (CENAM), garantizando precisión térmica en los tres rangos críticos: <em>ultracongelación (-20°C a -10°C), refrigeración controlada (2°C a 8°C) y temperatura ambiente regulada (15°C a 25°C)</em>.</p><div class="visual-callout"><strong>Resolución Ejecutiva:</strong> Todos los embarques cuentan con póliza de respaldo de trazabilidad térmica digital e informe inmediato disponible para auditorías sanitarias y de clientes corporativos.</div>',
+                'date' => 'Mayo 2026',
+                'dept' => 'Dirección General & Aseguramiento de Calidad',
+                'read_time' => '3 min',
+                'image' => 'img/patio_unidades_dia_banner.jpg',
+                'pdf_enabled' => true,
+                'pdf_title' => 'Circular Oficial GDP 2026 (PDF)',
+                'pdf_url' => 'docs_pdf/protocolo_seguridad.pdf',
+                'pdf_btn_text' => 'Descargar Circular Oficial en PDF',
+                'pdf_desc' => 'Documento oficial membretado con especificaciones técnicas, sellos de calidad y dictamen de calibración para auditorías.',
+                'normativa_enabled' => true,
+                'normativa_title' => 'Marco Normativo Aplicable',
+                'normativa_items' => "NOM-059-SSA1-2015: Buenas prácticas de distribución.\nNOM-072-SSA1-2012: Etiquetado de insumos.\nDirectrices GDP / OMS: Monitoreo continuo.",
+                'translations' => [
+                    'es' => [
+                        'title' => 'Comunicado Oficial: Certificación en Buenas Prácticas de Distribución (GDP) y Renovación de Protocolos 2026',
+                        'summary' => 'SELOASA ratifica su liderazgo en el transporte farmacéutico nacional al renovar su sistema de aseguramiento de calidad térmica conforme a los más estrictos estándares regulatorios internacionales y de COFEPRIS.',
+                        'category' => 'Comunicado Oficial',
+                        'dept' => 'Dirección General & Aseguramiento de Calidad'
+                    ]
+                ],
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'noticia-nueva-flota-2026',
+                'type' => 'noticia',
+                'category' => 'Noticia Operativa',
+                'badge_class' => 'badge-pill-noticia',
+                'status' => 'published',
+                'is_featured' => false,
+                'title' => 'Ampliación de Flota: Incorporación de Unidades Refrigeradas de Última Generación',
+                'summary' => 'SELOASA fortalece su infraestructura operativa con nuevas unidades equipadas con sistemas multitemperatura y telemetría de monitoreo térmico en tiempo real.',
+                'content' => '<p>Con el objetivo de incrementar nuestra capacidad de respuesta y garantizar el abasto ininterrumpido a centros de distribución y hospitales en toda la República Mexicana, SELOASA completó la incorporación de nuevas unidades de transporte con tecnología de vanguardia.</p><h4>Monitoreo Térmico con Redundancia</h4><p>Cada vehículo cuenta con caja isotérmica de alto rendimiento, compresores ecológicos certificados y doble canal de transmisión GPS/GPRS para supervisión remota 24/7/365.</p>',
+                'date' => 'Abril 2026',
+                'dept' => 'Gerencia de Operaciones y Flota',
+                'read_time' => '2 min',
+                'image' => 'img/feature.jpg',
+                'pdf_enabled' => false,
+                'pdf_title' => '',
+                'pdf_url' => '',
+                'pdf_btn_text' => '',
+                'pdf_desc' => '',
+                'normativa_enabled' => true,
+                'normativa_title' => 'Especificaciones de Flota',
+                'normativa_items' => "Sistemas Thermo King multitemperatura.\nTelemetría GPS y 4G con tolerancia ±0.5°C.\nMonitoreo centralizado 24/7 desde Torre de Control Lerma.",
+                'translations' => [
+                    'es' => [
+                        'title' => 'Ampliación de Flota: Incorporación de Unidades Refrigeradas de Última Generación',
+                        'summary' => 'SELOASA fortalece su infraestructura operativa con nuevas unidades equipadas con sistemas multitemperatura y telemetría de monitoreo térmico en tiempo real.',
+                        'category' => 'Noticia Operativa',
+                        'dept' => 'Gerencia de Operaciones y Flota'
+                    ]
+                ],
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'monitoreo-cadena-frio',
+                'type' => 'blog',
+                'category' => 'Blog Farma',
+                'badge_class' => 'badge-pill-blog',
+                'status' => 'published',
+                'is_featured' => false,
+                'title' => 'Gestión de Riesgos y Trazabilidad Térmica en el Transporte Farmacéutico',
+                'summary' => 'Análisis técnico sobre la prevención de excursiones de temperatura, validación de rutas y protocolos de contingencia en logística sanitaria.',
+                'content' => '<p>El transporte de medicamentos y productos biológicos representa uno de los eslabones más delicados de la cadena de suministro en salud. Una variación térmica no detectada puede comprometer la eficacia terapéutica de un tratamiento biológico o vacuna.</p><h4>Pilares de la Trazabilidad Continua</h4><p>En este artículo examinamos las mejores prácticas para el mapeo térmico de cajas de carga, protocolos de contingencia ante eventos carreteros y la integración de reportes analíticos para auditorías sanitarias.</p>',
+                'date' => 'Marzo 2026',
+                'dept' => 'Comité Técnico de Calidad Farmacéutica',
+                'read_time' => '4 min',
+                'image' => 'img/about.jpg',
+                'pdf_enabled' => false,
+                'pdf_title' => '',
+                'pdf_url' => '',
+                'pdf_btn_text' => '',
+                'pdf_desc' => '',
+                'normativa_enabled' => false,
+                'normativa_title' => '',
+                'normativa_items' => '',
+                'translations' => [
+                    'es' => [
+                        'title' => 'Gestión de Riesgos y Trazabilidad Térmica en el Transporte Farmacéutico',
+                        'summary' => 'Análisis técnico sobre la prevención de excursiones de temperatura, validación de rutas y protocolos de contingencia en logística sanitaria.',
+                        'category' => 'Blog Farma',
+                        'dept' => 'Comité Técnico de Calidad Farmacéutica'
+                    ]
+                ],
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+        ];
+    }
+}
+
+if (!function_exists('admin_default_popups')) {
+    function admin_default_popups(): array
+    {
+        $now = date('c');
+        return [
+            [
+                'id' => 'popup-cofepris-2026',
+                'title' => 'Aviso Oficial de Operación Farmacéutica 2026',
+                'subtitle' => 'Certificación y Cumplimiento Normativo',
+                'type' => 'alerta',
+                'layout' => 'top',
+                'message' => '<p>SELOASA ratifica su compromiso con el estricto cumplimiento de las Buenas Prácticas de Distribución de Insumos para la Salud (NOM-059-SSA1 y NOM-072-SSA1), operando con protocolos de cadena de frío y trazabilidad térmica permanente en cada ruta.</p>',
+                'image' => 'img/about.jpg',
+                'btn_primary_text' => 'Conocer Protocolos de Calidad',
+                'btn_primary_url' => 'services/',
+                'btn_secondary_text' => 'Entendido',
+                'custom_footer' => 'Circular Normativa COFEPRIS & GDP',
+                'active' => true,
+                'frequency' => 'session',
+                'delay' => 1.5,
+                'translations' => [
+                    'es' => [
+                        'title' => 'Aviso Oficial de Operación Farmacéutica 2026',
+                        'subtitle' => 'Certificación y Cumplimiento Normativo',
+                        'message' => '<p>SELOASA ratifica su compromiso con el estricto cumplimiento de las Buenas Prácticas de Distribución de Insumos para la Salud (NOM-059-SSA1 y NOM-072-SSA1), operando con protocolos de cadena de frío y trazabilidad térmica permanente en cada ruta.</p>',
+                        'btn_primary_text' => 'Conocer Protocolos de Calidad',
+                        'btn_secondary_text' => 'Entendido',
+                        'custom_footer' => 'Circular Normativa COFEPRIS & GDP'
+                    ]
+                ],
+                'created_at' => $now,
+                'updated_at' => $now,
+            ]
+        ];
     }
 }
 
 if (!function_exists('admin_get_vacancy_store')) {
     function admin_get_vacancy_store(): array
     {
-        try {
-            require_once __DIR__ . '/db.php';
-            $pdo = get_db_connection();
-            $stmt = $pdo->query("SELECT * FROM `vacantes` ORDER BY `sort_order` ASC, `created_at` DESC");
-            $rows = $stmt->fetchAll();
-            if (!empty($rows)) {
-                $items = array_map(function ($v) {
-                    $v['points'] = !empty($v['points']) ? json_decode($v['points'], true) : [];
-                    if (!is_array($v['points'])) $v['points'] = [];
-                    return $v;
-                }, $rows);
-                return [
-                    'updated_at' => date('c'),
-                    'items' => array_values($items),
-                ];
-            }
-        } catch (Exception $e) {
-            error_log("Error al leer vacantes de BD: " . $e->getMessage());
-        }
-
         admin_storage_ensure();
 
         $default = [
@@ -220,6 +626,167 @@ if (!function_exists('admin_save_vacancy_store')) {
             'updated_at' => date('c'),
             'items' => array_values($items),
         ]);
+    }
+}
+
+if (!function_exists('admin_get_posts_store')) {
+    function admin_get_posts_store(): array
+    {
+        admin_storage_ensure();
+
+        $default = [
+            'updated_at' => date('c'),
+            'items' => admin_default_posts(),
+        ];
+
+        $store = admin_read_json_file(ADMIN_NOTICIAS_FILE, $default);
+        if (!is_array($store)) {
+            return $default;
+        }
+
+        $items = $store['items'] ?? [];
+        if (!is_array($items)) {
+            $items = [];
+        }
+
+        return [
+            'updated_at' => (string) ($store['updated_at'] ?? date('c')),
+            'items' => array_values($items),
+        ];
+    }
+}
+
+if (!function_exists('admin_save_posts_store')) {
+    function admin_save_posts_store(array $items): bool
+    {
+        admin_storage_ensure();
+
+        return admin_write_json_file(ADMIN_NOTICIAS_FILE, [
+            'updated_at' => date('c'),
+            'items' => array_values($items),
+        ]);
+    }
+}
+
+if (!function_exists('admin_find_post_by_id')) {
+    function admin_find_post_by_id(string $id): ?array
+    {
+        $id = strtolower(trim($id));
+        $store = admin_get_posts_store();
+        foreach ($store['items'] as $post) {
+            if (strtolower(trim((string) ($post['id'] ?? ''))) === $id) {
+                return $post;
+            }
+        }
+        return null;
+    }
+}
+
+if (!function_exists('admin_get_popups_store')) {
+    function admin_get_popups_store(): array
+    {
+        admin_storage_ensure();
+
+        $default = [
+            'updated_at' => date('c'),
+            'items' => admin_default_popups(),
+        ];
+
+        $store = admin_read_json_file(ADMIN_POPUPS_FILE, $default);
+        if (!is_array($store)) {
+            return $default;
+        }
+
+        $items = $store['items'] ?? [];
+        if (!is_array($items)) {
+            $items = [];
+        }
+
+        return [
+            'updated_at' => (string) ($store['updated_at'] ?? date('c')),
+            'items' => array_values($items),
+        ];
+    }
+}
+
+if (!function_exists('admin_save_popups_store')) {
+    function admin_save_popups_store(array $items): bool
+    {
+        admin_storage_ensure();
+
+        return admin_write_json_file(ADMIN_POPUPS_FILE, [
+            'updated_at' => date('c'),
+            'items' => array_values($items),
+        ]);
+    }
+}
+
+if (!function_exists('admin_find_popup_by_id')) {
+    function admin_find_popup_by_id(string $id): ?array
+    {
+        $id = strtolower(trim($id));
+        $store = admin_get_popups_store();
+        foreach ($store['items'] as $popup) {
+            if (strtolower(trim((string) ($popup['id'] ?? ''))) === $id) {
+                return $popup;
+            }
+        }
+        return null;
+    }
+}
+
+if (!function_exists('admin_get_postulaciones_store')) {
+    function admin_get_postulaciones_store(): array
+    {
+        admin_storage_ensure();
+
+        $default = [
+            'updated_at' => date('c'),
+            'items' => [],
+        ];
+
+        $store = admin_read_json_file(ADMIN_POSTULACIONES_FILE, $default);
+        if (!is_array($store)) {
+            return $default;
+        }
+
+        $items = $store['items'] ?? [];
+        if (!is_array($items)) {
+            $items = [];
+        }
+
+        return [
+            'updated_at' => (string) ($store['updated_at'] ?? date('c')),
+            'items' => array_values($items),
+        ];
+    }
+}
+
+if (!function_exists('admin_save_postulaciones_store')) {
+    function admin_save_postulaciones_store(array $items): bool
+    {
+        admin_storage_ensure();
+
+        return admin_write_json_file(ADMIN_POSTULACIONES_FILE, [
+            'updated_at' => date('c'),
+            'items' => array_values($items),
+        ]);
+    }
+}
+
+if (!function_exists('admin_append_postulacion')) {
+    function admin_append_postulacion(array $record): bool
+    {
+        $store = admin_get_postulaciones_store();
+        $items = $store['items'];
+
+        $record['id'] = count($items) + 1;
+        $record['created_at'] = $record['created_at'] ?? date('c');
+        $record['status'] = $record['status'] ?? 'nuevo';
+
+        array_unshift($items, $record);
+
+        return admin_save_postulaciones_store($items);
     }
 }
 

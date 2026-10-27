@@ -164,7 +164,25 @@
       location,
       schedule,
       summary,
-      points
+      points,
+      translations: (item.translations && typeof item.translations === 'object') ? item.translations : {}
+    };
+  }
+
+  function getLocalizedVacancy(item, lang) {
+    if (!item) return item;
+    const safeLang = normalizeLang(lang);
+    const t = (item.translations && item.translations[safeLang]) ? item.translations[safeLang] : null;
+    if (!t) return item;
+    return {
+      ...item,
+      title: t.title || item.title,
+      area: t.area || item.area,
+      mode: t.mode || item.mode,
+      location: t.location || item.location,
+      schedule: t.schedule || item.schedule,
+      summary: t.summary || item.summary,
+      points: (Array.isArray(t.points) && t.points.length > 0) ? normalizeVacancyPoints(t.points) : item.points
     };
   }
 
@@ -531,7 +549,9 @@
       return;
     }
 
-    container.innerHTML = vacancyItems.map((job) => `
+    container.innerHTML = vacancyItems.map((rawJob) => {
+      const job = getLocalizedVacancy(rawJob, lang);
+      return `
       <div class="col-lg-4 col-md-6">
         <article class="careers-vacancy-card h-100">
           <div class="careers-vacancy-accent-bar"></div>
@@ -569,7 +589,8 @@
           </div>
         </article>
       </div>
-    `).join('');
+    `;
+    }).join('');
   }
 
   function updateApplicationAvailability(lang, vacancyItems) {
@@ -606,7 +627,8 @@
     placeholder.selected = true;
     select.appendChild(placeholder);
 
-    (Array.isArray(vacancyItems) ? vacancyItems : []).forEach((job) => {
+    (Array.isArray(vacancyItems) ? vacancyItems : []).forEach((rawJob) => {
+      const job = getLocalizedVacancy(rawJob, lang);
       const option = document.createElement('option');
       option.value = job.id;
       option.textContent = job.title;

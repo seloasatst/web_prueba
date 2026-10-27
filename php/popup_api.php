@@ -1,10 +1,9 @@
 <?php
 /**
- * SELOASA - API REST de Pop-ups y Avisos Emergentes (MySQL / PDO)
- * Gestiona avisos y ventanas emergentes en la tabla `popups` de `website`.
+ * SELOASA - API REST de Pop-ups y Avisos Emergentes (Almacenamiento JSON Seguro)
+ * Gestiona avisos y ventanas emergentes en php/storage/popups.json
  */
 
-require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/admin_helper.php';
 
 header('Content-Type: application/json; charset=UTF-8');
@@ -14,9 +13,16 @@ header('X-Frame-Options: SAMEORIGIN');
 
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 $host = $_SERVER['HTTP_HOST'] ?? '';
-if ($origin !== '' && str_contains($origin, $host)) {
+if ($origin === 'null') {
+    header('Access-Control-Allow-Origin: null');
+    header('Access-Control-Allow-Credentials: true');
+} elseif ($origin === '') {
+    header('Access-Control-Allow-Origin: *');
+} elseif (preg_match('#^https?://(localhost|127\.0\.0\.1)(:\d+)?$#i', $origin) || ($host !== '' && str_contains($origin, $host))) {
     header("Access-Control-Allow-Origin: {$origin}");
     header('Access-Control-Allow-Credentials: true');
+} else {
+    header('Access-Control-Allow-Origin: *');
 }
 header('Access-Control-Allow-Methods: GET, POST, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization, X-CSRF-Token, X-Admin-Token');
@@ -26,19 +32,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-try {
-    $pdo = get_db_connection();
-} catch (Exception $e) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'Error de conexión a BD: ' . $e->getMessage()]);
-    exit;
-}
-
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+$isAuth = admin_is_authenticated();
 
-// Proteger mutaciones de base de datos
+// Proteger mutaciones de base de datos / archivos
 if ($method === 'POST' || $method === 'DELETE' || $method === 'PUT') {
-    if (!admin_is_authenticated()) {
+    if (!$isAuth) {
         http_response_code(401);
         echo json_encode([
             'success' => false,
@@ -52,18 +51,29 @@ if ($method === 'POST' || $method === 'DELETE' || $method === 'PUT') {
    GET: OBTENER POP-UPS
    ========================================================================== */
 if ($method === 'GET') {
+    $store = admin_get_popups_store();
+    $items = $store['items'];
+
     // Caso 1: Obtener el popup activo para la web pública
     if (isset($_GET['active']) && $_GET['active'] == '1') {
-        $stmt = $pdo->prepare("SELECT * FROM `popups` WHERE `active` = 1 ORDER BY `updated_at` DESC LIMIT 1");
-        $stmt->execute();
-        $popup = $stmt->fetch();
+        $activePopup = null;
+        foreach ($items as $p) {
+            if (!empty($p['active'])) {
+                $activePopup = $p;
+                break;
+            }
+        }
 
-        if ($popup) {
-            $popup['active'] = (bool)$popup['active'];
-            $popup['btn_primary_enabled'] = (bool)$popup['btn_primary_enabled'];
-            $popup['btn_secondary_enabled'] = (bool)$popup['btn_secondary_enabled'];
-            $popup['delay'] = (float)$popup['delay'];
-            echo json_encode(['success' => true, 'popup' => $popup, 'item' => $popup], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        if ($activePopup !== null) {
+            $activePopup['active'] = true;
+            $activePopup['btn_primary_enabled'] = !empty($activePopup['btn_primary_text']);
+            $activePopup['btn_secondary_enabled'] = !empty($activePopup['btn_secondary_text']);
+            $activePopup['delay'] = (float)($activePopup['delay'] ?? 1.5);
+            echo json_encode([
+                'success' => true,
+                'popup' => $activePopup,
+                'item' => $activePopup
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         } else {
             echo json_encode(['success' => true, 'popup' => null, 'item' => null]);
         }
@@ -73,40 +83,38 @@ if ($method === 'GET') {
     // Caso 2: Obtener por ID
     $id = isset($_GET['id']) ? trim($_GET['id']) : '';
     if ($id !== '') {
-        $stmt = $pdo->prepare("SELECT * FROM `popups` WHERE `id` = :id LIMIT 1");
-        $stmt->execute(['id' => $id]);
-        $popup = $stmt->fetch();
-
-        if ($popup) {
-            $popup['active'] = (bool)$popup['active'];
-            $popup['btn_primary_enabled'] = (bool)$popup['btn_primary_enabled'];
-            $popup['btn_secondary_enabled'] = (bool)$popup['btn_secondary_enabled'];
-            $popup['delay'] = (float)$popup['delay'];
-            echo json_encode(['success' => true, 'item' => $popup, 'popup' => $popup], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        $popup = admin_find_popup_by_id($id);
+        if ($popup !== null) {
+            $popup['active'] = !empty($popup['active']);
+            $popup['btn_primary_enabled'] = !empty($popup['btn_primary_text']);
+            $popup['btn_secondary_enabled'] = !empty($popup['btn_secondary_text']);
+            $popup['delay'] = (float)($popup['delay'] ?? 1.5);
+            echo json_encode([
+                'success' => true,
+                'item' => $popup,
+                'popup' => $popup
+            ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         } else {
             http_response_code(404);
-            echo json_encode(['success' => false, 'error' => 'Pop-up no encontrado']);
+            echo json_encode(['success' => false, 'error' => 'Pop-up no encontrado'], JSON_UNESCAPED_UNICODE);
         }
         exit;
     }
 
     // Caso 3: Listar todos
-    $stmt = $pdo->query("SELECT * FROM `popups` ORDER BY `active` DESC, `updated_at` DESC");
-    $rows = $stmt->fetchAll();
-
-    $items = array_map(function ($p) {
-        $p['active'] = (bool)$p['active'];
-        $p['btn_primary_enabled'] = (bool)$p['btn_primary_enabled'];
-        $p['btn_secondary_enabled'] = (bool)$p['btn_secondary_enabled'];
-        $p['delay'] = (float)$p['delay'];
+    $normalized = array_map(function ($p) {
+        $p['active'] = !empty($p['active']);
+        $p['btn_primary_enabled'] = !empty($p['btn_primary_text']);
+        $p['btn_secondary_enabled'] = !empty($p['btn_secondary_text']);
+        $p['delay'] = (float)($p['delay'] ?? 1.5);
         return $p;
-    }, $rows);
+    }, $items);
 
     echo json_encode([
         'success' => true,
-        'count' => count($items),
-        'items' => $items,
-        'updated_at' => date('c')
+        'count' => count($normalized),
+        'items' => $normalized,
+        'updated_at' => $store['updated_at'] ?? date('c')
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
     exit;
 }
@@ -120,137 +128,95 @@ if ($method === 'POST') {
 
     if (!is_array($payload)) {
         http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'Cuerpo JSON no válido']);
+        echo json_encode(['success' => false, 'error' => 'Cuerpo JSON no válido'], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
-    // Acción rápida: Activar un ID específico
+    $store = admin_get_popups_store();
+    $currentItems = $store['items'];
+
+    // Acción rápida: Activar un ID específico y desactivar los demás
     if (isset($payload['activate_id'])) {
-        $actId = trim($payload['activate_id']);
-        $pdo->beginTransaction();
-        try {
-            $pdo->exec("UPDATE `popups` SET `active` = 0");
-            if ($actId !== '') {
-                $st = $pdo->prepare("UPDATE `popups` SET `active` = 1 WHERE `id` = :id");
-                $st->execute(['id' => $actId]);
+        $actId = trim((string) $payload['activate_id']);
+        foreach ($currentItems as $idx => $item) {
+            $currentItems[$idx]['active'] = (strtolower(trim((string) ($item['id'] ?? ''))) === strtolower($actId));
+            if ($currentItems[$idx]['active']) {
+                $currentItems[$idx]['updated_at'] = date('c');
             }
-            $pdo->commit();
-            echo json_encode(['success' => true, 'message' => 'Estado activo actualizado correctamente']);
-            exit;
-        } catch (Exception $e) {
-            $pdo->rollBack();
-            http_response_code(500);
-            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
-            exit;
         }
+        admin_save_popups_store($currentItems);
+        echo json_encode(['success' => true, 'message' => 'Estado activo actualizado correctamente'], JSON_UNESCAPED_UNICODE);
+        exit;
     }
 
-    $upsertStmt = $pdo->prepare("
-        INSERT INTO `popups` (
-            `id`, `title`, `subtitle`, `type`, `layout`, `message`, `image`,
-            `btn_primary_enabled`, `btn_primary_text`, `btn_primary_url`,
-            `btn_secondary_enabled`, `btn_secondary_text`, `custom_footer`,
-            `active`, `frequency`, `delay`
-        ) VALUES (
-            :id, :title, :subtitle, :type, :layout, :message, :image,
-            :btn_primary_enabled, :btn_primary_text, :btn_primary_url,
-            :btn_secondary_enabled, :btn_secondary_text, :custom_footer,
-            :active, :frequency, :delay
-        )
-        ON DUPLICATE KEY UPDATE
-            `title` = VALUES(`title`),
-            `subtitle` = VALUES(`subtitle`),
-            `type` = VALUES(`type`),
-            `layout` = VALUES(`layout`),
-            `message` = VALUES(`message`),
-            `image` = VALUES(`image`),
-            `btn_primary_enabled` = VALUES(`btn_primary_enabled`),
-            `btn_primary_text` = VALUES(`btn_primary_text`),
-            `btn_primary_url` = VALUES(`btn_primary_url`),
-            `btn_secondary_enabled` = VALUES(`btn_secondary_enabled`),
-            `btn_secondary_text` = VALUES(`btn_secondary_text`),
-            `custom_footer` = VALUES(`custom_footer`),
-            `active` = VALUES(`active`),
-            `frequency` = VALUES(`frequency`),
-            `delay` = VALUES(`delay`),
-            `updated_at` = CURRENT_TIMESTAMP
-    ");
-
-    function sanitize_popup(array $p): array
-    {
-        $id = trim($p['id'] ?? '');
-        if ($id === '') {
-            $id = 'popup-' . time() . '-' . substr(md5(uniqid()), 0, 5);
-        }
-
-        $btnPrimaryEnabled = isset($p['btn_primary_enabled']) ? ($p['btn_primary_enabled'] ? 1 : 0) : (trim($p['btn_primary_text'] ?? '') !== '' ? 1 : 0);
-        $btnSecondaryEnabled = isset($p['btn_secondary_enabled']) ? ($p['btn_secondary_enabled'] ? 1 : 0) : (trim($p['btn_secondary_text'] ?? '') !== '' ? 1 : 0);
-
-        return [
-            'id' => $id,
-            'title' => trim($p['title'] ?? 'Aviso Oficial'),
-            'subtitle' => trim($p['subtitle'] ?? ''),
-            'type' => $p['type'] ?? 'alerta',
-            'layout' => $p['layout'] ?? 'top',
-            'message' => $p['message'] ?? '',
-            'image' => $p['image'] ?? 'img/patio_unidades_dia_banner.jpg',
-            'btn_primary_enabled' => $btnPrimaryEnabled,
-            'btn_primary_text' => trim($p['btn_primary_text'] ?? ''),
-            'btn_primary_url' => trim($p['btn_primary_url'] ?? ''),
-            'btn_secondary_enabled' => $btnSecondaryEnabled,
-            'btn_secondary_text' => trim($p['btn_secondary_text'] ?? ''),
-            'custom_footer' => $p['custom_footer'] ?? '',
-            'active' => !empty($p['active']) ? 1 : 0,
-            'frequency' => $p['frequency'] ?? 'session',
-            'delay' => isset($p['delay']) ? (float)$p['delay'] : 1.5,
-        ];
-    }
-
-    // Sincronización en lote
+    // Caso de array de items
     if (isset($payload['items']) && is_array($payload['items'])) {
-        $saved = 0;
-        $pdo->beginTransaction();
-        try {
-            foreach ($payload['items'] as $item) {
-                if (is_array($item)) {
-                    $clean = sanitize_popup($item);
-                    $upsertStmt->execute($clean);
-                    $saved++;
-                }
-            }
-            $pdo->commit();
-            echo json_encode(['success' => true, 'message' => "Se guardaron {$saved} pop-ups en BD", 'count' => $saved]);
+        $validItems = [];
+        foreach ($payload['items'] as $item) {
+            if (!is_array($item) || empty($item['id'])) continue;
+            $item['updated_at'] = $item['updated_at'] ?? date('c');
+            $validItems[] = $item;
+        }
+        if (admin_save_popups_store($validItems)) {
+            echo json_encode([
+                'success' => true,
+                'message' => 'Pop-ups sincronizados correctamente.',
+                'count' => count($validItems)
+            ], JSON_UNESCAPED_UNICODE);
             exit;
-        } catch (Exception $e) {
-            $pdo->rollBack();
+        } else {
             http_response_code(500);
-            echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+            echo json_encode(['success' => false, 'error' => 'Error al guardar archivo popups.json'], JSON_UNESCAPED_UNICODE);
             exit;
         }
     }
 
-    // Guardado de un solo pop-up
-    $clean = sanitize_popup($payload);
-    $pdo->beginTransaction();
-    try {
-        // Si este popup se marca como activo, desactivar los demás para mantener uno activo
-        if ($clean['active'] === 1) {
-            $pdo->exec("UPDATE `popups` SET `active` = 0");
+    // Upsert individual
+    $item = isset($payload['item']) && is_array($payload['item']) ? $payload['item'] : $payload;
+    $id = trim((string) ($item['id'] ?? ''));
+
+    if ($id === '') {
+        http_response_code(400);
+        echo json_encode(['success' => false, 'error' => 'El id del pop-up es obligatorio'], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    $item['updated_at'] = date('c');
+    if (empty($item['created_at'])) {
+        $item['created_at'] = date('c');
+    }
+
+    // Si este popup se marca activo, desactivar los demás
+    if (!empty($item['active'])) {
+        foreach ($currentItems as $idx => $existing) {
+            $currentItems[$idx]['active'] = false;
         }
+    }
 
-        $upsertStmt->execute($clean);
-        $pdo->commit();
+    $foundIndex = -1;
+    foreach ($currentItems as $idx => $existing) {
+        if (strtolower(trim((string) ($existing['id'] ?? ''))) === strtolower($id)) {
+            $foundIndex = $idx;
+            break;
+        }
+    }
 
+    if ($foundIndex >= 0) {
+        $currentItems[$foundIndex] = array_merge($currentItems[$foundIndex], $item);
+    } else {
+        array_unshift($currentItems, $item);
+    }
+
+    if (admin_save_popups_store($currentItems)) {
         echo json_encode([
             'success' => true,
-            'message' => 'Pop-up guardado en la base de datos correctamente',
-            'id' => $clean['id']
-        ]);
+            'message' => 'Pop-up guardado correctamente.',
+            'item' => $item
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
         exit;
-    } catch (Exception $e) {
-        $pdo->rollBack();
+    } else {
         http_response_code(500);
-        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        echo json_encode(['success' => false, 'error' => 'Error al escribir popups.json'], JSON_UNESCAPED_UNICODE);
         exit;
     }
 }
@@ -262,22 +228,34 @@ if ($method === 'DELETE') {
     $id = isset($_GET['id']) ? trim($_GET['id']) : '';
     if ($id === '') {
         $raw = file_get_contents('php://input');
-        $pl = json_decode($raw, true);
-        $id = trim($pl['id'] ?? '');
+        $data = json_decode($raw, true);
+        $id = trim((string) ($data['id'] ?? ''));
     }
 
     if ($id === '') {
         http_response_code(400);
-        echo json_encode(['success' => false, 'error' => 'Se requiere el id del pop-up a eliminar']);
+        echo json_encode(['success' => false, 'error' => 'Se requiere el id del pop-up'], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
-    $stmt = $pdo->prepare("DELETE FROM `popups` WHERE `id` = :id");
-    $stmt->execute(['id' => $id]);
+    $store = admin_get_popups_store();
+    $items = $store['items'];
+    $filtered = array_values(array_filter($items, function ($p) use ($id) {
+        return strtolower(trim((string) ($p['id'] ?? ''))) !== strtolower($id);
+    }));
 
-    echo json_encode(['success' => true, 'message' => 'Pop-up eliminado de la base de datos']);
-    exit;
+    if (count($filtered) === count($items)) {
+        http_response_code(404);
+        echo json_encode(['success' => false, 'error' => 'Pop-up no encontrado para eliminar'], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    if (admin_save_popups_store($filtered)) {
+        echo json_encode(['success' => true, 'message' => 'Pop-up eliminado correctamente.'], JSON_UNESCAPED_UNICODE);
+        exit;
+    } else {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'error' => 'Error al actualizar popups.json'], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
 }
-
-http_response_code(405);
-echo json_encode(['success' => false, 'error' => 'Método no permitido']);

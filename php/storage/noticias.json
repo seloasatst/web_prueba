@@ -1,0 +1,118 @@
+{
+    "updated_at": "2026-10-27T18:37:14+01:00",
+    "items": [
+        {
+            "id": "comunicado-gdp-2026",
+            "type": "comunicado",
+            "category": "Comunicado Oficial",
+            "badge_class": "badge-pill-comunicado",
+            "status": "published",
+            "is_featured": true,
+            "title": "Comunicado Oficial: Certificación en Buenas Prácticas de Distribución (GDP) y Renovación de Protocolos 2026",
+            "summary": "SELOASA ratifica su liderazgo en el transporte farmacéutico nacional al renovar su sistema de aseguramiento de calidad térmica conforme a los más estrictos estándares regulatorios internacionales y de COFEPRIS.",
+            "content": "<p>Como parte de nuestro compromiso permanente con la salud pública y la integridad de los tratamientos médicos en México, SELOASA informa a sus clientes, socios comerciales y autoridades sanitarias sobre la exitosa culminación del proceso de recertificación y actualización de sus <strong>Buenas Prácticas de Distribución (GDP)</strong> para el ciclo operativo 2026.</p><h4>1. Actualización Integral de la Cadena de Frío</h4><p>Nuestra flota e instalaciones en el Centro Logístico Lerma han sido auditadas bajo esquemas de monitoreo continuo con sensores calibrados trazables ante el Centro Nacional de Metrología (CENAM), garantizando precisión térmica en los tres rangos críticos: <em>ultracongelación (-20°C a -10°C), refrigeración controlada (2°C a 8°C) y temperatura ambiente regulada (15°C a 25°C)</em>.</p><div class=\"visual-callout\"><strong>Resolución Ejecutiva:</strong> Todos los embarques cuentan con póliza de respaldo de trazabilidad térmica digital e informe inmediato disponible para auditorías sanitarias y de clientes corporativos.</div>",
+            "date": "Mayo 2026",
+            "dept": "Dirección General & Aseguramiento de Calidad",
+            "read_time": "3 min",
+            "image": "img/patio_unidades_dia_banner.jpg",
+            "pdf_enabled": true,
+            "pdf_title": "Circular Oficial GDP 2026 (PDF)",
+            "pdf_url": "docs_pdf/protocolo_seguridad.pdf",
+            "pdf_btn_text": "Descargar Circular Oficial en PDF",
+            "pdf_desc": "Documento oficial membretado con especificaciones técnicas, sellos de calidad y dictamen de calibración para auditorías.",
+            "normativa_enabled": true,
+            "normativa_title": "Marco Normativo Aplicable",
+            "normativa_items": "NOM-059-SSA1-2015: Buenas prácticas de distribución.\nNOM-072-SSA1-2012: Etiquetado de insumos.\nDirectrices GDP / OMS: Monitoreo continuo.",
+            "translations": {
+                "es": {
+                    "title": "Comunicado Oficial: Certificación en Buenas Prácticas de Distribución (GDP) y Renovación de Protocolos 2026",
+                    "summary": "SELOASA ratifica su liderazgo en el transporte farmacéutico nacional al renovar su sistema de aseguramiento de calidad térmica conforme a los más estrictos estándares regulatorios internacionales y de COFEPRIS."
+                },
+                "en": {
+                    "title": "Official Statement: GDP Certification and Renewal of Protocols 2026",
+                    "summary": "Technical bulletin on health regulatory compliance and temperature control."
+                },
+                "al": {
+                    "title": "Offizielle Mitteilung: BIP-Zertifizierung und Protokollerneuerung 2026",
+                    "summary": "Technischer Bericht uber die Einhaltung gesetzlicher Vorschriften."
+                },
+                "pt": {
+                    "title": "Comunicado Oficial: Certificação em Boas Práticas de Distribuição (GDP) 2026",
+                    "summary": "Boletim técnico sobre conformidade regulatória em saúde."
+                },
+                "fr": {
+                    "title": "Communiqué Officiel : Certification GDP et Renouvellement des Protocoles 2026",
+                    "summary": "Bulletin technique sur la conformité réglementaire de santé."
+                }
+            },
+            "created_at": "2026-10-27T18:15:49+01:00",
+            "updated_at": "2026-10-27T18:15:49+01:00"
+        },
+        {
+            "id": "noticia-nueva-flota-2026",
+            "type": "noticia",
+            "category": "Noticia Operativa",
+            "badge_class": "badge-pill-noticia",
+            "status": "published",
+            "is_featured": false,
+            "title": "Ampliación de Flota: Incorporación de Unidades Refrigeradas de Última Generación",
+            "summary": "SELOASA fortalece su infraestructura operativa con nuevas unidades equipadas con sistemas multitemperatura y telemetría de monitoreo térmico en tiempo real.",
+            "content": "<p>Con el objetivo de incrementar nuestra capacidad de respuesta y garantizar el abasto ininterrumpido a centros de distribución y hospitales en toda la República Mexicana, SELOASA completó la incorporación de nuevas unidades de transporte con tecnología de vanguardia.</p><h4>Monitoreo Térmico con Redundancia</h4><p>Cada vehículo cuenta con caja isotérmica de alto rendimiento, compresores ecológicos certificados y doble canal de transmisión GPS/GPRS para supervisión remota 24/7/365.</p>",
+            "date": "Abril 2026",
+            "dept": "Gerencia de Operaciones y Flota",
+            "read_time": "2 min",
+            "image": "img/feature.jpg",
+            "pdf_enabled": false,
+            "pdf_title": "",
+            "pdf_url": "",
+            "pdf_btn_text": "",
+            "pdf_desc": "",
+            "normativa_enabled": true,
+            "normativa_title": "Especificaciones de Flota",
+            "normativa_items": "Sistemas Thermo King multitemperatura.\nTelemetría GPS y 4G con tolerancia ±0.5°C.\nMonitoreo centralizado 24/7 desde Torre de Control Lerma.",
+            "translations": {
+                "es": {
+                    "title": "Ampliación de Flota: Incorporación de Unidades Refrigeradas de Última Generación",
+                    "summary": "SELOASA fortalece su infraestructura operativa con nuevas unidades equipadas con sistemas multitemperatura y telemetría de monitoreo térmico en tiempo real.",
+                    "category": "Noticia Operativa",
+                    "dept": "Gerencia de Operaciones y Flota"
+                }
+            },
+            "created_at": "2026-10-27T18:15:49+01:00",
+            "updated_at": "2026-10-27T18:15:49+01:00"
+        },
+        {
+            "id": "monitoreo-cadena-frio",
+            "type": "blog",
+            "category": "Blog Farma",
+            "badge_class": "badge-pill-blog",
+            "status": "published",
+            "is_featured": false,
+            "title": "Gestión de Riesgos y Trazabilidad Térmica en el Transporte Farmacéutico",
+            "summary": "Análisis técnico sobre la prevención de excursiones de temperatura, validación de rutas y protocolos de contingencia en logística sanitaria.",
+            "content": "<p>El transporte de medicamentos y productos biológicos representa uno de los eslabones más delicados de la cadena de suministro en salud. Una variación térmica no detectada puede comprometer la eficacia terapéutica de un tratamiento biológico o vacuna.</p><h4>Pilares de la Trazabilidad Continua</h4><p>En este artículo examinamos las mejores prácticas para el mapeo térmico de cajas de carga, protocolos de contingencia ante eventos carreteros y la integración de reportes analíticos para auditorías sanitarias.</p>",
+            "date": "Marzo 2026",
+            "dept": "Comité Técnico de Calidad Farmacéutica",
+            "read_time": "4 min",
+            "image": "img/about.jpg",
+            "pdf_enabled": false,
+            "pdf_title": "",
+            "pdf_url": "",
+            "pdf_btn_text": "",
+            "pdf_desc": "",
+            "normativa_enabled": false,
+            "normativa_title": "",
+            "normativa_items": "",
+            "translations": {
+                "es": {
+                    "title": "Gestión de Riesgos y Trazabilidad Térmica en el Transporte Farmacéutico",
+                    "summary": "Análisis técnico sobre la prevención de excursiones de temperatura, validación de rutas y protocolos de contingencia en logística sanitaria.",
+                    "category": "Blog Farma",
+                    "dept": "Comité Técnico de Calidad Farmacéutica"
+                }
+            },
+            "created_at": "2026-10-27T18:15:49+01:00",
+            "updated_at": "2026-10-27T18:15:49+01:00"
+        }
+    ]
+}

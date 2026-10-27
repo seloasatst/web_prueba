@@ -63,7 +63,40 @@
     }
   }
 
-  function createPopupOverlay(popup) {
+  function normalizeLang(lang) {
+    if (!lang) return 'es';
+    const value = String(lang).toLowerCase();
+    if (value === 'de') return 'al';
+    return ['es', 'en', 'al', 'pt', 'fr'].includes(value) ? value : 'es';
+  }
+
+  function getCurrentLang() {
+    return normalizeLang(localStorage.getItem('site-language') || document.documentElement.lang || 'es');
+  }
+
+  function getLocalizedPopup(popup, lang) {
+    if (!popup) return popup;
+    const safeLang = normalizeLang(lang);
+    const t = (popup.translations && popup.translations[safeLang]) ? popup.translations[safeLang] : null;
+    if (!t) return popup;
+    return {
+      ...popup,
+      title: t.title || popup.title,
+      subtitle: t.subtitle !== undefined ? t.subtitle : popup.subtitle,
+      message: t.message || popup.message,
+      btn_primary_text: t.btn_primary_text !== undefined ? t.btn_primary_text : popup.btn_primary_text,
+      btn_secondary_text: t.btn_secondary_text !== undefined ? t.btn_secondary_text : popup.btn_secondary_text,
+      custom_footer: t.custom_footer !== undefined ? t.custom_footer : popup.custom_footer
+    };
+  }
+
+  let currentlyDisplayedRawPopup = null;
+
+  function createPopupOverlay(rawPopup) {
+    if (!rawPopup) return null;
+    currentlyDisplayedRawPopup = rawPopup;
+    const popup = getLocalizedPopup(rawPopup, getCurrentLang());
+
     const existing = document.getElementById('seloasaSitePopupOverlay');
     if (existing) existing.remove();
 
@@ -252,8 +285,22 @@
       return;
     }
 
-    // Consultar el pop-up activo en la Base de Datos MySQL
-    fetch('php/popup_api.php?active=1')
+    function getBackendApiUrl(endpoint) {
+      if (typeof window.getBackendApiUrl === 'function') {
+        return window.getBackendApiUrl(endpoint);
+      }
+      const isFile = window.location.protocol === 'file:';
+      const port = window.location.port;
+      const isDevServer = port && port !== '80' && port !== '443';
+      if (isFile || isDevServer) {
+        const host = window.location.hostname === 'localhost' ? 'localhost' : '127.0.0.1';
+        return `http://${host}/shipping/` + endpoint.replace(/^\/+/, '');
+      }
+      return endpoint;
+    }
+
+    // Consultar el pop-up activo en la API
+    fetch(getBackendApiUrl('php/popup_api.php?active=1'))
       .then(res => res.json())
       .then(data => {
         const activePopup = (data && data.success && data.popup && data.popup.active) ? data.popup : null;
@@ -279,6 +326,17 @@
         }
       });
   }
+
+  // Re-renderizar dinámicamente si el pop-up está abierto y se cambia de idioma
+  function onLanguageChange() {
+    const existing = document.getElementById('seloasaSitePopupOverlay');
+    if (existing && existing.classList.contains('active') && currentlyDisplayedRawPopup) {
+      showPopup(currentlyDisplayedRawPopup);
+    }
+  }
+
+  document.addEventListener('site-language-changed', onLanguageChange);
+  window.addEventListener('languageChanged', onLanguageChange);
 
   // Exponer API global para pruebas o llamadas desde el admin
   window.SeloasaPopup = {

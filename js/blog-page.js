@@ -60,9 +60,27 @@
     };
   }
 
+  function getLocalizedItem(item, lang) {
+    if (!item) return item;
+    const safeLang = normalizeLang(lang);
+    const t = (item.translations && item.translations[safeLang]) ? item.translations[safeLang] : null;
+    if (!t) return item;
+    return {
+      ...item,
+      title: t.title || item.title,
+      summary: t.summary || item.summary,
+      content: t.content || item.content,
+      category: t.category || item.category,
+      badge: t.badge || item.badge,
+      dept: t.dept || item.dept
+    };
+  }
+
   function renderFeatured(content) {
     if (!content || !content.featured) return;
-    featuredPost = content.featured;
+    const lang = getCurrentLang();
+    const feat = getLocalizedItem(content.featured, lang);
+    featuredPost = feat;
 
     const image = document.getElementById('blogFeaturedImage');
     const kicker = document.getElementById('blogFeaturedKicker');
@@ -73,20 +91,20 @@
     const readBtn = document.getElementById('blogFeaturedReadBtn');
 
     if (image) {
-      image.src = content.featured.image;
-      image.alt = content.featured.image_alt || content.featured.title;
+      image.src = feat.image;
+      image.alt = feat.image_alt || feat.title;
     }
-    if (kicker) kicker.textContent = content.featured.kicker;
+    if (kicker) kicker.textContent = feat.kicker;
     if (category) {
-      category.textContent = content.featured.category;
-      category.className = `blog-meta-pill ${content.featured.badge_class || 'badge-pill-comunicado'}`;
+      category.textContent = feat.category;
+      category.className = `blog-meta-pill ${feat.badge_class || 'badge-pill-comunicado'}`;
     }
-    if (date) date.textContent = content.featured.date;
-    if (title) title.textContent = content.featured.title;
-    if (summary) summary.textContent = content.featured.summary;
+    if (date) date.textContent = feat.date;
+    if (title) title.textContent = feat.title;
+    if (summary) summary.textContent = feat.summary;
 
     if (readBtn) {
-      const featId = (content.featured && content.featured.id) ? content.featured.id : 'comunicado-gdp-2026';
+      const featId = (feat && feat.id) ? feat.id : 'comunicado-gdp-2026';
       readBtn.setAttribute('href', `blog/${encodeURIComponent(featId)}`);
       readBtn.setAttribute('target', '_blank');
       readBtn.setAttribute('rel', 'noopener noreferrer');
@@ -94,7 +112,8 @@
   }
 
   function getFilteredItems() {
-    return currentPostItems.filter((item) => {
+    const lang = getCurrentLang();
+    return currentPostItems.map(it => getLocalizedItem(it, lang)).filter((item) => {
       const matchesFilter = activeFilter === 'all' || item.type === activeFilter;
       if (!matchesFilter) return false;
 

@@ -4,7 +4,6 @@
  * Expone la configuración de variables de entorno de forma segura para el frontend.
  */
 
-require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/mail_helper.php';
 
 $gaId = mail_env('GA_MEASUREMENT_ID', 'G-XXXXXXXXXX');

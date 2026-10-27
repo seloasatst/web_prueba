@@ -1,0 +1,288 @@
+/* ==============================================================================
+   SELOASA - Animación de Entrada 3D Isométrica (Camión Avanzando en Autopista)
+   Fondo Blanco Puro (#ffffff), Carretera en Movimiento Continuo, Solo Logo Oficial
+   ============================================================================== */
+
+body.seloasa-intro-active {
+    overflow: hidden !important;
+    height: 100vh !important;
+}
+
+body.seloasa-intro-active > *:not(#seloasa-intro-splash) {
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+/* Telón / Overlay principal: Fondo Blanco Puro */
+#seloasa-intro-splash {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 380ms cubic-bezier(0.16, 1, 0.3, 1), visibility 380ms cubic-bezier(0.16, 1, 0.3, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: pointer;
+    overflow: hidden;
+    padding: 20px;
+}
+
+#seloasa-intro-splash.is-visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+#seloasa-intro-splash.is-leaving {
+    opacity: 0;
+    transform: scale(1.02);
+    pointer-events: none;
+    transition: opacity 350ms cubic-bezier(0.4, 0, 0.2, 1), transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.seloasa-splash-container {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* ==================== ESCENA ISOMÉTRICA DE CARRETERA ==================== */
+.seloasa-iso-scene {
+    position: relative;
+    width: 100%;
+    height: clamp(240px, 48vw, 360px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Contenedor del camión: Entrada, rodamiento activo en carretera y aceleración de salida */
+.seloasa-truck-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 580px;
+    z-index: 2;
+    animation: seloasaIsoDriveIn 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards, seloasaHighwayDrive 0.32s ease-in-out infinite;
+}
+
+#seloasa-intro-splash.truck-accelerating .seloasa-truck-wrapper {
+    animation: seloasaIsoDriveOut 0.55s cubic-bezier(0.55, 0.05, 0.67, 0.19) forwards;
+}
+
+.seloasa-iso-svg {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+    filter: drop-shadow(0 14px 28px rgba(15, 23, 42, 0.09));
+}
+
+/* ==================== AVANCE CONTINUO EN AUTOPISTA ==================== */
+/* Franja central divisoria en Rojo Seloasa que corre continuamente bajo el camión */
+.seloasa-highway-stream.center-line {
+    animation: seloasaCenterLineStream 0.32s linear infinite;
+}
+
+/* Líneas laterales de acotamiento */
+.seloasa-highway-stream.shoulder-left,
+.seloasa-highway-stream.shoulder-right {
+    animation: seloasaShoulderStream 0.32s linear infinite;
+}
+
+#seloasa-intro-splash.truck-accelerating .seloasa-highway-stream.center-line {
+    animation: seloasaCenterLineStream 0.16s linear infinite;
+}
+
+#seloasa-intro-splash.truck-accelerating .seloasa-highway-stream.shoulder-left,
+#seloasa-intro-splash.truck-accelerating .seloasa-highway-stream.shoulder-right {
+    animation: seloasaShoulderStream 0.16s linear infinite;
+}
+
+/* Estelas aerodinámicas traseras de viento (Slipstream / Rebufo Azul Celeste) */
+.seloasa-wind-line {
+    animation: seloasaSlipstream 0.42s ease-out infinite;
+    filter: drop-shadow(0 0 3px rgba(56, 189, 248, 0.45));
+}
+
+.seloasa-wind-line.wind-1 {
+    animation-delay: 0s;
+}
+
+.seloasa-wind-line.wind-2 {
+    animation-delay: 0.1s;
+}
+
+.seloasa-wind-line.wind-4 {
+    animation-delay: 0.18s;
+}
+
+.seloasa-wind-line.wind-3 {
+    animation-delay: 0.26s;
+}
+
+.seloasa-wind-line.wind-5 {
+    animation-delay: 0.14s;
+}
+
+/* ==================== RUEDAS Y MECÁNICA ISOMÉTRICA ==================== */
+/* Rotación continua y fluida de las ruedas isométricas al ritmo de la carretera */
+.seloasa-iso-wheel-spin {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: seloasaWheelSpin 0.32s linear infinite;
+}
+
+#seloasa-intro-splash.truck-accelerating .seloasa-iso-wheel-spin {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: seloasaWheelSpin 0.16s linear infinite;
+}
+
+/* Haces de luz delanteros suaves */
+.seloasa-iso-beam {
+    animation: seloasaBeamGlow 1.8s ease-in-out infinite alternate;
+}
+
+/* Destello sutil Shimmer sobre la caja */
+.seloasa-iso-shimmer {
+    animation: seloasaShimmerIso 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    animation-delay: 0.6s;
+}
+
+/* Indicador verde Thermo-King */
+.iso-led-pulse {
+    animation: seloasaLedBlink 0.9s ease-in-out infinite alternate;
+}
+
+/* ==============================================================================
+   KEYFRAMES DE ANIMACIÓN
+   ============================================================================== */
+
+/* Flujo continuo de líneas de carretera bajo las ruedas (Efecto de avance a 100 km/h) */
+@keyframes seloasaCenterLineStream {
+    from {
+        stroke-dashoffset: 0;
+    }
+    to {
+        stroke-dashoffset: 54; /* Longitud del periodo (30+24) para ciclo continuo perfecto */
+    }
+}
+
+@keyframes seloasaShoulderStream {
+    from {
+        stroke-dashoffset: 0;
+    }
+    to {
+        stroke-dashoffset: 48; /* Longitud del periodo (16+32) */
+    }
+}
+
+/* Movimiento de amortiguación real sobre asfalto a velocidad de carretera */
+@keyframes seloasaHighwayDrive {
+    0%, 100% {
+        transform: translate(0, 0);
+    }
+    25% {
+        transform: translate(0.3px, -1.2px);
+    }
+    50% {
+        transform: translate(-0.2px, -0.3px);
+    }
+    75% {
+        transform: translate(0.2px, -1.5px);
+    }
+}
+
+/* Estelas de viento desprendiéndose de la caja trasera */
+@keyframes seloasaSlipstream {
+    0% {
+        opacity: 0.8;
+        transform: translate(0, 0);
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-30px, -15px);
+    }
+}
+
+/* Entrada isométrica suave del camión al carril */
+@keyframes seloasaIsoDriveIn {
+    0% {
+        transform: translate(-140px, -70px);
+        opacity: 0;
+    }
+    40% {
+        opacity: 1;
+    }
+    85% {
+        transform: translate(5px, 2.5px);
+    }
+    100% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+}
+
+/* Salida acelerada por la autopista hacia adelante */
+@keyframes seloasaIsoDriveOut {
+    0% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(280px, 140px) scale(1.05);
+        opacity: 0;
+    }
+}
+
+/* Rotación continua de ruedas */
+@keyframes seloasaWheelSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Haz de luz delantero */
+@keyframes seloasaBeamGlow {
+    0% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 0.85;
+    }
+}
+
+/* Shimmer en la cara lateral */
+@keyframes seloasaShimmerIso {
+    0% {
+        transform: translateX(-100px);
+    }
+    50%, 100% {
+        transform: translateX(300px);
+    }
+}
+
+/* Parpadeo LED Thermo-King */
+@keyframes seloasaLedBlink {
+    0% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}

@@ -1,26 +1,22 @@
 <?php
 /**
- * SELOASA - API Pública de Vacantes para la Bolsa de Trabajo (MySQL / PDO)
+ * SELOASA - API Pública de Vacantes para la Bolsa de Trabajo (Almacenamiento JSON Seguro)
  * Devuelve únicamente las vacantes activas publicadas para los candidatos.
  */
 
-require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/admin_helper.php';
 
 header('Content-Type: application/json; charset=UTF-8');
 header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 header('Access-Control-Allow-Origin: *');
 
 try {
-    $pdo = get_db_connection();
-    $stmt = $pdo->prepare("SELECT * FROM `vacantes` WHERE `status` = 'published' ORDER BY `sort_order` ASC, `created_at` DESC");
-    $stmt->execute();
-    $rows = $stmt->fetchAll();
+    $rows = admin_get_public_vacancies();
 
     $items = array_map(function ($v) {
         // En la vista pública de candidatos, nunca exponemos recipient_emails internos
         unset($v['recipient_emails']);
-        $v['points'] = !empty($v['points']) ? json_decode($v['points'], true) : [];
-        if (!is_array($v['points'])) $v['points'] = [];
+        $v['points'] = !empty($v['points']) && is_array($v['points']) ? $v['points'] : [];
         return $v;
     }, $rows);
 
@@ -33,6 +29,6 @@ try {
     echo json_encode([
         'updated_at' => date('c'),
         'items' => [],
-        'error' => 'Error al consultar vacantes en base de datos: ' . $e->getMessage()
+        'error' => 'Error al consultar vacantes: ' . $e->getMessage()
     ]);
 }
