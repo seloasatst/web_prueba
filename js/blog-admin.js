@@ -82,7 +82,41 @@
     localStorage.removeItem(STORAGE_KEYS.AUTH_SESSION);
   }
 
+  function getAdminLoginUrl() {
+    const p = window.location.pathname;
+    const adminIdx = p.indexOf('/admin/');
+    if (adminIdx !== -1) {
+      return p.substring(0, adminIdx) + '/admin/login';
+    }
+    if (p.includes('/blog/admin')) {
+      const blogAdminIdx = p.indexOf('/blog/admin');
+      return p.substring(0, blogAdminIdx) + '/admin/login';
+    }
+    return 'admin/login';
+  }
+
+  function getAdminDashboardUrl() {
+    const p = window.location.pathname;
+    const adminIdx = p.indexOf('/admin/');
+    if (adminIdx !== -1) {
+      return p.substring(0, adminIdx) + '/admin/noticias';
+    }
+    if (p.includes('/blog/admin')) {
+      const blogAdminIdx = p.indexOf('/blog/admin');
+      return p.substring(0, blogAdminIdx) + '/admin/noticias';
+    }
+    return 'admin/noticias';
+  }
+
   function showDashboardView() {
+    const path = window.location.pathname;
+    const isLoginPage = path.includes('/admin/login');
+    if (isLoginPage) {
+      window.location.replace(getAdminDashboardUrl());
+      return;
+    }
+
+    document.title = 'Control Central SELOASA';
     const authWrapper = document.getElementById('authWrapper');
     const dashboardWrapper = document.getElementById('dashboardWrapper');
     if (authWrapper) authWrapper.classList.add('d-none');
@@ -95,6 +129,16 @@
   }
 
   function showAuthView() {
+    document.title = 'Iniciar Sesión | Control Central SELOASA';
+    const path = window.location.pathname;
+    const isLoginPage = path.includes('/admin/login');
+
+    // Si el usuario intenta ver directamente el dashboard sin autenticación, enviarlo a admin/login
+    if (!isLoginPage && (path.includes('/admin/noticias') || path.includes('/blog/admin'))) {
+      window.location.replace(getAdminLoginUrl());
+      return;
+    }
+
     const authWrapper = document.getElementById('authWrapper');
     const dashboardWrapper = document.getElementById('dashboardWrapper');
     if (dashboardWrapper) dashboardWrapper.classList.add('d-none');
@@ -208,10 +252,9 @@
 
     // Detección de protocolo file:///
     if (window.location.protocol === 'file:') {
-      const isUnderBlog = window.location.pathname.includes('/blog/');
-      const serverUrl = isUnderBlog ? 'http://localhost/shipping/blog/admin/index.html' : 'http://localhost/shipping/admin/noticias.html';
+      const serverUrl = 'http://localhost/shipping/admin/login';
       const fileNotice = document.getElementById('fileProtocolNotice');
-      const fileRedirectLink = document.getElementById('fileProtocolRedirectLink');
+      const fileRedirectLink = document.getElementById('fileRedirectLink') || document.getElementById('fileProtocolRedirectLink');
       if (fileNotice) {
         fileNotice.classList.remove('d-none');
         if (fileRedirectLink) fileRedirectLink.href = serverUrl;
@@ -266,7 +309,7 @@
               submitBtn.innerHTML = '<i class="fa fa-paper-plane me-1"></i><span>Enviar Código de 6 Dígitos</span>';
             }
             if (window.location.protocol === 'file:') {
-              showAuthError('No fue posible contactar a Apache desde file:///. Abre el panel ingresando en tu navegador a: http://localhost/shipping/admin/noticias.html (o http://localhost/shipping/blog/admin/index.html)');
+              showAuthError('No fue posible contactar a Apache desde file:///. Abre el panel ingresando en tu navegador a: http://localhost/shipping/admin/login');
             } else {
               showAuthError('Error de comunicación con el servidor: ' + (err.message || 'Verifica que Apache esté activo en XAMPP.'));
             }
@@ -1867,7 +1910,7 @@
       fetch(getAuthApiUrl('action=logout'), getAuthFetchOptions('POST'))
         .finally(() => {
           clearAuthentication();
-          showAuthView();
+          window.location.replace(getAdminLoginUrl());
         });
     });
 

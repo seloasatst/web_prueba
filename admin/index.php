@@ -7,6 +7,17 @@ admin_storage_ensure();
 
 $isConfigured = admin_is_configured();
 $isAuthenticated = admin_is_authenticated();
+
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if ($isAuthenticated) {
+        header('Location: noticias');
+        exit;
+    } else {
+        header('Location: login');
+        exit;
+    }
+}
+
 $flash = admin_pull_flash();
 $loginError = '';
 $formErrors = [];

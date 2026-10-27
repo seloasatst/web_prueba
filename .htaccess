@@ -36,7 +36,11 @@ RedirectMatch 403 ^/shipping/php/(storage|logs)/.*$
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^blog/([a-zA-Z0-9_\-]+)/?$ blog/articulo.html?id=$1 [QSA,L]
 
-    # 2. Permitir URLs limpias sin extensión .html (ej: /admin/noticias -> /admin/noticias.html)
+    # 2. Rutas limpias de Administración (sin extensión .html):
+    RewriteRule ^admin/login/?$ admin/login/index.html [QSA,L]
+    RewriteRule ^admin/noticias/?$ admin/noticias.html [QSA,L]
+
+    # 3. Permitir URLs limpias sin extensión .html (ej: /admin/editor -> /admin/editor.html)
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME}.html -f
