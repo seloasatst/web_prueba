@@ -20,7 +20,7 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4TT87FS1QJ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'G-4TT87FS1QJ', { send_page_view: true });
     </script>
@@ -38,7 +38,7 @@
     <link rel="preconnect" href="https://code.jquery.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preload" as="image" href="img/carousel_sls_1.png">
+    <link rel="preload" as="image" href="img/fotos unidades 2026/15.jpeg">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -76,11 +76,13 @@
         <!-- SELOASA - Animación de Entrada 3D Tech Isométrica (Fondo Blanco Puro y Solo Logo) -->
         <div id="seloasa-intro-splash" class="seloasa-splash-overlay" aria-hidden="true" style="display:none;">
             <div class="seloasa-splash-container" role="dialog" aria-label="Bienvenido a SELOASA">
-                
+
                 <!-- Escena 3D Isométrica Limpia -->
                 <div class="seloasa-iso-scene">
                     <div class="seloasa-truck-wrapper">
-                        <svg class="seloasa-iso-svg" viewBox="0 0 600 360" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-label="Transporte Isométrico Especializado SELOASA">
+                        <svg class="seloasa-iso-svg" viewBox="0 0 600 360" fill="none"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                            aria-label="Transporte Isométrico Especializado SELOASA">
                             <defs>
                                 <!-- Máscara de Desvanecimiento Suave de Carretera hacia el Fondo Blanco -->
                                 <linearGradient id="roadFadeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -178,7 +180,8 @@
 
                             <!-- Superficie de la autopista con desvanecimiento suave a blanco puro -->
                             <g mask="url(#roadFadeMask)">
-                                <polygon points="-160,80 560,440 760,340 40,-20" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1.5" />
+                                <polygon points="-160,80 560,440 760,340 40,-20" fill="#f8fafc" stroke="#e2e8f0"
+                                    stroke-width="1.5" />
 
                                 <!-- Borde / Acotamiento izquierdo de la autopista -->
                                 <line x1="-150" y1="85" x2="570" y2="445" stroke="#cbd5e1" stroke-width="2.5" />
@@ -186,11 +189,17 @@
                                 <line x1="30" y1="-15" x2="750" y2="345" stroke="#cbd5e1" stroke-width="2.5" />
 
                                 <!-- Guías laterales con franjas animadas a alta velocidad -->
-                                <line x1="-130" y1="95" x2="590" y2="455" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="16 32" class="seloasa-highway-stream shoulder-left" />
-                                <line x1="10" y1="-5" x2="730" y2="355" stroke="#94a3b8" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="16 32" class="seloasa-highway-stream shoulder-right" />
+                                <line x1="-130" y1="95" x2="590" y2="455" stroke="#94a3b8" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-dasharray="16 32"
+                                    class="seloasa-highway-stream shoulder-left" />
+                                <line x1="10" y1="-5" x2="730" y2="355" stroke="#94a3b8" stroke-width="1.8"
+                                    stroke-linecap="round" stroke-dasharray="16 32"
+                                    class="seloasa-highway-stream shoulder-right" />
 
                                 <!-- Línea central divisoria de carril en Rojo Seloasa (Avanza continuamente a 100 km/h) -->
-                                <line x1="-60" y1="40" x2="660" y2="400" stroke="#e43b14" stroke-width="3.6" stroke-linecap="round" stroke-dasharray="30 24" class="seloasa-highway-stream center-line" />
+                                <line x1="-60" y1="40" x2="660" y2="400" stroke="#e43b14" stroke-width="3.6"
+                                    stroke-linecap="round" stroke-dasharray="30 24"
+                                    class="seloasa-highway-stream center-line" />
 
                                 <!-- Marcadores reflectivos de carretera (Ojos de gato) en movimiento -->
                                 <g class="seloasa-highway-reflectors">
@@ -204,42 +213,55 @@
 
                             <!-- ==================== SOMBRAS ISOMÉTRICAS Y ANCLAJE AL SUELO ==================== -->
                             <!-- Sombra suave difusa del chasis sobre la carretera -->
-                            <ellipse cx="260" cy="242" rx="165" ry="32" transform="rotate(5, 260, 242)" fill="#0f172a" opacity="0.14" filter="url(#shadowBlur)" />
+                            <ellipse cx="260" cy="242" rx="165" ry="32" transform="rotate(5, 260, 242)" fill="#0f172a"
+                                opacity="0.14" filter="url(#shadowBlur)" />
 
                             <!-- Parches de contacto de neumáticos (Grounding / Adherencia firme en asfalto) -->
-                            <ellipse cx="142" cy="201" rx="19" ry="6" fill="#020617" opacity="0.6" filter="url(#tireContactFilter)" />
-                            <ellipse cx="300" cy="278" rx="19" ry="6" fill="#020617" opacity="0.6" filter="url(#tireContactFilter)" />
-                            <ellipse cx="382" cy="234" rx="17" ry="5.5" fill="#020617" opacity="0.45" filter="url(#tireContactFilter)" />
+                            <ellipse cx="142" cy="201" rx="19" ry="6" fill="#020617" opacity="0.6"
+                                filter="url(#tireContactFilter)" />
+                            <ellipse cx="300" cy="278" rx="19" ry="6" fill="#020617" opacity="0.6"
+                                filter="url(#tireContactFilter)" />
+                            <ellipse cx="382" cy="234" rx="17" ry="5.5" fill="#020617" opacity="0.45"
+                                filter="url(#tireContactFilter)" />
 
                             <!-- Estelas aerodinámicas de viento / Rebufo trasero en Azul Celeste -->
                             <g class="seloasa-iso-wind">
                                 <!-- Rebufo esquina superior trasera -->
-                                <line x1="95" y1="65" x2="15" y2="25" stroke="#38bdf8" stroke-width="2.6" stroke-linecap="round" class="seloasa-wind-line wind-1" />
+                                <line x1="95" y1="65" x2="15" y2="25" stroke="#38bdf8" stroke-width="2.6"
+                                    stroke-linecap="round" class="seloasa-wind-line wind-1" />
                                 <!-- Rebufo central de alta velocidad (Azul celeste vibrante) -->
-                                <line x1="90" y1="95" x2="5" y2="52" stroke="#0ea5e9" stroke-width="3.2" stroke-linecap="round" class="seloasa-wind-line wind-2" />
+                                <line x1="90" y1="95" x2="5" y2="52" stroke="#0ea5e9" stroke-width="3.2"
+                                    stroke-linecap="round" class="seloasa-wind-line wind-2" />
                                 <!-- Rebufo intermedio suave -->
-                                <line x1="92" y1="80" x2="28" y2="48" stroke="#7dd3fc" stroke-width="2" stroke-linecap="round" class="seloasa-wind-line wind-4" />
+                                <line x1="92" y1="80" x2="28" y2="48" stroke="#7dd3fc" stroke-width="2"
+                                    stroke-linecap="round" class="seloasa-wind-line wind-4" />
                                 <!-- Rebufo inferior trasero -->
-                                <line x1="95" y1="130" x2="25" y2="95" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round" class="seloasa-wind-line wind-3" />
+                                <line x1="95" y1="130" x2="25" y2="95" stroke="#38bdf8" stroke-width="2.4"
+                                    stroke-linecap="round" class="seloasa-wind-line wind-3" />
                                 <!-- Rebufo arista superior derecha trasera -->
-                                <line x1="175" y1="22" x2="115" y2="-8" stroke="#7dd3fc" stroke-width="2.2" stroke-linecap="round" opacity="0.8" class="seloasa-wind-line wind-5" />
+                                <line x1="175" y1="22" x2="115" y2="-8" stroke="#7dd3fc" stroke-width="2.2"
+                                    stroke-linecap="round" opacity="0.8" class="seloasa-wind-line wind-5" />
                             </g>
 
                             <!-- ==================== VEHÍCULO ISOMÉTRICO 3D ==================== -->
                             <g class="seloasa-iso-truck-body">
 
                                 <!-- Haz de Luz Volumétrica Delantero Suave Proyectado en Carretera -->
-                                <polygon points="334,271 540,375 670,310 418,229" fill="url(#isoHeadlightBeam)" filter="url(#beamSoftFilter)" class="seloasa-iso-beam" />
+                                <polygon points="334,271 540,375 670,310 418,229" fill="url(#isoHeadlightBeam)"
+                                    filter="url(#beamSoftFilter)" class="seloasa-iso-beam" />
 
                                 <!-- ====== RUEDA DELANTERA DERECHA (LADO LEJANO - EN SEGUNDO PLANO) ====== -->
                                 <g transform="translate(382, 208) rotate(-26)" opacity="0.9">
-                                    <ellipse cx="0" cy="0" rx="18" ry="25" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" />
-                                    <ellipse cx="0" cy="0" rx="11" ry="16" fill="#334155" stroke="#cbd5e1" stroke-width="1.2" />
+                                    <ellipse cx="0" cy="0" rx="18" ry="25" fill="#0f172a" stroke="#1e293b"
+                                        stroke-width="1.5" />
+                                    <ellipse cx="0" cy="0" rx="11" ry="16" fill="#334155" stroke="#cbd5e1"
+                                        stroke-width="1.2" />
                                     <ellipse cx="0" cy="0" rx="7" ry="10" fill="#e2e8f0" />
                                 </g>
 
                                 <!-- ====== CARA TRASERA DE LA CAJA (ISOMÉTRICA ANCHA) ====== -->
-                                <polygon points="100,60 180,20 180,105 100,145" fill="url(#boxRearGrad)" stroke="#cbd5e1" stroke-width="1.2" />
+                                <polygon points="100,60 180,20 180,105 100,145" fill="url(#boxRearGrad)"
+                                    stroke="#cbd5e1" stroke-width="1.2" />
                                 <!-- División y cerrojos verticales de puertas traseras -->
                                 <line x1="140" y1="40" x2="140" y2="125" stroke="#94a3b8" stroke-width="1.4" />
                                 <rect x="136" y="70" width="8" height="3" fill="#cbd5e1" rx="0.5" />
@@ -249,16 +271,20 @@
                                 <rect x="171" y="99" width="5" height="3" fill="#e43b14" />
 
                                 <!-- ====== CARA SUPERIOR DE LA CAJA (TECHO ISOMÉTRICO ANCHO) ====== -->
-                                <polygon points="100,60 180,20 350,105 270,145" fill="url(#boxTopGrad)" stroke="#cbd5e1" stroke-width="1.2" />
+                                <polygon points="100,60 180,20 350,105 270,145" fill="url(#boxTopGrad)" stroke="#cbd5e1"
+                                    stroke-width="1.2" />
 
                                 <!-- ====== UNIDAD DE REFRIGERACIÓN THERMO-KING (CENTRADA EN EL TECHO ANCHO) ====== -->
                                 <g id="thermo-king-unit">
                                     <!-- Cara lateral termo blanca -->
-                                    <polygon points="252,114 286,131 286,117 252,100" fill="#f8fafc" stroke="#cbd5e1" stroke-width="0.8" />
+                                    <polygon points="252,114 286,131 286,117 252,100" fill="#f8fafc" stroke="#cbd5e1"
+                                        stroke-width="0.8" />
                                     <!-- Cara frontal termo con rejilla oscura -->
-                                    <polygon points="286,131 326,111 326,97 286,117" fill="#0f172a" stroke="#334155" stroke-width="0.8" />
+                                    <polygon points="286,131 326,111 326,97 286,117" fill="#0f172a" stroke="#334155"
+                                        stroke-width="0.8" />
                                     <!-- Cara superior termo -->
-                                    <polygon points="252,100 286,117 326,97 292,80" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="0.8" />
+                                    <polygon points="252,100 286,117 326,97 292,80" fill="#e2e8f0" stroke="#cbd5e1"
+                                        stroke-width="0.8" />
                                     <!-- Rejillas horizontales de enfriamiento -->
                                     <line x1="292" y1="124" x2="320" y2="110" stroke="#64748b" stroke-width="1.3" />
                                     <line x1="292" y1="119" x2="320" y2="105" stroke="#64748b" stroke-width="1.3" />
@@ -268,7 +294,8 @@
                                 </g>
 
                                 <!-- ====== CARA LATERAL DE LA CAJA (PANEL PRINCIPAL DE MARCA) ====== -->
-                                <polygon points="100,60 270,145 270,230 100,145" fill="url(#boxSideGrad)" stroke="#cbd5e1" stroke-width="1.4" />
+                                <polygon points="100,60 270,145 270,230 100,145" fill="url(#boxSideGrad)"
+                                    stroke="#cbd5e1" stroke-width="1.4" />
 
                                 <!-- Franja inferior corporativa roja SELOASA en perspectiva isométrica -->
                                 <polygon points="100,137 270,222 270,230 100,145" fill="#e43b14" />
@@ -276,101 +303,139 @@
                                 <!-- BRANDING SELOASA EN PERSPECTIVA ISOMÉTRICA (ÚNICO TEXTO PERMITIDO: LOGO) -->
                                 <g transform="translate(100, 60) skewY(26.565)">
                                     <!-- Isotipo S con flechas de transporte -->
-                                    <image href="img/imagotipo.png" xlink:href="img/imagotipo.png" x="12" y="14" width="34" height="42" preserveAspectRatio="xMidYMid meet" />
+                                    <image href="img/imagotipo.png" xlink:href="img/imagotipo.png" x="12" y="14"
+                                        width="34" height="42" preserveAspectRatio="xMidYMid meet" />
 
                                     <!-- Tipografía corporativa oficial SELOASA vectorizada (Escalada y centrada con amplios márgenes) -->
                                     <g transform="translate(50, 24) scale(0.74)">
-                                        <path d="M23.87,19.8A7.16,7.16,0,0,0,22,18.7a4.83,4.83,0,0,0-1.78-.36,2.85,2.85,0,0,0-1.78.52,1.6,1.6,0,0,0-.69,1.35,1.36,1.36,0,0,0,.35.95,3,3,0,0,0,.9.64,8.3,8.3,0,0,0,1.26.48c.47.13.94.27,1.4.43a8.65,8.65,0,0,1,4,2.45,6,6,0,0,1,1.28,4,7.7,7.7,0,0,1-.56,3A6.22,6.22,0,0,1,24.8,34.5,7.45,7.45,0,0,1,22.16,36a10.86,10.86,0,0,1-3.55.53A13,13,0,0,1,11,34.08l2.41-4.54a9.82,9.82,0,0,0,2.5,1.67,6.11,6.11,0,0,0,2.44.55,2.89,2.89,0,0,0,2.06-.64,1.91,1.91,0,0,0,.67-1.43,1.87,1.87,0,0,0-.17-.85,1.74,1.74,0,0,0-.57-.66,4.63,4.63,0,0,0-1.05-.56c-.43-.17-.95-.36-1.57-.58s-1.44-.48-2.14-.76a6.4,6.4,0,0,1-1.86-1.1,5.17,5.17,0,0,1-1.33-1.74,6.25,6.25,0,0,1-.5-2.66,7.73,7.73,0,0,1,.53-2.91,6.49,6.49,0,0,1,1.5-2.25,6.72,6.72,0,0,1,2.35-1.45,9,9,0,0,1,3.12-.51,14,14,0,0,1,3.36.44,14.64,14.64,0,0,1,3.36,1.31Z" transform="translate(-11 -12.08)" fill="#e43b14"/>
-                                        <path d="M34.73,29.43q0,3.36,3.16,3.36a2.83,2.83,0,0,0,2.56-1.38h5Q44,36.47,37.86,36.47a10.14,10.14,0,0,1-3.42-.56,7.81,7.81,0,0,1-2.66-1.6,7.13,7.13,0,0,1-1.7-2.47,8.11,8.11,0,0,1-.61-3.22,8.91,8.91,0,0,1,.58-3.31,7,7,0,0,1,1.63-2.52,7.2,7.2,0,0,1,2.58-1.59,9.78,9.78,0,0,1,3.4-.56A9.59,9.59,0,0,1,41,21.2a6.72,6.72,0,0,1,2.53,1.62,7,7,0,0,1,1.58,2.6,10.42,10.42,0,0,1,.55,3.46v.55Zm6.09-3a3.13,3.13,0,0,0-1.06-1.75,3,3,0,0,0-2-.66,3,3,0,0,0-2,.63,2.9,2.9,0,0,0-1,1.78Z" transform="translate(-11 -12.08)" fill="#e43b14"/>
-                                        <path d="M53.83,12.08V35.92h-5.2V12.08Z" transform="translate(-11 -12.08)" fill="#e43b14"/>
-                                        <path d="M56.82,28.42a7.19,7.19,0,0,1,.66-3.06,7.68,7.68,0,0,1,1.84-2.47,8.75,8.75,0,0,1,2.8-1.65,10.8,10.8,0,0,1,7.07,0A8.76,8.76,0,0,1,72,22.86a7.37,7.37,0,0,1,1.86,2.5,7.68,7.68,0,0,1,.66,3.21A7.52,7.52,0,0,1,72,34.27a8.29,8.29,0,0,1-2.83,1.62,10.63,10.63,0,0,1-3.58.58,10.16,10.16,0,0,1-3.5-.58,8.12,8.12,0,0,1-2.77-1.63,7.55,7.55,0,0,1-1.83-2.55A8,8,0,0,1,56.82,28.42Zm5.49.06a3.42,3.42,0,0,0,.27,1.37,3.47,3.47,0,0,0,.72,1.07,3.11,3.11,0,0,0,1.06.72,3.43,3.43,0,0,0,2.62,0A3.11,3.11,0,0,0,68,30.92a3.47,3.47,0,0,0,.72-1.07A3.34,3.34,0,0,0,69,28.51a3.23,3.23,0,0,0-.27-1.31A3.47,3.47,0,0,0,68,26.13,3.11,3.11,0,0,0,67,25.41a3.43,3.43,0,0,0-2.62,0,3.11,3.11,0,0,0-1.06.72,3.55,3.55,0,0,0-.72,1.06A3.11,3.11,0,0,0,62.31,28.48Z" transform="translate(-11 -12.08)" fill="#e43b14"/>
-                                        <path d="M88.88,21.18h5.23V35.92H88.88V34.28a5.45,5.45,0,0,1-4.51,2.1,7.21,7.21,0,0,1-3-.59,7,7,0,0,1-2.35-1.65,7.74,7.74,0,0,1-1.57-2.5,8.62,8.62,0,0,1-.56-3.13,8.19,8.19,0,0,1,.55-3A7.68,7.68,0,0,1,79,23a7.1,7.1,0,0,1,5.32-2.3,6,6,0,0,1,4.56,1.93Zm-6.55,7.33a3.52,3.52,0,0,0,.26,1.34,3.28,3.28,0,0,0,.71,1.07,3.03,3.03,0,0,0,1.06.72,3.47,3.47,0,0,0,1.33.26A3.4,3.4,0,0,0,87,31.64a3,3,0,0,0,1.06-.72,3.55,3.55,0,0,0,.72-1.06,3.11,3.11,0,0,0,.28-1.29,3.24,3.24,0,0,0-.28-1.31,3.64,3.64,0,0,0-.72-1.08A3.31,3.31,0,0,0,87,25.46a3.39,3.39,0,0,0-1.31-.25,3.46,3.46,0,0,0-1.33.25,3.31,3.31,0,0,0-1.06.72,3.54,3.54,0,0,0-.71,1.05A3.18,3.18,0,0,0,82.33,28.51Z" transform="translate(-11 -12.08)" fill="#e43b14"/>
-                                        <path d="M107.41,25a6,6,0,0,0-2.81-.75,2.16,2.16,0,0,0-1.17.29.89.89,0,0,0-.44.77,1,1,0,0,0,.07.42.78.78,0,0,0,.32.3,2.63,2.63,0,0,0,.72.26l1.24.29a6,6,0,0,1,3.22,1.53,3.92,3.92,0,0,1,1.07,2.83,5.22,5.22,0,0,1-.52,2.33A5.06,5.06,0,0,1,107.67,35a6.82,6.82,0,0,1-2.21,1.09,9.8,9.8,0,0,1-2.84.39,11.53,11.53,0,0,1-5.89-1.7l1.89-3.67a7.47,7.47,0,0,0,4.14,1.49,2.05,2.05,0,0,0,1.18-.32,1,1,0,0,0,.46-.8,1.62,1.62,0,0,0-.07-.48.81.81,0,0,0-.31-.34,2.71,2.71,0,0,0-.67-.29q-.45-.12-1.17-.27a6.72,6.72,0,0,1-3.37-1.45,3.6,3.6,0,0,1-1-2.66,5.23,5.23,0,0,1,.46-2.23,4.49,4.49,0,0,1,1.32-1.68A6.18,6.18,0,0,1,101.71,21a9.22,9.22,0,0,1,2.72-.37,12.23,12.23,0,0,1,4.74.95Z" transform="translate(-11 -12.08)" fill="#e43b14"/>
-                                        <path d="M123.64,21.18h5.23V35.92h-5.23V34.28a5.45,5.45,0,0,1-4.51,2.1,7.17,7.17,0,0,1-2.95-.59,7,7,0,0,1-2.36-1.65,7.74,7.74,0,0,1-1.57-2.5,8.62,8.62,0,0,1-.56-3.13,8.4,8.4,0,0,1,.55-3A7.68,7.68,0,0,1,113.76,23a7.1,7.1,0,0,1,5.32-2.3,6,6,0,0,1,4.56,1.93Zm-6.55,7.33a3.52,3.52,0,0,0,.26,1.34,3.45,3.45,0,0,0,.71,1.07,3,3,0,0,0,1.06.72,3.48,3.48,0,0,0,1.34.26,3.35,3.35,0,0,0,1.3-.26,3.16,3.16,0,0,0,1.07-.72,3.72,3.72,0,0,0,.71-1.06,3,3,0,0,0,.28-1.29,3.08,3.08,0,0,0-.28-1.31,3.82,3.82,0,0,0-.71-1.08,3.47,3.47,0,0,0-1.07-.72,3.34,3.34,0,0,0-1.3-.25,3.47,3.47,0,0,0-1.34.25,3.31,3.31,0,0,0-1.06.72,3.74,3.74,0,0,0-.71,1.05A3.18,3.18,0,0,0,117.09,28.51Z" transform="translate(-11 -12.08)" fill="#e43b14"/>
+                                        <path
+                                            d="M23.87,19.8A7.16,7.16,0,0,0,22,18.7a4.83,4.83,0,0,0-1.78-.36,2.85,2.85,0,0,0-1.78.52,1.6,1.6,0,0,0-.69,1.35,1.36,1.36,0,0,0,.35.95,3,3,0,0,0,.9.64,8.3,8.3,0,0,0,1.26.48c.47.13.94.27,1.4.43a8.65,8.65,0,0,1,4,2.45,6,6,0,0,1,1.28,4,7.7,7.7,0,0,1-.56,3A6.22,6.22,0,0,1,24.8,34.5,7.45,7.45,0,0,1,22.16,36a10.86,10.86,0,0,1-3.55.53A13,13,0,0,1,11,34.08l2.41-4.54a9.82,9.82,0,0,0,2.5,1.67,6.11,6.11,0,0,0,2.44.55,2.89,2.89,0,0,0,2.06-.64,1.91,1.91,0,0,0,.67-1.43,1.87,1.87,0,0,0-.17-.85,1.74,1.74,0,0,0-.57-.66,4.63,4.63,0,0,0-1.05-.56c-.43-.17-.95-.36-1.57-.58s-1.44-.48-2.14-.76a6.4,6.4,0,0,1-1.86-1.1,5.17,5.17,0,0,1-1.33-1.74,6.25,6.25,0,0,1-.5-2.66,7.73,7.73,0,0,1,.53-2.91,6.49,6.49,0,0,1,1.5-2.25,6.72,6.72,0,0,1,2.35-1.45,9,9,0,0,1,3.12-.51,14,14,0,0,1,3.36.44,14.64,14.64,0,0,1,3.36,1.31Z"
+                                            transform="translate(-11 -12.08)" fill="#e43b14" />
+                                        <path
+                                            d="M34.73,29.43q0,3.36,3.16,3.36a2.83,2.83,0,0,0,2.56-1.38h5Q44,36.47,37.86,36.47a10.14,10.14,0,0,1-3.42-.56,7.81,7.81,0,0,1-2.66-1.6,7.13,7.13,0,0,1-1.7-2.47,8.11,8.11,0,0,1-.61-3.22,8.91,8.91,0,0,1,.58-3.31,7,7,0,0,1,1.63-2.52,7.2,7.2,0,0,1,2.58-1.59,9.78,9.78,0,0,1,3.4-.56A9.59,9.59,0,0,1,41,21.2a6.72,6.72,0,0,1,2.53,1.62,7,7,0,0,1,1.58,2.6,10.42,10.42,0,0,1,.55,3.46v.55Zm6.09-3a3.13,3.13,0,0,0-1.06-1.75,3,3,0,0,0-2-.66,3,3,0,0,0-2,.63,2.9,2.9,0,0,0-1,1.78Z"
+                                            transform="translate(-11 -12.08)" fill="#e43b14" />
+                                        <path d="M53.83,12.08V35.92h-5.2V12.08Z" transform="translate(-11 -12.08)"
+                                            fill="#e43b14" />
+                                        <path
+                                            d="M56.82,28.42a7.19,7.19,0,0,1,.66-3.06,7.68,7.68,0,0,1,1.84-2.47,8.75,8.75,0,0,1,2.8-1.65,10.8,10.8,0,0,1,7.07,0A8.76,8.76,0,0,1,72,22.86a7.37,7.37,0,0,1,1.86,2.5,7.68,7.68,0,0,1,.66,3.21A7.52,7.52,0,0,1,72,34.27a8.29,8.29,0,0,1-2.83,1.62,10.63,10.63,0,0,1-3.58.58,10.16,10.16,0,0,1-3.5-.58,8.12,8.12,0,0,1-2.77-1.63,7.55,7.55,0,0,1-1.83-2.55A8,8,0,0,1,56.82,28.42Zm5.49.06a3.42,3.42,0,0,0,.27,1.37,3.47,3.47,0,0,0,.72,1.07,3.11,3.11,0,0,0,1.06.72,3.43,3.43,0,0,0,2.62,0A3.11,3.11,0,0,0,68,30.92a3.47,3.47,0,0,0,.72-1.07A3.34,3.34,0,0,0,69,28.51a3.23,3.23,0,0,0-.27-1.31A3.47,3.47,0,0,0,68,26.13,3.11,3.11,0,0,0,67,25.41a3.43,3.43,0,0,0-2.62,0,3.11,3.11,0,0,0-1.06.72,3.55,3.55,0,0,0-.72,1.06A3.11,3.11,0,0,0,62.31,28.48Z"
+                                            transform="translate(-11 -12.08)" fill="#e43b14" />
+                                        <path
+                                            d="M88.88,21.18h5.23V35.92H88.88V34.28a5.45,5.45,0,0,1-4.51,2.1,7.21,7.21,0,0,1-3-.59,7,7,0,0,1-2.35-1.65,7.74,7.74,0,0,1-1.57-2.5,8.62,8.62,0,0,1-.56-3.13,8.19,8.19,0,0,1,.55-3A7.68,7.68,0,0,1,79,23a7.1,7.1,0,0,1,5.32-2.3,6,6,0,0,1,4.56,1.93Zm-6.55,7.33a3.52,3.52,0,0,0,.26,1.34,3.28,3.28,0,0,0,.71,1.07,3.03,3.03,0,0,0,1.06.72,3.47,3.47,0,0,0,1.33.26A3.4,3.4,0,0,0,87,31.64a3,3,0,0,0,1.06-.72,3.55,3.55,0,0,0,.72-1.06,3.11,3.11,0,0,0,.28-1.29,3.24,3.24,0,0,0-.28-1.31,3.64,3.64,0,0,0-.72-1.08A3.31,3.31,0,0,0,87,25.46a3.39,3.39,0,0,0-1.31-.25,3.46,3.46,0,0,0-1.33.25,3.31,3.31,0,0,0-1.06.72,3.54,3.54,0,0,0-.71,1.05A3.18,3.18,0,0,0,82.33,28.51Z"
+                                            transform="translate(-11 -12.08)" fill="#e43b14" />
+                                        <path
+                                            d="M107.41,25a6,6,0,0,0-2.81-.75,2.16,2.16,0,0,0-1.17.29.89.89,0,0,0-.44.77,1,1,0,0,0,.07.42.78.78,0,0,0,.32.3,2.63,2.63,0,0,0,.72.26l1.24.29a6,6,0,0,1,3.22,1.53,3.92,3.92,0,0,1,1.07,2.83,5.22,5.22,0,0,1-.52,2.33A5.06,5.06,0,0,1,107.67,35a6.82,6.82,0,0,1-2.21,1.09,9.8,9.8,0,0,1-2.84.39,11.53,11.53,0,0,1-5.89-1.7l1.89-3.67a7.47,7.47,0,0,0,4.14,1.49,2.05,2.05,0,0,0,1.18-.32,1,1,0,0,0,.46-.8,1.62,1.62,0,0,0-.07-.48.81.81,0,0,0-.31-.34,2.71,2.71,0,0,0-.67-.29q-.45-.12-1.17-.27a6.72,6.72,0,0,1-3.37-1.45,3.6,3.6,0,0,1-1-2.66,5.23,5.23,0,0,1,.46-2.23,4.49,4.49,0,0,1,1.32-1.68A6.18,6.18,0,0,1,101.71,21a9.22,9.22,0,0,1,2.72-.37,12.23,12.23,0,0,1,4.74.95Z"
+                                            transform="translate(-11 -12.08)" fill="#e43b14" />
+                                        <path
+                                            d="M123.64,21.18h5.23V35.92h-5.23V34.28a5.45,5.45,0,0,1-4.51,2.1,7.17,7.17,0,0,1-2.95-.59,7,7,0,0,1-2.36-1.65,7.74,7.74,0,0,1-1.57-2.5,8.62,8.62,0,0,1-.56-3.13,8.4,8.4,0,0,1,.55-3A7.68,7.68,0,0,1,113.76,23a7.1,7.1,0,0,1,5.32-2.3,6,6,0,0,1,4.56,1.93Zm-6.55,7.33a3.52,3.52,0,0,0,.26,1.34,3.45,3.45,0,0,0,.71,1.07,3,3,0,0,0,1.06.72,3.48,3.48,0,0,0,1.34.26,3.35,3.35,0,0,0,1.3-.26,3.16,3.16,0,0,0,1.07-.72,3.72,3.72,0,0,0,.71-1.06,3,3,0,0,0,.28-1.29,3.08,3.08,0,0,0-.28-1.31,3.82,3.82,0,0,0-.71-1.08,3.47,3.47,0,0,0-1.07-.72,3.34,3.34,0,0,0-1.3-.25,3.47,3.47,0,0,0-1.34.25,3.31,3.31,0,0,0-1.06.72,3.74,3.74,0,0,0-.71,1.05A3.18,3.18,0,0,0,117.09,28.51Z"
+                                            transform="translate(-11 -12.08)" fill="#e43b14" />
                                     </g>
                                 </g>
 
                                 <!-- Destello Shimmer Dinámico en Cara Lateral -->
-                                <polygon points="-50,0 30,0 120,200 40,200" fill="url(#isoShineGrad)" class="seloasa-iso-shimmer" clip-path="url(#clipIsoSideBox)" />
+                                <polygon points="-50,0 30,0 120,200 40,200" fill="url(#isoShineGrad)"
+                                    class="seloasa-iso-shimmer" clip-path="url(#clipIsoSideBox)" />
 
                                 <!-- ====== CABINA ISOMÉTRICA ANCHA (ALINEADA AL ANCHO TOTAL DEL CAMIÓN) ====== -->
                                 <!-- Deflector aerodinámico superior continuo de 80px (Blanco pulcro con bisel y detalle rojo) -->
                                 <g id="cab-deflector">
-                                    <polygon points="270,145 350,105 380,138 300,178" fill="url(#cabDeflectorGrad)" stroke="#cbd5e1" stroke-width="1" />
+                                    <polygon points="270,145 350,105 380,138 300,178" fill="url(#cabDeflectorGrad)"
+                                        stroke="#cbd5e1" stroke-width="1" />
                                     <!-- Línea de acento aerodinámico en Rojo Seloasa -->
                                     <line x1="285" y1="161" x2="365" y2="121" stroke="#e43b14" stroke-width="2.5" />
                                     <!-- Bisel lateral izquierdo aerodinámico -->
-                                    <polygon points="270,145 300,178 270,165" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="0.8" />
+                                    <polygon points="270,145 300,178 270,165" fill="#e2e8f0" stroke="#cbd5e1"
+                                        stroke-width="0.8" />
                                     <!-- Bisel lateral derecho -->
                                     <line x1="350" y1="105" x2="380" y2="138" stroke="#cbd5e1" stroke-width="1.2" />
                                 </g>
 
                                 <!-- Parabrisas delantero panorámico ancho (Cubre toda la cabina) -->
-                                <polygon points="300,178 380,138 410,186 330,226" fill="url(#windshieldGrad)" stroke="#0284c7" stroke-width="0.8" />
+                                <polygon points="300,178 380,138 410,186 330,226" fill="url(#windshieldGrad)"
+                                    stroke="#0284c7" stroke-width="0.8" />
                                 <!-- Franja superior parasol oscura -->
                                 <polygon points="300,178 380,138 383,143 303,183" fill="#0f172a" opacity="0.65" />
                                 <!-- Reflejo de cristal estilizado en parabrisas ancho -->
                                 <polygon points="320,182 350,166 385,198 355,214" fill="#ffffff" opacity="0.4" />
                                 <!-- Limpiaparabrisas duales -->
-                                <line x1="344" y1="221" x2="370" y2="198" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round" />
-                                <line x1="376" y1="205" x2="402" y2="182" stroke="#0f172a" stroke-width="1.6" stroke-linecap="round" />
+                                <line x1="344" y1="221" x2="370" y2="198" stroke="#0f172a" stroke-width="1.6"
+                                    stroke-linecap="round" />
+                                <line x1="376" y1="205" x2="402" y2="182" stroke="#0f172a" stroke-width="1.6"
+                                    stroke-linecap="round" />
 
                                 <!-- Capó / Transición frontal (Blanco sólido con sombra de volumen) -->
-                                <polygon points="330,226 410,186 416,194 336,234" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="0.8" />
+                                <polygon points="330,226 410,186 416,194 336,234" fill="#e2e8f0" stroke="#cbd5e1"
+                                    stroke-width="0.8" />
 
                                 <!-- Frente de la cabina (Fascia blanca con parrilla cromada y faros LED) -->
-                                <polygon points="336,234 416,194 416,228 336,268" fill="url(#cabFrontGrad)" stroke="#cbd5e1" stroke-width="1" />
+                                <polygon points="336,234 416,194 416,228 336,268" fill="url(#cabFrontGrad)"
+                                    stroke="#cbd5e1" stroke-width="1" />
 
                                 <!-- Parrilla frontal con lamas horizontales cromadas y fondo negro carbón -->
-                                <polygon points="352,232 400,208 400,229 352,253" fill="#0f172a" stroke="#334155" stroke-width="1" />
+                                <polygon points="352,232 400,208 400,229 352,253" fill="#0f172a" stroke="#334155"
+                                    stroke-width="1" />
                                 <line x1="355" y1="237" x2="397" y2="216" stroke="#e2e8f0" stroke-width="1.6" />
                                 <line x1="355" y1="242" x2="397" y2="221" stroke="#ffffff" stroke-width="1.8" />
                                 <line x1="355" y1="247" x2="397" y2="226" stroke="#e2e8f0" stroke-width="1.6" />
                                 <rect x="373" y="226" width="6" height="4" fill="#e43b14" rx="1" />
 
                                 <!-- Faros delanteros LED angulados en los extremos de la cabina ancha -->
-                                <ellipse cx="342" cy="239" rx="4.5" ry="7" transform="rotate(26, 342, 239)" fill="#fef08a" filter="url(#glowFilter)" />
-                                <ellipse cx="342" cy="239" rx="2.4" ry="4" transform="rotate(26, 342, 239)" fill="#ffffff" />
-                                <ellipse cx="410" cy="205" rx="4.5" ry="7" transform="rotate(26, 410, 205)" fill="#fef08a" filter="url(#glowFilter)" />
-                                <ellipse cx="410" cy="205" rx="2.4" ry="4" transform="rotate(26, 410, 205)" fill="#ffffff" />
+                                <ellipse cx="342" cy="239" rx="4.5" ry="7" transform="rotate(26, 342, 239)"
+                                    fill="#fef08a" filter="url(#glowFilter)" />
+                                <ellipse cx="342" cy="239" rx="2.4" ry="4" transform="rotate(26, 342, 239)"
+                                    fill="#ffffff" />
+                                <ellipse cx="410" cy="205" rx="4.5" ry="7" transform="rotate(26, 410, 205)"
+                                    fill="#fef08a" filter="url(#glowFilter)" />
+                                <ellipse cx="410" cy="205" rx="2.4" ry="4" transform="rotate(26, 410, 205)"
+                                    fill="#ffffff" />
 
                                 <!-- Parachoques delantero blanco con faldón protector oscuro -->
-                                <polygon points="334,265 418,223 418,235 334,277" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1" />
+                                <polygon points="334,265 418,223 418,235 334,277" fill="#f8fafc" stroke="#cbd5e1"
+                                    stroke-width="1" />
                                 <polygon points="334,274 418,232 418,237 334,279" fill="#0f172a" />
                                 <circle cx="344" cy="271" r="2.2" fill="#fef08a" />
                                 <circle cx="408" cy="229" r="2.2" fill="#fef08a" />
 
                                 <!-- ====== LATERAL DE CABINA (LADO CONDUCTOR BLANCO CON FRANJA ROJA) ====== -->
-                                <polygon points="270,165 300,178 330,226 336,234 336,268 270,230" fill="url(#cabSideGrad)" stroke="#cbd5e1" stroke-width="1" />
+                                <polygon points="270,165 300,178 330,226 336,234 336,268 270,230"
+                                    fill="url(#cabSideGrad)" stroke="#cbd5e1" stroke-width="1" />
 
                                 <!-- Franja inferior corporativa roja continua desde la caja -->
                                 <polygon points="270,222 336,256 336,268 270,230" fill="#e43b14" />
-                                
+
                                 <!-- Ventana lateral de cabina con marco oscuro y cristal cian -->
-                                <polygon points="278,172 306,186 306,206 278,192" fill="#0f172a" stroke="#38bdf8" stroke-width="0.7" />
-                                <polygon points="280,174 304,186 304,203 280,190" fill="url(#windshieldGrad)" opacity="0.9" />
-                                <line x1="283" y1="176" x2="299" y2="198" stroke="#ffffff" stroke-width="1.2" opacity="0.6" />
+                                <polygon points="278,172 306,186 306,206 278,192" fill="#0f172a" stroke="#38bdf8"
+                                    stroke-width="0.7" />
+                                <polygon points="280,174 304,186 304,203 280,190" fill="url(#windshieldGrad)"
+                                    opacity="0.9" />
+                                <line x1="283" y1="176" x2="299" y2="198" stroke="#ffffff" stroke-width="1.2"
+                                    opacity="0.6" />
 
                                 <!-- Espejo lateral oscuro profesional (como en camión real) -->
                                 <line x1="305" y1="192" x2="314" y2="195" stroke="#0f172a" stroke-width="2" />
-                                <polygon points="312,190 320,194 320,205 312,201" fill="#0f172a" stroke="#1e293b" stroke-width="0.6" />
+                                <polygon points="312,190 320,194 320,205 312,201" fill="#0f172a" stroke="#1e293b"
+                                    stroke-width="0.6" />
                                 <polygon points="313,192 319,195 319,203 313,200" fill="#bae6fd" />
 
                                 <!-- Manija de puerta y estribo de acceso -->
                                 <line x1="310" y1="188" x2="310" y2="252" stroke="#cbd5e1" stroke-width="1.2" />
-                                <line x1="286" y1="206" x2="296" y2="211" stroke="#0f172a" stroke-width="2.2" stroke-linecap="round" />
-                                <line x1="278" y1="233" x2="304" y2="246" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" />
+                                <line x1="286" y1="206" x2="296" y2="211" stroke="#0f172a" stroke-width="2.2"
+                                    stroke-linecap="round" />
+                                <line x1="278" y1="233" x2="304" y2="246" stroke="#64748b" stroke-width="2.5"
+                                    stroke-linecap="round" />
 
                                 <!-- ====== CHASIS INFERIOR Y FALDÓN LATERAL ====== -->
                                 <polygon points="100,145 270,230 270,240 100,155" fill="#0f172a" />
-                                <line x1="150" y1="176" x2="250" y2="226" stroke="#e43b14" stroke-width="2.2" stroke-linecap="round" />
+                                <line x1="150" y1="176" x2="250" y2="226" stroke="#e43b14" stroke-width="2.2"
+                                    stroke-linecap="round" />
 
                                 <!-- ====== RUEDA TRASERA ISOMÉTRICA (LADO VISIBLE) ====== -->
                                 <g transform="translate(142, 175) rotate(-26)">
                                     <!-- Neumático externo -->
-                                    <ellipse cx="0" cy="0" rx="19" ry="26" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" />
+                                    <ellipse cx="0" cy="0" rx="19" ry="26" fill="#0f172a" stroke="#1e293b"
+                                        stroke-width="1.5" />
                                     <!-- Rin de aleación profunda -->
-                                    <ellipse cx="0" cy="0" rx="12" ry="17" fill="#334155" stroke="#cbd5e1" stroke-width="1.2" />
+                                    <ellipse cx="0" cy="0" rx="12" ry="17" fill="#334155" stroke="#cbd5e1"
+                                        stroke-width="1.2" />
                                     <ellipse cx="0" cy="0" rx="8" ry="11" fill="#e2e8f0" />
                                     <!-- Rayos giratorios centrados -->
                                     <g class="seloasa-iso-wheel-spin">
@@ -383,9 +448,11 @@
                                 <!-- ====== RUEDA DELANTERA IZQUIERDA ISOMÉTRICA (LADO VISIBLE) ====== -->
                                 <g transform="translate(300, 252) rotate(-26)">
                                     <!-- Neumático externo -->
-                                    <ellipse cx="0" cy="0" rx="19" ry="26" fill="#0f172a" stroke="#1e293b" stroke-width="1.5" />
+                                    <ellipse cx="0" cy="0" rx="19" ry="26" fill="#0f172a" stroke="#1e293b"
+                                        stroke-width="1.5" />
                                     <!-- Rin de aleación profunda -->
-                                    <ellipse cx="0" cy="0" rx="12" ry="17" fill="#334155" stroke="#cbd5e1" stroke-width="1.2" />
+                                    <ellipse cx="0" cy="0" rx="12" ry="17" fill="#334155" stroke="#cbd5e1"
+                                        stroke-width="1.2" />
                                     <ellipse cx="0" cy="0" rx="8" ry="11" fill="#e2e8f0" />
                                     <!-- Rayos giratorios centrados -->
                                     <g class="seloasa-iso-wheel-spin">
@@ -496,7 +563,8 @@
                                     <div class="fact-stat-card">
                                         <i class="fa fa-users fact-stat-icon"></i>
                                         <h2 class="fact-stat-number" data-toggle="counter-up">500</h2>
-                                        <p class="fact-stat-label" data-i18n="home.facts.stat_1">Clientes Satisfechos</p>
+                                        <p class="fact-stat-label" data-i18n="home.facts.stat_1">Clientes Satisfechos
+                                        </p>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6 wow fadeIn" data-wow-delay="0.5s">
@@ -510,7 +578,8 @@
                                     <div class="fact-stat-card">
                                         <i class="fa fa-shield-alt fact-stat-icon"></i>
                                         <h2 class="fact-stat-number" data-toggle="counter-up">99</h2>
-                                        <p class="fact-stat-label" data-i18n="home.facts.stat_3">Tasa de porcentaje de Entrega a Tiempo</p>
+                                        <p class="fact-stat-label" data-i18n="home.facts.stat_3">Tasa de porcentaje de
+                                            Entrega a Tiempo</p>
                                     </div>
                                 </div>
                             </div>
@@ -784,40 +853,56 @@
         <!-- Blog, Noticias y Comunicados Start -->
         <div class="container-xxl blog-section-home py-5" id="home-blog">
             <div class="container py-5">
-                <div class="blog-heading text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 840px;">
-                    <h6 class="text-uppercase about-kicker mb-2" data-i18n="home.blog_section.kicker">Actualidad & Novedades</h6>
+                <div class="blog-heading text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s"
+                    style="max-width: 840px;">
+                    <h6 class="text-uppercase about-kicker mb-2" data-i18n="home.blog_section.kicker">Actualidad &
+                        Novedades</h6>
                     <h1 class="about-title mb-3" data-i18n="home.blog_section.title">Blog, Noticias y Comunicados</h1>
                     <p class="about-intro mb-0" data-i18n="home.blog_section.description">
-                        Mantente al día con nuestros comunicados oficiales, notas operativas sobre transporte y cadena de frío, y artículos especializados de logística farmacéutica.
+                        Mantente al día con nuestros comunicados oficiales, notas operativas sobre transporte y cadena
+                        de frío, y artículos especializados de logística farmacéutica.
                     </p>
                 </div>
 
-                <div class="row g-4 justify-content-center">
+                <div class="row g-4 justify-content-center" id="homeBlogCardsContainer">
                     <!-- Comunicado Oficial -->
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.2s">
                         <div class="service-item service-card blog-card h-100 p-4 d-flex flex-column">
                             <div class="overflow-hidden service-media mb-3 position-relative">
-                                <a href="blog/comunicado-gdp-2026" target="_blank" rel="noopener noreferrer" class="d-block">
-                                    <img src="img/patio_unidades_dia_banner.jpg" alt="Comunicado Oficial SELOASA" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy">
+                                <a href="blog/comunicado-gdp-2026" target="_blank" rel="noopener noreferrer"
+                                    class="d-block">
+                                    <img src="img/patio_unidades_dia_banner.jpg" alt="Comunicado Oficial SELOASA"
+                                        class="img-fluid w-100" style="height: 220px; object-fit: cover;"
+                                        loading="lazy">
                                 </a>
                                 <span class="home-blog-pill badge-pill-comunicado">
-                                    <i class="fa fa-bullhorn me-1"></i> <span data-i18n="home.blog_section.badge_comunicado">Comunicado Oficial</span>
+                                    <i class="fa fa-bullhorn me-1"></i> <span
+                                        data-i18n="home.blog_section.badge_comunicado">Comunicado Oficial</span>
                                 </span>
                             </div>
                             <div class="service-card-body d-flex flex-column flex-grow-1">
                                 <h4 class="service-card-title mb-2">
-                                    <a href="blog/comunicado-gdp-2026" target="_blank" rel="noopener noreferrer" class="post-title-link" data-i18n="home.blog_section.item_1.title">Actualización de Protocolos de Seguridad y Cumplimiento Normativo COFEPRIS & GDP 2026</a>
+                                    <a href="blog/comunicado-gdp-2026" target="_blank" rel="noopener noreferrer"
+                                        class="post-title-link" data-i18n="home.blog_section.item_1.title">Actualización
+                                        de Protocolos de Seguridad y Cumplimiento Normativo COFEPRIS & GDP 2026</a>
                                 </h4>
-                                <p class="service-card-text mb-3 flex-grow-1" data-i18n="home.blog_section.item_1.summary">
-                                    Informamos a clientes y aliados sobre la actualización de controles térmicos y trazabilidad en todas nuestras rutas activas.
+                                <p class="service-card-text mb-3 flex-grow-1"
+                                    data-i18n="home.blog_section.item_1.summary">
+                                    Informamos a clientes y aliados sobre la actualización de controles térmicos y
+                                    trazabilidad en todas nuestras rutas activas.
                                 </p>
-                                <div class="home-blog-meta mb-3 pt-2 border-top d-flex align-items-center justify-content-between text-muted">
-                                    <span><i class="far fa-calendar-alt text-muted me-1"></i> <span class="home-blog-date" data-i18n="home.blog_section.item_1.date">Mayo 2026</span></span>
+                                <div
+                                    class="home-blog-meta mb-3 pt-2 border-top d-flex align-items-center justify-content-between text-muted">
+                                    <span><i class="far fa-calendar-alt text-muted me-1"></i> <span
+                                            class="home-blog-date" data-i18n="home.blog_section.item_1.date">Mayo
+                                            2026</span></span>
                                     <span><i class="far fa-clock text-muted me-1"></i> 3 min</span>
                                 </div>
                                 <div class="mt-auto">
-                                    <a class="btn-slide" href="blog/comunicado-gdp-2026" target="_blank" rel="noopener noreferrer">
-                                        <i class="fa fa-arrow-right"></i><span data-i18n="home.blog_section.read_more">Leer comunicado</span>
+                                    <a class="btn-slide" href="blog/comunicado-gdp-2026" target="_blank"
+                                        rel="noopener noreferrer">
+                                        <i class="fa fa-arrow-right"></i><span
+                                            data-i18n="home.blog_section.read_more">Leer comunicado</span>
                                     </a>
                                 </div>
                             </div>
@@ -828,27 +913,40 @@
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.4s">
                         <div class="service-item service-card blog-card h-100 p-4 d-flex flex-column">
                             <div class="overflow-hidden service-media mb-3 position-relative">
-                                <a href="blog/noticia-telemetria" target="_blank" rel="noopener noreferrer" class="d-block">
-                                    <img src="img/trans_monitoreo.jpg" alt="Noticia Operativa SELOASA" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy">
+                                <a href="blog/noticia-telemetria" target="_blank" rel="noopener noreferrer"
+                                    class="d-block">
+                                    <img src="img/trans_monitoreo.jpg" alt="Noticia Operativa SELOASA"
+                                        class="img-fluid w-100" style="height: 220px; object-fit: cover;"
+                                        loading="lazy">
                                 </a>
                                 <span class="home-blog-pill badge-pill-noticia">
-                                    <i class="fa fa-newspaper me-1"></i> <span data-i18n="home.blog_section.badge_noticia">Noticia Operativa</span>
+                                    <i class="fa fa-newspaper me-1"></i> <span
+                                        data-i18n="home.blog_section.badge_noticia">Noticia Operativa</span>
                                 </span>
                             </div>
                             <div class="service-card-body d-flex flex-column flex-grow-1">
                                 <h4 class="service-card-title mb-2">
-                                    <a href="blog/noticia-telemetria" target="_blank" rel="noopener noreferrer" class="post-title-link" data-i18n="home.blog_section.item_2.title">SELOASA expande su capacidad de monitoreo satelital con telemetría de doble sensor</a>
+                                    <a href="blog/noticia-telemetria" target="_blank" rel="noopener noreferrer"
+                                        class="post-title-link" data-i18n="home.blog_section.item_2.title">SELOASA
+                                        expande su capacidad de monitoreo satelital con telemetría de doble sensor</a>
                                 </h4>
-                                <p class="service-card-text mb-3 flex-grow-1" data-i18n="home.blog_section.item_2.summary">
-                                    Incorporamos sensores térmicos calibrados de última generación en nuestra flota para asegurar visibilidad en tiempo real de -20°C a +25°C.
+                                <p class="service-card-text mb-3 flex-grow-1"
+                                    data-i18n="home.blog_section.item_2.summary">
+                                    Incorporamos sensores térmicos calibrados de última generación en nuestra flota para
+                                    asegurar visibilidad en tiempo real de -20°C a +25°C.
                                 </p>
-                                <div class="home-blog-meta mb-3 pt-2 border-top d-flex align-items-center justify-content-between text-muted">
-                                    <span><i class="far fa-calendar-alt text-muted me-1"></i> <span class="home-blog-date" data-i18n="home.blog_section.item_2.date">Abril 2026</span></span>
+                                <div
+                                    class="home-blog-meta mb-3 pt-2 border-top d-flex align-items-center justify-content-between text-muted">
+                                    <span><i class="far fa-calendar-alt text-muted me-1"></i> <span
+                                            class="home-blog-date" data-i18n="home.blog_section.item_2.date">Abril
+                                            2026</span></span>
                                     <span><i class="far fa-clock text-muted me-1"></i> 2 min</span>
                                 </div>
                                 <div class="mt-auto">
-                                    <a class="btn-slide" href="blog/noticia-telemetria" target="_blank" rel="noopener noreferrer">
-                                        <i class="fa fa-arrow-right"></i><span data-i18n="home.blog_section.read_more">Ver noticia</span>
+                                    <a class="btn-slide" href="blog/noticia-telemetria" target="_blank"
+                                        rel="noopener noreferrer">
+                                        <i class="fa fa-arrow-right"></i><span
+                                            data-i18n="home.blog_section.read_more">Ver noticia</span>
                                     </a>
                                 </div>
                             </div>
@@ -859,27 +957,41 @@
                     <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
                         <div class="service-item service-card blog-card h-100 p-4 d-flex flex-column">
                             <div class="overflow-hidden service-media mb-3 position-relative">
-                                <a href="blog/blog-cadena-frio" target="_blank" rel="noopener noreferrer" class="d-block">
-                                    <img src="img/alm_especializado.jpg" alt="Artículo Blog SELOASA" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy">
+                                <a href="blog/blog-cadena-frio" target="_blank" rel="noopener noreferrer"
+                                    class="d-block">
+                                    <img src="img/alm_especializado.jpg" alt="Artículo Blog SELOASA"
+                                        class="img-fluid w-100" style="height: 220px; object-fit: cover;"
+                                        loading="lazy">
                                 </a>
                                 <span class="home-blog-pill badge-pill-blog">
-                                    <i class="fa fa-bookmark me-1"></i> <span data-i18n="home.blog_section.badge_blog">Artículo de Blog</span>
+                                    <i class="fa fa-bookmark me-1"></i> <span
+                                        data-i18n="home.blog_section.badge_blog">Artículo de Blog</span>
                                 </span>
                             </div>
                             <div class="service-card-body d-flex flex-column flex-grow-1">
                                 <h4 class="service-card-title mb-2">
-                                    <a href="blog/blog-cadena-frio" target="_blank" rel="noopener noreferrer" class="post-title-link" data-i18n="home.blog_section.item_3.title">Claves para garantizar la integridad de la cadena de frío (2°C a 8°C) en tránsito crítico</a>
+                                    <a href="blog/blog-cadena-frio" target="_blank" rel="noopener noreferrer"
+                                        class="post-title-link" data-i18n="home.blog_section.item_3.title">Claves para
+                                        garantizar la integridad de la cadena de frío (2°C a 8°C) en tránsito
+                                        crítico</a>
                                 </h4>
-                                <p class="service-card-text mb-3 flex-grow-1" data-i18n="home.blog_section.item_3.summary">
-                                    Buenas prácticas, gestión de contingencias y estándares internacionales para proteger medicamentos de alta sensibilidad biológica.
+                                <p class="service-card-text mb-3 flex-grow-1"
+                                    data-i18n="home.blog_section.item_3.summary">
+                                    Buenas prácticas, gestión de contingencias y estándares internacionales para
+                                    proteger medicamentos de alta sensibilidad biológica.
                                 </p>
-                                <div class="home-blog-meta mb-3 pt-2 border-top d-flex align-items-center justify-content-between text-muted">
-                                    <span><i class="far fa-calendar-alt text-muted me-1"></i> <span class="home-blog-date" data-i18n="home.blog_section.item_3.date">Marzo 2026</span></span>
+                                <div
+                                    class="home-blog-meta mb-3 pt-2 border-top d-flex align-items-center justify-content-between text-muted">
+                                    <span><i class="far fa-calendar-alt text-muted me-1"></i> <span
+                                            class="home-blog-date" data-i18n="home.blog_section.item_3.date">Marzo
+                                            2026</span></span>
                                     <span><i class="far fa-clock text-muted me-1"></i> 4 min</span>
                                 </div>
                                 <div class="mt-auto">
-                                    <a class="btn-slide" href="blog/blog-cadena-frio" target="_blank" rel="noopener noreferrer">
-                                        <i class="fa fa-arrow-right"></i><span data-i18n="home.blog_section.read_more">Leer artículo</span>
+                                    <a class="btn-slide" href="blog/blog-cadena-frio" target="_blank"
+                                        rel="noopener noreferrer">
+                                        <i class="fa fa-arrow-right"></i><span
+                                            data-i18n="home.blog_section.read_more">Leer artículo</span>
                                     </a>
                                 </div>
                             </div>
@@ -889,95 +1001,248 @@
 
                 <div class="text-center mt-5 wow fadeInUp" data-wow-delay="0.2s">
                     <a href="blog/" class="btn btn-primary px-5 py-3 rounded-pill fw-bold shadow-sm home-blog-main-cta">
-                        <i class="fa fa-newspaper me-2"></i><span data-i18n="home.blog_section.view_all">Explorar todas las publicaciones y comunicados</span>
+                        <i class="fa fa-newspaper me-2"></i><span data-i18n="home.blog_section.view_all">Explorar todas
+                            las publicaciones y comunicados</span>
                     </a>
                 </div>
             </div>
         </div>
         <!-- Blog, Noticias y Comunicados End -->
 
-        <!-- Quote Start -->
-        <div class="container-xxl quote-section py-5" id="home-quote">
-                <div class="container py-5">
-                    <div class="row g-5 align-items-stretch quote-layout">
-                        <!-- Texto e instrucciones para cotizar -->
-                        <div class="col-lg-5 wow fadeInUp" data-wow-delay="0.1s">
-                            <div class="quote-info-panel">
-                                <h2 class="quote-kicker mb-4" data-i18n="home.quote.kicker">Solicita Tu Cotización</h2>
-                                <br />
-                                <p class="mb-4 quote-description" data-i18n="home.quote.description">
-                                    Completa el formulario y un asesor especializado en logística farma se
-                                    pondrá en contacto contigo. Te ayudaremos a diseñar la mejor solución
-                                    para tus envíos y la integración de almacenaje con nuestros aliados estratégicos.
-                                </p>
-                                <div class="quote-phone-wrap">
-                                    <div class="quote-phone-icon">
-                                        <i class="fa fa-phone-alt"></i>
-                                    </div>
-                                    <div class="quote-phone-copy">
-                                        <h6 data-i18n="home.quote.phone_label">¿Tienes dudas?</h6>
-                                        <h3 class="m-0">+52 55 7616 3250</h3>
-                                    </div>
-                                </div>
+        <!-- Testimonial Start -->
+        <div class="container-xxl testimonial-section py-5 wow fadeInUp" id="home-testimonials" data-wow-delay="0.1s">
+            <div class="container py-5">
+                <div class="text-center testimonial-heading mx-auto mb-5">
+                    <h6 class="text-uppercase testimonial-kicker" data-i18n="home.testimonials.kicker">Nuestros Clientes</h6>
+                    <h2 class="mb-0 testimonial-title" data-i18n="home.testimonials.title">Empresas que confían en nosotros</h2>
+                </div>
+                <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo"
+                                src="img/logos/RALCA.png"
+                                alt="RALCA" loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">RALCA S.A. De C.V.</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.RALCA.role">Departamento de Calidad</p>
                             </div>
                         </div>
-                        <!-- Formulario de cotizacion -->
-                        <div class="col-lg-7">
-                            <div class="quote-form-panel p-5 wow fadeIn" data-wow-delay="0.5s">
-                                <h2 class="quote-form-title mb-4" data-i18n="home.quote.form_title">¡Cotización Sin
-                                    Costo!
-                                </h2>
-                                <form action="php/enviar_formulario.php" method="POST"
-                                    aria-label="Formulario de cotizacion">
-                                    <div class="row g-3 quote-form-grid">
-                                        <div class="col-12 col-sm-6">
-                                            <label for="quoteName" class="visually-hidden"
-                                                data-i18n="home.quote.form.name">Nombre Completo</label>
-                                            <input type="text" id="quoteName" name="name" class="form-control border-0"
-                                                placeholder="Nombre Completo"
-                                                data-i18n-placeholder="home.quote.form.name" autocomplete="name"
-                                                required>
-                                        </div>
-                                        <div class="col-12 col-sm-6">
-                                            <label for="quoteEmail" class="visually-hidden"
-                                                data-i18n="home.quote.form.email">Correo Electronico</label>
-                                            <input type="email" id="quoteEmail" name="email"
-                                                class="form-control border-0" placeholder="Correo Electronico"
-                                                data-i18n-placeholder="home.quote.form.email" autocomplete="email"
-                                                inputmode="email" required>
-                                        </div>
-                                        <div class="col-12">
-                                            <label for="quoteSubject" class="visually-hidden"
-                                                data-i18n="home.quote.form.subject">Asunto</label>
-                                            <input type="text" id="quoteSubject" name="subject"
-                                                class="form-control border-0" placeholder="Asunto"
-                                                data-i18n-placeholder="home.quote.form.subject" autocomplete="off"
-                                                required>
-                                        </div>
-                                        <div class="col-12">
-                                            <label for="quoteMessage" class="visually-hidden"
-                                                data-i18n="home.quote.form.message">Detalle tu solicitud</label>
-                                            <textarea id="quoteMessage" name="message" class="form-control border-0"
-                                                placeholder="Detalle tu solicitud (origen, destino, tipo de producto, volumen, etc.)"
-                                                data-i18n-placeholder="home.quote.form.message" rows="5"
-                                                required></textarea>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="btn btn-primary w-100 py-3 quote-submit-btn" type="submit">
-                                                <span data-i18n="home.quote.form.submit">Enviar Solicitud</span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                    </div>
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/roche.png" alt="ROCHE"
+                                loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">ROCHE</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.roche.role">Departamento de Logística</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/kalte.jpg" alt="KALTE"
+                                loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">KALTE</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.kalte.role">Dirección Técnica</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/gsk.png" alt="GSK"
+                                loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">GSK</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.gsk.role">Gerencia Nacional de Distribución</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/vitasanitas.jpg"
+                                alt="Vitasanitas" loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">Vitasanitas</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.vitasanitas.role">Coordinación de Abasto</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/octapharma.png"
+                                alt="OCTAPHARMA" loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">OCTAPHARMA</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.octapharma.role">Jefatura de Logística</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/p&g.png" alt="P&amp;G"
+                                loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">P&amp;G</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.pg.role">Supply Chain México</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/novartis.png"
+                                alt="Novartis" loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">Novartis</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.novartis.role">Gestión de Distribución</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/pharmafrigo.jpg"
+                                alt="Pharma Frigo" loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">Pharma Frigo</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.pharmafrigo.role">Operaciones Frigoríficas</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/alternavida.png"
+                                alt="ALTERNAVIDA" loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">ALTERNAVIDA</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.alternavida.role">Gerencia General</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/sandoz.png"
+                                alt="SANDOZ" loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">SANDOZ</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.sandoz.role">Departamento Médico</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/bbraun.png"
+                                alt="BBRAUN" loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">BBRAUN</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.bbraun.role">Supply Chain</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/arcar.png" alt="ARCAR"
+                                loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">ARCAR</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.arcar.role">Gerencia de Operaciones</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="testimonial-item p-4 my-3">
+                        <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
+                            <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/vitalmex.png"
+                                alt="VITALMEX" loading="lazy" decoding="async">
+                            <div class="testimonial-copy">
+                                <h5 class="testimonial-company mb-1">VITALMEX</h5>
+                                <p class="testimonial-role mb-0" data-i18n="home.testimonials.items.vitalmex.role">Coordinación de Logística</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Quote End -->
+        </div>
+        <!-- Testimonial End -->
 
-            <!-- Team Start -->
-            <!--
+        <!-- Quote Start -->
+        <div class="container-xxl quote-section py-5" id="home-quote">
+            <div class="container py-5">
+                <div class="row g-5 align-items-stretch quote-layout">
+                    <!-- Texto e instrucciones para cotizar -->
+                    <div class="col-lg-5 wow fadeInUp" data-wow-delay="0.1s">
+                        <div class="quote-info-panel">
+                            <h2 class="quote-kicker mb-4" data-i18n="home.quote.kicker">Solicita Tu Cotización</h2>
+                            <br />
+                            <p class="mb-4 quote-description" data-i18n="home.quote.description">
+                                Completa el formulario y un asesor especializado en logística farma se
+                                pondrá en contacto contigo. Te ayudaremos a diseñar la mejor solución
+                                para tus envíos y la integración de almacenaje con nuestros aliados estratégicos.
+                            </p>
+                            <div class="quote-phone-wrap">
+                                <div class="quote-phone-icon">
+                                    <i class="fa fa-phone-alt"></i>
+                                </div>
+                                <div class="quote-phone-copy">
+                                    <h6 data-i18n="home.quote.phone_label">¿Tienes dudas?</h6>
+                                    <h3 class="m-0">+52 55 7616 3250</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Formulario de cotizacion -->
+                    <div class="col-lg-7">
+                        <div class="quote-form-panel p-5 wow fadeIn" data-wow-delay="0.5s">
+                            <h2 class="quote-form-title mb-4" data-i18n="home.quote.form_title">¡Cotización Sin
+                                Costo!
+                            </h2>
+                            <form action="php/enviar_formulario.php" method="POST"
+                                aria-label="Formulario de cotizacion">
+                                <div class="row g-3 quote-form-grid">
+                                    <div class="col-12 col-sm-6">
+                                        <label for="quoteName" class="visually-hidden"
+                                            data-i18n="home.quote.form.name">Nombre Completo</label>
+                                        <input type="text" id="quoteName" name="name" class="form-control border-0"
+                                            placeholder="Nombre Completo" data-i18n-placeholder="home.quote.form.name"
+                                            autocomplete="name" required>
+                                    </div>
+                                    <div class="col-12 col-sm-6">
+                                        <label for="quoteEmail" class="visually-hidden"
+                                            data-i18n="home.quote.form.email">Correo Electronico</label>
+                                        <input type="email" id="quoteEmail" name="email" class="form-control border-0"
+                                            placeholder="Correo Electronico"
+                                            data-i18n-placeholder="home.quote.form.email" autocomplete="email"
+                                            inputmode="email" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="quoteSubject" class="visually-hidden"
+                                            data-i18n="home.quote.form.subject">Asunto</label>
+                                        <input type="text" id="quoteSubject" name="subject"
+                                            class="form-control border-0" placeholder="Asunto"
+                                            data-i18n-placeholder="home.quote.form.subject" autocomplete="off" required>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="quoteMessage" class="visually-hidden"
+                                            data-i18n="home.quote.form.message">Detalle tu solicitud</label>
+                                        <textarea id="quoteMessage" name="message" class="form-control border-0"
+                                            placeholder="Detalle tu solicitud (origen, destino, tipo de producto, volumen, etc.)"
+                                            data-i18n-placeholder="home.quote.form.message" rows="5"
+                                            required></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100 py-3 quote-submit-btn" type="submit">
+                                            <span data-i18n="home.quote.form.submit">Enviar Solicitud</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Quote End -->
+
+        <!-- Team Start -->
+        <!--
      <div class="container-xxl py-5">
         <div class="container py-5">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
@@ -1051,268 +1316,7 @@
             </div>
         </div>
     </div> -->
-            <!-- Team End -->
-
-            <!-- Testimonial Start -->
-            <div class="container-xxl testimonial-section py-5 wow fadeInUp d-none" style="display: none !important;" data-wow-delay="0.1s">
-                <div class="container py-5">
-                    <div class="text-center testimonial-heading mx-auto mb-5">
-                        <h6 class="text-uppercase testimonial-kicker" data-i18n="home.testimonials.kicker">Testimonios
-                        </h6>
-                        <h2 class="mb-0 testimonial-title" data-i18n="home.testimonials.title">Lo que dicen nuestros
-                            clientes</h2>
-                    </div>
-                    <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo"
-                                    src="https://media.licdn.com/dms/image/v2/D560BAQHHVHBqFzw_Tw/company-logo_200_200/company-logo_200_200/0/1704752494516/ralcasa_de_cv_logo?e=2147483647&v=beta&t=m9gtB2tsA8e63tIhh4dzJ6voXmUGYbI6Ffmxq9SgmUU"
-                                    alt="RALCA" loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">RALCA S.A. De C.V.</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.RALCA.role">
-                                        Departamento
-                                        de Calidad</p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.RALCA.text">"Trabajar con
-                                SELOASA nos da mucha tranquilidad. Se nota su compromiso y la atención al detalle en
-                                cada entrega."</p>
-                        </div>
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/roche.png"
-                                    alt="ROCHE" loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">ROCHE</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.roche.role">
-                                        Departamento
-                                        de Logística</p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.roche.text">"Más que un
-                                proveedor, SELOASA es un verdadero aliado estratégico para resguardar nuestros envíos
-                                bajo cadena de frío."</p>
-                        </div>
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/kalte.jpg"
-                                    alt="KALTE" loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">KALTE</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.kalte.role">Dirección
-                                        Técnica</p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.kalte.text">"Nos impresiona
-                                su rigor operativo y la trazabilidad en todo momento. Con SELOASA sabemos que el
-                                producto está en buenas manos."</p>
-                        </div>
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/gsk.png" alt="GSK"
-                                    loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">GSK</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.gsk.role">Gerencia
-                                        Nacional de Distribución</p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.gsk.text">"La puntualidad y
-                                la visibilidad en tiempo real que ofrecen ha sido una pieza clave para optimizar nuestra
-                                distribución."</p>
-                        </div>
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/vitasanitas.jpg"
-                                    alt="Vitasanitas" loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">Vitasanitas</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.vitasanitas.role">
-                                        Coordinación de Abasto</p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.vitasanitas.text">"Nuestros
-                                pedidos siempre llegan a tiempo y con la temperatura perfecta. Da gusto colaborar con un
-                                equipo tan atento."</p>
-                        </div>
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/octapharma.png"
-                                    alt="OCTAPHARMA" loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">OCTAPHARMA</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.octapharma.role">
-                                        Jefatura
-                                        de Logística</p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.octapharma.text">"Nos encanta
-                                su agilidad y capacidad de respuesta. Su flexibilidad operativa se adapta genial a lo
-                                que requerimos día a día."</p>
-                        </div>
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/p&g.png"
-                                    alt="P&amp;G" loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">P&amp;G</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.pg.role">Supply Chain
-                                        México</p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.pg.text">"Son sumamente
-                                eficientes y profesionales en sus procesos. Transmiten muchísima confianza en cada
-                                ruta."</p>
-                        </div>
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/novartis.png"
-                                    alt="Novartis" loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">Novartis</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.novartis.role">
-                                        Gestión de
-                                        Distribución</p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.novartis.text">"El control de
-                                trazabilidad y su estricto apego a las normativas nos dan la seguridad que necesitamos
-                                para nuestra distribución."</p>
-                        </div>
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/pharmafrigo.jpg"
-                                    alt="Pharma Frigo" loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">Pharma Frigo</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.pharmafrigo.role">
-                                        Operaciones Frigoríficas</p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.pharmafrigo.text">"Su
-                                experiencia en el manejo de temperatura controlada es sobresaliente. Confiamos a ojos
-                                cerrados en su equipo."</p>
-                        </div>
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/alternavida.png"
-                                    alt="ALTERNAVIDA" loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">ALTERNAVIDA</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.alternavida.role">
-                                        Gerencia General</p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.alternavida.text">"Valoramos
-                                enormemente el trato cercano y la dedicación especial que le ponen a cada uno de
-                                nuestros envíos."</p>
-                        </div>
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/sandoz.png"
-                                    alt="SANDOZ" loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">SANDOZ</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.sandoz.role">
-                                        Departamento
-                                        Médico</p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.sandoz.text">"Gracias a
-                                SELOASA, nuestros insumos médicos llegan intactos a su destino, cuidando siempre la
-                                calidad final."</p>
-                        </div>
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/bbraun.png"
-                                    alt="BBRAUN" loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">BBRAUN</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.bbraun.role">Supply
-                                        Chain
-                                    </p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.bbraun.text">"La cadena de
-                                frío requiere máxima precisión, y con SELOASA sabemos que nuestra mercancía nunca corre
-                                riesgos."</p>
-                        </div>
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/arcar.png"
-                                    alt="ARCAR" loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">ARCAR</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.arcar.role">Gerencia
-                                        de
-                                        Operaciones</p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.arcar.text">"A lo largo de
-                                los años nos han demostrado una gran solidez y profesionalismo. Sin duda, son nuestros
-                                aliados de confianza."</p>
-                        </div>
-                        <div class="testimonial-item p-4 my-4">
-                            <div class="testimonial-quote-mark">
-                                <i class="fa fa-quote-right"></i>
-                            </div>
-                            <div class="testimonial-meta">
-                                <img class="img-fluid flex-shrink-0 testimonial-logo" src="img/logos/vitalmex.png"
-                                    alt="VITALMEX" loading="lazy" decoding="async">
-                                <div class="testimonial-copy">
-                                    <h5 class="testimonial-company">VITALMEX</h5>
-                                    <p class="testimonial-role" data-i18n="home.testimonials.items.vitalmex.role">
-                                        Coordinación de Logística</p>
-                                </div>
-                            </div>
-                            <p class="testimonial-text" data-i18n="home.testimonials.items.vitalmex.text">"Apreciamos
-                                mucho la puntualidad y el cuidado impecable que le dan a cada embarque. Cuidan la carga
-                                como si fuera propia."</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Testimonial End -->
+        <!-- Team End -->
 
     </main>
 
@@ -1372,6 +1376,8 @@
             });
         }
     </script>
+    <script src="js/home-blog.js"></script>
+    <script src="js/home-testimonials.js"></script>
     <script src="js/site-popup.js"></script>
 </body>
 

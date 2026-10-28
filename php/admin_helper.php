@@ -7,6 +7,7 @@ const ADMIN_STORAGE_DIR = __DIR__ . '/storage';
 const ADMIN_VACANCIES_FILE = ADMIN_STORAGE_DIR . '/vacancies.json';
 const ADMIN_NOTICIAS_FILE = ADMIN_STORAGE_DIR . '/noticias.json';
 const ADMIN_POPUPS_FILE = ADMIN_STORAGE_DIR . '/popups.json';
+const ADMIN_TESTIMONIOS_FILE = ADMIN_STORAGE_DIR . '/testimonios.json';
 const ADMIN_POSTULACIONES_FILE = ADMIN_STORAGE_DIR . '/postulaciones.json';
 const ADMIN_ALLOWED_EMAILS_FILE = ADMIN_STORAGE_DIR . '/admin_allowed_emails.json';
 const ADMIN_LOGIN_ATTEMPTS_FILE = ADMIN_STORAGE_DIR . '/admin_login_attempts.json';
@@ -76,6 +77,13 @@ if (!function_exists('admin_storage_ensure')) {
             admin_write_json_file(ADMIN_POPUPS_FILE, [
                 'updated_at' => date('c'),
                 'items' => admin_default_popups(),
+            ]);
+        }
+
+        if (!is_file(ADMIN_TESTIMONIOS_FILE)) {
+            admin_write_json_file(ADMIN_TESTIMONIOS_FILE, [
+                'updated_at' => date('c'),
+                'items' => admin_default_testimonios(),
             ]);
         }
 
@@ -586,6 +594,169 @@ if (!function_exists('admin_default_popups')) {
     }
 }
 
+if (!function_exists('admin_default_testimonios')) {
+    function admin_default_testimonios(): array
+    {
+        $now = date('c');
+        return [
+            [
+                'id' => 'ralca',
+                'company' => 'RALCA S.A. De C.V.',
+                'logo' => 'img/logos/RALCA.png',
+                'role' => 'Departamento de Calidad',
+                'text' => 'Trabajar con SELOASA nos da mucha tranquilidad. Se nota su compromiso y la atención al detalle en cada entrega.',
+                'status' => 'published',
+                'order' => 1,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'roche',
+                'company' => 'ROCHE',
+                'logo' => 'img/logos/roche.png',
+                'role' => 'Departamento de Logística',
+                'text' => 'Más que un proveedor, SELOASA es un verdadero aliado estratégico para resguardar nuestros envíos bajo cadena de frío.',
+                'status' => 'published',
+                'order' => 2,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'kalte',
+                'company' => 'KALTE',
+                'logo' => 'img/logos/kalte.jpg',
+                'role' => 'Dirección Técnica',
+                'text' => 'Nos impresiona su rigor operativo y la trazabilidad en todo momento. Con SELOASA sabemos que el producto está en buenas manos.',
+                'status' => 'published',
+                'order' => 3,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'gsk',
+                'company' => 'GSK',
+                'logo' => 'img/logos/gsk.png',
+                'role' => 'Gerencia Nacional de Distribución',
+                'text' => 'La puntualidad y la visibilidad en tiempo real que ofrecen ha sido una pieza clave para optimizar nuestra distribución.',
+                'status' => 'published',
+                'order' => 4,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'vitasanitas',
+                'company' => 'Vitasanitas',
+                'logo' => 'img/logos/vitasanitas.jpg',
+                'role' => 'Coordinación de Abasto',
+                'text' => 'Nuestros pedidos siempre llegan a tiempo y con la temperatura perfecta. Da gusto colaborar con un equipo tan atento.',
+                'status' => 'published',
+                'order' => 5,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'octapharma',
+                'company' => 'OCTAPHARMA',
+                'logo' => 'img/logos/octapharma.png',
+                'role' => 'Jefatura de Logística',
+                'text' => 'Nos encanta su agilidad y capacidad de respuesta. Su flexibilidad operativa se adapta genial a lo que requerimos día a día.',
+                'status' => 'published',
+                'order' => 6,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'pg',
+                'company' => 'P&G',
+                'logo' => 'img/logos/p&g.png',
+                'role' => 'Supply Chain México',
+                'text' => 'Son sumamente eficientes y profesionales en sus procesos. Transmiten muchísima confianza en cada ruta.',
+                'status' => 'published',
+                'order' => 7,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'novartis',
+                'company' => 'Novartis',
+                'logo' => 'img/logos/novartis.png',
+                'role' => 'Gestión de Distribución',
+                'text' => 'El control de trazabilidad y su estricto apego a las normativas nos dan la seguridad que necesitamos para nuestra distribución.',
+                'status' => 'published',
+                'order' => 8,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'pharmafrigo',
+                'company' => 'Pharma Frigo',
+                'logo' => 'img/logos/pharmafrigo.jpg',
+                'role' => 'Operaciones Frigoríficas',
+                'text' => 'Su experiencia en el manejo de temperatura controlada es sobresaliente. Confiamos a ojos cerrados en su equipo.',
+                'status' => 'published',
+                'order' => 9,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'alternavida',
+                'company' => 'ALTERNAVIDA',
+                'logo' => 'img/logos/alternavida.png',
+                'role' => 'Gerencia General',
+                'text' => 'Valoramos enormemente el trato cercano y la dedicación especial que le ponen a cada uno de nuestros envíos.',
+                'status' => 'published',
+                'order' => 10,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'sandoz',
+                'company' => 'SANDOZ',
+                'logo' => 'img/logos/sandoz.png',
+                'role' => 'Departamento Médico',
+                'text' => 'Gracias a SELOASA, nuestros insumos médicos llegan intactos a su destino, cuidando siempre la calidad final.',
+                'status' => 'published',
+                'order' => 11,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'bbraun',
+                'company' => 'BBRAUN',
+                'logo' => 'img/logos/bbraun.png',
+                'role' => 'Supply Chain',
+                'text' => 'La cadena de frío requiere máxima precisión, y con SELOASA sabemos que nuestra mercancía nunca corre riesgos.',
+                'status' => 'published',
+                'order' => 12,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'arcar',
+                'company' => 'ARCAR',
+                'logo' => 'img/logos/arcar.png',
+                'role' => 'Gerencia de Operaciones',
+                'text' => 'A lo largo de los años nos han demostrado una gran solidez y profesionalismo. Sin duda, son nuestros aliados de confianza.',
+                'status' => 'published',
+                'order' => 13,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+            [
+                'id' => 'vitalmex',
+                'company' => 'VITALMEX',
+                'logo' => 'img/logos/vitalmex.png',
+                'role' => 'Coordinación de Logística',
+                'text' => 'Apreciamos mucho la puntualidad y el cuidado impecable que le dan a cada embarque. Cuidan la carga como si fuera propia.',
+                'status' => 'published',
+                'order' => 14,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ],
+        ];
+    }
+}
+
 if (!function_exists('admin_get_vacancy_store')) {
     function admin_get_vacancy_store(): array
     {
@@ -715,6 +886,45 @@ if (!function_exists('admin_save_popups_store')) {
         admin_storage_ensure();
 
         return admin_write_json_file(ADMIN_POPUPS_FILE, [
+            'updated_at' => date('c'),
+            'items' => array_values($items),
+        ]);
+    }
+}
+
+if (!function_exists('admin_get_testimonios_store')) {
+    function admin_get_testimonios_store(): array
+    {
+        admin_storage_ensure();
+
+        $default = [
+            'updated_at' => date('c'),
+            'items' => admin_default_testimonios(),
+        ];
+
+        $store = admin_read_json_file(ADMIN_TESTIMONIOS_FILE, $default);
+        if (!is_array($store)) {
+            return $default;
+        }
+
+        $items = $store['items'] ?? [];
+        if (!is_array($items)) {
+            $items = [];
+        }
+
+        return [
+            'updated_at' => (string) ($store['updated_at'] ?? date('c')),
+            'items' => array_values($items),
+        ];
+    }
+}
+
+if (!function_exists('admin_save_testimonios_store')) {
+    function admin_save_testimonios_store(array $items): bool
+    {
+        admin_storage_ensure();
+
+        return admin_write_json_file(ADMIN_TESTIMONIOS_FILE, [
             'updated_at' => date('c'),
             'items' => array_values($items),
         ]);

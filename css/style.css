@@ -7015,8 +7015,8 @@ li {
     }
 }
 
-/* ===== Service Type Card (Icon Background Watermark) ===== */
-.service-type-card {
+/* ===== Service Type Card (Icon Background Watermark - Almacenaje / Storage) ===== */
+.service-type-card:has(.service-type-icon) {
     position: relative !important;
     overflow: hidden !important;
     background: #ffffff !important;
@@ -7030,13 +7030,13 @@ li {
     transition: all 0.3s ease !important;
 }
 
-.service-type-card:hover {
+.service-type-card:has(.service-type-icon):hover {
     transform: translateY(-5px) !important;
     box-shadow: 0 18px 36px rgba(228, 59, 20, 0.12) !important;
     border-color: rgba(228, 59, 20, 0.35) !important;
 }
 
-.service-type-card .service-type-title {
+.service-type-card:has(.service-type-icon) .service-type-title {
     color: #1f252b !important;
     font-size: 1.2rem !important;
     font-weight: 800 !important;
@@ -7047,7 +7047,7 @@ li {
     max-width: 75% !important;
 }
 
-.service-type-card .service-type-icon {
+.service-type-card:has(.service-type-icon) .service-type-icon {
     position: absolute !important;
     right: 10px !important;
     bottom: -10px !important;
@@ -7064,7 +7064,7 @@ li {
     display: block !important;
 }
 
-.service-type-card .service-type-icon i {
+.service-type-card:has(.service-type-icon) .service-type-icon i {
     font-size: 5.5rem !important;
     line-height: 1 !important;
     color: var(--primary, #e43b14) !important;
@@ -7073,13 +7073,75 @@ li {
     transition: transform 0.35s ease, opacity 0.35s ease !important;
 }
 
-.service-type-card:hover .service-type-icon i {
+.service-type-card:has(.service-type-icon):hover .service-type-icon i {
     opacity: 0.30 !important;
     transform: scale(1.12) rotate(-6deg) !important;
 }
 
-.service-type-badge {
-    display: none !important;
+/* ===== Capacidades de Flota (Transporte / Transport) ===== */
+.service-type-card:has(.transport-unit-image),
+.transport-unit-card {
+    position: relative !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(228, 59, 20, 0.12) !important;
+    border-radius: 20px !important;
+    padding: 28px 22px !important;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.04) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    min-height: 100% !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
+}
+
+.service-type-card:has(.transport-unit-image):hover,
+.transport-unit-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: 0 18px 36px rgba(228, 59, 20, 0.12) !important;
+    border-color: rgba(228, 59, 20, 0.35) !important;
+}
+
+.service-type-card .transport-unit-image,
+.transport-unit-card .transport-unit-image {
+    width: 100% !important;
+    max-height: 155px !important;
+    object-fit: contain !important;
+    margin-bottom: 1.25rem !important;
+    display: block !important;
+}
+
+.service-type-card:has(.transport-unit-image) .service-type-title,
+.transport-unit-card .service-type-title {
+    color: #1f252b !important;
+    font-size: 1.25rem !important;
+    font-weight: 800 !important;
+    margin: 0 0 8px 0 !important;
+    max-width: 100% !important;
+    text-align: center !important;
+}
+
+.service-type-card .service-type-badge,
+.transport-unit-card .service-type-badge {
+    display: inline-block !important;
+    padding: 0.35rem 0.85rem !important;
+    border-radius: 999px !important;
+    background: rgba(228, 59, 20, 0.10) !important;
+    color: var(--primary, #e43b14) !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.06em !important;
+    text-transform: uppercase !important;
+    margin-bottom: 12px !important;
+}
+
+.service-type-card:has(.transport-unit-image) .service-type-text,
+.transport-unit-card .service-type-text {
+    color: #4d5258 !important;
+    line-height: 1.6 !important;
+    font-size: 0.95rem !important;
+    text-align: center !important;
+    margin: 0 !important;
 }
 
 /* ===== Blog, Noticias y Comunicados (Integrado al Sistema de Diseño SELOASA) ===== */

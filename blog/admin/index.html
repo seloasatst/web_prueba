@@ -260,6 +260,11 @@
             <span>Pop-ups</span>
             <span class="admin-nav-count admin-count-accent" id="navBadgePopupsActive">1</span>
           </button>
+          <button type="button" class="admin-nav-tab" id="navItemTestimonials" data-module="testimonials">
+            <i class="fa fa-comments"></i>
+            <span>Clientes &amp; Testimonios</span>
+            <span class="admin-nav-count" id="navBadgeTestimonialsCount">0</span>
+          </button>
         </nav>
 
         <!-- Botón Salir Discreto -->
@@ -642,6 +647,106 @@
 
       </div> <!-- Fin #modulePopupsSection -->
 
+      <!-- ======================================================================
+           SECCIÓN MÓDULO 4: CLIENTES Y TESTIMONIOS (CARRUSEL HOME)
+           ====================================================================== -->
+      <div id="moduleTestimonialsSection" class="d-none">
+        
+        <!-- Encabezado de Sección -->
+        <div class="admin-section-header">
+          <div>
+            <h1 class="admin-section-title">Clientes y Testimonios</h1>
+            <p class="admin-section-sub">Administra los logotipos de clientes y testimonios que se exhiben dinámicamente en el carrusel del Home.</p>
+          </div>
+          <div>
+            <button type="button" id="btnNewTestimonial" class="btn-primary-action" title="Agregar nuevo testimonio o cliente">
+              <i class="fa fa-plus"></i>
+              <span>Nuevo Testimonio</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Cards: Métricas de Testimonios -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-lg-4">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Total Clientes / Logos</span>
+                <div class="admin-kpi-icon kpi-icon-all"><i class="fa fa-comments"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiTestimonialsTotalCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-4">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Publicados en Home</span>
+                <div class="admin-kpi-icon kpi-icon-noticia"><i class="fa fa-check-circle"></i></div>
+              </div>
+              <div class="admin-kpi-val text-success" id="kpiTestimonialsPublishedCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-4">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Inactivos / Ocultos</span>
+                <div class="admin-kpi-icon kpi-icon-comunicado"><i class="fa fa-eye-slash"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiTestimonialsDraftCount">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de Búsqueda y Filtros de Testimonios -->
+        <div class="admin-table-card mb-4">
+          <div class="admin-toolbar-wrap p-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <div class="input-group input-group-sm" style="width: 280px;">
+                <span class="input-group-text bg-white border-end-0"><i class="fa fa-search text-muted"></i></span>
+                <input type="text" id="adminTestimonialSearchInput" class="form-control border-start-0" placeholder="Buscar por empresa o cita...">
+              </div>
+
+              <!-- Filtro de Estado -->
+              <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-outline-secondary active btn-filter-testimonial-status" data-status="all">Todos</button>
+                <button type="button" class="btn btn-outline-secondary btn-filter-testimonial-status" data-status="published">Publicados</button>
+                <button type="button" class="btn btn-outline-secondary btn-filter-testimonial-status" data-status="draft">Ocultos</button>
+              </div>
+            </div>
+
+            <div class="text-muted small">
+              <span id="testimonialsFilteredCount">0</span> clientes listados
+            </div>
+          </div>
+
+          <!-- Tabla de Testimonios -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="testimonialsTable">
+              <thead>
+                <tr>
+                  <th style="width: 80px;">Logo</th>
+                  <th>Empresa / Cliente</th>
+                  <th>Departamento / Rol</th>
+                  <th>Testimonio</th>
+                  <th style="width: 120px;">Estado</th>
+                  <th class="text-end" style="width: 140px;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="testimonialsTableBody">
+                <!-- Inyectado dinámicamente por js/blog-admin.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="testimonialsNoResultsRow" class="p-5 text-center text-muted d-none">
+            <i class="fa fa-comments fa-3x mb-3 text-secondary opacity-50"></i>
+            <h6 class="fw-bold">No se encontraron clientes o testimonios</h6>
+            <p class="small mb-0">Agrega un nuevo testimonio o cambia los filtros de búsqueda.</p>
+          </div>
+        </div>
+
+      </div> <!-- Fin #moduleTestimonialsSection -->
+
     </main>
   </div>
 
@@ -945,12 +1050,79 @@
     </div>
   </div>
 
+  <!-- ======================================================================
+       MODAL: CREAR / EDITAR TESTIMONIO / CLIENTE
+       ====================================================================== -->
+  <div class="modal fade" id="testimonialModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+        <div class="modal-header border-bottom py-3 px-4" style="background-color: #fcfcfc;">
+          <h5 class="modal-title fw-bold text-dark" id="testimonialModalTitle">
+            <i class="fa fa-quote-left text-primary me-2"></i> Cliente &amp; Testimonio
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <form id="testimonialEditorForm">
+            <input type="hidden" id="testimonialIdHidden" value="">
+
+            <div class="mb-3">
+              <label for="testimonialClientNameInput" class="form-label small fw-bold text-dark mb-1">Nombre del Cliente / Empresa *</label>
+              <input type="text" id="testimonialClientNameInput" class="form-control" placeholder="Ej: Roche, Kalte, Pfizer..." required>
+            </div>
+
+            <div class="mb-3">
+              <label for="testimonialClientRoleInput" class="form-label small fw-bold text-dark mb-1">Departamento / Cargo / Ramo *</label>
+              <input type="text" id="testimonialClientRoleInput" class="form-control" placeholder="Ej: Dirección de Cadena de Suministro" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="testimonialLogoInput" class="form-label small fw-bold text-dark mb-1">Ruta o URL del Logotipo *</label>
+              <div class="input-group">
+                <input type="text" id="testimonialLogoInput" class="form-control" placeholder="Ej: img/clientes/roche.png" required>
+              </div>
+              <div class="d-flex align-items-center gap-3 mt-2 p-2 bg-light rounded border">
+                <span class="small text-muted">Vista previa:</span>
+                <div style="width: 70px; height: 35px; background: #fff; border: 1px solid #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; padding: 3px;">
+                  <img id="testimonialLogoPreview" src="img/clientes/ralca.png" alt="Preview" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                </div>
+                <span class="small text-muted" style="font-size: 0.75rem;">(Formatos recomendados: PNG o SVG transparente)</span>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="testimonialTextInput" class="form-label small fw-bold text-dark mb-1">Comentario / Cita (Opcional)</label>
+              <textarea id="testimonialTextInput" class="form-control" rows="2" placeholder="Opcional: nota o cita del cliente..."></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="testimonialStatusSelect" class="form-label small fw-bold text-dark mb-1">Estado de Publicación</label>
+              <select id="testimonialStatusSelect" class="form-select">
+                <option value="published">Publicado (Visible en el carrusel del Home)</option>
+                <option value="draft">Oculto (Borrador / No visible)</option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer border-top py-3 px-4">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btnSaveTestimonial" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
+            <i class="fa fa-save"></i>
+            <span>Guardar Testimonio</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/blog-i18n.js?v=20261027_06"></script>
   <script src="js/totp-auth.js?v=20261027_06"></script>
   <script src="js/site-popup.js?v=20261027_06"></script>
-  <script src="js/blog-admin.js?v=20261027_07"></script>
+  <script src="js/blog-admin.js?v=20261028_01"></script>
 </body>
 
 </html>

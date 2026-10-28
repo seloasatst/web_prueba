@@ -147,7 +147,9 @@
 
         // Testimonials carousel
         $(".testimonial-carousel").owlCarousel({
-            autoplay: false,
+            autoplay: true,
+            autoplayTimeout: 4000,
+            autoplayHoverPause: true,
             smartSpeed: 1000,
             center: true,
             dots: true,

@@ -10,12 +10,14 @@
     POSTS_DATA: 'seloasa_blog_posts',
     VACANCIES_DATA: 'seloasa_careers_vacancies',
     POPUPS_DATA: 'seloasa_site_popups',
-    ACTIVE_POPUP_ID: 'seloasa_active_popup_id'
+    ACTIVE_POPUP_ID: 'seloasa_active_popup_id',
+    TESTIMONIALS_DATA: 'seloasa_testimonials'
   };
 
   let currentPosts = [];
   let currentVacancies = [];
   let currentPopups = [];
+  let currentTestimonials = [];
   let currentEditingId = null;
   let currentEditingVacancyId = null;
   let activeFilterType = 'all';
@@ -26,6 +28,8 @@
   let activeVacancySearchTerm = '';
   let activePopupFilterType = 'all';
   let activePopupSearchTerm = '';
+  let activeTestimonialSearchTerm = '';
+  let activeTestimonialStatus = 'all';
   let totpIntervalId = null;
 
   /* ==========================================================================
@@ -684,6 +688,10 @@
     loadPopups();
     renderPopupsKpis();
     renderPopupsTable();
+
+    loadTestimonials();
+    renderTestimonialsKpis();
+    renderTestimonialsTable();
   }
 
   function showAuthView() {
@@ -1846,13 +1854,328 @@
     }
   }
 
+  /* ==========================================================================
+     MÓDULO 4: CLIENTES Y TESTIMONIOS (CARRUSEL DEL HOME)
+     ========================================================================== */
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  function loadTestimonials() {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEYS.TESTIMONIALS_DATA);
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          currentTestimonials = parsed;
+        }
+      }
+    } catch (e) {
+      console.warn('Error al leer testimonios de cache local:', e);
+    }
+
+    // Consultar directamente la API de Testimonios
+    fetch(getBackendApiUrl('php/testimonios_api.php'), getApiFetchOptions('GET'))
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.success && Array.isArray(data.items)) {
+          currentTestimonials = data.items;
+          localStorage.setItem(STORAGE_KEYS.TESTIMONIALS_DATA, JSON.stringify(currentTestimonials));
+          renderTestimonialsKpis();
+          renderTestimonialsTable();
+        }
+      })
+      .catch(err => console.warn('Sync testimonios error:', err));
+
+    return currentTestimonials;
+  }
+
+  function saveTestimonials() {
+    try {
+      localStorage.setItem(STORAGE_KEYS.TESTIMONIALS_DATA, JSON.stringify(currentTestimonials, null, 2));
+      window.dispatchEvent(new Event('storage'));
+      fetch(getBackendApiUrl('php/testimonios_api.php'), getApiFetchOptions('POST', { items: currentTestimonials }))
+        .catch(err => console.warn('Sync testimonios API error:', err));
+    } catch (e) {
+      console.error('Error al guardar testimonios:', e);
+    }
+  }
+
+  function renderTestimonialsKpis() {
+    const totalCount = currentTestimonials.length;
+    const publishedCount = currentTestimonials.filter(t => (t.status || 'published') === 'published').length;
+    const draftCount = currentTestimonials.filter(t => t.status === 'draft').length;
+
+    const kpiTotal = document.getElementById('kpiTestimonialsTotalCount');
+    const kpiPublished = document.getElementById('kpiTestimonialsPublishedCount');
+    const kpiDraft = document.getElementById('kpiTestimonialsDraftCount');
+    const navBadge = document.getElementById('navBadgeTestimonialsCount');
+
+    if (kpiTotal) kpiTotal.textContent = totalCount;
+    if (kpiPublished) kpiPublished.textContent = publishedCount;
+    if (kpiDraft) kpiDraft.textContent = draftCount;
+    if (navBadge) navBadge.textContent = totalCount;
+  }
+
+  function getFilteredTestimonials() {
+    return currentTestimonials.filter(t => {
+      if (activeTestimonialStatus !== 'all' && (t.status || 'published') !== activeTestimonialStatus) {
+        return false;
+      }
+      if (activeTestimonialSearchTerm.trim()) {
+        const q = activeTestimonialSearchTerm.toLowerCase().trim();
+        const nameMatch = (t.company || t.client_name || '').toLowerCase().includes(q);
+        const roleMatch = (t.role || t.client_role || '').toLowerCase().includes(q);
+        const textMatch = (t.text || '').toLowerCase().includes(q);
+        return nameMatch || roleMatch || textMatch;
+      }
+      return true;
+    });
+  }
+
+  function renderTestimonialsTable() {
+    const tbody = document.getElementById('testimonialsTableBody');
+    const noResultsRow = document.getElementById('testimonialsNoResultsRow');
+    const filteredCountEl = document.getElementById('testimonialsFilteredCount');
+    if (!tbody) return;
+
+    const filtered = getFilteredTestimonials();
+    if (filteredCountEl) filteredCountEl.textContent = filtered.length;
+
+    if (filtered.length === 0) {
+      tbody.innerHTML = '';
+      if (noResultsRow) noResultsRow.classList.remove('d-none');
+      return;
+    }
+
+    if (noResultsRow) noResultsRow.classList.add('d-none');
+
+    tbody.innerHTML = filtered.map(t => {
+      const isPublished = (t.status || 'published') === 'published';
+      const statusBadge = isPublished
+        ? '<span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2 py-1"><i class="fa fa-check-circle me-1"></i> Publicado</span>'
+        : '<span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle rounded-pill px-2 py-1"><i class="fa fa-eye-slash me-1"></i> Oculto</span>';
+
+      const companyName = t.company || t.client_name || 'Sin nombre';
+      const roleName = t.role || t.client_role || 'Cliente Farmacéutico';
+      const logoSrc = t.logo || t.logo_url || 'img/logos/RALCA.png';
+      const safeText = escapeHtml(t.text || '');
+      const displayText = safeText ? `"${safeText.length > 85 ? safeText.substring(0, 85) + '...' : safeText}"` : '<span class="text-muted fst-italic">—</span>';
+
+      return `
+        <tr>
+          <td>
+            <div style="width: 55px; height: 35px; background: #fff; border: 1px solid #e2e8f0; border-radius: 6px; display: flex; align-items: center; justify-content: center; padding: 3px;">
+              <img src="${escapeHtml(logoSrc)}" alt="${escapeHtml(companyName)}" style="max-width: 100%; max-height: 100%; object-fit: contain;" onerror="this.src='img/logotipo.png'">
+            </div>
+          </td>
+          <td>
+            <strong class="text-dark">${escapeHtml(companyName)}</strong>
+            <div class="small text-muted font-monospace" style="font-size: 0.72rem;">ID: ${escapeHtml(t.id || '')}</div>
+          </td>
+          <td class="small text-secondary">
+            ${escapeHtml(roleName)}
+          </td>
+          <td class="small text-muted" title="${safeText}">
+            ${displayText}
+          </td>
+          <td>
+            ${statusBadge}
+          </td>
+          <td class="text-end">
+            <div class="btn-group btn-group-sm">
+              <button type="button" class="btn btn-outline-secondary btn-toggle-testimonial-status" data-id="${escapeHtml(t.id)}" title="${isPublished ? 'Ocultar del Home' : 'Publicar en Home'}">
+                <i class="fa ${isPublished ? 'fa-eye-slash' : 'fa-eye'}"></i>
+              </button>
+              <button type="button" class="btn btn-outline-primary btn-edit-testimonial" data-id="${escapeHtml(t.id)}" title="Editar testimonio">
+                <i class="fa fa-edit"></i>
+              </button>
+              <button type="button" class="btn btn-outline-danger btn-delete-testimonial" data-id="${escapeHtml(t.id)}" title="Eliminar cliente">
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    // Listeners para botones de acción en tabla
+    tbody.querySelectorAll('.btn-toggle-testimonial-status').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const id = this.getAttribute('data-id');
+        toggleTestimonialStatus(id);
+      });
+    });
+
+    tbody.querySelectorAll('.btn-edit-testimonial').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const id = this.getAttribute('data-id');
+        openTestimonialModal(id);
+      });
+    });
+
+    tbody.querySelectorAll('.btn-delete-testimonial').forEach(btn => {
+      btn.addEventListener('click', function () {
+        const id = this.getAttribute('data-id');
+        deleteTestimonial(id);
+      });
+    });
+  }
+
+  function openTestimonialModal(testimonialId = null) {
+    const modalEl = document.getElementById('testimonialModal');
+    if (!modalEl) return;
+
+    const titleEl = document.getElementById('testimonialModalTitle');
+    const idInput = document.getElementById('testimonialIdHidden');
+    const nameInput = document.getElementById('testimonialClientNameInput');
+    const roleInput = document.getElementById('testimonialClientRoleInput');
+    const logoInput = document.getElementById('testimonialLogoInput');
+    const textInput = document.getElementById('testimonialTextInput');
+    const statusSelect = document.getElementById('testimonialStatusSelect');
+    const previewImg = document.getElementById('testimonialLogoPreview');
+
+    if (testimonialId) {
+      const item = currentTestimonials.find(t => t.id === testimonialId);
+      if (!item) return;
+
+      const compName = item.company || item.client_name || '';
+      const compRole = item.role || item.client_role || '';
+      const compLogo = item.logo || item.logo_url || '';
+
+      if (titleEl) titleEl.innerHTML = '<i class="fa fa-edit text-primary me-2"></i> Editar Cliente & Testimonio';
+      if (idInput) idInput.value = item.id;
+      if (nameInput) nameInput.value = compName;
+      if (roleInput) roleInput.value = compRole;
+      if (logoInput) logoInput.value = compLogo;
+      if (textInput) textInput.value = item.text || '';
+      if (statusSelect) statusSelect.value = item.status || 'published';
+      if (previewImg) previewImg.src = compLogo || 'img/logotipo.png';
+    } else {
+      if (titleEl) titleEl.innerHTML = '<i class="fa fa-plus text-primary me-2"></i> Nuevo Cliente & Testimonio';
+      if (idInput) idInput.value = '';
+      if (nameInput) nameInput.value = '';
+      if (roleInput) roleInput.value = 'Cliente Farmacéutico';
+      if (logoInput) logoInput.value = 'img/logos/';
+      if (textInput) textInput.value = '';
+      if (statusSelect) statusSelect.value = 'published';
+      if (previewImg) previewImg.src = 'img/logotipo.png';
+    }
+
+    const modal = getModalInstance(modalEl);
+    if (modal) modal.show();
+  }
+
+  function saveTestimonialFromModal() {
+    const idHidden = document.getElementById('testimonialIdHidden')?.value.trim();
+    const name = document.getElementById('testimonialClientNameInput')?.value.trim();
+    const role = document.getElementById('testimonialClientRoleInput')?.value.trim();
+    const logoUrl = document.getElementById('testimonialLogoInput')?.value.trim();
+    const text = document.getElementById('testimonialTextInput')?.value.trim();
+    const status = document.getElementById('testimonialStatusSelect')?.value || 'published';
+
+    if (!name) {
+      alert('Por favor ingresa el nombre de la empresa o cliente.');
+      document.getElementById('testimonialClientNameInput')?.focus();
+      return;
+    }
+    if (!role) {
+      alert('Por favor ingresa el departamento o rol del cliente.');
+      document.getElementById('testimonialClientRoleInput')?.focus();
+      return;
+    }
+    if (!logoUrl) {
+      alert('Por favor ingresa la ruta o URL del logotipo.');
+      document.getElementById('testimonialLogoInput')?.focus();
+      return;
+    }
+
+    if (idHidden) {
+      const idx = currentTestimonials.findIndex(t => t.id === idHidden);
+      if (idx >= 0) {
+        currentTestimonials[idx] = {
+          ...currentTestimonials[idx],
+          company: name,
+          client_name: name,
+          role: role,
+          client_role: role,
+          logo: logoUrl,
+          logo_url: logoUrl,
+          text: text,
+          status: status,
+          updated_at: new Date().toISOString()
+        };
+      }
+    } else {
+      const newId = 'testimonio-' + Date.now();
+      currentTestimonials.unshift({
+        id: newId,
+        company: name,
+        client_name: name,
+        role: role,
+        client_role: role,
+        logo: logoUrl,
+        logo_url: logoUrl,
+        text: text,
+        status: status,
+        order: currentTestimonials.length + 1,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      });
+    }
+
+    saveTestimonials();
+    renderTestimonialsKpis();
+    renderTestimonialsTable();
+
+    const modalEl = document.getElementById('testimonialModal');
+    if (modalEl) {
+      const modal = getModalInstance(modalEl);
+      if (modal) modal.hide();
+    }
+  }
+
+  function toggleTestimonialStatus(id) {
+    const item = currentTestimonials.find(t => t.id === id);
+    if (!item) return;
+    item.status = (item.status === 'published' ? 'draft' : 'published');
+    item.updated_at = new Date().toISOString();
+    saveTestimonials();
+    renderTestimonialsKpis();
+    renderTestimonialsTable();
+  }
+
+  function deleteTestimonial(id) {
+    const item = currentTestimonials.find(t => t.id === id);
+    const clientName = item ? item.client_name : id;
+    if (!confirm(`¿Estás seguro de eliminar el cliente "${clientName}" del carrusel?`)) {
+      return;
+    }
+
+    currentTestimonials = currentTestimonials.filter(t => t.id !== id);
+    saveTestimonials();
+    renderTestimonialsKpis();
+    renderTestimonialsTable();
+
+    fetch(getBackendApiUrl('php/testimonios_api.php?id=' + encodeURIComponent(id)), getApiFetchOptions('DELETE'))
+      .catch(err => console.warn('Delete testimonio API error:', err));
+  }
+
   function switchAdminModule(targetModule) {
     const modulePosts = document.getElementById('modulePostsSection');
     const moduleVacancies = document.getElementById('moduleVacanciesSection');
     const modulePopups = document.getElementById('modulePopupsSection');
+    const moduleTestimonials = document.getElementById('moduleTestimonialsSection');
 
     // Desactivar todos los botones nav
-    ['navItemPosts', 'navItemVacancies', 'navItemPopups'].forEach(btnId => {
+    ['navItemPosts', 'navItemVacancies', 'navItemPopups', 'navItemTestimonials'].forEach(btnId => {
       document.getElementById(btnId)?.classList.remove('active');
     });
 
@@ -1860,6 +2183,7 @@
     if (modulePosts) modulePosts.classList.add('d-none');
     if (moduleVacancies) moduleVacancies.classList.add('d-none');
     if (modulePopups) modulePopups.classList.add('d-none');
+    if (moduleTestimonials) moduleTestimonials.classList.add('d-none');
 
     if (targetModule === 'vacancies') {
       document.getElementById('navItemVacancies')?.classList.add('active');
@@ -1871,6 +2195,11 @@
       if (modulePopups) modulePopups.classList.remove('d-none');
       renderPopupsKpis();
       renderPopupsTable();
+    } else if (targetModule === 'testimonials') {
+      document.getElementById('navItemTestimonials')?.classList.add('active');
+      if (moduleTestimonials) moduleTestimonials.classList.remove('d-none');
+      renderTestimonialsKpis();
+      renderTestimonialsTable();
     } else {
       document.getElementById('navItemPosts')?.classList.add('active');
       if (modulePosts) modulePosts.classList.remove('d-none');
@@ -1956,6 +2285,45 @@
       switchAdminModule('popups');
     });
 
+    document.getElementById('navItemTestimonials')?.addEventListener('click', function () {
+      switchAdminModule('testimonials');
+    });
+
+    // Filtros y acciones de Testimonios y Clientes
+    document.getElementById('btnNewTestimonial')?.addEventListener('click', function () {
+      openTestimonialModal();
+    });
+
+    document.getElementById('adminTestimonialSearchInput')?.addEventListener('input', function () {
+      activeTestimonialSearchTerm = this.value;
+      renderTestimonialsTable();
+    });
+
+    document.querySelectorAll('.btn-filter-testimonial-status').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.btn-filter-testimonial-status').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        activeTestimonialStatus = this.getAttribute('data-status') || 'all';
+        renderTestimonialsTable();
+      });
+    });
+
+    document.getElementById('testimonialLogoInput')?.addEventListener('input', function () {
+      const preview = document.getElementById('testimonialLogoPreview');
+      if (preview) {
+        preview.src = this.value.trim() || 'img/logotipo.png';
+      }
+    });
+
+    document.getElementById('btnSaveTestimonial')?.addEventListener('click', function () {
+      saveTestimonialFromModal();
+    });
+
+    document.getElementById('testimonialEditorForm')?.addEventListener('submit', function (e) {
+      e.preventDefault();
+      saveTestimonialFromModal();
+    });
+
     // Filtros y acciones de Bolsa de Trabajo
     document.getElementById('btnNewVacancy')?.addEventListener('click', function (e) {
       const isUnderBlog = window.location.pathname.includes('/blog/');
@@ -2023,6 +2391,11 @@
         loadPopups();
         renderPopupsKpis();
         renderPopupsTable();
+      }
+      if (!e || !e.key || e.key === STORAGE_KEYS.TESTIMONIALS_DATA) {
+        loadTestimonials();
+        renderTestimonialsKpis();
+        renderTestimonialsTable();
       }
     });
 
