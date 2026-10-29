@@ -150,6 +150,141 @@
       .trim() || defaultVal;
   }
 
+  function parseMediaSource(mediaInput) {
+    if (!mediaInput) return { type: 'image', src: 'img/patio_unidades_dia_banner.jpg' };
+    const clean = String(mediaInput).trim();
+
+    // 1. YouTube
+    const ytMatch = clean.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i);
+    if (ytMatch) {
+      const id = ytMatch[1];
+      return {
+        type: 'youtube',
+        id: id,
+        embedUrl: `https://www.youtube.com/embed/${id}`,
+        thumbnailUrl: `https://img.youtube.com/vi/${id}/hqdefault.jpg`
+      };
+    }
+
+    // 2. Vimeo
+    const vimeoMatch = clean.match(/vimeo\.com\/(?:video\/)?(\d+)/i);
+    if (vimeoMatch) {
+      const id = vimeoMatch[1];
+      return {
+        type: 'vimeo',
+        id: id,
+        embedUrl: `https://player.vimeo.com/video/${id}`,
+        thumbnailUrl: 'img/feature.jpg'
+      };
+    }
+
+    // 3. Direct HTML embed
+    if (clean.startsWith('<iframe') || clean.startsWith('<video')) {
+      return { type: 'html', html: clean, thumbnailUrl: 'img/feature.jpg' };
+    }
+
+    // 4. Video file (.mp4, .webm, .ogg)
+    if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(clean)) {
+      return { type: 'video', src: clean, thumbnailUrl: 'img/feature.jpg' };
+    }
+
+    // 5. Image fallback
+    return { type: 'image', src: clean };
+  }
+
+  function renderDetailMediaHtml(post, templateType) {
+    const media = parseMediaSource(post.image);
+
+    if (media.type === 'youtube') {
+      if (templateType === 'noticia') {
+        return `
+          <div class="noticia-hero-banner overflow-hidden position-relative bg-black mb-4">
+            <div class="ratio ratio-21x9 ratio-md-16x9" style="min-height: 380px;">
+              <iframe src="${media.embedUrl}?rel=0" title="${post.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <span class="noticia-hero-tag">
+              <i class="fa fa-video me-1"></i> Noticia en Video SELOASA
+            </span>
+          </div>
+        `;
+      }
+      return `
+        <div class="mb-4 overflow-hidden rounded shadow-sm" style="border: 1px solid #dee2e6;">
+          <div class="ratio ratio-16x9">
+            <iframe src="${media.embedUrl}?rel=0" title="${post.title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="p-2 px-3 bg-light text-muted small border-top">
+            <i class="fa fa-video me-1 text-primary"></i> Archivo audiovisual oficial SELOASA &bull; Difusión institucional
+          </div>
+        </div>
+      `;
+    }
+
+    if (media.type === 'vimeo') {
+      return `
+        <div class="mb-4 overflow-hidden rounded shadow-sm" style="border: 1px solid #dee2e6;">
+          <div class="ratio ratio-16x9">
+            <iframe src="${media.embedUrl}" title="${post.title}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="p-2 px-3 bg-light text-muted small border-top">
+            <i class="fa fa-video me-1 text-primary"></i> Archivo audiovisual oficial SELOASA
+          </div>
+        </div>
+      `;
+    }
+
+    if (media.type === 'video') {
+      return `
+        <div class="mb-4 overflow-hidden rounded shadow-sm bg-black" style="border: 1px solid #dee2e6;">
+          <video controls class="w-100" style="max-height: 480px; display: block;" playsinline preload="metadata">
+            <source src="${media.src}" type="video/mp4">
+            Tu navegador no soporta reproducción de video.
+          </video>
+          <div class="p-2 px-3 bg-light text-muted small border-top">
+            <i class="fa fa-video me-1 text-primary"></i> Video oficial SELOASA
+          </div>
+        </div>
+      `;
+    }
+
+    if (media.type === 'html') {
+      return `
+        <div class="mb-4 overflow-hidden rounded shadow-sm" style="border: 1px solid #dee2e6;">
+          ${media.html}
+        </div>
+      `;
+    }
+
+    // Default image
+    if (templateType === 'noticia') {
+      return `
+        <div class="noticia-hero-banner">
+          <img src="${media.src || 'img/feature.jpg'}" alt="${post.image_alt || post.title}" class="noticia-hero-img">
+          <span class="noticia-hero-tag">
+            <i class="fa fa-newspaper me-1"></i> Noticia Operativa SELOASA
+          </span>
+        </div>
+      `;
+    }
+
+    if (templateType === 'blog') {
+      return `
+        <div class="mb-4 overflow-hidden" style="border-radius: 8px;">
+          <img src="${media.src || 'img/about.jpg'}" alt="${post.image_alt || post.title}" class="img-fluid w-100" style="max-height: 420px; object-fit: cover;">
+        </div>
+      `;
+    }
+
+    return `
+      <div class="mb-4 overflow-hidden" style="border-radius: 6px; border: 1px solid #dee2e6;">
+        <img src="${media.src || 'img/patio_unidades_dia_banner.jpg'}" alt="${post.image_alt || post.title}" class="img-fluid w-100" style="max-height: 400px; object-fit: cover;">
+        <div class="p-2 px-3 bg-light text-muted small border-top">
+          <i class="fa fa-camera me-1"></i> Archivo oficial SELOASA &bull; Transporte y resguardo farmacéutico
+        </div>
+      </div>
+    `;
+  }
+
   /* ==========================================================================
      ESTRUCTURA 1: COMUNICADO OFICIAL (FORMATO DOCUMENTO / CIRCULAR)
      ========================================================================== */
@@ -206,13 +341,8 @@
               </div>
             </div>
 
-            <!-- Imagen Oficial Enmarcada -->
-            <div class="mb-4 overflow-hidden" style="border-radius: 6px; border: 1px solid #dee2e6;">
-              <img src="${post.image}" alt="${post.image_alt || post.title}" class="img-fluid w-100" style="max-height: 400px; object-fit: cover;">
-              <div class="p-2 px-3 bg-light text-muted small border-top">
-                <i class="fa fa-camera me-1"></i> Archivo oficial SELOASA &bull; Transporte y resguardo farmacéutico
-              </div>
-            </div>
+            <!-- Media Enmarcada (Foto o Video) -->
+            ${renderDetailMediaHtml(post, 'comunicado')}
 
             <!-- Recuadro de Resolución / Disposición Ejecutiva -->
             <div class="comunicado-resolucion-box">
@@ -287,13 +417,8 @@
      ========================================================================== */
   function renderEstructuraNoticia(post, content) {
     return `
-      <!-- Hero Panorámico de la Noticia -->
-      <div class="noticia-hero-banner">
-        <img src="${post.image}" alt="${post.image_alt || post.title}" class="noticia-hero-img">
-        <span class="noticia-hero-tag">
-          <i class="fa fa-newspaper me-1"></i> Noticia Operativa SELOASA
-        </span>
-      </div>
+      <!-- Hero Panorámico de la Noticia (Foto o Video) -->
+      ${renderDetailMediaHtml(post, 'noticia')}
 
       <!-- Fila de Métricas Operativas de la Noticia -->
       <div class="noticia-metrics-row">
@@ -442,10 +567,8 @@
             </div>
           </div>
 
-          <!-- Imagen Editorial -->
-          <div class="mb-4 overflow-hidden" style="border-radius: 8px;">
-            <img src="${post.image}" alt="${post.image_alt || post.title}" class="img-fluid w-100" style="max-height: 420px; object-fit: cover;">
-          </div>
+          <!-- Media Editorial (Foto o Video) -->
+          ${renderDetailMediaHtml(post, 'blog')}
 
           <!-- Lead Summary -->
           <p class="lead fw-bold text-dark mb-4" style="line-height: 1.65; font-size: 1.15rem;">

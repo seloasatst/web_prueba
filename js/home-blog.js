@@ -77,6 +77,89 @@
     return dict[safeLang] || dict.es;
   }
 
+  function parseMediaSource(mediaInput) {
+    if (!mediaInput) return { type: 'image', src: 'img/feature.jpg' };
+    const clean = String(mediaInput).trim();
+
+    // 1. YouTube
+    const ytMatch = clean.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i);
+    if (ytMatch) {
+      const id = ytMatch[1];
+      return {
+        type: 'youtube',
+        id: id,
+        embedUrl: `https://www.youtube.com/embed/${id}`,
+        thumbnailUrl: `https://img.youtube.com/vi/${id}/hqdefault.jpg`
+      };
+    }
+
+    // 2. Vimeo
+    const vimeoMatch = clean.match(/vimeo\.com\/(?:video\/)?(\d+)/i);
+    if (vimeoMatch) {
+      const id = vimeoMatch[1];
+      return {
+        type: 'vimeo',
+        id: id,
+        embedUrl: `https://player.vimeo.com/video/${id}`,
+        thumbnailUrl: 'img/feature.jpg'
+      };
+    }
+
+    // 3. Direct HTML embed (<iframe or <video)
+    if (clean.startsWith('<iframe') || clean.startsWith('<video')) {
+      return { type: 'html', html: clean, thumbnailUrl: 'img/feature.jpg' };
+    }
+
+    // 4. Video file (.mp4, .webm, .ogg)
+    if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(clean)) {
+      return { type: 'video', src: clean, thumbnailUrl: 'img/feature.jpg' };
+    }
+
+    // 5. Normal image
+    return { type: 'image', src: clean };
+  }
+
+  function renderCardMediaHtml(item, targetUrl, badgeHtml) {
+    const media = parseMediaSource(item.image);
+
+    if (media.type === 'youtube') {
+      return `
+        <div class="overflow-hidden service-media mb-3 position-relative">
+          <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="video-card-thumb-wrap">
+            <img src="${media.thumbnailUrl}" alt="${item.title}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy">
+            <div class="video-play-overlay">
+              <span class="video-play-badge"><i class="fa fa-play"></i></span>
+            </div>
+          </a>
+          ${badgeHtml}
+        </div>
+      `;
+    }
+
+    if (media.type === 'video') {
+      return `
+        <div class="overflow-hidden service-media mb-3 position-relative">
+          <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="video-card-thumb-wrap">
+            <video src="${media.src}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" muted playsinline preload="metadata"></video>
+            <div class="video-play-overlay">
+              <span class="video-play-badge"><i class="fa fa-play"></i></span>
+            </div>
+          </a>
+          ${badgeHtml}
+        </div>
+      `;
+    }
+
+    return `
+      <div class="overflow-hidden service-media mb-3 position-relative">
+        <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="d-block">
+          <img src="${media.src || 'img/feature.jpg'}" alt="${item.title}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy">
+        </a>
+        ${badgeHtml}
+      </div>
+    `;
+  }
+
   function getBadgeLabel(item, lang) {
     const safeLang = normalizeLang(lang);
     if (item.translations && item.translations[safeLang] && item.translations[safeLang].category) {
@@ -190,14 +273,11 @@
       return `
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="${delay}s" style="visibility: visible;">
           <div class="service-item service-card blog-card h-100 p-4 d-flex flex-column blog-card-clickable" data-post-id="${item.id || index}">
-            <div class="overflow-hidden service-media mb-3 position-relative">
-              <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="d-block">
-                <img src="${imageSrc}" alt="${item.title}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy">
-              </a>
+            ${renderCardMediaHtml(item, targetUrl, `
               <span class="home-blog-pill ${badgeClass}">
                 <i class="fa ${badgeIcon} me-1"></i> <span>${badgeText}</span>
               </span>
-            </div>
+            `)}
             <div class="service-card-body d-flex flex-column flex-grow-1">
               <h4 class="service-card-title mb-2">
                 <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="post-title-link">${item.title}</a>

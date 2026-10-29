@@ -97,6 +97,141 @@
       .trim() || defaultVal;
   }
 
+  function parseMediaSource(mediaInput) {
+    if (!mediaInput) return { type: 'image', src: 'img/patio_unidades_dia_banner.jpg' };
+    const clean = String(mediaInput).trim();
+
+    // 1. YouTube
+    const ytMatch = clean.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i);
+    if (ytMatch) {
+      const id = ytMatch[1];
+      return {
+        type: 'youtube',
+        id: id,
+        embedUrl: `https://www.youtube.com/embed/${id}`,
+        thumbnailUrl: `https://img.youtube.com/vi/${id}/hqdefault.jpg`
+      };
+    }
+
+    // 2. Vimeo
+    const vimeoMatch = clean.match(/vimeo\.com\/(?:video\/)?(\d+)/i);
+    if (vimeoMatch) {
+      const id = vimeoMatch[1];
+      return {
+        type: 'vimeo',
+        id: id,
+        embedUrl: `https://player.vimeo.com/video/${id}`,
+        thumbnailUrl: 'img/feature.jpg'
+      };
+    }
+
+    // 3. Direct HTML embed
+    if (clean.startsWith('<iframe') || clean.startsWith('<video')) {
+      return { type: 'html', html: clean, thumbnailUrl: 'img/feature.jpg' };
+    }
+
+    // 4. Video file (.mp4, .webm, .ogg)
+    if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(clean)) {
+      return { type: 'video', src: clean, thumbnailUrl: 'img/feature.jpg' };
+    }
+
+    // 5. Image fallback
+    return { type: 'image', src: clean };
+  }
+
+  function renderEditorLiveMediaHtml(post, templateType) {
+    const media = parseMediaSource(post.image);
+
+    if (media.type === 'youtube') {
+      if (templateType === 'noticia') {
+        return `
+          <div class="noticia-hero-banner overflow-hidden position-relative bg-black mb-4">
+            <div class="ratio ratio-21x9 ratio-md-16x9" style="min-height: 360px;">
+              <iframe src="${media.embedUrl}?rel=0" title="${post.title || 'Video'}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <span class="noticia-hero-tag">
+              <i class="fa fa-video me-1"></i> Noticia en Video SELOASA
+            </span>
+          </div>
+        `;
+      }
+      return `
+        <div class="mb-4 overflow-hidden rounded shadow-sm" style="border: 1px solid #dee2e6;">
+          <div class="ratio ratio-16x9">
+            <iframe src="${media.embedUrl}?rel=0" title="${post.title || 'Video'}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="p-2 px-3 bg-light text-muted small border-top">
+            <i class="fa fa-video me-1 text-primary"></i> Archivo audiovisual oficial SELOASA &bull; Difusión institucional
+          </div>
+        </div>
+      `;
+    }
+
+    if (media.type === 'vimeo') {
+      return `
+        <div class="mb-4 overflow-hidden rounded shadow-sm" style="border: 1px solid #dee2e6;">
+          <div class="ratio ratio-16x9">
+            <iframe src="${media.embedUrl}" title="${post.title || 'Video'}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <div class="p-2 px-3 bg-light text-muted small border-top">
+            <i class="fa fa-video me-1 text-primary"></i> Archivo audiovisual oficial SELOASA
+          </div>
+        </div>
+      `;
+    }
+
+    if (media.type === 'video') {
+      return `
+        <div class="mb-4 overflow-hidden rounded shadow-sm bg-black" style="border: 1px solid #dee2e6;">
+          <video controls class="w-100" style="max-height: 440px; display: block;" playsinline preload="metadata">
+            <source src="${media.src}" type="video/mp4">
+            Tu navegador no soporta reproducción de video.
+          </video>
+          <div class="p-2 px-3 bg-light text-muted small border-top">
+            <i class="fa fa-video me-1 text-primary"></i> Video oficial SELOASA
+          </div>
+        </div>
+      `;
+    }
+
+    if (media.type === 'html') {
+      return `
+        <div class="mb-4 overflow-hidden rounded shadow-sm" style="border: 1px solid #dee2e6;">
+          ${media.html}
+        </div>
+      `;
+    }
+
+    // Default image
+    if (templateType === 'noticia') {
+      return `
+        <div class="noticia-hero-banner">
+          <img src="${media.src || 'img/feature.jpg'}" alt="" class="noticia-hero-img">
+          <span class="noticia-hero-tag">
+            <i class="fa fa-newspaper me-1"></i> Noticia Operativa SELOASA
+          </span>
+        </div>
+      `;
+    }
+
+    if (templateType === 'blog') {
+      return `
+        <div class="mb-4 overflow-hidden" style="border-radius: 8px;">
+          <img src="${media.src || 'img/about.jpg'}" alt="" class="img-fluid w-100" style="max-height: 400px; object-fit: cover;">
+        </div>
+      `;
+    }
+
+    return `
+      <div class="mb-4 overflow-hidden" style="border-radius: 6px; border: 1px solid #dee2e6;">
+        <img src="${media.src || 'img/patio_unidades_dia_banner.jpg'}" alt="" class="img-fluid w-100" style="max-height: 380px; object-fit: cover;">
+        <div class="p-2 px-3 bg-light text-muted small border-top">
+          <i class="fa fa-camera me-1"></i> Archivo oficial SELOASA &bull; Transporte y resguardo farmacéutico
+        </div>
+      </div>
+    `;
+  }
+
   /* ==========================================================================
      PLANTILLAS ESTRUCTURALES EN TIEMPO REAL
      ========================================================================== */
@@ -151,12 +286,7 @@
               </div>
             </div>
 
-            <div class="mb-4 overflow-hidden" style="border-radius: 6px; border: 1px solid #dee2e6;">
-              <img src="${post.image}" alt="" class="img-fluid w-100" style="max-height: 380px; object-fit: cover;">
-              <div class="p-2 px-3 bg-light text-muted small border-top">
-                <i class="fa fa-camera me-1"></i> Archivo oficial SELOASA &bull; Transporte y resguardo farmacéutico
-              </div>
-            </div>
+            ${renderEditorLiveMediaHtml(post, 'comunicado')}
 
             <div class="comunicado-resolucion-box">
               <div class="comunicado-resolucion-label">
@@ -208,12 +338,7 @@
 
   function renderLiveNoticia(post) {
     return `
-      <div class="noticia-hero-banner">
-        <img src="${post.image}" alt="" class="noticia-hero-img">
-        <span class="noticia-hero-tag">
-          <i class="fa fa-newspaper me-1"></i> Noticia Operativa SELOASA
-        </span>
-      </div>
+      ${renderEditorLiveMediaHtml(post, 'noticia')}
 
       <div class="noticia-metrics-row">
         <div class="noticia-metric-item">
@@ -329,9 +454,7 @@
             </div>
           </div>
 
-          <div class="mb-4 overflow-hidden" style="border-radius: 8px;">
-            <img src="${post.image}" alt="" class="img-fluid w-100" style="max-height: 400px; object-fit: cover;">
-          </div>
+          ${renderEditorLiveMediaHtml(post, 'blog')}
 
           <p class="lead fw-bold text-dark mb-4" style="line-height: 1.65; font-size: 1.1rem;">
             ${post.summary}
@@ -566,6 +689,57 @@
       updateVisualWordCount();
       if (contentInput && visualEditor) contentInput.value = visualEditor.innerHTML;
       updateLivePreview();
+    });
+
+    document.getElementById('btnInsertVideo')?.addEventListener('click', function (e) {
+      e.preventDefault();
+      const rawUrl = prompt('Ingresa el enlace de YouTube, Vimeo o video .MP4:');
+      if (!rawUrl || !rawUrl.trim()) return;
+
+      const media = parseMediaSource(rawUrl.trim());
+      let embedHtml = '';
+
+      if (media.type === 'youtube') {
+        embedHtml = `
+          <div class="ratio ratio-16x9 my-3 overflow-hidden rounded shadow-sm">
+            <iframe src="${media.embedUrl}?rel=0" title="Video YouTube" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <p><br></p>
+        `;
+      } else if (media.type === 'vimeo') {
+        embedHtml = `
+          <div class="ratio ratio-16x9 my-3 overflow-hidden rounded shadow-sm">
+            <iframe src="${media.embedUrl}" title="Video Vimeo" frameborder="0" allowfullscreen></iframe>
+          </div>
+          <p><br></p>
+        `;
+      } else if (media.type === 'video') {
+        embedHtml = `
+          <div class="my-3 overflow-hidden rounded shadow-sm bg-black">
+            <video controls class="w-100" style="max-height: 440px;" preload="metadata">
+              <source src="${media.src}" type="video/mp4">
+              Tu navegador no soporta video.
+            </video>
+          </div>
+          <p><br></p>
+        `;
+      } else {
+        alert('Por favor introduce un enlace válido de YouTube (ej: https://www.youtube.com/watch?v=...), Vimeo o archivo .mp4');
+        return;
+      }
+
+      if (isCodeModeActive) {
+        if (contentInput) {
+          contentInput.value += '\n' + embedHtml;
+          contentInput.dispatchEvent(new Event('input'));
+        }
+      } else {
+        visualEditor?.focus();
+        document.execCommand('insertHTML', false, embedHtml);
+        updateVisualWordCount();
+        if (contentInput && visualEditor) contentInput.value = visualEditor.innerHTML;
+        updateLivePreview();
+      }
     });
   }
 

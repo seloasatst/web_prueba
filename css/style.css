@@ -7215,6 +7215,47 @@ li {
     color: #ffffff !important;
 }
 
+/* Video card thumbnail and play button overlay */
+.video-card-thumb-wrap {
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+.video-card-thumb-wrap .video-play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.28);
+    transition: background 0.25s ease;
+    z-index: 2;
+}
+.video-card-thumb-wrap:hover .video-play-overlay {
+    background: rgba(0, 0, 0, 0.45);
+}
+.video-card-thumb-wrap .video-play-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #e43b14;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.45);
+    font-size: 1.15rem;
+    padding-left: 3px;
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+.video-card-thumb-wrap:hover .video-play-badge {
+    transform: scale(1.15);
+    background: #ff4a1f;
+}
+
 .home-blog-meta {
     font-size: 0.78rem;
     font-weight: 500;
