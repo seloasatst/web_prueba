@@ -55,8 +55,28 @@
         </a>
       </div>
 
+      <!-- Aviso de Hosting Estático (GitHub Pages / Sin PHP) -->
+      <div id="staticHostingNotice" class="alert alert-info py-2 px-3 small d-none text-start mb-3" style="border-radius: 10px; font-size: 0.82rem;">
+        <div class="fw-bold text-dark mb-1"><i class="fa fa-info-circle text-primary me-1"></i> Servidor Estático Detectado</div>
+        <p class="mb-2 text-muted" style="font-size: 0.78rem;">
+          Este hosting (GitHub Pages) no ejecuta backend PHP ni envía correos reales. Para el funcionamiento completo con base de datos abre el sitio en tu servidor <strong>XAMPP</strong> (<code>http://localhost/shipping/admin/login</code>), o entra aquí en modo demostración.
+        </p>
+        <button type="button" id="btnEnterDemoMode" class="btn btn-sm btn-primary w-100 py-1 fw-bold">
+          <i class="fa fa-play-circle me-1"></i> Entrar en Modo Demostración
+        </button>
+      </div>
+
       <!-- Alerta de Errores y Mensajes de Autenticación -->
       <div id="authErrorAlert" class="alert alert-danger py-2 small fw-bold d-none text-center" role="alert"></div>
+
+      <!-- Fallback de contingencia ante Error 405 -->
+      <div id="demoFallbackWrapper" class="p-2 mb-3 bg-light border rounded text-center d-none">
+        <p class="small text-muted mb-2" style="font-size: 0.78rem;">El servidor estático rechazó la conexión PHP (Error 405). Puedes explorar y probar el panel en modo demostración local:</p>
+        <button type="button" id="btnEnterDemoFallback" class="btn btn-sm btn-outline-primary fw-bold">
+          <i class="fa fa-sign-in-alt me-1"></i> Continuar en Modo Demostración
+        </button>
+      </div>
+
       <div id="authSuccessAlert" class="alert alert-success py-2 small fw-bold d-none text-center" role="alert"></div>
 
       <!-- PASO 1: ACCESO SIN CONTRASEÑA -->
@@ -115,6 +135,9 @@
               Válido estrictamente durante <strong>10 minutos</strong>. Tras expirar deberás solicitar uno nuevo.
             </div>
           </div>
+
+          <!-- Aviso en caso de contingencia SMTP / Código dev -->
+          <div id="smtpFallbackNotice" class="alert alert-warning py-2 px-3 small d-none text-center mb-3" style="border-radius: 12px;"></div>
 
           <form id="adminEmailVerifyForm">
             <label class="form-label small fw-bold text-dark text-center d-block mb-2">
@@ -231,7 +254,7 @@
   <script src="js/blog-i18n.js?v=20261027_08"></script>
   <script src="js/totp-auth.js?v=20261027_08"></script>
   <script src="js/site-popup.js?v=20261027_08"></script>
-  <script src="js/blog-admin.js?v=20261027_08"></script>
+  <script src="js/blog-admin.js?v=20261028_03"></script>
 </body>
 
 </html>

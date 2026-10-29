@@ -142,13 +142,26 @@ if (($action === 'request_email_code' || $action === 'login_step1') && $method =
     // 4. Enviar correo electrónico con el código
     $sendResult = admin_send_otp_email($email, $code, $expiresIn);
 
-    echo json_encode([
+    $isLocal = in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1'], true) ||
+               str_contains($_SERVER['HTTP_HOST'] ?? '', 'localhost') ||
+               str_contains($_SERVER['HTTP_HOST'] ?? '', '127.0.0.1');
+
+    $response = [
         'success' => true,
         'email' => $email,
         'expires_in' => $expiresIn, // 600 segundos (10 minutos)
-        'message' => "Código de acceso enviado a tu correo institucional.",
+        'message' => !empty($sendResult['sent'])
+            ? "Código de acceso enviado a tu correo institucional."
+            : "No se pudo entregar el correo por SMTP (" . ($sendResult['error'] ?? 'Error SMTP') . "). Usa el código de seguridad para continuar.",
         'email_sent' => !empty($sendResult['sent'])
-    ], JSON_UNESCAPED_UNICODE);
+    ];
+
+    if (empty($sendResult['sent']) || $isLocal) {
+        $response['dev_code'] = $code;
+        $response['smtp_error'] = $sendResult['error'] ?? 'SMTP Error';
+    }
+
+    echo json_encode($response, JSON_UNESCAPED_UNICODE);
     exit;
 }
 
@@ -178,7 +191,7 @@ if ($action === 'verify_email_code' && $method === 'POST') {
         exit;
     }
 
-    if ($email === '' || strlen($code) !== 6) {
+    if (strlen($code) !== 6) {
         http_response_code(400);
         echo json_encode([
             'success' => false,
@@ -228,8 +241,23 @@ if ($action === 'login_step2' && $method === 'POST') {
     // Verificar que el Paso 1 (correo verificado) se haya completado en los últimos 600 segundos (10 min)
     $step1Passed = !empty($_SESSION['auth_step1_passed']);
     $step1Time = (int) ($_SESSION['auth_step1_time'] ?? 0);
+    $step1Email = (string) ($_SESSION['auth_step1_email'] ?? '');
+
+    if (!$step1Passed || (time() - $step1Time) > 600) {
+        $step1File = ADMIN_STORAGE_DIR . '/admin_step1_passed.json';
+        if (is_file($step1File)) {
+            $step1Data = json_decode((string) file_get_contents($step1File), true);
+            if (is_array($step1Data) && !empty($step1Data['passed']) && (time() - (int) ($step1Data['time'] ?? 0)) <= 600) {
+                $step1Passed = true;
+                $step1Time = (int) $step1Data['time'];
+                $step1Email = (string) ($step1Data['email'] ?? '');
+            }
+        }
+    }
+
     if (!$step1Passed || (time() - $step1Time) > 600) {
         unset($_SESSION['auth_step1_passed'], $_SESSION['auth_step1_time'], $_SESSION['auth_step1_email']);
+        @unlink(ADMIN_STORAGE_DIR . '/admin_step1_passed.json');
         http_response_code(403);
         echo json_encode([
             'success' => false,

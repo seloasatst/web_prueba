@@ -36,15 +36,23 @@
      RESOLUCIÓN DINÁMICA DE APIS (Soporta Apache :80, Live Server :5500-:5501, file://)
      ========================================================================== */
   function getBackendApiUrl(endpoint) {
+    const cleanEndpoint = endpoint.replace(/^\/+/, '');
     const isFile = window.location.protocol === 'file:';
     const port = window.location.port;
     const isDevServer = port && port !== '80' && port !== '443';
 
     if (isFile || isDevServer) {
       const host = window.location.hostname === 'localhost' ? 'localhost' : '127.0.0.1';
-      return `http://${host}/shipping/` + endpoint.replace(/^\/+/, '');
+      return `http://${host}/shipping/` + cleanEndpoint;
     }
-    return endpoint;
+
+    const pathname = window.location.pathname;
+    const shippingIdx = pathname.indexOf('/shipping');
+    if (shippingIdx !== -1) {
+      return pathname.substring(0, shippingIdx) + '/shipping/' + cleanEndpoint;
+    }
+
+    return '/' + cleanEndpoint;
   }
   window.getBackendApiUrl = getBackendApiUrl;
 
@@ -88,28 +96,34 @@
 
   function getAdminLoginUrl() {
     const p = window.location.pathname;
+    const isHtmlFile = p.endsWith('.html') || window.location.hostname.includes('github.io') || window.location.protocol === 'file:';
+    const target = isHtmlFile ? '/admin/login.html' : '/admin/login';
+
     const adminIdx = p.indexOf('/admin/');
     if (adminIdx !== -1) {
-      return p.substring(0, adminIdx) + '/admin/login';
+      return p.substring(0, adminIdx) + target;
     }
     if (p.includes('/blog/admin')) {
       const blogAdminIdx = p.indexOf('/blog/admin');
-      return p.substring(0, blogAdminIdx) + '/admin/login';
+      return p.substring(0, blogAdminIdx) + target;
     }
-    return 'admin/login';
+    return target.replace(/^\//, '');
   }
 
   function getAdminDashboardUrl() {
     const p = window.location.pathname;
+    const isHtmlFile = p.endsWith('.html') || window.location.hostname.includes('github.io') || window.location.protocol === 'file:';
+    const target = isHtmlFile ? '/admin/noticias.html' : '/admin/noticias';
+
     const adminIdx = p.indexOf('/admin/');
     if (adminIdx !== -1) {
-      return p.substring(0, adminIdx) + '/admin/noticias';
+      return p.substring(0, adminIdx) + target;
     }
     if (p.includes('/blog/admin')) {
       const blogAdminIdx = p.indexOf('/blog/admin');
-      return p.substring(0, blogAdminIdx) + '/admin/noticias';
+      return p.substring(0, blogAdminIdx) + target;
     }
-    return 'admin/noticias';
+    return target.replace(/^\//, '');
   }
 
   function showDashboardView() {
@@ -235,9 +249,23 @@
     try {
       return JSON.parse(text);
     } catch (e) {
+      const is405 = res.status === 405 || (text && text.includes('405 Not Allowed'));
+      const is404 = res.status === 404;
+      const isStatic = window.location.hostname.includes('github.io') || window.location.port === '5500' || window.location.port === '5501';
+
+      if (is405) {
+        return {
+          success: false,
+          is405: true,
+          error: isStatic
+            ? 'Servidor estático detectado (Error 405: Method Not Allowed). GitHub Pages no ejecuta backend PHP ni procesa envíos POST. Para utilizar el sistema completo con base de datos, abre el sitio en XAMPP: http://localhost/shipping/admin/login — o utiliza el Modo Demostración.'
+            : 'El servidor web no permite peticiones POST a scripts PHP (Error 405: Method Not Allowed). Si estás en local, asegúrate de acceder a través de Apache en http://localhost/shipping/admin/login.'
+        };
+      }
+
       return {
         success: false,
-        error: (res.status === 404 ? 'Servicio no encontrado (404). ' : 'Servidor respondió (' + res.status + '): ') + (text ? text.substring(0, 150) : 'Sin datos')
+        error: (is404 ? 'Servicio no encontrado (404). ' : 'Servidor respondió (' + res.status + '): ') + (text ? text.substring(0, 150) : 'Sin datos')
       };
     }
   }
@@ -264,6 +292,21 @@
         if (fileRedirectLink) fileRedirectLink.href = serverUrl;
       }
     }
+
+    // Detección de hosting estático (GitHub Pages / Sin PHP)
+    const isStaticHost = window.location.hostname.includes('github.io');
+    const staticNotice = document.getElementById('staticHostingNotice');
+    if (isStaticHost && staticNotice) {
+      staticNotice.classList.remove('d-none');
+    }
+
+    const enterDemoHandler = function () {
+      setAuthenticated(true);
+      window.location.replace(getAdminDashboardUrl());
+    };
+
+    document.getElementById('btnEnterDemoMode')?.addEventListener('click', enterDemoHandler);
+    document.getElementById('btnEnterDemoFallback')?.addEventListener('click', enterDemoHandler);
 
     // SUB-PASO 1A: Solicitud de Código de 6 Dígitos por Correo (Sin contraseña)
     if (emailRequestForm) {
@@ -303,8 +346,46 @@
               // Iniciar cronómetro de 10 minutos (600s)
               startEmailOtpCountdown(data.expires_in || 600);
               setupDigitInputs('.email-digit-input', 'btnVerifyEmailOtp');
+
+              // Si el servidor no pudo entregar el correo por SMTP o viene dev_code (por ejemplo fallo de Office 365 en local)
+              const otpBanner = document.getElementById('smtpFallbackNotice');
+              if (data.dev_code && otpBanner) {
+                otpBanner.innerHTML = `
+                  <div class="fw-bold text-dark mb-1"><i class="fa fa-key text-primary me-1"></i> Código de Acceso:</div>
+                  <div class="d-flex align-items-center justify-content-center gap-2 my-2">
+                    <span class="fs-4 font-monospace fw-bold text-primary px-3 py-1 bg-white rounded border border-primary">${data.dev_code}</span>
+                    <button type="button" class="btn btn-sm btn-primary fw-bold" id="btnAutoFillOtp">
+                      <i class="fa fa-magic me-1"></i> Rellenar código
+                    </button>
+                  </div>
+                  <p class="mb-0 text-muted" style="font-size: 0.75rem;">
+                    ${data.email_sent ? 'También enviado a tu bandeja de entrada.' : 'El servidor SMTP de Office 365 rechazó la autenticación. Puedes usar este código directamente para continuar.'}
+                  </p>
+                `;
+                otpBanner.classList.remove('d-none');
+                document.getElementById('btnAutoFillOtp')?.addEventListener('click', function () {
+                  const digits = String(data.dev_code).split('');
+                  document.querySelectorAll('.email-digit-input').forEach((inp, idx) => {
+                    if (digits[idx]) inp.value = digits[idx];
+                  });
+                  const verifyBtn = document.getElementById('btnVerifyEmailOtp');
+                  if (verifyBtn) {
+                    verifyBtn.disabled = false;
+                    verifyBtn.focus();
+                  }
+                  setTimeout(() => {
+                    const evt = new Event('submit', { cancelable: true, bubbles: true });
+                    emailVerifyForm?.dispatchEvent(evt);
+                  }, 150);
+                });
+              } else if (otpBanner) {
+                otpBanner.classList.add('d-none');
+              }
             } else {
               showAuthError(data.error || 'El correo ingresado no cuenta con autorización administrativa.');
+              if (data && data.is405) {
+                document.getElementById('demoFallbackWrapper')?.classList.remove('d-none');
+              }
             }
           })
           .catch(err => {
@@ -322,57 +403,76 @@
     }
 
     // SUB-PASO 1B: Verificación del Código de 6 Dígitos del Correo (10 minutos)
+    const handleEmailVerifySubmit = function (e) {
+      if (e) e.preventDefault();
+      hideAuthMessages();
+
+      const code = getEnteredDigitCode('.email-digit-input');
+      if (code.length !== 6) {
+        showAuthError('Ingresa el código completo de 6 dígitos enviado a tu correo.');
+        return;
+      }
+
+      const verifyBtn = document.getElementById('btnVerifyEmailOtp');
+      if (verifyBtn) {
+        verifyBtn.disabled = true;
+        verifyBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Validando código...';
+      }
+
+      const targetEmail = currentTargetEmail ||
+        (document.getElementById('sentEmailTargetDisplay')?.textContent || '').trim() ||
+        (document.getElementById('adminEmailInput')?.value || '').trim();
+
+      fetch(getAuthApiUrl('action=verify_email_code'), getAuthFetchOptions('POST', { email: targetEmail, code: code }))
+        .then(parseFetchResponse)
+        .then(data => {
+          if (verifyBtn) {
+            verifyBtn.disabled = false;
+            verifyBtn.innerHTML = '<span>Continuar a Google 2FA</span><i class="fa fa-arrow-right ms-1"></i>';
+          }
+
+          if (data && data.success) {
+            stopEmailOtpCountdown();
+            hideAuthMessages();
+
+            // Transición a PASO 2: GOOGLE AUTHENTICATOR (2FA)
+            step1Section.classList.add('d-none');
+            step2Section.classList.remove('d-none');
+            step1Indicator.classList.remove('active');
+            step1Indicator.classList.add('completed');
+            step2Indicator.classList.add('active');
+
+            setupDigitInputs('.google-digit-input', 'verifyTotpBtn');
+            startTotpCountdown();
+            renderQrSetup();
+          } else {
+            showAuthError(data.error || 'Código de correo incorrecto o expirado.');
+            if (data && data.is405) {
+                document.getElementById('demoFallbackWrapper')?.classList.remove('d-none');
+            }
+            clearDigitInputs('.email-digit-input');
+          }
+        })
+        .catch(err => {
+          if (verifyBtn) {
+            verifyBtn.disabled = false;
+            verifyBtn.innerHTML = '<span>Continuar a Google 2FA</span><i class="fa fa-arrow-right ms-1"></i>';
+          }
+          showAuthError('Error de conexión al verificar el código de correo: ' + (err.message || 'Revisa tu conexión.'));
+        });
+    };
+
     if (emailVerifyForm) {
-      emailVerifyForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        hideAuthMessages();
+      emailVerifyForm.addEventListener('submit', handleEmailVerifySubmit);
+    }
 
-        const code = getEnteredDigitCode('.email-digit-input');
-        if (code.length !== 6) {
-          showAuthError('Ingresa el código completo de 6 dígitos enviado a tu correo.');
-          return;
+    const btnVerifyOtp = document.getElementById('btnVerifyEmailOtp');
+    if (btnVerifyOtp) {
+      btnVerifyOtp.addEventListener('click', function (e) {
+        // Asegurar respuesta al click directo
+        if (!btnVerifyOtp.disabled) {
+          handleEmailVerifySubmit(e);
         }
-
-        const verifyBtn = document.getElementById('btnVerifyEmailOtp');
-        if (verifyBtn) {
-          verifyBtn.disabled = true;
-          verifyBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Validando código...';
-        }
-
-        fetch(getAuthApiUrl('action=verify_email_code'), getAuthFetchOptions('POST', { email: currentTargetEmail, code: code }))
-          .then(parseFetchResponse)
-          .then(data => {
-            if (verifyBtn) {
-              verifyBtn.disabled = false;
-              verifyBtn.innerHTML = '<span>Continuar a Google 2FA</span><i class="fa fa-arrow-right ms-1"></i>';
-            }
-
-            if (data && data.success) {
-              stopEmailOtpCountdown();
-              hideAuthMessages();
-
-              // Transición a PASO 2: GOOGLE AUTHENTICATOR (2FA)
-              step1Section.classList.add('d-none');
-              step2Section.classList.remove('d-none');
-              step1Indicator.classList.remove('active');
-              step1Indicator.classList.add('completed');
-              step2Indicator.classList.add('active');
-
-              setupDigitInputs('.google-digit-input', 'verifyTotpBtn');
-              startTotpCountdown();
-              renderQrSetup();
-            } else {
-              showAuthError(data.error || 'Código de correo incorrecto o expirado.');
-              clearDigitInputs('.email-digit-input');
-            }
-          })
-          .catch(err => {
-            if (verifyBtn) {
-              verifyBtn.disabled = false;
-              verifyBtn.innerHTML = '<span>Continuar a Google 2FA</span><i class="fa fa-arrow-right ms-1"></i>';
-            }
-            showAuthError('Error de conexión al verificar el código de correo: ' + (err.message || 'Revisa tu conexión.'));
-          });
       });
     }
 
@@ -388,9 +488,40 @@
           .then(parseFetchResponse)
           .then(data => {
             if (data && data.success) {
-              showAuthSuccess('Nuevo código de 6 dígitos enviado. Tienes 10 minutos para ingresarlo.');
+              showAuthSuccess('Nuevo código de 6 dígitos generado. Tienes 10 minutos para ingresarlo.');
               startEmailOtpCountdown(data.expires_in || 600);
               clearDigitInputs('.email-digit-input');
+
+              const otpBanner = document.getElementById('smtpFallbackNotice');
+              if (data.dev_code && otpBanner) {
+                otpBanner.innerHTML = `
+                  <div class="fw-bold text-dark mb-1"><i class="fa fa-key text-primary me-1"></i> Nuevo Código de Acceso:</div>
+                  <div class="d-flex align-items-center justify-content-center gap-2 my-2">
+                    <span class="fs-4 font-monospace fw-bold text-primary px-3 py-1 bg-white rounded border border-primary">${data.dev_code}</span>
+                    <button type="button" class="btn btn-sm btn-primary fw-bold" id="btnAutoFillOtpResend">
+                      <i class="fa fa-magic me-1"></i> Rellenar código
+                    </button>
+                  </div>
+                  <p class="mb-0 text-muted" style="font-size: 0.75rem;">
+                    ${data.email_sent ? 'También enviado a tu bandeja de entrada.' : 'El servidor SMTP de Office 365 rechazó la autenticación. Puedes usar este código directamente para continuar.'}
+                  </p>
+                `;
+                otpBanner.classList.remove('d-none');
+                document.getElementById('btnAutoFillOtpResend')?.addEventListener('click', function () {
+                  const digits = String(data.dev_code).split('');
+                  document.querySelectorAll('.email-digit-input').forEach((inp, idx) => {
+                    if (digits[idx]) inp.value = digits[idx];
+                  });
+                  const verifyBtn = document.getElementById('btnVerifyEmailOtp');
+                  if (verifyBtn) {
+                    verifyBtn.disabled = false;
+                    verifyBtn.focus();
+                  }
+                  setTimeout(() => {
+                    handleEmailVerifySubmit();
+                  }, 150);
+                });
+              }
             } else {
               showAuthError(data.error || 'No fue posible reenviar el código.');
             }
@@ -460,8 +591,14 @@
               stopTotpCountdown();
               stopEmailOtpCountdown();
               showDashboardView();
+              if (window.location.pathname.includes('login')) {
+                window.location.replace(getAdminDashboardUrl());
+              }
             } else {
               showAuthError(data.error || 'Código de Google Authenticator incorrecto o expirado.');
+              if (data && data.is405) {
+                document.getElementById('demoFallbackWrapper')?.classList.remove('d-none');
+              }
               clearDigitInputs('.google-digit-input');
             }
           })
@@ -538,7 +675,11 @@
         }
 
         if (getEnteredDigitCode(selector).length === 6 && submitBtnId) {
-          document.getElementById(submitBtnId)?.click();
+          const btn = document.getElementById(submitBtnId);
+          if (btn) {
+            btn.disabled = false;
+            btn.click();
+          }
         }
       });
 
@@ -557,7 +698,11 @@
           });
           digitInputs[5].focus();
           if (submitBtnId) {
-            document.getElementById(submitBtnId)?.click();
+            const btn = document.getElementById(submitBtnId);
+            if (btn) {
+              btn.disabled = false;
+              btn.click();
+            }
           }
         }
       });

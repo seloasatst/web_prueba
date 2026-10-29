@@ -77,20 +77,31 @@ if (!function_exists('mail_env_int')) {
 if (!function_exists('configure_site_mailer')) {
     function configure_site_mailer(PHPMailer $mail, string $fromName): void
     {
-        $username = mail_env('SMTP_USERNAME', 'gadiel.palma@SELOASA.com.mx');
-        $fromEmail = mail_env('SMTP_FROM_EMAIL', $username);
+        $host = mail_env('MAIL_HOST', mail_env('SMTP_HOST', 'smtp.office365.com'));
+        $port = mail_env_int('MAIL_PORT', mail_env_int('SMTP_PORT', 587));
+        $username = mail_env('MAIL_USERNAME', mail_env('SMTP_USERNAME', 'notificaciones@seloasa.com.mx'));
+        $password = mail_env('MAIL_PASSWORD', mail_env('SMTP_PASSWORD', 'Z!035675607292ob'));
+        $fromEmail = mail_env('MAIL_FROM_ADDRESS', mail_env('SMTP_FROM_EMAIL', $username));
+        $resolvedFromName = mail_env('MAIL_FROM_NAME', mail_env('SMTP_FROM_NAME', $fromName));
+        $encryption = strtolower((string) mail_env('MAIL_ENCRYPTION', 'tls'));
 
         $mail->isSMTP();
-        $mail->Host = mail_env('SMTP_HOST', 'smtp.office365.com');
+        $mail->Host = $host;
         $mail->SMTPAuth = true;
         $mail->Username = $username;
-        $mail->Password = mail_env('SMTP_PASSWORD', 'i2q%nK32x=Kv');
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port = mail_env_int('SMTP_PORT', 587);
+        $mail->Password = $password;
+
+        if ($encryption === 'ssl' || $port === 465) {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        } else {
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        }
+
+        $mail->Port = $port;
         $mail->CharSet = 'UTF-8';
         $mail->Timeout = mail_env_int('SMTP_TIMEOUT', 20);
 
-        $mail->setFrom($fromEmail, $fromName);
+        $mail->setFrom($fromEmail, $resolvedFromName ?: $fromName);
     }
 }
 

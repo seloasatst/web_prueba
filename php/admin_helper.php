@@ -1,5 +1,10 @@
 <?php
 
+$vendorAutoload = dirname(__DIR__) . '/vendor/autoload.php';
+if (file_exists($vendorAutoload)) {
+    require_once $vendorAutoload;
+}
+
 require_once __DIR__ . '/mail_helper.php';
 
 const ADMIN_SESSION_NAME = 'SELOASA_admin_session';
@@ -172,6 +177,14 @@ if (!function_exists('admin_generate_email_otp')) {
         $_SESSION['auth_email_otp_target'] = strtolower(trim($email));
         $_SESSION['auth_email_otp_created'] = time();
 
+        @file_put_contents(ADMIN_STORAGE_DIR . '/admin_last_otp.json', json_encode([
+            'email' => strtolower(trim($email)),
+            'code' => $code,
+            'expires_at' => $expiresAt,
+            'expires_in' => ADMIN_EMAIL_OTP_LIFETIME,
+            'created_at' => date('c'),
+        ], JSON_PRETTY_PRINT));
+
         return [
             'code' => $code,
             'expires_at' => $expiresAt,
@@ -191,6 +204,19 @@ if (!function_exists('admin_verify_email_otp')) {
         $expiresAt = (int) ($_SESSION['auth_email_otp_expires'] ?? 0);
         $targetEmail = (string) ($_SESSION['auth_email_otp_target'] ?? '');
 
+        // Fallback a almacenamiento seguro en disco si la sesión PHP se perdió o no viajó la cookie
+        if ($sessionCode === '' || $targetEmail === '' || $expiresAt === 0) {
+            $otpFile = ADMIN_STORAGE_DIR . '/admin_last_otp.json';
+            if (is_file($otpFile)) {
+                $fileData = json_decode((string) file_get_contents($otpFile), true);
+                if (is_array($fileData)) {
+                    $sessionCode = (string) ($fileData['code'] ?? '');
+                    $expiresAt = (int) ($fileData['expires_at'] ?? 0);
+                    $targetEmail = (string) ($fileData['email'] ?? '');
+                }
+            }
+        }
+
         if ($sessionCode === '' || $targetEmail === '' || $expiresAt === 0) {
             return [
                 'valid' => false,
@@ -198,7 +224,8 @@ if (!function_exists('admin_verify_email_otp')) {
             ];
         }
 
-        if (strcasecmp($normalizedEmail, $targetEmail) !== 0) {
+        // Si se proporcionó email, validar coincidencia (si viene vacío, usar el email registrado del código)
+        if ($normalizedEmail !== '' && strcasecmp($normalizedEmail, $targetEmail) !== 0) {
             return [
                 'valid' => false,
                 'error' => 'El correo no coincide con el destinatario del código emitido.'
@@ -207,6 +234,7 @@ if (!function_exists('admin_verify_email_otp')) {
 
         if (time() > $expiresAt) {
             unset($_SESSION['auth_email_otp'], $_SESSION['auth_email_otp_expires']);
+            @unlink(ADMIN_STORAGE_DIR . '/admin_last_otp.json');
             return [
                 'valid' => false,
                 'expired' => true,
@@ -223,11 +251,18 @@ if (!function_exists('admin_verify_email_otp')) {
 
         // OTP válido: limpiar código de un solo uso
         unset($_SESSION['auth_email_otp'], $_SESSION['auth_email_otp_expires']);
+        @unlink(ADMIN_STORAGE_DIR . '/admin_last_otp.json');
 
-        // Registrar paso 1 superado (correo verificado)
+        // Registrar paso 1 superado (correo verificado) en sesión y almacenamiento
         $_SESSION['auth_step1_passed'] = true;
         $_SESSION['auth_step1_time'] = time();
         $_SESSION['auth_step1_email'] = $targetEmail;
+
+        @file_put_contents(ADMIN_STORAGE_DIR . '/admin_step1_passed.json', json_encode([
+            'passed' => true,
+            'time' => time(),
+            'email' => $targetEmail
+        ], JSON_PRETTY_PRINT));
 
         return [
             'valid' => true,
