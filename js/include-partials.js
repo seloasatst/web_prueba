@@ -139,6 +139,15 @@ async function includePartials() {
   updateNavbarOffset();
   updateFooterYear(document);
   setActiveNavbarLink(document);
+
+  // Inicializar de forma global y segura el sistema de cookies SELOASA
+  if (!window.seloasaCookiesLoaded) {
+    window.seloasaCookiesLoaded = true;
+    var cookieScript = document.createElement('script');
+    cookieScript.src = 'js/site-cookies.js';
+    cookieScript.defer = true;
+    document.body.appendChild(cookieScript);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', includePartials);

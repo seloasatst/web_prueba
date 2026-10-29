@@ -1,14 +1,55 @@
 # ==============================================================================
-# SELOASA - Directivas de Rastreo para Robots y Motores de Búsqueda
+# SELOASA - Directivas de Rastreo para Motores de Búsqueda (SEO Avanzado)
+# Sitio Web Oficial: https://seloasa.com.mx
 # ==============================================================================
 
 User-agent: *
 Allow: /
+Allow: /css/
+Allow: /js/
+Allow: /img/
+Allow: /lib/
+Allow: /docs_pdf/
 
-# Excluir rutas administrativas internas y APIs de backend
+# Restricción de áreas administrativas, código sensible y bases de datos
 Disallow: /admin/
 Disallow: /blog/admin/
 Disallow: /php/
+Disallow: /data/
+Disallow: /vendor/
+Disallow: /scripts/
+Disallow: /tools/
+Disallow: /home_resp/
+Disallow: /test/
+Disallow: /.git/
+Disallow: /.env
 
-# Archivo de mapa del sitio para Google Search Console
+# Optimización para Googlebot
+User-agent: Googlebot
+Allow: /
+Allow: /css/
+Allow: /js/
+Allow: /img/
+Allow: /lib/
+Allow: /docs_pdf/
+Disallow: /admin/
+Disallow: /blog/admin/
+Disallow: /php/
+Disallow: /data/
+Disallow: /vendor/
+
+# Optimización para Bingbot
+User-agent: Bingbot
+Allow: /
+Allow: /css/
+Allow: /js/
+Allow: /img/
+Allow: /lib/
+Disallow: /admin/
+Disallow: /blog/admin/
+Disallow: /php/
+Disallow: /data/
+
+# Canónico y Mapa del Sitio (XML Sitemap) para Google Search Console
+Host: https://seloasa.com.mx
 Sitemap: https://seloasa.com.mx/sitemap.xml
