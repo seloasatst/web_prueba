@@ -18,7 +18,7 @@ window.I18N_PAGE_TRANSLATIONS = {
       detail: {
         kicker: "Almacenaje Farma",
         title: "Coordinamos la mejor red para cuidar tu producto tan bien como si fuera nuestro",
-        description: "Soluciones de almacenaje articuladas con aliados estratégicos de primer nivel para la industria farmacéutica, respaldadas por cámaras refrigeradas, áreas frescas y soporte operativo 24/7.",
+        description: "Soluciones de almacenaje <b>articuladas con aliados estratégicos</b> de primer nivel para la industria farmacéutica, respaldadas por cámaras refrigeradas, áreas frescas y soporte operativo 24/7.",
         point_1: {
           title: "Ubicaciones Estratégicas",
           description: "Red flexible de ubicaciones estratégicas operadas por nuestros aliados según tu demanda y nivel de servicio."
@@ -86,7 +86,7 @@ window.I18N_PAGE_TRANSLATIONS = {
       detail: {
         kicker: "Pharma Storage",
         title: "We coordinate the best network to handle your product as carefully as our own",
-        description: "Storage solutions articulated through top-tier strategic partners for the pharmaceutical industry, backed by refrigerated chambers, cool areas, and 24/7 operational support.",
+        description: "Storage solutions <b>articulated through top-tier strategic partners</b> for the pharmaceutical industry, backed by refrigerated chambers, cool areas, and 24/7 operational support.",
         point_1: {
           title: "Strategic Locations",
           description: "Flexible network of strategic locations operated by our partners according to demand and service level."
@@ -158,7 +158,7 @@ window.I18N_PAGE_TRANSLATIONS = {
       detail: {
         kicker: "Pharma-Lagerung",
         title: "Wir koordinieren das beste Netzwerk für Ihr Produkt",
-        description: "Lagerlösungen, die über erstklassige strategische Partner für die Pharmaindustrie organisiert werden.",
+        description: "Lagerlösungen, <b>die über erstklassige strategische Partner</b> für die Pharmaindustrie organisiert werden.",
         point_1: {
           title: "Strategische Standorte",
           description: "Flexibles Netzwerk strategischer Standorte unserer Partner je nach Nachfrage."
@@ -206,7 +206,7 @@ window.I18N_PAGE_TRANSLATIONS = {
       detail: {
         kicker: "Armazenagem Farma",
         title: "Coordenamos a melhor rede para cuidar do seu produto",
-        description: "Soluções de armazenagem articuladas com parceiros estratégicos de alto nível para a indústria farmacêutica.",
+        description: "Soluções de armazenagem <b>articuladas com parceiros estratégicos</b> de alto nível para a indústria farmacêutica.",
         point_1: {
           title: "Localizações Estratégicas",
           description: "Rede flexível de localizações estratégicas operadas por nossos parceiros."
@@ -254,7 +254,7 @@ window.I18N_PAGE_TRANSLATIONS = {
       detail: {
         kicker: "Stockage Pharma",
         title: "Nous coordonnons le meilleur réseau pour prendre soin de votre produit",
-        description: "Solutions de stockage articulées avec des partenaires stratégiques de premier ordre pour l'industrie pharmaceutique.",
+        description: "Solutions de stockage <b>articulées avec des partenaires stratégiques</b> de premier ordre pour l'industrie pharmaceutique.",
         point_1: {
           title: "Emplacements stratégiques",
           description: "Réseau flexible d'emplacements stratégiques gérés par nos partenaires."

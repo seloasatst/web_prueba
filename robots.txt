@@ -16,6 +16,7 @@ Disallow: /admin/
 Disallow: /blog/admin/
 Disallow: /php/
 Disallow: /data/
+Disallow: /careers/
 Disallow: /vendor/
 Disallow: /scripts/
 Disallow: /tools/
@@ -36,6 +37,7 @@ Disallow: /admin/
 Disallow: /blog/admin/
 Disallow: /php/
 Disallow: /data/
+Disallow: /careers/
 Disallow: /vendor/
 
 # Optimización para Bingbot
@@ -49,6 +51,7 @@ Disallow: /admin/
 Disallow: /blog/admin/
 Disallow: /php/
 Disallow: /data/
+Disallow: /careers/
 
 # Canónico y Mapa del Sitio (XML Sitemap) para Google Search Console
 Host: https://seloasa.com.mx

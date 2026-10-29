@@ -1,9 +1,9 @@
-﻿window.I18N_PAGE_TRANSLATIONS = {
+window.I18N_PAGE_TRANSLATIONS = {
   ...(window.I18N_PAGE_TRANSLATIONS || {}),
   es: {
     privacyPage: {
       meta: {
-        title: "Aviso de Privacidad - Servicios Log\u00edsticos Alsera",
+        title: "Aviso de Privacidad y Protección de Datos | SELOASA",
         footer: "&Uacute;ltima actualizaci&oacute;n: abril 2025<br><strong>Servicios Log&iacute;sticos Alsera S.A. de C.V.</strong>"
       },
       hero: {
@@ -29,7 +29,7 @@
   en: {
     privacyPage: {
       meta: {
-        title: "Privacy Notice - Servicios Log\u00edsticos Alsera",
+        title: "Privacy Notice & Data Protection | SELOASA",
         footer: "Last updated: April 2025<br><strong>Servicios Log&iacute;sticos Alsera S.A. de C.V.</strong>"
       },
       hero: {
@@ -55,7 +55,7 @@
   al: {
     privacyPage: {
       meta: {
-        title: "Datenschutzhinweis - Servicios Log\u00edsticos Alsera",
+        title: "Datenschutzerklärung und Datenschutz | SELOASA",
         footer: "Letzte Aktualisierung: April 2025<br><strong>Servicios Log&iacute;sticos Alsera S.A. de C.V.</strong>"
       },
       hero: {
@@ -81,7 +81,7 @@
   pt: {
     privacyPage: {
       meta: {
-        title: "Aviso de Privacidade - Servicios Log\u00edsticos Alsera",
+        title: "Aviso de Privacidade e Proteção de Dados | SELOASA",
         footer: "&Uacute;ltima atualiza&ccedil;&atilde;o: abril de 2025<br><strong>Servicios Log&iacute;sticos Alsera S.A. de C.V.</strong>"
       },
       hero: {
@@ -107,7 +107,7 @@
   fr: {
     privacyPage: {
       meta: {
-        title: "Avis de confidentialit\u00e9 - Servicios Log\u00edsticos Alsera",
+        title: "Politique de Confidentialité et Protection des Données | SELOASA",
         footer: "Derni&egrave;re mise &agrave; jour : avril 2025<br><strong>Servicios Log&iacute;sticos Alsera S.A. de C.V.</strong>"
       },
       hero: {

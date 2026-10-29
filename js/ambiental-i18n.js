@@ -3,7 +3,7 @@ window.I18N_PAGE_TRANSLATIONS = {
   es: {
     environmentalPage: {
       meta: {
-        title: "PRA - Servicios Log\u00edsticos Alsera"
+        title: "Responsabilidad Ambiental y Transporte Limpio | SELOASA"
       },
       hero: {
         title_accent: "Responsabilidad",
@@ -66,7 +66,7 @@ window.I18N_PAGE_TRANSLATIONS = {
   en: {
     environmentalPage: {
       meta: {
-        title: "ERP - Servicios Log\u00edsticos Alsera"
+        title: "Environmental Responsibility & Clean Transport | SELOASA"
       },
       hero: {
         title_accent: "Environmental",
@@ -129,7 +129,7 @@ window.I18N_PAGE_TRANSLATIONS = {
   al: {
     environmentalPage: {
       meta: {
-        title: "PRA - Servicios Log\u00edsticos Alsera"
+        title: "Responsabilidad Ambiental y Transporte Limpio | SELOASA"
       },
       hero: {
         title_accent: "Umwelt",
@@ -192,7 +192,7 @@ window.I18N_PAGE_TRANSLATIONS = {
   pt: {
     environmentalPage: {
       meta: {
-        title: "PRA - Servicios Log\u00edsticos Alsera"
+        title: "Responsabilidad Ambiental y Transporte Limpio | SELOASA"
       },
       hero: {
         title_accent: "Responsabilidade",
@@ -255,7 +255,7 @@ window.I18N_PAGE_TRANSLATIONS = {
   fr: {
     environmentalPage: {
       meta: {
-        title: "PRA - Servicios Log\u00edsticos Alsera"
+        title: "Responsabilidad Ambiental y Transporte Limpio | SELOASA"
       },
       hero: {
         title_accent: "Responsabilit\u00e9",

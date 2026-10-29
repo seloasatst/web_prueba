@@ -82,12 +82,6 @@ $staticPages = [
         'lastmod' => '2026-10-29'
     ],
     [
-        'loc' => '/careers/',
-        'priority' => '0.90',
-        'changefreq' => 'daily',
-        'lastmod' => '2026-10-29'
-    ],
-    [
         'loc' => '/contact/',
         'priority' => '0.85',
         'changefreq' => 'monthly',
