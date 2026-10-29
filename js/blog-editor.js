@@ -205,9 +205,6 @@
           <div class="ratio ratio-16x9">
             <iframe src="${media.embedUrl}?rel=0" title="${post.title || 'Video'}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
-          <div class="p-2 px-3 bg-light text-muted small border-top">
-            <i class="fa fa-video me-1 text-primary"></i> Archivo audiovisual oficial SELOASA &bull; Difusión institucional
-          </div>
         </div>
       `;
     }
@@ -217,9 +214,6 @@
         <div class="mb-4 overflow-hidden rounded shadow-sm" style="border: 1px solid #dee2e6;">
           <div class="ratio ratio-16x9">
             <iframe src="${media.embedUrl}" title="${post.title || 'Video'}" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-          </div>
-          <div class="p-2 px-3 bg-light text-muted small border-top">
-            <i class="fa fa-video me-1 text-primary"></i> Archivo audiovisual oficial SELOASA
           </div>
         </div>
       `;
@@ -232,10 +226,6 @@
             <source src="${media.src}" type="video/mp4">
             Tu navegador no soporta reproducción de video.
           </video>
-          <div class="p-2 px-3 bg-light text-muted small border-top d-flex justify-content-between align-items-center">
-            <span><i class="fa fa-video me-1 text-primary"></i> Video oficial SELOASA (Fotograma: ${media.videoTime}s)</span>
-            ${media.thumbnailUrl ? '<span class="badge bg-success-subtle text-success border border-success-subtle small">Miniatura personalizada activa</span>' : ''}
-          </div>
         </div>
       `;
     }
