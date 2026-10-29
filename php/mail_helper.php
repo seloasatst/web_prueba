@@ -2,6 +2,8 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 
+require_once __DIR__ . '/compat.php';
+
 if (!function_exists('load_site_env')) {
     function load_site_env(?string $path = null): void
     {
