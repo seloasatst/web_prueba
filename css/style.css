@@ -2916,8 +2916,6 @@ a.btn-slide:hover span {
 .service-item a.btn-slide:hover span,
 .blog-card a.btn-slide:hover i,
 .blog-card a.btn-slide:hover span,
-.blog-featured-panel a.btn-slide:hover i,
-.blog-featured-panel a.btn-slide:hover span,
 .service-detail-panel a.btn-slide:hover i,
 .service-detail-panel a.btn-slide:hover span,
 .price-item a.btn-slide:hover i,
@@ -2925,6 +2923,91 @@ a.btn-slide:hover span {
 a.btn-slide:hover i,
 a.btn-slide:hover span {
     background: #0d2814;
+}
+
+/* Evitar que el texto de btn-slide se desborde o asome cortado */
+.service-item a.btn-slide span,
+.blog-card a.btn-slide span,
+.service-detail-panel a.btn-slide span,
+.price-item a.btn-slide span,
+.team-item div.btn-slide span,
+a.btn-slide span {
+    opacity: 0;
+    max-width: 0;
+}
+
+.service-item:hover a.btn-slide span,
+.blog-card:hover a.btn-slide span,
+.service-detail-panel:hover a.btn-slide span,
+.price-item:hover a.btn-slide span,
+.team-item:hover div.btn-slide span,
+a.btn-slide:hover span {
+    opacity: 1;
+    max-width: 320px;
+}
+
+/* Botón destacado de Comunicado / Noticia en Blog Featured Panel */
+.blog-featured-panel a.btn-slide,
+#blogFeaturedReadBtn {
+    position: relative;
+    display: inline-flex !important;
+    align-items: center;
+    background: var(--color-main, #e43b14) !important;
+    color: #ffffff !important;
+    border-radius: 50px !important;
+    padding: 6px 24px 6px 8px !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    overflow: visible !important;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    box-shadow: 0 4px 14px rgba(228, 59, 20, 0.25) !important;
+    border: none !important;
+}
+
+.blog-featured-panel a.btn-slide i,
+#blogFeaturedReadBtn i {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.22) !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px !important;
+    color: #ffffff !important;
+    margin-right: 12px !important;
+    left: 0 !important;
+    transition: transform 0.3s ease, background 0.3s ease !important;
+}
+
+.blog-featured-panel a.btn-slide span,
+#blogFeaturedReadBtn span {
+    position: static !important;
+    left: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    color: #ffffff !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    height: auto !important;
+    display: inline !important;
+    opacity: 1 !important;
+    max-width: none !important;
+}
+
+.blog-featured-panel a.btn-slide:hover,
+#blogFeaturedReadBtn:hover {
+    background: #0d2814 !important;
+    box-shadow: 0 6px 18px rgba(13, 40, 20, 0.35) !important;
+    transform: translateY(-2px) !important;
+    color: #ffffff !important;
+}
+
+.blog-featured-panel a.btn-slide:hover i,
+#blogFeaturedReadBtn:hover i {
+    background: rgba(255, 255, 255, 0.28) !important;
+    transform: translateX(4px) !important;
 }
 
 .presence-section {

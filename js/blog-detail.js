@@ -335,9 +335,11 @@
      ESTRUCTURA 1: COMUNICADO OFICIAL (FORMATO DOCUMENTO / CIRCULAR)
      ========================================================================== */
   function renderEstructuraComunicado(post, content) {
-    const folioStr = (post.id ? post.id.replace(/[^a-zA-Z0-9]/g, '-').toUpperCase() : '2026-OF');
     const showPdf = post.pdf_enabled !== false;
     const showNormativa = post.normativa_enabled !== false;
+    const showFolio = Boolean(post.folio_enabled);
+    const folioText = (post.folio_text || '').trim();
+    const showFirma = Boolean(post.firma_enabled);
 
     const pdfCardHtml = showPdf ? `
             <!-- Descarga de Circular Oficial en PDF -->
@@ -370,9 +372,11 @@
                 <span class="comunicado-badge-oficial">
                   <i class="fa fa-bullhorn me-1"></i> Comunicado Oficial SELOASA
                 </span>
+                ${showFolio && folioText ? `
                 <span class="comunicado-folio-box">
-                  FOLIO: SEL-DIR/CAL-${folioStr}
+                  ${folioText}
                 </span>
+                ` : ''}
               </div>
               <h6 class="text-uppercase about-kicker mb-2" style="color: #e43b14;">
                 ${post.dept || 'Dirección General & Aseguramiento de Calidad'}
@@ -403,18 +407,20 @@
               ${post.content || `<p>${post.summary}</p>`}
             </div>
 
-            <!-- Bloque de Firma y Autorización Oficial -->
+            <!-- Bloque de Firma y Autorización Oficial (Opcional) -->
+            ${showFirma ? `
             <div class="comunicado-firma-seccion">
               <div>
-                <div class="comunicado-firma-autoridad">Comité de Aseguramiento de Calidad y Tráfico</div>
-                <div class="comunicado-firma-sub">Servicios Logísticos Alsera S.A. de C.V. &bull; Lerma, Estado de México</div>
+                <div class="comunicado-firma-autoridad">${post.firma_autoridad || 'Comité de Aseguramiento de Calidad y Tráfico'}</div>
+                <div class="comunicado-firma-sub">${post.firma_sub || 'Servicios Logísticos Alsera S.A. de C.V. &bull; Lerma, Estado de México'}</div>
               </div>
               <div>
                 <span class="badge bg-light text-dark border px-3 py-2 rounded-pill small">
-                  <i class="fa fa-check-circle text-primary me-1"></i> Revisado y Aprobado
+                  <i class="fa fa-check-circle text-primary me-1"></i> ${post.firma_badge || 'Revisado y Aprobado'}
                 </span>
               </div>
             </div>
+            ` : ''}
 
             <!-- Acciones Inferiores -->
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 pt-4 border-top mt-4">

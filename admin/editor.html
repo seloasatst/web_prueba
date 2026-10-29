@@ -207,7 +207,7 @@
         </div>
 
         <!-- Título y Slug -->
-        <div class="row g-3 mb-3">
+        <div class="row g-3 mb-2">
           <div class="col-md-8">
             <label for="postTitleInput" class="form-label small fw-bold text-dark mb-1">Título de la Publicación
               *</label>
@@ -215,9 +215,29 @@
               placeholder="Escribe el título aquí..." required>
           </div>
           <div class="col-md-4">
-            <label for="postIdInput" class="form-label small fw-bold text-dark mb-1">ID Único (URL / Folio) *</label>
+            <label for="postIdInput" class="form-label small fw-bold text-dark mb-1">ID Único (URL / Slug) *</label>
             <input type="text" id="postIdInput" class="form-control font-monospace" placeholder="ej: noticia-nueva-ruta"
               required>
+          </div>
+        </div>
+
+        <!-- Folio Institucional (Configurable y Opcional) -->
+        <div class="mb-3">
+          <div class="d-flex align-items-center justify-content-between p-2 px-3 border rounded-3 bg-light-subtle">
+            <div class="d-flex align-items-center gap-2">
+              <i class="fa fa-stamp text-primary"></i>
+              <span class="small fw-bold text-dark">Folio Institucional Membretado (Opcional)</span>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <input type="text" id="postFolioTextInput" class="form-control form-control-sm font-monospace"
+                style="max-width: 320px; font-size: 11.5px; opacity: 0.5; pointer-events: none;"
+                placeholder="Ej: FOLIO: SEL-DIR/CAL-2026-001" value="">
+              <div class="form-check form-switch mb-0 d-flex align-items-center gap-2">
+                <input class="form-check-input" type="checkbox" role="switch" id="postFolioEnabledSwitch">
+                <label class="form-check-label mb-0 small fw-bold" for="postFolioEnabledSwitch"
+                  id="postFolioEnabledLabel" style="font-size: 11px; color: #64748b; cursor: pointer; white-space: nowrap;">Oculto (Desactivado)</label>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -457,7 +477,7 @@
                   (Visible)</label>
               </div>
             </div>
-            <div id="postNormativaFieldsContainer" class="row g-2">
+            <div id="postNormativaFieldsContainer" class="row g-2 mb-3">
               <div class="col-md-6">
                 <label for="postNormativaTitleInput" class="form-label small fw-bold text-dark mb-1">Título del
                   Recuadro</label>
@@ -477,6 +497,36 @@ Directrices GDP: Monitoreo térmico continuo.</textarea>
                   identificador de la descripción con dos puntos <code>:</code> (ej:
                   <code>NOM-059-SSA1: Buenas prácticas de distribución.</code>).
                 </div>
+              </div>
+            </div>
+
+            <!-- Bloque 3: Sello de Autorización & Firmas (Opcional) -->
+            <div class="d-flex align-items-center justify-content-between mb-2 pb-1 border-top pt-3 border-bottom">
+              <div class="d-flex align-items-center gap-2">
+                <i class="fa fa-signature text-primary"></i>
+                <span class="fw-bold small text-dark">3. Sello de Autorización & Firmas (Pie del Comunicado)</span>
+              </div>
+              <div class="form-check form-switch mb-0 d-flex align-items-center gap-2">
+                <input class="form-check-input" type="checkbox" role="switch" id="postFirmaEnabledSwitch">
+                <label class="form-check-label mb-0 small fw-bold" for="postFirmaEnabledSwitch" id="postFirmaEnabledLabel"
+                  style="font-size: 11.5px; color: #64748b; cursor: pointer;">Oculto (Desactivado)</label>
+              </div>
+            </div>
+            <div id="postFirmaFieldsContainer" class="row g-2" style="opacity: 0.45; pointer-events: none;">
+              <div class="col-md-5">
+                <label for="postFirmaAutoridadInput" class="form-label small fw-bold text-dark mb-1">Autoridad Emisora</label>
+                <input type="text" id="postFirmaAutoridadInput" class="form-control form-control-sm"
+                  placeholder="Comité de Aseguramiento de Calidad y Tráfico" value="Comité de Aseguramiento de Calidad y Tráfico">
+              </div>
+              <div class="col-md-4">
+                <label for="postFirmaSubInput" class="form-label small fw-bold text-dark mb-1">Empresa / Sede</label>
+                <input type="text" id="postFirmaSubInput" class="form-control form-control-sm"
+                  placeholder="Servicios Logísticos Alsera S.A. de C.V. • Lerma, Estado de México" value="Servicios Logísticos Alsera S.A. de C.V. • Lerma, Estado de México">
+              </div>
+              <div class="col-md-3">
+                <label for="postFirmaBadgeInput" class="form-label small fw-bold text-dark mb-1">Estado del Sello</label>
+                <input type="text" id="postFirmaBadgeInput" class="form-control form-control-sm"
+                  placeholder="Revisado y Aprobado" value="Revisado y Aprobado">
               </div>
             </div>
 

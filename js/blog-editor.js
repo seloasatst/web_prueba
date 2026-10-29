@@ -282,10 +282,12 @@
      PLANTILLAS ESTRUCTURALES EN TIEMPO REAL
      ========================================================================== */
   function renderLiveComunicado(post) {
-    const folioStr = (post.id ? post.id.replace(/[^a-zA-Z0-9]/g, '-').toUpperCase() : '2026-OF');
     const showPdf = post.pdf_enabled !== false;
     const showNormativa = post.normativa_enabled !== false;
     const hasSidebar = showPdf || showNormativa;
+    const showFolio = Boolean(post.folio_enabled);
+    const folioText = (post.folio_text || '').trim();
+    const showFirma = Boolean(post.firma_enabled);
 
     const pdfCardHtml = showPdf ? `
       <div class="comunicado-sidebar-card">
@@ -315,9 +317,11 @@
                 <span class="comunicado-badge-oficial">
                   <i class="fa fa-bullhorn me-1"></i> Comunicado Oficial SELOASA
                 </span>
+                ${showFolio && folioText ? `
                 <span class="comunicado-folio-box">
-                  FOLIO: SEL-DIR/CAL-${folioStr}
+                  ${folioText}
                 </span>
+                ` : ''}
               </div>
               <h6 class="text-uppercase about-kicker mb-2" style="color: #e43b14;">
                 ${post.dept || 'Dirección General & Aseguramiento de Calidad'}
@@ -345,17 +349,19 @@
               ${post.content}
             </div>
 
+            ${showFirma ? `
             <div class="comunicado-firma-seccion">
               <div>
-                <div class="comunicado-firma-autoridad">Comité de Aseguramiento de Calidad y Tráfico</div>
-                <div class="comunicado-firma-sub">Servicios Logísticos Alsera S.A. de C.V. &bull; Lerma, Estado de México</div>
+                <div class="comunicado-firma-autoridad">${post.firma_autoridad || 'Comité de Aseguramiento de Calidad y Tráfico'}</div>
+                <div class="comunicado-firma-sub">${post.firma_sub || 'Servicios Logísticos Alsera S.A. de C.V. &bull; Lerma, Estado de México'}</div>
               </div>
               <div>
                 <span class="badge bg-light text-dark border px-3 py-2 rounded-pill small">
-                  <i class="fa fa-check-circle text-primary me-1"></i> Revisado y Aprobado
+                  <i class="fa fa-check-circle text-primary me-1"></i> ${post.firma_badge || 'Revisado y Aprobado'}
                 </span>
               </div>
             </div>
+            ` : ''}
           </article>
         </div>
 
@@ -577,6 +583,16 @@
     const defaultNormativa = `NOM-059-SSA1: Buenas prácticas de distribución.\nNOM-072-SSA1: Trazabilidad e insumos para la salud.\nDirectrices GDP: Monitoreo térmico continuo.`;
     const normativaItems = (document.getElementById('postNormativaItemsInput')?.value || '').trim() || defaultNormativa;
 
+    const folioEnabledSwitch = document.getElementById('postFolioEnabledSwitch');
+    const folioEnabled = folioEnabledSwitch ? folioEnabledSwitch.checked : false;
+    const folioText = (document.getElementById('postFolioTextInput')?.value || '').trim();
+
+    const firmaEnabledSwitch = document.getElementById('postFirmaEnabledSwitch');
+    const firmaEnabled = firmaEnabledSwitch ? firmaEnabledSwitch.checked : false;
+    const firmaAutoridad = (document.getElementById('postFirmaAutoridadInput')?.value || '').trim() || 'Comité de Aseguramiento de Calidad y Tráfico';
+    const firmaSub = (document.getElementById('postFirmaSubInput')?.value || '').trim() || 'Servicios Logísticos Alsera S.A. de C.V. • Lerma, Estado de México';
+    const firmaBadge = (document.getElementById('postFirmaBadgeInput')?.value || '').trim() || 'Revisado y Aprobado';
+
     return {
       id: id,
       type: type,
@@ -591,6 +607,12 @@
       video_url: videoUrl,
       video_time: videoTime,
       status: statusVal,
+      folio_enabled: folioEnabled,
+      folio_text: folioText,
+      firma_enabled: firmaEnabled,
+      firma_autoridad: firmaAutoridad,
+      firma_sub: firmaSub,
+      firma_badge: firmaBadge,
       pdf_enabled: pdfEnabled,
       pdf_title: pdfTitle,
       pdf_url: pdfUrl,
@@ -884,6 +906,41 @@
       }
     }
 
+    const folioSwitch = document.getElementById('postFolioEnabledSwitch');
+    const folioLabel = document.getElementById('postFolioEnabledLabel');
+    const folioTextInput = document.getElementById('postFolioTextInput');
+
+    function syncFolioSwitch(enabled) {
+      if (folioSwitch) folioSwitch.checked = enabled;
+      if (folioLabel) {
+        folioLabel.textContent = enabled ? 'Activo (Visible en Comunicado)' : 'Oculto (Desactivado)';
+        folioLabel.style.color = enabled ? '#15803d' : '#64748b';
+      }
+      if (folioTextInput) {
+        folioTextInput.style.opacity = enabled ? '1' : '0.5';
+        folioTextInput.style.pointerEvents = enabled ? 'auto' : 'none';
+      }
+    }
+
+    const firmaSwitch = document.getElementById('postFirmaEnabledSwitch');
+    const firmaLabel = document.getElementById('postFirmaEnabledLabel');
+    const firmaContainer = document.getElementById('postFirmaFieldsContainer');
+    const firmaAutoridadInput = document.getElementById('postFirmaAutoridadInput');
+    const firmaSubInput = document.getElementById('postFirmaSubInput');
+    const firmaBadgeInput = document.getElementById('postFirmaBadgeInput');
+
+    function syncFirmaSwitch(enabled) {
+      if (firmaSwitch) firmaSwitch.checked = enabled;
+      if (firmaLabel) {
+        firmaLabel.textContent = enabled ? 'Activo (Visible al pie)' : 'Oculto (Desactivado)';
+        firmaLabel.style.color = enabled ? '#15803d' : '#64748b';
+      }
+      if (firmaContainer) {
+        firmaContainer.style.opacity = enabled ? '1' : '0.45';
+        firmaContainer.style.pointerEvents = enabled ? 'auto' : 'none';
+      }
+    }
+
     const pdfTitleInput = document.getElementById('postPdfTitleInput');
     const pdfUrlInput = document.getElementById('postPdfUrlInput');
     const pdfBtnTextInput = document.getElementById('postPdfBtnTextInput');
@@ -1044,6 +1101,14 @@
       syncNormativaSwitch(p.normativa_enabled !== false);
       if (pdfUrlInput) pdfUrlInput.value = p.pdf_url || 'docs_pdf/protocolo_seguridad.pdf';
 
+      syncFolioSwitch(Boolean(p.folio_enabled));
+      if (folioTextInput) folioTextInput.value = p.folio_text || '';
+
+      syncFirmaSwitch(Boolean(p.firma_enabled));
+      if (firmaAutoridadInput) firmaAutoridadInput.value = p.firma_autoridad || 'Comité de Aseguramiento de Calidad y Tráfico';
+      if (firmaSubInput) firmaSubInput.value = p.firma_sub || 'Servicios Logísticos Alsera S.A. de C.V. • Lerma, Estado de México';
+      if (firmaBadgeInput) firmaBadgeInput.value = p.firma_badge || 'Revisado y Aprobado';
+
       // Cargar matriz de traducciones para los 5 idiomas
       postTranslations = {
         es: (p.translations && p.translations.es) ? { ...p.translations.es } : {
@@ -1080,6 +1145,8 @@
       syncHeaderStatus('published');
       syncPdfSwitch(true);
       syncNormativaSwitch(true);
+      syncFolioSwitch(false);
+      syncFirmaSwitch(false);
       postTranslations = { es: {}, en: {}, al: {}, pt: {}, fr: {} };
       updateLangBadges();
       updateLivePreview();
@@ -1130,11 +1197,22 @@
       updateLivePreview();
     });
 
+    folioSwitch?.addEventListener('change', function () {
+      syncFolioSwitch(this.checked);
+      updateLivePreview();
+    });
+
+    firmaSwitch?.addEventListener('change', function () {
+      syncFirmaSwitch(this.checked);
+      updateLivePreview();
+    });
+
     const videoInput = document.getElementById('postVideoInput');
     const videoTimeInput = document.getElementById('postVideoTimeInput');
 
     // Vincular todos los campos a actualización en tiempo real inmediata
     [titleInput, summaryInput, deptInput, dateInput, readTimeInput, imageInput, videoInput, videoTimeInput, categoryInput, statusSelect, idInput,
+     folioTextInput, firmaAutoridadInput, firmaSubInput, firmaBadgeInput,
      pdfTitleInput, pdfUrlInput, pdfBtnTextInput, pdfDescInput, normativaTitleInput, normativaItemsInput].forEach(inp => {
       if (inp) {
         inp.addEventListener('input', updateLivePreview);
