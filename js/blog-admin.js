@@ -305,248 +305,77 @@
     document.getElementById('btnEnterDemoMode')?.addEventListener('click', enterDemoHandler);
     document.getElementById('btnEnterDemoFallback')?.addEventListener('click', enterDemoHandler);
 
-    // SUB-PASO 1A: Solicitud de Código de 6 Dígitos por Correo (Sin contraseña)
-    if (emailRequestForm) {
-      emailRequestForm.addEventListener('submit', function (e) {
+    // PASO 1: Validación Directa de Contraseña / Token de Acceso (.env)
+    const passwordLoginForm = document.getElementById('adminPasswordLoginForm');
+    const togglePasswordBtn = document.getElementById('togglePasswordBtn');
+    const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+    const passwordInput = document.getElementById('adminPasswordInput');
+
+    if (togglePasswordBtn && passwordInput) {
+      togglePasswordBtn.addEventListener('click', function () {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        if (togglePasswordIcon) {
+          togglePasswordIcon.className = isPassword ? 'fa fa-eye-slash' : 'fa fa-eye';
+        }
+      });
+    }
+
+    if (passwordLoginForm) {
+      passwordLoginForm.addEventListener('submit', function (e) {
         e.preventDefault();
         hideAuthMessages();
 
-        const email = (document.getElementById('adminEmailInput').value || '').trim();
-        if (!email) {
-          showAuthError('Por favor ingresa un correo institucional.');
+        const email = (document.getElementById('adminEmailInput')?.value || '').trim();
+        const password = (passwordInput?.value || '').trim();
+
+        if (!password) {
+          showAuthError('Por favor ingresa la contraseña o token de acceso configurado en .env.');
           return;
         }
 
-        const submitBtn = document.getElementById('btnRequestEmailCode');
+        const submitBtn = document.getElementById('btnSubmitPassword');
         if (submitBtn) {
           submitBtn.disabled = true;
-          submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Enviando código...';
+          submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Validando credencial...';
         }
 
-        fetch(getAuthApiUrl('action=request_email_code'), getAuthFetchOptions('POST', { email: email }))
+        fetch(getAuthApiUrl('action=login_step1'), getAuthFetchOptions('POST', { email: email, password: password }))
           .then(parseFetchResponse)
           .then(data => {
             if (submitBtn) {
               submitBtn.disabled = false;
-              submitBtn.innerHTML = '<i class="fa fa-paper-plane me-1"></i><span>Enviar Código de 6 Dígitos</span>';
+              submitBtn.innerHTML = '<span>Continuar a Google 2FA</span><i class="fa fa-arrow-right ms-1"></i>';
             }
 
             if (data && data.success) {
               currentTargetEmail = email;
-              if (sentEmailTargetDisplay) sentEmailTargetDisplay.textContent = email;
-
-              // Mostrar sub-paso 1B
-              substepEmailFormWrap.classList.add('d-none');
-              substepEmailCodeWrap.classList.remove('d-none');
               hideAuthMessages();
 
-              // Iniciar cronómetro de 10 minutos (600s)
-              startEmailOtpCountdown(data.expires_in || 600);
-              setupDigitInputs('.email-digit-input', 'btnVerifyEmailOtp');
+              // Transición directa a PASO 2: GOOGLE AUTHENTICATOR (2FA)
+              step1Section.classList.add('d-none');
+              step2Section.classList.remove('d-none');
+              step1Indicator.classList.remove('active');
+              step1Indicator.classList.add('completed');
+              step2Indicator.classList.add('active');
 
-              // Si el servidor no pudo entregar el correo por SMTP o viene dev_code (por ejemplo fallo de Office 365 en local)
-              const otpBanner = document.getElementById('smtpFallbackNotice');
-              if (data.dev_code && otpBanner) {
-                otpBanner.innerHTML = `
-                  <div class="fw-bold text-dark mb-1"><i class="fa fa-key text-primary me-1"></i> Código de Acceso:</div>
-                  <div class="d-flex align-items-center justify-content-center gap-2 my-2">
-                    <span class="fs-4 font-monospace fw-bold text-primary px-3 py-1 bg-white rounded border border-primary">${data.dev_code}</span>
-                    <button type="button" class="btn btn-sm btn-primary fw-bold" id="btnAutoFillOtp">
-                      <i class="fa fa-magic me-1"></i> Rellenar código
-                    </button>
-                  </div>
-                  <p class="mb-0 text-muted" style="font-size: 0.75rem;">
-                    ${data.email_sent ? 'También enviado a tu bandeja de entrada.' : 'El servidor SMTP de Office 365 rechazó la autenticación. Puedes usar este código directamente para continuar.'}
-                  </p>
-                `;
-                otpBanner.classList.remove('d-none');
-                document.getElementById('btnAutoFillOtp')?.addEventListener('click', function () {
-                  const digits = String(data.dev_code).split('');
-                  document.querySelectorAll('.email-digit-input').forEach((inp, idx) => {
-                    if (digits[idx]) inp.value = digits[idx];
-                  });
-                  const verifyBtn = document.getElementById('btnVerifyEmailOtp');
-                  if (verifyBtn) {
-                    verifyBtn.disabled = false;
-                    verifyBtn.focus();
-                  }
-                  setTimeout(() => {
-                    const evt = new Event('submit', { cancelable: true, bubbles: true });
-                    emailVerifyForm?.dispatchEvent(evt);
-                  }, 150);
-                });
-              } else if (otpBanner) {
-                otpBanner.classList.add('d-none');
-              }
+              setupDigitInputs('.google-digit-input', 'verifyTotpBtn');
+              startTotpCountdown();
             } else {
-              showAuthError(data.error || 'El correo ingresado no cuenta con autorización administrativa.');
-              if (data && data.is405) {
-                document.getElementById('demoFallbackWrapper')?.classList.remove('d-none');
-              }
+              showAuthError(data.error || 'Contraseña o token de acceso incorrecto.');
             }
           })
           .catch(err => {
             if (submitBtn) {
               submitBtn.disabled = false;
-              submitBtn.innerHTML = '<i class="fa fa-paper-plane me-1"></i><span>Enviar Código de 6 Dígitos</span>';
+              submitBtn.innerHTML = '<span>Continuar a Google 2FA</span><i class="fa fa-arrow-right ms-1"></i>';
             }
-            if (window.location.protocol === 'file:') {
-              showAuthError('No fue posible contactar a Apache desde file:///. Abre el panel ingresando en tu navegador a: http://localhost/shipping/admin/login');
-            } else {
-              showAuthError('Error de comunicación con el servidor: ' + (err.message || 'Verifica que Apache esté activo en XAMPP.'));
-            }
+            showAuthError('Error de comunicación con el servidor: ' + (err.message || 'Verifica tu conexión.'));
           });
       });
     }
 
-    // SUB-PASO 1B: Verificación del Código de 6 Dígitos del Correo (10 minutos)
-    const handleEmailVerifySubmit = function (e) {
-      if (e) e.preventDefault();
-      hideAuthMessages();
-
-      const code = getEnteredDigitCode('.email-digit-input');
-      if (code.length !== 6) {
-        showAuthError('Ingresa el código completo de 6 dígitos enviado a tu correo.');
-        return;
-      }
-
-      const verifyBtn = document.getElementById('btnVerifyEmailOtp');
-      if (verifyBtn) {
-        verifyBtn.disabled = true;
-        verifyBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Validando código...';
-      }
-
-      const targetEmail = currentTargetEmail ||
-        (document.getElementById('sentEmailTargetDisplay')?.textContent || '').trim() ||
-        (document.getElementById('adminEmailInput')?.value || '').trim();
-
-      fetch(getAuthApiUrl('action=verify_email_code'), getAuthFetchOptions('POST', { email: targetEmail, code: code }))
-        .then(parseFetchResponse)
-        .then(data => {
-          if (verifyBtn) {
-            verifyBtn.disabled = false;
-            verifyBtn.innerHTML = '<span>Continuar a Google 2FA</span><i class="fa fa-arrow-right ms-1"></i>';
-          }
-
-          if (data && data.success) {
-            stopEmailOtpCountdown();
-            hideAuthMessages();
-
-            // Transición a PASO 2: GOOGLE AUTHENTICATOR (2FA)
-            step1Section.classList.add('d-none');
-            step2Section.classList.remove('d-none');
-            step1Indicator.classList.remove('active');
-            step1Indicator.classList.add('completed');
-            step2Indicator.classList.add('active');
-
-            setupDigitInputs('.google-digit-input', 'verifyTotpBtn');
-            startTotpCountdown();
-          } else {
-            showAuthError(data.error || 'Código de correo incorrecto o expirado.');
-            if (data && data.is405) {
-                document.getElementById('demoFallbackWrapper')?.classList.remove('d-none');
-            }
-            clearDigitInputs('.email-digit-input');
-          }
-        })
-        .catch(err => {
-          if (verifyBtn) {
-            verifyBtn.disabled = false;
-            verifyBtn.innerHTML = '<span>Continuar a Google 2FA</span><i class="fa fa-arrow-right ms-1"></i>';
-          }
-          showAuthError('Error de conexión al verificar el código de correo: ' + (err.message || 'Revisa tu conexión.'));
-        });
-    };
-
-    if (emailVerifyForm) {
-      emailVerifyForm.addEventListener('submit', handleEmailVerifySubmit);
-    }
-
-    const btnVerifyOtp = document.getElementById('btnVerifyEmailOtp');
-    if (btnVerifyOtp) {
-      btnVerifyOtp.addEventListener('click', function (e) {
-        // Asegurar respuesta al click directo
-        if (!btnVerifyOtp.disabled) {
-          handleEmailVerifySubmit(e);
-        }
-      });
-    }
-
-    // Botón Reenviar Código de Correo
-    const btnResendEmailOtp = document.getElementById('btnResendEmailOtp');
-    if (btnResendEmailOtp) {
-      btnResendEmailOtp.addEventListener('click', function () {
-        if (!currentTargetEmail) return;
-        btnResendEmailOtp.disabled = true;
-        btnResendEmailOtp.innerHTML = '<i class="fa fa-spinner fa-spin me-1"></i> Reenviando...';
-
-        fetch(getAuthApiUrl('action=request_email_code'), getAuthFetchOptions('POST', { email: currentTargetEmail }))
-          .then(parseFetchResponse)
-          .then(data => {
-            if (data && data.success) {
-              showAuthSuccess('Nuevo código de 6 dígitos generado. Tienes 10 minutos para ingresarlo.');
-              startEmailOtpCountdown(data.expires_in || 600);
-              clearDigitInputs('.email-digit-input');
-
-              const otpBanner = document.getElementById('smtpFallbackNotice');
-              if (data.dev_code && otpBanner) {
-                otpBanner.innerHTML = `
-                  <div class="fw-bold text-dark mb-1"><i class="fa fa-key text-primary me-1"></i> Nuevo Código de Acceso:</div>
-                  <div class="d-flex align-items-center justify-content-center gap-2 my-2">
-                    <span class="fs-4 font-monospace fw-bold text-primary px-3 py-1 bg-white rounded border border-primary">${data.dev_code}</span>
-                    <button type="button" class="btn btn-sm btn-primary fw-bold" id="btnAutoFillOtpResend">
-                      <i class="fa fa-magic me-1"></i> Rellenar código
-                    </button>
-                  </div>
-                  <p class="mb-0 text-muted" style="font-size: 0.75rem;">
-                    ${data.email_sent ? 'También enviado a tu bandeja de entrada.' : 'El servidor SMTP de Office 365 rechazó la autenticación. Puedes usar este código directamente para continuar.'}
-                  </p>
-                `;
-                otpBanner.classList.remove('d-none');
-                document.getElementById('btnAutoFillOtpResend')?.addEventListener('click', function () {
-                  const digits = String(data.dev_code).split('');
-                  document.querySelectorAll('.email-digit-input').forEach((inp, idx) => {
-                    if (digits[idx]) inp.value = digits[idx];
-                  });
-                  const verifyBtn = document.getElementById('btnVerifyEmailOtp');
-                  if (verifyBtn) {
-                    verifyBtn.disabled = false;
-                    verifyBtn.focus();
-                  }
-                  setTimeout(() => {
-                    handleEmailVerifySubmit();
-                  }, 150);
-                });
-              }
-            } else {
-              showAuthError(data.error || 'No fue posible reenviar el código.');
-            }
-            setTimeout(() => {
-              btnResendEmailOtp.disabled = false;
-              btnResendEmailOtp.innerHTML = '<i class="fa fa-sync-alt me-1"></i> Reenviar código';
-            }, 3000);
-          })
-          .catch(() => {
-            showAuthError('Error de comunicación al reenviar el código.');
-            btnResendEmailOtp.disabled = false;
-            btnResendEmailOtp.innerHTML = '<i class="fa fa-sync-alt me-1"></i> Reenviar código';
-          });
-      });
-    }
-
-    // Botón Cambiar Correo
-    const btnChangeEmail = document.getElementById('btnChangeEmail');
-    if (btnChangeEmail) {
-      btnChangeEmail.addEventListener('click', function () {
-        stopEmailOtpCountdown();
-        hideAuthMessages();
-        clearDigitInputs('.email-digit-input');
-        substepEmailCodeWrap.classList.add('d-none');
-        substepEmailFormWrap.classList.remove('d-none');
-      });
-    }
-
-    // Regresar de Paso 2 (Google 2FA) a Paso 1 (Correo)
+    // Regresar de Paso 2 (Google 2FA) a Paso 1 (Contraseña)
     const backToStep1Btn = document.getElementById('backToStep1Btn');
     if (backToStep1Btn) {
       backToStep1Btn.addEventListener('click', function () {
@@ -557,8 +386,6 @@
         step2Indicator.classList.remove('active');
         step1Indicator.classList.remove('completed');
         step1Indicator.classList.add('active');
-        substepEmailCodeWrap.classList.remove('d-none');
-        substepEmailFormWrap.classList.add('d-none');
       });
     }
 

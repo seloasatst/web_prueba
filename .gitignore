@@ -2,6 +2,10 @@
 .env
 .env.local
 
+# Ignorar almacenamiento local y datos JSON
+php/storage/*.json
+php/storage/
+
 # Dependency directories
 /vendor/
 /node_modules/

@@ -89,11 +89,11 @@ if ($action === 'get_allowed_emails') {
 }
 
 /* ==========================================================================
-   POST: PASO 1A - SOLICITUD DE CÓDIGO POR CORREO (SIN CONTRASEÑA)
-   Verifica que el correo esté en la lista autorizada y envía OTP de 6 dígitos.
-   Vigencia estricta: 10 minutos (600 segundos).
+   POST: PASO 1 - AUTENTICACIÓN CON CONTRASEÑA O TOKEN MAESTRO (.ENV)
+   Valida correo y contraseña/token contra las variables de entorno.
+   Al ser válido, autoriza de inmediato el acceso al Paso 2 (Google 2FA).
    ========================================================================== */
-if (($action === 'request_email_code' || $action === 'login_step1') && $method === 'POST') {
+if (($action === 'login_step1' || $action === 'request_email_code' || $action === 'verify_token') && $method === 'POST') {
     $rawInput = file_get_contents('php://input');
     $payload = json_decode($rawInput, true);
     if (!is_array($payload)) {
@@ -101,6 +101,7 @@ if (($action === 'request_email_code' || $action === 'login_step1') && $method =
     }
 
     $email = strtolower(trim((string) ($payload['email'] ?? '')));
+    $password = trim((string) ($payload['password'] ?? $payload['token'] ?? ''));
 
     // 1. Verificar bloqueo por fuerza bruta
     $status = admin_login_attempt_status();
@@ -114,73 +115,57 @@ if (($action === 'request_email_code' || $action === 'login_step1') && $method =
         exit;
     }
 
-    if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    if ($password === '') {
         http_response_code(400);
         echo json_encode([
             'success' => false,
-            'error' => 'Ingresa un correo electrónico institucional válido.'
+            'error' => 'Ingresa tu contraseña o token de acceso.'
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
-    // 2. Verificar que el correo esté en la lista autorizada
-    if (!admin_is_email_allowed($email)) {
+    // 2. Verificar credencial contra .env
+    $envPassword = mail_env('ADMIN_PASSWORD', '');
+    $envToken = mail_env('ADMIN_ACCESS_TOKEN', '');
+    $envHash = mail_env('ADMIN_PASSWORD_HASH', '');
+
+    $isValid = false;
+    if ($envPassword !== '' && hash_equals($envPassword, $password)) {
+        $isValid = true;
+    } elseif ($envToken !== '' && hash_equals($envToken, $password)) {
+        $isValid = true;
+    } elseif ($envHash !== '' && password_verify($password, $envHash)) {
+        $isValid = true;
+    }
+
+    if (!$isValid) {
         admin_register_login_failure();
-        http_response_code(403);
+        http_response_code(401);
         echo json_encode([
             'success' => false,
-            'error' => 'El correo ingresado no cuenta con autorización administrativa en SELOASA.'
+            'error' => 'Contraseña o token de acceso incorrecto.'
         ], JSON_UNESCAPED_UNICODE);
         exit;
     }
 
-    // 3. Generar código OTP de 6 dígitos con vigencia de 10 minutos
-    $otpData = admin_generate_email_otp($email);
-    $code = $otpData['code'];
-    $expiresIn = $otpData['expires_in'];
+    // 3. Credencial válida: Registrar Paso 1 superado para permitir Google 2FA
+    $targetEmail = $email ?: mail_env('ADMIN_EMAIL', 'admin@seloasa.com.mx');
+    $_SESSION['auth_step1_passed'] = true;
+    $_SESSION['auth_step1_time'] = time();
+    $_SESSION['auth_step1_email'] = $targetEmail;
 
-    // 4. Enviar correo electrónico con el código
-    $sendResult = admin_send_otp_email($email, $code, $expiresIn);
+    @file_put_contents(ADMIN_STORAGE_DIR . '/admin_step1_passed.json', json_encode([
+        'passed' => true,
+        'time' => time(),
+        'email' => $targetEmail
+    ], JSON_PRETTY_PRINT));
 
-    // Solo en desarrollo local (XAMPP) se permite mostrar el código en pantalla.
-    // Requiere petición desde la propia máquina Y host local, para no exponerlo nunca en producción.
-    $remoteAddr = $_SERVER['REMOTE_ADDR'] ?? '';
-    $httpHost = strtolower((string) ($_SERVER['HTTP_HOST'] ?? ''));
-    $isLocal = in_array($remoteAddr, ['127.0.0.1', '::1'], true) &&
-               (str_starts_with($httpHost, 'localhost') || str_starts_with($httpHost, '127.0.0.1'));
-
-    $emailSent = !empty($sendResult['sent']);
-    $smtpError = (string) ($sendResult['error'] ?? 'Error SMTP desconocido');
-
-    if (!$emailSent && !$isLocal) {
-        // Producción: nunca revelar el código si el correo no salió
-        error_log('[SELOASA auth] Fallo SMTP al enviar OTP a ' . $email . ': ' . $smtpError);
-        http_response_code(502);
-        echo json_encode([
-            'success' => false,
-            'email_sent' => false,
-            'smtp_error' => $smtpError,
-            'error' => 'No fue posible enviar el código a tu correo. Detalle del servidor de correo: ' . $smtpError
-        ], JSON_UNESCAPED_UNICODE);
-        exit;
-    }
-
-    $response = [
+    echo json_encode([
         'success' => true,
-        'email' => $email,
-        'expires_in' => $expiresIn, // 600 segundos (10 minutos)
-        'message' => $emailSent
-            ? "Código de acceso enviado a tu correo institucional."
-            : "No se pudo entregar el correo por SMTP (" . $smtpError . "). Usa el código de seguridad para continuar.",
-        'email_sent' => $emailSent
-    ];
-
-    if ($isLocal) {
-        $response['dev_code'] = $code;
-        $response['smtp_error'] = $emailSent ? '' : $smtpError;
-    }
-
-    echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        'step' => 2,
+        'email' => $targetEmail,
+        'message' => 'Contraseña verificada correctamente. Ingresa tu código de Google Authenticator.'
+    ], JSON_UNESCAPED_UNICODE);
     exit;
 }
 

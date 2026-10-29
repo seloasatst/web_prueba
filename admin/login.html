@@ -37,7 +37,7 @@
         <!-- Indicador de 2 Pasos -->
         <div class="auth-step-indicator">
           <div id="step1Indicator" class="auth-step-pill active">
-            <i class="fa fa-envelope"></i> 1. Verificación por Correo
+            <i class="fa fa-key"></i> 1. Contraseña / Token
           </div>
           <div class="text-muted small">&bull;&bull;&bull;</div>
           <div id="step2Indicator" class="auth-step-pill">
@@ -79,94 +79,43 @@
 
       <div id="authSuccessAlert" class="alert alert-success py-2 small fw-bold d-none text-center" role="alert"></div>
 
-      <!-- PASO 1: ACCESO SIN CONTRASEÑA -->
+      <!-- PASO 1: CONTRASEÑA O TOKEN DE ACCESO (.ENV) -->
       <div id="step1Section">
-        
-        <!-- SUB-PASO 1A: INGRESAR CORREO AUTORIZADO -->
-        <div id="substepEmailFormWrap">
-          <form id="adminEmailRequestForm">
-            <div class="mb-3">
-              <label for="adminEmailInput" class="form-label small fw-bold text-dark mb-1">
-                <i class="fa fa-envelope text-primary me-1"></i> Correo Electrónico Institucional
-              </label>
-              <input type="email" id="adminEmailInput" class="form-control" placeholder="admin@seloasa.com.mx" required autocomplete="email">
-              <div class="form-text small text-muted mt-1">
-                <i class="fa fa-shield-alt text-primary me-1"></i> Acceso sin contraseña: el sistema verifica la lista autorizada y te envía un código de 6 dígitos.
-              </div>
-            </div>
-
-            <div class="form-check mb-4">
-              <input class="form-check-input" type="checkbox" id="rememberMeCheck" checked>
-              <label class="form-check-label small text-muted" for="rememberMeCheck">
-                Mantener sesión iniciada en este dispositivo
-              </label>
-            </div>
-
-            <button type="submit" id="btnRequestEmailCode" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
-              <i class="fa fa-paper-plane"></i>
-              <span>Enviar Código de 6 Dígitos</span>
-            </button>
-          </form>
-        </div>
-
-        <!-- SUB-PASO 1B: INTRODUCIR CÓDIGO DE 6 DÍGITOS DEL CORREO (10 MINUTOS) -->
-        <div id="substepEmailCodeWrap" class="d-none">
-          <div class="text-center mb-3">
-            <div class="auth-icon-circle" style="background-color: #e43b14; color: #ffffff;">
-              <i class="fa fa-envelope-open-text" style="color: #ffffff;"></i>
-            </div>
-            <h5 class="fw-bold text-dark mb-1">Código de Acceso Enviado</h5>
-            <p class="small text-muted mb-0">
-              Revisa la bandeja de entrada de:<br>
-              <strong id="sentEmailTargetDisplay" class="text-dark font-monospace">admin@seloasa.com.mx</strong>
-            </p>
-          </div>
-
-          <!-- Cronómetro de Vigencia Estricta de 10 minutos (600 segundos) -->
-          <div class="p-2.5 px-3 bg-light border rounded-3 mb-3">
-            <div class="d-flex align-items-center justify-content-between small">
-              <span class="text-muted"><i class="far fa-clock text-primary me-1"></i> Vigencia del código:</span>
-              <span id="emailOtpCountdownText" class="fw-bold text-danger font-monospace" style="font-size: 0.95rem;">10:00 min</span>
-            </div>
-            <div class="progress mt-1.5" style="height: 4px;">
-              <div id="emailOtpProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 100%; transition: width 1s linear;"></div>
-            </div>
-            <div class="text-muted text-center mt-1" style="font-size: 0.72rem;">
-              Válido estrictamente durante <strong>10 minutos</strong>. Tras expirar deberás solicitar uno nuevo.
-            </div>
-          </div>
-
-          <!-- Aviso en caso de contingencia SMTP / Código dev -->
-          <div id="smtpFallbackNotice" class="alert alert-warning py-2 px-3 small d-none text-center mb-3" style="border-radius: 12px;"></div>
-
-          <form id="adminEmailVerifyForm">
-            <label class="form-label small fw-bold text-dark text-center d-block mb-2">
-              Ingresa los 6 dígitos recibidos en tu correo:
+        <form id="adminPasswordLoginForm">
+          <div class="mb-3 text-start">
+            <label for="adminEmailInput" class="form-label small fw-bold text-dark mb-1">
+              <i class="fa fa-envelope text-primary me-1"></i> Correo Electrónico Institucional
             </label>
-            <div class="totp-digits-group mb-3" id="emailOtpDigitsGroup">
-              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric" required autocomplete="one-time-code">
-              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
-              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
-              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
-              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
-              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
-            </div>
+            <input type="email" id="adminEmailInput" class="form-control" value="admin@seloasa.com.mx" required autocomplete="email">
+          </div>
 
-            <button type="submit" id="btnVerifyEmailOtp" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 mb-2">
-              <span>Continuar a Google 2FA</span>
-              <i class="fa fa-arrow-right"></i>
-            </button>
-
-            <div class="d-flex align-items-center justify-content-between pt-2">
-              <button type="button" id="btnResendEmailOtp" class="btn btn-link text-primary small p-0 text-decoration-none">
-                <i class="fa fa-sync-alt me-1"></i> Reenviar código
-              </button>
-              <button type="button" id="btnChangeEmail" class="btn btn-link text-muted small p-0 text-decoration-none">
-                <i class="fa fa-pen me-1"></i> Cambiar correo
+          <div class="mb-3 text-start">
+            <label for="adminPasswordInput" class="form-label small fw-bold text-dark mb-1">
+              <i class="fa fa-key text-primary me-1"></i> Contraseña / Token de Acceso (.env)
+            </label>
+            <div class="input-group">
+              <input type="password" id="adminPasswordInput" class="form-control" placeholder="Ingresa tu contraseña o token" required autocomplete="current-password">
+              <button class="btn btn-outline-secondary" type="button" id="togglePasswordBtn">
+                <i class="fa fa-eye" id="togglePasswordIcon"></i>
               </button>
             </div>
-          </form>
-        </div>
+            <div class="form-text small text-muted mt-1">
+              <i class="fa fa-shield-alt text-primary me-1"></i> Autenticación directa por credencial definida en <code>.env</code>.
+            </div>
+          </div>
+
+          <div class="form-check mb-4 text-start">
+            <input class="form-check-input" type="checkbox" id="rememberMeCheck" checked>
+            <label class="form-check-label small text-muted" for="rememberMeCheck">
+              Mantener sesión iniciada en este dispositivo
+            </label>
+          </div>
+
+          <button type="submit" id="btnSubmitPassword" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
+            <span>Continuar a Google 2FA</span>
+            <i class="fa fa-arrow-right"></i>
+          </button>
+        </form>
       </div>
 
       <!-- PASO 2: AUTENTICACIÓN DE DOS PASOS (GOOGLE AUTHENTICATOR) -->
@@ -205,7 +154,7 @@
           </button>
 
           <button type="button" id="backToStep1Btn" class="btn btn-link text-muted small w-100 text-decoration-none">
-            <i class="fa fa-arrow-left me-1"></i> Regresar al paso de correo
+            <i class="fa fa-arrow-left me-1"></i> Regresar a ingresar contraseña
           </button>
         </form>
       </div>
@@ -218,7 +167,7 @@
   <script src="js/blog-i18n.js?v=20261027_08"></script>
   <script src="js/totp-auth.js?v=20261027_08"></script>
   <script src="js/site-popup.js?v=20261027_08"></script>
-  <script src="js/blog-admin.js?v=20261028_03"></script>
+  <script src="js/blog-admin.js?v=20261029_01"></script>
 </body>
 
 </html>
