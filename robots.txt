@@ -53,3 +53,4 @@ Disallow: /data/
 # Canónico y Mapa del Sitio (XML Sitemap) para Google Search Console
 Host: https://seloasa.com.mx
 Sitemap: https://seloasa.com.mx/sitemap.xml
+Sitemap: https://seloasa.com.mx/sitemap.php

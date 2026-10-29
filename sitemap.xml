@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
   <!-- Inicio / Home -->
   <url>
@@ -10,6 +8,14 @@
     <lastmod>2026-10-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://seloasa.com.mx/img/fotos%20unidades%202026/15.jpeg</image:loc>
+      <image:title>Flota Farmacéutica Multitemperatura SELOASA</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://seloasa.com.mx/img/patio_unidades_dia_banner.jpg</image:loc>
+      <image:title>Patio de Maniobras y Unidades SELOASA</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://seloasa.com.mx/home/</loc>
@@ -24,6 +30,10 @@
     <lastmod>2026-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://seloasa.com.mx/img/feature.jpg</image:loc>
+      <image:title>Instalaciones y equipo humano SELOASA</image:title>
+    </image:image>
   </url>
 
   <!-- Servicios Logísticos Farmacéuticos -->
@@ -44,6 +54,10 @@
     <lastmod>2026-10-29</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://seloasa.com.mx/img/fotos%20unidades%202026/14.jpeg</image:loc>
+      <image:title>Transporte Refrigerado y Congelado SELOASA</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://seloasa.com.mx/distribution/</loc>
@@ -76,24 +90,40 @@
     <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://seloasa.com.mx/img/patio_unidades_dia_banner.jpg</image:loc>
+      <image:title>SELOASA: Comprometidos con un Futuro Sostenible</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://seloasa.com.mx/blog/articulo.html?id=comunicado-gdp-2026</loc>
     <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://seloasa.com.mx/img/patio_unidades_dia_banner.jpg</image:loc>
+      <image:title>Actualización de Protocolos de Seguridad COFEPRIS y GDP</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://seloasa.com.mx/blog/articulo.html?id=noticia-telemetria</loc>
     <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://seloasa.com.mx/img/fotos%20unidades%202026/15.jpeg</image:loc>
+      <image:title>Ampliación de Flota Farma con Telemetría Activa</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://seloasa.com.mx/blog/articulo.html?id=blog-cadena-frio</loc>
     <lastmod>2026-10-29</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
+    <image:image>
+      <image:loc>https://seloasa.com.mx/img/fotos%20unidades%202026/14.jpeg</image:loc>
+      <image:title>Buenas Prácticas para Evitar Desviaciones Térmicas</image:title>
+    </image:image>
   </url>
 
   <!-- Bolsa de Trabajo / Empleo y Talento -->
@@ -138,11 +168,17 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- Legal / Aviso de Privacidad -->
+  <!-- Legal / Aviso de Privacidad y Mapa del Sitio -->
   <url>
     <loc>https://seloasa.com.mx/privacy-notice/</loc>
     <lastmod>2026-10-29</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://seloasa.com.mx/sitemap.html</loc>
+    <lastmod>2026-10-29</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
 
