@@ -717,7 +717,7 @@
     // Si es tipo blog, renderizamos en columnas de 3 (grid inferior)
     if (postType === 'blog') {
       container.innerHTML = recommendations.map(item => {
-        const itemUrl = `blog/${encodeURIComponent(item.id || '')}`;
+        const itemUrl = `blog/articulo.html?id=${encodeURIComponent(item.id || '')}`;
         return `
           <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
@@ -742,7 +742,7 @@
     } else {
       // Si es comunicado o noticia, renderizamos formato lista en sidebar
       container.innerHTML = recommendations.map(item => {
-        const itemUrl = `blog/${encodeURIComponent(item.id || '')}`;
+        const itemUrl = `blog/articulo.html?id=${encodeURIComponent(item.id || '')}`;
         return `
           <a href="${itemUrl}" class="sidebar-rec-item">
             <img src="${item.image}" alt="" class="sidebar-rec-img">
@@ -762,7 +762,7 @@
       btn.addEventListener('click', function () {
         const targetId = currentPostId || getPostIdFromUrl();
         const baseOrigin = window.location.origin;
-        const prefix = window.location.pathname.includes('/shipping/') ? '/shipping/blog/' : '/blog/';
+        const prefix = window.location.pathname.includes('/shipping/') ? '/shipping/blog/articulo.html?id=' : '/blog/articulo.html?id=';
         const prettyUrl = `${baseOrigin}${prefix}${encodeURIComponent(targetId)}`;
 
         if (navigator.clipboard && navigator.clipboard.writeText) {

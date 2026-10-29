@@ -1,0 +1,12 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /blog/
+
+    # Si el archivo o directorio existe físicamente, servirlo directamente
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Redirigir cualquier slug /blog/mi-slug a articulo.html?id=mi-slug
+    RewriteRule ^([a-zA-Z0-9_\-]+)/?$ articulo.html?id=$1 [QSA,L]
+</IfModule>

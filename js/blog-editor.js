@@ -981,7 +981,7 @@
 
       const viewPublicBtn = document.getElementById('btnViewPublicPost');
       if (viewPublicBtn && p.id) {
-        viewPublicBtn.setAttribute('href', `blog/${encodeURIComponent(p.id)}`);
+        viewPublicBtn.setAttribute('href', `blog/articulo.html?id=${encodeURIComponent(p.id)}`);
         viewPublicBtn.classList.remove('d-none');
       }
 

@@ -208,7 +208,7 @@
     const summary = document.getElementById('blogFeaturedSummary');
     const readBtn = document.getElementById('blogFeaturedReadBtn');
 
-    const targetUrl = `blog/${encodeURIComponent(feat.id || 'featured')}`;
+    const targetUrl = `blog/articulo.html?id=${encodeURIComponent(feat.id || 'featured')}`;
 
     if (image) {
       const media = parseMediaSource(feat.image);
@@ -308,7 +308,7 @@
       else if (lang === 'pt') btnText = item.type === 'comunicado' ? 'Ver comunicado' : 'Ler mais';
       else if (lang === 'fr') btnText = item.type === 'comunicado' ? 'Voir communiqué' : 'Lire la suite';
 
-      const targetUrl = `blog/${encodeURIComponent(item.id || index)}`;
+      const targetUrl = `blog/articulo.html?id=${encodeURIComponent(item.id || index)}`;
 
       return `
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="${(0.1 + (index % 3) * 0.15).toFixed(2)}s">
