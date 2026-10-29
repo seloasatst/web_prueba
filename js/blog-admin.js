@@ -774,7 +774,7 @@
                 <i class="fa fa-pen" style="font-size: 10px;"></i>
                 <span>Editar</span>
               </a>
-              <a href="blog/${encodeURIComponent(post.id)}" target="_blank" rel="noopener noreferrer" class="admin-action-btn-icon" title="Ver en la web pública">
+              <a href="blog/articulo.html?id=${encodeURIComponent(post.id)}" target="_blank" rel="noopener noreferrer" class="admin-action-btn-icon" title="Ver en la web pública">
                 <i class="fa fa-external-link-alt" style="font-size: 11px;"></i>
               </a>
               <button type="button" class="admin-action-btn-icon admin-action-btn-danger btn-delete-post" data-id="${post.id}" title="Eliminar publicación">

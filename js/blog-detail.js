@@ -150,50 +150,95 @@
       .trim() || defaultVal;
   }
 
-  function parseMediaSource(mediaInput) {
-    if (!mediaInput) return { type: 'image', src: 'img/patio_unidades_dia_banner.jpg' };
-    const clean = String(mediaInput).trim();
+  function isVideoString(str) {
+    if (!str) return false;
+    return /(?:youtube\.com|youtu\.be|vimeo\.com|\.(mp4|webm|ogg))|<iframe|<video/i.test(str);
+  }
 
-    // 1. YouTube
-    const ytMatch = clean.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i);
-    if (ytMatch) {
-      const id = ytMatch[1];
-      return {
-        type: 'youtube',
-        id: id,
-        embedUrl: `https://www.youtube.com/embed/${id}`,
-        thumbnailUrl: `https://img.youtube.com/vi/${id}/hqdefault.jpg`
-      };
+  function parseMediaSource(mediaInput, fallbackTime = '1') {
+    let videoUrl = '';
+    let imageUrl = '';
+    let videoTime = fallbackTime || '1';
+
+    if (typeof mediaInput === 'object' && mediaInput !== null) {
+      videoUrl = (mediaInput.video_url || '').trim();
+      imageUrl = (mediaInput.image || '').trim();
+      videoTime = mediaInput.video_time || fallbackTime || '1';
+    } else {
+      const clean = String(mediaInput || '').trim();
+      if (isVideoString(clean)) {
+        videoUrl = clean;
+      } else {
+        imageUrl = clean;
+      }
     }
 
-    // 2. Vimeo
-    const vimeoMatch = clean.match(/vimeo\.com\/(?:video\/)?(\d+)/i);
-    if (vimeoMatch) {
-      const id = vimeoMatch[1];
-      return {
-        type: 'vimeo',
-        id: id,
-        embedUrl: `https://player.vimeo.com/video/${id}`,
-        thumbnailUrl: 'img/feature.jpg'
-      };
+    if (!videoUrl && isVideoString(imageUrl)) {
+      videoUrl = imageUrl;
+      imageUrl = '';
     }
 
-    // 3. Direct HTML embed
-    if (clean.startsWith('<iframe') || clean.startsWith('<video')) {
-      return { type: 'html', html: clean, thumbnailUrl: 'img/feature.jpg' };
+    if (videoUrl) {
+      // 1. YouTube
+      const ytMatch = videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i);
+      if (ytMatch) {
+        const id = ytMatch[1];
+        return {
+          type: 'youtube',
+          id: id,
+          embedUrl: `https://www.youtube.com/embed/${id}`,
+          thumbnailUrl: imageUrl || `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
+          videoTime: videoTime
+        };
+      }
+
+      // 2. Vimeo
+      const vimeoMatch = videoUrl.match(/vimeo\.com\/(?:video\/)?(\d+)/i);
+      if (vimeoMatch) {
+        const id = vimeoMatch[1];
+        return {
+          type: 'vimeo',
+          id: id,
+          embedUrl: `https://player.vimeo.com/video/${id}`,
+          thumbnailUrl: imageUrl || 'img/feature.jpg',
+          videoTime: videoTime
+        };
+      }
+
+      // 3. Direct HTML embed
+      if (videoUrl.startsWith('<iframe') || videoUrl.startsWith('<video')) {
+        return {
+          type: 'html',
+          html: videoUrl,
+          thumbnailUrl: imageUrl || 'img/feature.jpg',
+          videoTime: videoTime
+        };
+      }
+
+      // 4. Video file (.mp4, .webm, .ogg)
+      if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(videoUrl)) {
+        const baseSrc = videoUrl.split('#')[0];
+        const timedSrc = `${baseSrc}#t=${videoTime}`;
+        return {
+          type: 'video',
+          src: timedSrc,
+          baseSrc: baseSrc,
+          videoTime: videoTime,
+          thumbnailUrl: imageUrl || ''
+        };
+      }
     }
 
-    // 4. Video file (.mp4, .webm, .ogg)
-    if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(clean)) {
-      return { type: 'video', src: clean, thumbnailUrl: 'img/feature.jpg' };
-    }
-
-    // 5. Image fallback
-    return { type: 'image', src: clean };
+    return {
+      type: 'image',
+      src: imageUrl || 'img/patio_unidades_dia_banner.jpg',
+      thumbnailUrl: imageUrl || 'img/patio_unidades_dia_banner.jpg',
+      videoTime: videoTime
+    };
   }
 
   function renderDetailMediaHtml(post, templateType) {
-    const media = parseMediaSource(post.image);
+    const media = parseMediaSource(post);
 
     if (media.type === 'youtube') {
       if (templateType === 'noticia') {
@@ -236,12 +281,13 @@
     if (media.type === 'video') {
       return `
         <div class="mb-4 overflow-hidden rounded shadow-sm bg-black" style="border: 1px solid #dee2e6;">
-          <video controls class="w-100" style="max-height: 480px; display: block;" playsinline preload="metadata">
+          <video controls ${media.thumbnailUrl ? `poster="${media.thumbnailUrl}"` : ''} class="w-100" style="max-height: 480px; display: block;" playsinline preload="metadata">
             <source src="${media.src}" type="video/mp4">
             Tu navegador no soporta reproducción de video.
           </video>
-          <div class="p-2 px-3 bg-light text-muted small border-top">
-            <i class="fa fa-video me-1 text-primary"></i> Video oficial SELOASA
+          <div class="p-2 px-3 bg-light text-muted small border-top d-flex justify-content-between align-items-center">
+            <span><i class="fa fa-video me-1 text-primary"></i> Video oficial SELOASA (Fotograma: ${media.videoTime}s)</span>
+            ${media.thumbnailUrl ? '<span class="badge bg-success-subtle text-success border border-success-subtle small">Miniatura personalizada activa</span>' : ''}
           </div>
         </div>
       `;
@@ -718,11 +764,16 @@
     if (postType === 'blog') {
       container.innerHTML = recommendations.map(item => {
         const itemUrl = `blog/articulo.html?id=${encodeURIComponent(item.id || '')}`;
+        const itemMedia = parseMediaSource(item);
+        const itemThumbHtml = (itemMedia.type === 'video' && !itemMedia.thumbnailUrl)
+          ? `<video src="${itemMedia.src}" class="card-img-top w-100" style="height: 140px; object-fit: cover;" muted playsinline preload="metadata"></video>`
+          : `<img src="${itemMedia.thumbnailUrl || itemMedia.src || 'img/feature.jpg'}" alt="" class="card-img-top w-100" style="height: 140px; object-fit: cover;" loading="lazy">`;
+
         return `
           <div class="col-md-4">
             <div class="card h-100 border-0 shadow-sm rounded-3 overflow-hidden">
               <a href="${itemUrl}">
-                <img src="${item.image}" alt="" class="card-img-top w-100" style="height: 140px; object-fit: cover;">
+                ${itemThumbHtml}
               </a>
               <div class="card-body p-3 d-flex flex-column">
                 <span class="badge bg-light text-dark border mb-1 align-self-start small" style="font-size: 0.7rem;">${item.category || 'SELOASA'}</span>
@@ -743,9 +794,14 @@
       // Si es comunicado o noticia, renderizamos formato lista en sidebar
       container.innerHTML = recommendations.map(item => {
         const itemUrl = `blog/articulo.html?id=${encodeURIComponent(item.id || '')}`;
+        const itemMedia = parseMediaSource(item);
+        const itemThumbHtml = (itemMedia.type === 'video' && !itemMedia.thumbnailUrl)
+          ? `<video src="${itemMedia.src}" class="sidebar-rec-img" style="object-fit: cover;" muted playsinline preload="metadata"></video>`
+          : `<img src="${itemMedia.thumbnailUrl || itemMedia.src || 'img/feature.jpg'}" alt="" class="sidebar-rec-img" loading="lazy">`;
+
         return `
           <a href="${itemUrl}" class="sidebar-rec-item">
-            <img src="${item.image}" alt="" class="sidebar-rec-img">
+            ${itemThumbHtml}
             <div class="overflow-hidden">
               <div class="small text-muted" style="font-size: 0.7rem;">${item.category || 'SELOASA'}</div>
               <h6 class="sidebar-rec-title text-truncate-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${item.title}</h6>

@@ -77,58 +77,103 @@
     return dict[safeLang] || dict.es;
   }
 
-  function parseMediaSource(mediaInput) {
-    if (!mediaInput) return { type: 'image', src: 'img/feature.jpg' };
-    const clean = String(mediaInput).trim();
+  function isVideoString(str) {
+    if (!str) return false;
+    return /(?:youtube\.com|youtu\.be|vimeo\.com|\.(mp4|webm|ogg))|<iframe|<video/i.test(str);
+  }
 
-    // 1. YouTube
-    const ytMatch = clean.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i);
-    if (ytMatch) {
-      const id = ytMatch[1];
-      return {
-        type: 'youtube',
-        id: id,
-        embedUrl: `https://www.youtube.com/embed/${id}`,
-        thumbnailUrl: `https://img.youtube.com/vi/${id}/hqdefault.jpg`
-      };
+  function parseMediaSource(mediaInput, fallbackTime = '1') {
+    let videoUrl = '';
+    let imageUrl = '';
+    let videoTime = fallbackTime || '1';
+
+    if (typeof mediaInput === 'object' && mediaInput !== null) {
+      videoUrl = (mediaInput.video_url || '').trim();
+      imageUrl = (mediaInput.image || '').trim();
+      videoTime = mediaInput.video_time || fallbackTime || '1';
+    } else {
+      const clean = String(mediaInput || '').trim();
+      if (isVideoString(clean)) {
+        videoUrl = clean;
+      } else {
+        imageUrl = clean;
+      }
     }
 
-    // 2. Vimeo
-    const vimeoMatch = clean.match(/vimeo\.com\/(?:video\/)?(\d+)/i);
-    if (vimeoMatch) {
-      const id = vimeoMatch[1];
-      return {
-        type: 'vimeo',
-        id: id,
-        embedUrl: `https://player.vimeo.com/video/${id}`,
-        thumbnailUrl: 'img/feature.jpg'
-      };
+    if (!videoUrl && isVideoString(imageUrl)) {
+      videoUrl = imageUrl;
+      imageUrl = '';
     }
 
-    // 3. Direct HTML embed (<iframe or <video)
-    if (clean.startsWith('<iframe') || clean.startsWith('<video')) {
-      return { type: 'html', html: clean, thumbnailUrl: 'img/feature.jpg' };
+    if (videoUrl) {
+      // 1. YouTube
+      const ytMatch = videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i);
+      if (ytMatch) {
+        const id = ytMatch[1];
+        return {
+          type: 'youtube',
+          id: id,
+          embedUrl: `https://www.youtube.com/embed/${id}`,
+          thumbnailUrl: imageUrl || `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
+          videoTime: videoTime
+        };
+      }
+
+      // 2. Vimeo
+      const vimeoMatch = videoUrl.match(/vimeo\.com\/(?:video\/)?(\d+)/i);
+      if (vimeoMatch) {
+        const id = vimeoMatch[1];
+        return {
+          type: 'vimeo',
+          id: id,
+          embedUrl: `https://player.vimeo.com/video/${id}`,
+          thumbnailUrl: imageUrl || 'img/feature.jpg',
+          videoTime: videoTime
+        };
+      }
+
+      // 3. Direct HTML embed (<iframe or <video)
+      if (videoUrl.startsWith('<iframe') || videoUrl.startsWith('<video')) {
+        return {
+          type: 'html',
+          html: videoUrl,
+          thumbnailUrl: imageUrl || 'img/feature.jpg',
+          videoTime: videoTime
+        };
+      }
+
+      // 4. Video file (.mp4, .webm, .ogg)
+      if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(videoUrl)) {
+        const baseSrc = videoUrl.split('#')[0];
+        const timedSrc = `${baseSrc}#t=${videoTime}`;
+        return {
+          type: 'video',
+          src: timedSrc,
+          baseSrc: baseSrc,
+          videoTime: videoTime,
+          thumbnailUrl: imageUrl || ''
+        };
+      }
     }
 
-    // 4. Video file (.mp4, .webm, .ogg)
-    if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(clean)) {
-      return { type: 'video', src: clean, thumbnailUrl: 'img/feature.jpg' };
-    }
-
-    // 5. Normal image
-    return { type: 'image', src: clean };
+    return {
+      type: 'image',
+      src: imageUrl || 'img/feature.jpg',
+      thumbnailUrl: imageUrl || 'img/feature.jpg',
+      videoTime: videoTime
+    };
   }
 
   function renderCardMediaHtml(item, targetUrl, badgeHtml) {
-    const media = parseMediaSource(item.image);
+    const media = parseMediaSource(item);
 
-    if (media.type === 'youtube') {
+    if (media.type === 'youtube' || (media.type === 'video' && media.thumbnailUrl)) {
       return `
         <div class="overflow-hidden service-media mb-3 position-relative">
           <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="video-card-thumb-wrap">
             <img src="${media.thumbnailUrl}" alt="${item.title}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy">
             <div class="video-play-overlay">
-              <span class="video-play-badge"><i class="fa fa-play"></i></span>
+              <span class="video-play-badge"><i class="fa fa-play text-white"></i></span>
             </div>
           </a>
           ${badgeHtml}
@@ -142,7 +187,7 @@
           <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="video-card-thumb-wrap">
             <video src="${media.src}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" muted playsinline preload="metadata"></video>
             <div class="video-play-overlay">
-              <span class="video-play-badge"><i class="fa fa-play"></i></span>
+              <span class="video-play-badge"><i class="fa fa-play text-white"></i></span>
             </div>
           </a>
           ${badgeHtml}

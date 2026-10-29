@@ -97,50 +97,95 @@
       .trim() || defaultVal;
   }
 
-  function parseMediaSource(mediaInput) {
-    if (!mediaInput) return { type: 'image', src: 'img/patio_unidades_dia_banner.jpg' };
-    const clean = String(mediaInput).trim();
+  function isVideoString(str) {
+    if (!str) return false;
+    return /(?:youtube\.com|youtu\.be|vimeo\.com|\.(mp4|webm|ogg))|<iframe|<video/i.test(str);
+  }
 
-    // 1. YouTube
-    const ytMatch = clean.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i);
-    if (ytMatch) {
-      const id = ytMatch[1];
-      return {
-        type: 'youtube',
-        id: id,
-        embedUrl: `https://www.youtube.com/embed/${id}`,
-        thumbnailUrl: `https://img.youtube.com/vi/${id}/hqdefault.jpg`
-      };
+  function parseMediaSource(mediaInput, fallbackTime = '1') {
+    let videoUrl = '';
+    let imageUrl = '';
+    let videoTime = fallbackTime || '1';
+
+    if (typeof mediaInput === 'object' && mediaInput !== null) {
+      videoUrl = (mediaInput.video_url || '').trim();
+      imageUrl = (mediaInput.image || '').trim();
+      videoTime = mediaInput.video_time || fallbackTime || '1';
+    } else {
+      const clean = String(mediaInput || '').trim();
+      if (isVideoString(clean)) {
+        videoUrl = clean;
+      } else {
+        imageUrl = clean;
+      }
     }
 
-    // 2. Vimeo
-    const vimeoMatch = clean.match(/vimeo\.com\/(?:video\/)?(\d+)/i);
-    if (vimeoMatch) {
-      const id = vimeoMatch[1];
-      return {
-        type: 'vimeo',
-        id: id,
-        embedUrl: `https://player.vimeo.com/video/${id}`,
-        thumbnailUrl: 'img/feature.jpg'
-      };
+    if (!videoUrl && isVideoString(imageUrl)) {
+      videoUrl = imageUrl;
+      imageUrl = '';
     }
 
-    // 3. Direct HTML embed
-    if (clean.startsWith('<iframe') || clean.startsWith('<video')) {
-      return { type: 'html', html: clean, thumbnailUrl: 'img/feature.jpg' };
+    if (videoUrl) {
+      // 1. YouTube
+      const ytMatch = videoUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/i);
+      if (ytMatch) {
+        const id = ytMatch[1];
+        return {
+          type: 'youtube',
+          id: id,
+          embedUrl: `https://www.youtube.com/embed/${id}`,
+          thumbnailUrl: imageUrl || `https://img.youtube.com/vi/${id}/hqdefault.jpg`,
+          videoTime: videoTime
+        };
+      }
+
+      // 2. Vimeo
+      const vimeoMatch = videoUrl.match(/vimeo\.com\/(?:video\/)?(\d+)/i);
+      if (vimeoMatch) {
+        const id = vimeoMatch[1];
+        return {
+          type: 'vimeo',
+          id: id,
+          embedUrl: `https://player.vimeo.com/video/${id}`,
+          thumbnailUrl: imageUrl || 'img/feature.jpg',
+          videoTime: videoTime
+        };
+      }
+
+      // 3. Direct HTML embed
+      if (videoUrl.startsWith('<iframe') || videoUrl.startsWith('<video')) {
+        return {
+          type: 'html',
+          html: videoUrl,
+          thumbnailUrl: imageUrl || 'img/feature.jpg',
+          videoTime: videoTime
+        };
+      }
+
+      // 4. Video file (.mp4, .webm, .ogg)
+      if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(videoUrl)) {
+        const baseSrc = videoUrl.split('#')[0];
+        const timedSrc = `${baseSrc}#t=${videoTime}`;
+        return {
+          type: 'video',
+          src: timedSrc,
+          baseSrc: baseSrc,
+          videoTime: videoTime,
+          thumbnailUrl: imageUrl || ''
+        };
+      }
     }
 
-    // 4. Video file (.mp4, .webm, .ogg)
-    if (/\.(mp4|webm|ogg)(\?.*)?$/i.test(clean)) {
-      return { type: 'video', src: clean, thumbnailUrl: 'img/feature.jpg' };
-    }
-
-    // 5. Image fallback
-    return { type: 'image', src: clean };
+    return {
+      type: 'image',
+      src: imageUrl || 'img/patio_unidades_dia_banner.jpg',
+      thumbnailUrl: imageUrl || 'img/patio_unidades_dia_banner.jpg',
+      videoTime: videoTime
+    };
   }
 
   function renderEditorLiveMediaHtml(post, templateType) {
-    const media = parseMediaSource(post.image);
+    const media = parseMediaSource(post);
 
     if (media.type === 'youtube') {
       if (templateType === 'noticia') {
@@ -183,12 +228,13 @@
     if (media.type === 'video') {
       return `
         <div class="mb-4 overflow-hidden rounded shadow-sm bg-black" style="border: 1px solid #dee2e6;">
-          <video controls class="w-100" style="max-height: 440px; display: block;" playsinline preload="metadata">
+          <video controls ${media.thumbnailUrl ? `poster="${media.thumbnailUrl}"` : ''} class="w-100" style="max-height: 440px; display: block;" playsinline preload="metadata">
             <source src="${media.src}" type="video/mp4">
             Tu navegador no soporta reproducción de video.
           </video>
-          <div class="p-2 px-3 bg-light text-muted small border-top">
-            <i class="fa fa-video me-1 text-primary"></i> Video oficial SELOASA
+          <div class="p-2 px-3 bg-light text-muted small border-top d-flex justify-content-between align-items-center">
+            <span><i class="fa fa-video me-1 text-primary"></i> Video oficial SELOASA (Fotograma: ${media.videoTime}s)</span>
+            ${media.thumbnailUrl ? '<span class="badge bg-success-subtle text-success border border-success-subtle small">Miniatura personalizada activa</span>' : ''}
           </div>
         </div>
       `;
@@ -513,6 +559,8 @@
     const date = (document.getElementById('postDateInput')?.value || '').trim() || 'Mayo 2026';
     const readTime = (document.getElementById('postReadTimeInput')?.value || '').trim() || '3 min';
     const image = (document.getElementById('postImageInput')?.value || '').trim() || 'img/patio_unidades_dia_banner.jpg';
+    const videoUrl = (document.getElementById('postVideoInput')?.value || '').trim();
+    const videoTime = (document.getElementById('postVideoTimeInput')?.value || '').trim() || '1';
     const category = (document.getElementById('postCategoryInput')?.value || '').trim() || (type === 'comunicado' ? 'Comunicado Oficial' : type === 'noticia' ? 'Noticia Operativa' : 'Blog Farma');
     const statusVal = document.getElementById('postStatusSelect')?.value || 'published';
 
@@ -540,6 +588,8 @@
       summary: summary,
       content: content || `<p>${summary}</p>`,
       image: image,
+      video_url: videoUrl,
+      video_time: videoTime,
       status: statusVal,
       pdf_enabled: pdfEnabled,
       pdf_title: pdfTitle,
@@ -559,7 +609,7 @@
     const currentStructureBadge = document.getElementById('previewStructureName');
 
     if (addressBar) {
-      addressBar.textContent = `https://seloasa.com.mx/blog/${encodeURIComponent(post.id)}`;
+      addressBar.textContent = `https://seloasa.com.mx/blog/articulo.html?id=${encodeURIComponent(post.id)}`;
     }
 
     if (currentStructureBadge) {
@@ -977,6 +1027,11 @@
       if (statusSelect) statusSelect.value = p.status || 'published';
       if (imageInput) imageInput.value = p.image || 'img/patio_unidades_dia_banner.jpg';
 
+      const videoInput = document.getElementById('postVideoInput');
+      const videoTimeInput = document.getElementById('postVideoTimeInput');
+      if (videoInput) videoInput.value = p.video_url || '';
+      if (videoTimeInput) videoTimeInput.value = p.video_time || '1';
+
       syncHeaderStatus(p.status || 'published');
 
       const viewPublicBtn = document.getElementById('btnViewPublicPost');
@@ -1075,8 +1130,11 @@
       updateLivePreview();
     });
 
+    const videoInput = document.getElementById('postVideoInput');
+    const videoTimeInput = document.getElementById('postVideoTimeInput');
+
     // Vincular todos los campos a actualización en tiempo real inmediata
-    [titleInput, summaryInput, deptInput, dateInput, readTimeInput, imageInput, categoryInput, statusSelect, idInput,
+    [titleInput, summaryInput, deptInput, dateInput, readTimeInput, imageInput, videoInput, videoTimeInput, categoryInput, statusSelect, idInput,
      pdfTitleInput, pdfUrlInput, pdfBtnTextInput, pdfDescInput, normativaTitleInput, normativaItemsInput].forEach(inp => {
       if (inp) {
         inp.addEventListener('input', updateLivePreview);
@@ -1192,7 +1250,7 @@
     // Actualizar botón de vista pública
     const viewPublicBtn = document.getElementById('btnViewPublicPost');
     if (viewPublicBtn) {
-      viewPublicBtn.setAttribute('href', `blog/${encodeURIComponent(postData.id)}`);
+      viewPublicBtn.setAttribute('href', `blog/articulo.html?id=${encodeURIComponent(postData.id)}`);
       viewPublicBtn.classList.remove('d-none');
     }
 

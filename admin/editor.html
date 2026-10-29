@@ -253,50 +253,54 @@
           </div>
         </div>
 
-        <!-- Imagen o Video de Portada -->
-        <div class="mb-3">
-          <label for="postImageInput" class="form-label small fw-bold text-dark mb-1">
-            <i class="fa fa-photo-video text-primary me-1"></i> Imagen o Video de Portada
-          </label>
-          <div class="input-group">
-            <input type="text" id="postImageInput" class="form-control"
-              placeholder="Ruta de imagen (.jpg, .png) o enlace de YouTube / MP4"
-              value="img/patio_unidades_dia_banner.jpg">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-              data-bs-toggle="dropdown">Seleccionar recurso</button>
-            <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-              <li>
-                <h6 class="dropdown-header small text-uppercase">Imágenes Institucionales</h6>
-              </li>
-              <li><a class="dropdown-item" href="javascript:void(0)"
-                  onclick="document.getElementById('postImageInput').value='img/patio_unidades_dia_banner.jpg'; document.getElementById('postImageInput').dispatchEvent(new Event('input'));"><i
-                    class="fa fa-image text-muted me-2"></i>Patio Unidades Día (Oficial)</a></li>
-              <li><a class="dropdown-item" href="javascript:void(0)"
-                  onclick="document.getElementById('postImageInput').value='img/feature.jpg'; document.getElementById('postImageInput').dispatchEvent(new Event('input'));"><i
-                    class="fa fa-truck text-muted me-2"></i>Flota en Carretera (Noticias)</a></li>
-              <li><a class="dropdown-item" href="javascript:void(0)"
-                  onclick="document.getElementById('postImageInput').value='img/about.jpg'; document.getElementById('postImageInput').dispatchEvent(new Event('input'));"><i
-                    class="fa fa-building text-muted me-2"></i>Instalaciones y Calidad (Blog)</a></li>
-              <li><a class="dropdown-item" href="javascript:void(0)"
-                  onclick="document.getElementById('postImageInput').value='img/hero-1.jpg'; document.getElementById('postImageInput').dispatchEvent(new Event('input'));"><i
-                    class="fa fa-shield-alt text-muted me-2"></i>Hero Logística</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li>
-                <h6 class="dropdown-header small text-uppercase text-danger"><i class="fab fa-youtube me-1"></i> Video
-                  (YouTube / MP4)</h6>
-              </li>
-              <li><a class="dropdown-item" href="javascript:void(0)"
-                  onclick="var v = prompt('Ingresa el enlace de YouTube o video MP4:'); if(v && v.trim()){ document.getElementById('postImageInput').value = v.trim(); document.getElementById('postImageInput').dispatchEvent(new Event('input')); }"><i
-                    class="fa fa-link text-danger me-2"></i>Pegar enlace de YouTube o MP4...</a></li>
-            </ul>
-          </div>
-          <div class="form-text small" style="font-size: 0.74rem;">
-            <i class="fa fa-info-circle text-primary me-1"></i> Acepta imágenes locales (ej. <code>img/foto.jpg</code>)
-            o enlaces de <strong>YouTube</strong> (ej. <code>https://www.youtube.com/watch?v=...</code>),
-            <strong>Vimeo</strong> o archivos <strong>.mp4</strong>. El sistema mostrará la portada interactiva y el
-            video en automático.
+        <!-- Media de Portada: Imagen y Video -->
+        <div class="card border rounded-3 mb-3 p-3 bg-light-subtle">
+          <div class="row g-3">
+            <div class="col-md-7">
+              <label for="postImageInput" class="form-label small fw-bold text-dark mb-1">
+                <i class="fa fa-image text-primary me-1"></i> Imagen de Portada / Banner (Foto o Miniatura)
+              </label>
+              <div class="input-group">
+                <input type="text" id="postImageInput" class="form-control"
+                  placeholder="img/patio_unidades_dia_banner.jpg"
+                  value="img/patio_unidades_dia_banner.jpg">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                  data-bs-toggle="dropdown">Seleccionar imagen</button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                  <li><h6 class="dropdown-header small text-uppercase">Imágenes Institucionales</h6></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)"
+                      onclick="document.getElementById('postImageInput').value='img/patio_unidades_dia_banner.jpg'; document.getElementById('postImageInput').dispatchEvent(new Event('input'));"><i
+                        class="fa fa-image text-muted me-2"></i>Patio Unidades Día (Oficial)</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)"
+                      onclick="document.getElementById('postImageInput').value='img/feature.jpg'; document.getElementById('postImageInput').dispatchEvent(new Event('input'));"><i
+                        class="fa fa-truck text-muted me-2"></i>Flota en Carretera (Noticias)</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)"
+                      onclick="document.getElementById('postImageInput').value='img/about.jpg'; document.getElementById('postImageInput').dispatchEvent(new Event('input'));"><i
+                        class="fa fa-building text-muted me-2"></i>Instalaciones y Calidad (Blog)</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)"
+                      onclick="document.getElementById('postImageInput').value='img/hero-1.jpg'; document.getElementById('postImageInput').dispatchEvent(new Event('input'));"><i
+                        class="fa fa-shield-alt text-muted me-2"></i>Hero Logística</a></li>
+                </ul>
+              </div>
+              <div class="form-text small" style="font-size: 0.72rem;">
+                Imagen fija para tarjetas, listados y barra lateral (ej. <code>img/foto.jpg</code>).
+              </div>
+            </div>
+
+            <div class="col-md-5">
+              <label for="postVideoInput" class="form-label small fw-bold text-dark mb-1">
+                <i class="fab fa-youtube text-danger me-1"></i> Video (Opcional - YouTube / MP4)
+              </label>
+              <input type="text" id="postVideoInput" class="form-control"
+                placeholder="https://www.youtube.com/watch?v=... o video.mp4">
+              <div class="d-flex align-items-center gap-2 mt-1">
+                <label for="postVideoTimeInput" class="small text-muted mb-0" style="font-size: 0.72rem; white-space: nowrap;">
+                  Fotograma (segundo):
+                </label>
+                <input type="number" id="postVideoTimeInput" class="form-control form-control-sm py-0" style="max-width: 75px; font-size: 0.75rem;" min="0" step="0.5" value="1" placeholder="1">
+                <span class="text-muted small" style="font-size: 0.70rem;">segundo del video para la portada</span>
+              </div>
+            </div>
           </div>
         </div>
 
