@@ -142,23 +142,42 @@ if (($action === 'request_email_code' || $action === 'login_step1') && $method =
     // 4. Enviar correo electrónico con el código
     $sendResult = admin_send_otp_email($email, $code, $expiresIn);
 
-    $isLocal = in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1'], true) ||
-               str_contains($_SERVER['HTTP_HOST'] ?? '', 'localhost') ||
-               str_contains($_SERVER['HTTP_HOST'] ?? '', '127.0.0.1');
+    // Solo en desarrollo local (XAMPP) se permite mostrar el código en pantalla.
+    // Requiere petición desde la propia máquina Y host local, para no exponerlo nunca en producción.
+    $remoteAddr = $_SERVER['REMOTE_ADDR'] ?? '';
+    $httpHost = strtolower((string) ($_SERVER['HTTP_HOST'] ?? ''));
+    $isLocal = in_array($remoteAddr, ['127.0.0.1', '::1'], true) &&
+               (str_starts_with($httpHost, 'localhost') || str_starts_with($httpHost, '127.0.0.1'));
+
+    $emailSent = !empty($sendResult['sent']);
+    $smtpError = (string) ($sendResult['error'] ?? 'Error SMTP desconocido');
+
+    if (!$emailSent && !$isLocal) {
+        // Producción: nunca revelar el código si el correo no salió
+        error_log('[SELOASA auth] Fallo SMTP al enviar OTP a ' . $email . ': ' . $smtpError);
+        http_response_code(502);
+        echo json_encode([
+            'success' => false,
+            'email_sent' => false,
+            'smtp_error' => $smtpError,
+            'error' => 'No fue posible enviar el código a tu correo. Detalle del servidor de correo: ' . $smtpError
+        ], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
 
     $response = [
         'success' => true,
         'email' => $email,
         'expires_in' => $expiresIn, // 600 segundos (10 minutos)
-        'message' => !empty($sendResult['sent'])
+        'message' => $emailSent
             ? "Código de acceso enviado a tu correo institucional."
-            : "No se pudo entregar el correo por SMTP (" . ($sendResult['error'] ?? 'Error SMTP') . "). Usa el código de seguridad para continuar.",
-        'email_sent' => !empty($sendResult['sent'])
+            : "No se pudo entregar el correo por SMTP (" . $smtpError . "). Usa el código de seguridad para continuar.",
+        'email_sent' => $emailSent
     ];
 
-    if (empty($sendResult['sent']) || $isLocal) {
+    if ($isLocal) {
         $response['dev_code'] = $code;
-        $response['smtp_error'] = $sendResult['error'] ?? 'SMTP Error';
+        $response['smtp_error'] = $emailSent ? '' : $smtpError;
     }
 
     echo json_encode($response, JSON_UNESCAPED_UNICODE);
@@ -310,28 +329,6 @@ if ($action === 'logout') {
         'success' => true,
         'authenticated' => false,
         'message' => 'Sesión cerrada correctamente.'
-    ], JSON_UNESCAPED_UNICODE);
-    exit;
-}
-
-/* ==========================================================================
-   GET: INFORMACIÓN DE CONFIGURACIÓN 2FA (SÓLO SI ESTÁ AUTENTICADO)
-   ========================================================================== */
-if ($action === 'setup_2fa') {
-    $canAccessSetup = admin_is_authenticated() || !empty($_SESSION['auth_step1_passed']);
-    if (!$canAccessSetup) {
-        http_response_code(401);
-        echo json_encode(['success' => false, 'error' => 'No autorizado']);
-        exit;
-    }
-
-    $otpauth = "otpauth://totp/SELOASA:{$adminEmail}?secret={$adminTotpSecret}&issuer=SELOASA&period=30&digits=6";
-    echo json_encode([
-        'success' => true,
-        'email' => $adminEmail,
-        'issuer' => 'SELOASA',
-        'secret' => $adminTotpSecret,
-        'otpauth_url' => $otpauth
     ], JSON_UNESCAPED_UNICODE);
     exit;
 }

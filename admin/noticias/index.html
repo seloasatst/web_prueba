@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <base href="../../">
+  <meta charset="utf-8">
+  <title>Control Central SELOASA</title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="noindex, nofollow" name="robots">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
+  <link href="css/blog-templates.css" rel="stylesheet">
+  <link href="css/site-popup.css" rel="stylesheet">
+  <link href="css/blog-admin.css?v=20261027_08" rel="stylesheet">
+</head>
+
+<body class="admin-body">
+
+  <!-- ======================================================================
+       PANTALLA DE ACCESO: LOGIN (CORREO/CONTRASEÃ‘A) + 2FA GOOGLE AUTHENTICATOR
+       ====================================================================== -->
+  <div id="authWrapper" class="admin-auth-wrapper">
+    <div class="admin-auth-card">
+      <div class="text-center">
+        <img src="img/logotipo.png" alt="SELOASA" class="admin-auth-logo">
+        <h2 class="admin-auth-title">Control Central SELOASA</h2>
+        <p class="admin-auth-sub">Panel integral de gestiÃ³n: Noticias, Bolsa de Trabajo & Pop-ups</p>
+
+        <!-- Indicador de 2 Pasos -->
+        <div class="auth-step-indicator">
+          <div id="step1Indicator" class="auth-step-pill active">
+            <i class="fa fa-envelope"></i> 1. VerificaciÃ³n por Correo
+          </div>
+          <div class="text-muted small">&bull;&bull;&bull;</div>
+          <div id="step2Indicator" class="auth-step-pill">
+            <i class="fa fa-shield-alt"></i> 2. Google 2FA
+          </div>
+        </div>
+      </div>
+
+      <!-- Aviso de Protocolo Local file:/// -->
+      <div id="fileProtocolNotice" class="alert alert-warning py-2 px-3 small d-none text-start mb-3" style="border-radius: 10px; font-size: 0.82rem;">
+        <div class="fw-bold text-dark mb-1"><i class="fa fa-exclamation-triangle text-warning me-1"></i> Servidor Local Requerido</div>
+        <p class="mb-2 text-muted" style="font-size: 0.78rem;">EstÃ¡s visualizando este archivo como <code>file:///</code>. Para que PHP envÃ­e correos y valide accesos, debes abrirlo a travÃ©s de tu servidor Apache en XAMPP:</p>
+        <a id="fileProtocolRedirectLink" href="http://localhost/shipping/admin/login" class="btn btn-sm btn-dark w-100 py-1 text-white fw-bold">
+          <i class="fa fa-external-link-alt me-1"></i> Abrir en http://localhost/shipping/admin/login
+        </a>
+      </div>
+
+      <!-- Alerta de Errores y Mensajes de AutenticaciÃ³n -->
+      <div id="authErrorAlert" class="alert alert-danger py-2 small fw-bold d-none text-center" role="alert"></div>
+      <div id="authSuccessAlert" class="alert alert-success py-2 small fw-bold d-none text-center" role="alert"></div>
+
+      <!-- PASO 1: ACCESO SIN CONTRASEÃ‘A -->
+      <div id="step1Section">
+        
+        <!-- SUB-PASO 1A: INGRESAR CORREO AUTORIZADO -->
+        <div id="substepEmailFormWrap">
+          <form id="adminEmailRequestForm">
+            <div class="mb-3">
+              <label for="adminEmailInput" class="form-label small fw-bold text-dark mb-1">
+                <i class="fa fa-envelope text-primary me-1"></i> Correo ElectrÃ³nico Institucional
+              </label>
+              <input type="email" id="adminEmailInput" class="form-control" placeholder="admin@seloasa.com.mx" required autocomplete="email">
+              <div class="form-text small text-muted mt-1">
+                <i class="fa fa-shield-alt text-primary me-1"></i> Acceso sin contraseÃ±a: el sistema verifica la lista autorizada y te envÃ­a un cÃ³digo de 6 dÃ­gitos.
+              </div>
+            </div>
+
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" id="rememberMeCheck" checked>
+              <label class="form-check-label small text-muted" for="rememberMeCheck">
+                Mantener sesiÃ³n iniciada en este dispositivo
+              </label>
+            </div>
+
+            <button type="submit" id="btnRequestEmailCode" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
+              <i class="fa fa-paper-plane"></i>
+              <span>Enviar CÃ³digo de 6 DÃ­gitos</span>
+            </button>
+          </form>
+
+        </div>
+
+        <!-- SUB-PASO 1B: INTRODUCIR CÃ“DIGO DE 6 DÃGITOS DEL CORREO (10 MINUTOS) -->
+        <div id="substepEmailCodeWrap" class="d-none">
+          <div class="text-center mb-3">
+            <div class="auth-icon-circle" style="background-color: #e43b14; color: #ffffff;">
+              <i class="fa fa-envelope-open-text" style="color: #ffffff;"></i>
+            </div>
+            <h5 class="fw-bold text-dark mb-1">CÃ³digo de Acceso Enviado</h5>
+            <p class="small text-muted mb-0">
+              Revisa la bandeja de entrada de:<br>
+              <strong id="sentEmailTargetDisplay" class="text-dark font-monospace">admin@seloasa.com.mx</strong>
+            </p>
+          </div>
+
+          <!-- CronÃ³metro de Vigencia Estricta de 10 minutos (600 segundos) -->
+          <div class="p-2.5 px-3 bg-light border rounded-3 mb-3">
+            <div class="d-flex align-items-center justify-content-between small">
+              <span class="text-muted"><i class="far fa-clock text-primary me-1"></i> Vigencia del cÃ³digo:</span>
+              <span id="emailOtpCountdownText" class="fw-bold text-danger font-monospace" style="font-size: 0.95rem;">10:00 min</span>
+            </div>
+            <div class="progress mt-1.5" style="height: 4px;">
+              <div id="emailOtpProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 100%; transition: width 1s linear;"></div>
+            </div>
+            <div class="text-muted text-center mt-1" style="font-size: 0.72rem;">
+              VÃ¡lido estrictamente durante <strong>10 minutos</strong>. Tras expirar deberÃ¡s solicitar uno nuevo.
+            </div>
+          </div>
+
+
+          <form id="adminEmailVerifyForm">
+            <label class="form-label small fw-bold text-dark text-center d-block mb-2">
+              Ingresa los 6 dÃ­gitos recibidos en tu correo:
+            </label>
+            <div class="totp-digits-group mb-3" id="emailOtpDigitsGroup">
+              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric" required autocomplete="one-time-code">
+              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
+              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
+              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
+              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
+              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
+            </div>
+
+            <button type="submit" id="btnVerifyEmailOtp" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 mb-2">
+              <span>Continuar a Google 2FA</span>
+              <i class="fa fa-arrow-right"></i>
+            </button>
+
+            <div class="d-flex align-items-center justify-content-between pt-2">
+              <button type="button" id="btnResendEmailOtp" class="btn btn-link text-primary small p-0 text-decoration-none">
+                <i class="fa fa-sync-alt me-1"></i> Reenviar cÃ³digo
+              </button>
+              <button type="button" id="btnChangeEmail" class="btn btn-link text-muted small p-0 text-decoration-none">
+                <i class="fa fa-pen me-1"></i> Cambiar correo
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- PASO 2: AUTENTICACIÃ“N DE DOS PASOS (GOOGLE AUTHENTICATOR) -->
+      <div id="step2Section" class="d-none">
+        <div class="text-center mb-3">
+          <div class="auth-icon-circle" style="background-color: #e43b14; color: #ffffff;">
+            <i class="fa fa-mobile-alt" style="color: #ffffff;"></i>
+          </div>
+          <h5 class="fw-bold text-dark mb-1">CÃ³digo Google Authenticator</h5>
+          <p class="small text-muted mb-0">Ingresa el cÃ³digo numÃ©rico de 6 dÃ­gitos generado en tu aplicaciÃ³n.</p>
+        </div>
+
+        <!-- Barra y Contador de tiempo de expiraciÃ³n (30s) -->
+        <div class="d-flex align-items-center justify-content-between small text-muted mb-1">
+          <span>Ventana de expiraciÃ³n:</span>
+          <span id="totpSecondsText" class="fw-bold text-primary font-monospace">30s</span>
+        </div>
+        <div class="totp-timer-bar-wrap">
+          <div id="totpTimerBar" class="totp-timer-bar"></div>
+        </div>
+
+        <form id="adminTotpForm">
+          <!-- Inputs individuales de 6 dÃ­gitos -->
+          <div class="totp-digits-group">
+            <input type="text" maxlength="1" class="totp-digit-input google-digit-input" inputmode="numeric" autocomplete="one-time-code" required>
+            <input type="text" maxlength="1" class="totp-digit-input google-digit-input" inputmode="numeric">
+            <input type="text" maxlength="1" class="totp-digit-input google-digit-input" inputmode="numeric">
+            <input type="text" maxlength="1" class="totp-digit-input google-digit-input" inputmode="numeric">
+            <input type="text" maxlength="1" class="totp-digit-input google-digit-input" inputmode="numeric">
+            <input type="text" maxlength="1" class="totp-digit-input google-digit-input" inputmode="numeric">
+          </div>
+
+          <button type="submit" id="verifyTotpBtn" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 mb-2">
+            <i class="fa fa-check-circle"></i>
+            <span>Verificar y Acceder al Panel</span>
+          </button>
+
+          <button type="button" id="backToStep1Btn" class="btn btn-link text-muted small w-100 text-decoration-none">
+            <i class="fa fa-arrow-left me-1"></i> Regresar al paso de correo
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ======================================================================
+       DASHBOARD: PANEL PRINCIPAL DE ADMINISTRACIÃ“N DE PUBLICACIONES
+       ====================================================================== -->
+  <div id="dashboardWrapper" class="d-none">
+    
+    <!-- Header / Navbar Principal (Una sola fila, limpio, sin duplicados) -->
+    <header class="admin-topbar">
+      <div class="admin-topbar-inner">
+        <!-- Marca / Logo -->
+        <a href="admin/noticias" class="admin-brand">
+          <img src="img/logotipo.png" alt="SELOASA" class="admin-brand-logo">
+          <span class="admin-brand-sep">/</span>
+          <span class="admin-brand-text">Admin</span>
+        </a>
+
+        <!-- NavegaciÃ³n de Secciones en el Centro -->
+        <nav class="admin-nav-tabs">
+          <button type="button" class="admin-nav-tab active" id="navItemPosts" data-module="posts">
+            <i class="fa fa-newspaper"></i>
+            <span>Noticias &amp; Blog</span>
+            <span class="admin-nav-count" id="navBadgePostsCount">0</span>
+          </button>
+          <button type="button" class="admin-nav-tab" id="navItemVacancies" data-module="vacancies">
+            <i class="fa fa-briefcase"></i>
+            <span>Bolsa de Trabajo</span>
+            <span class="admin-nav-count" id="navBadgeVacanciesCount">0</span>
+          </button>
+          <button type="button" class="admin-nav-tab" id="navItemPopups" data-module="popups">
+            <i class="fa fa-bullhorn"></i>
+            <span>Pop-ups</span>
+            <span class="admin-nav-count admin-count-accent" id="navBadgePopupsActive">1</span>
+          </button>
+          <button type="button" class="admin-nav-tab" id="navItemTestimonials" data-module="testimonials">
+            <i class="fa fa-comments"></i>
+            <span>Clientes &amp; Testimonios</span>
+            <span class="admin-nav-count" id="navBadgeTestimonialsCount">0</span>
+          </button>
+        </nav>
+
+        <!-- BotÃ³n Salir Discreto -->
+        <button type="button" id="adminLogoutBtn" class="btn-topbar-logout" title="Cerrar sesiÃ³n">
+          <i class="fa fa-sign-out-alt"></i>
+          <span>Salir</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="container py-4">
+
+      <!-- ======================================================================
+           SECCIÃ“N MÃ“DULO 1: PUBLICACIONES Y NOTICIAS
+           ====================================================================== -->
+      <div id="modulePostsSection">
+        
+        <!-- Encabezado de SecciÃ³n -->
+        <div class="admin-section-header">
+          <div>
+            <h1 class="admin-section-title">Noticias y Comunicados</h1>
+            <p class="admin-section-sub">Gestiona comunicados oficiales, notas tÃ©cnicas y artÃ­culos del blog de SELOASA.</p>
+          </div>
+          <div>
+            <a href="admin/editor.html?new=1" target="_blank" rel="noopener noreferrer" id="btnNewPost" class="btn-primary-action" title="Abrir estudio de redacciÃ³n en pestaÃ±a nueva">
+              <i class="fa fa-plus"></i>
+              <span>Nueva PublicaciÃ³n</span>
+            </a>
+          </div>
+        </div>
+
+      <!-- KPI Cards: MÃ©tricas de Publicaciones -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-lg-3">
+          <div class="admin-kpi-card">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="admin-kpi-lbl">Total Publicaciones</span>
+              <div class="admin-kpi-icon kpi-icon-all"><i class="fa fa-layer-group"></i></div>
+            </div>
+            <div class="admin-kpi-val" id="kpiTotalCount">0</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="admin-kpi-card">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="admin-kpi-lbl">Comunicados Oficiales</span>
+              <div class="admin-kpi-icon kpi-icon-comunicado"><i class="fa fa-bullhorn"></i></div>
+            </div>
+            <div class="admin-kpi-val" id="kpiComunicadosCount">0</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="admin-kpi-card">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="admin-kpi-lbl">Noticias Operativas</span>
+              <div class="admin-kpi-icon kpi-icon-noticia"><i class="fa fa-newspaper"></i></div>
+            </div>
+            <div class="admin-kpi-val" id="kpiNoticiasCount">0</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="admin-kpi-card">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span class="admin-kpi-lbl">Blog Farma</span>
+              <div class="admin-kpi-icon kpi-icon-blog"><i class="fa fa-bookmark"></i></div>
+            </div>
+            <div class="admin-kpi-val" id="kpiBlogCount">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de Filtros y BÃºsqueda -->
+      <div class="admin-toolbar-card">
+        <div class="row g-3 align-items-center justify-content-between">
+          <div class="col-12 col-md-auto d-flex align-items-center gap-2 flex-wrap">
+            <span class="small fw-bold text-muted me-1">Filtrar:</span>
+            <button type="button" class="admin-filter-pill-btn active" data-filter-type="all">
+              <i class="fa fa-th-large me-1"></i> Todos
+            </button>
+            <button type="button" class="admin-filter-pill-btn" data-filter-type="comunicado">
+              <i class="fa fa-bullhorn me-1"></i> Comunicados
+            </button>
+            <button type="button" class="admin-filter-pill-btn" data-filter-type="noticia">
+              <i class="fa fa-newspaper me-1"></i> Noticias
+            </button>
+            <button type="button" class="admin-filter-pill-btn" data-filter-type="blog">
+              <i class="fa fa-bookmark me-1"></i> Blog Farma
+            </button>
+          </div>
+
+          <div class="col-12 col-md-5 d-flex align-items-center gap-2">
+            <div class="input-group input-group-sm">
+              <span class="input-group-text bg-light border-end-0"><i class="fa fa-search text-muted"></i></span>
+              <input type="text" id="adminSearchInput" class="form-control border-start-0" placeholder="Buscar por tÃ­tulo, ID o departamento...">
+            </div>
+            <select id="statusFilterSelect" class="form-select form-select-sm" style="max-width: 140px;">
+              <option value="all">Estado: Todos</option>
+              <option value="published">Publicados</option>
+              <option value="draft">Borradores</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabla de Publicaciones -->
+      <div class="admin-table-card mb-4">
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead>
+              <tr>
+                <th>Miniatura</th>
+                <th>PublicaciÃ³n & Folio</th>
+                <th>Tipo / Plantilla</th>
+                <th>Fecha & Tiempo</th>
+                <th>Estado</th>
+                <th class="text-end">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="postsTableBody">
+              <!-- Inyectado dinÃ¡micamente por js/blog-admin.js -->
+            </tbody>
+          </table>
+        </div>
+
+        <div id="tableNoResultsRow" class="text-center py-5 d-none">
+          <i class="fa fa-folder-open fa-3x text-muted mb-3"></i>
+          <h5 class="text-muted">No se encontraron publicaciones con ese criterio</h5>
+          <p class="small text-muted mb-0">Prueba ajustando el tÃ©rmino de bÃºsqueda o cambiando el filtro de categorÃ­a.</p>
+        </div>
+      </div>
+
+      <!-- Herramientas de Datos (Copia de Seguridad y RestauraciÃ³n) -->
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3 bg-white border rounded-3 small">
+        <div class="d-flex align-items-center gap-2 text-muted">
+          <i class="fa fa-database text-primary"></i>
+          <span>Los cambios se sincronizan en tiempo real con el catÃ¡logo y las vistas de detalle.</span>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <button type="button" id="btnExportJson" class="btn btn-sm btn-outline-dark rounded-pill px-3">
+            <i class="fa fa-download me-1"></i> Respaldar JSON
+          </button>
+          <button type="button" id="btnResetDefaults" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+            <i class="fa fa-undo me-1"></i> Restaurar Originales
+          </button>
+        </div>
+      </div>
+      </div> <!-- Fin #modulePostsSection -->
+
+      <!-- ======================================================================
+           SECCIÃ“N MÃ“DULO 2: BOLSA DE TRABAJO & GESTIÃ“N DE VACANTES
+           ====================================================================== -->
+      <div id="moduleVacanciesSection" class="d-none">
+        
+        <!-- Encabezado de SecciÃ³n -->
+        <div class="admin-section-header">
+          <div>
+            <h1 class="admin-section-title">Bolsa de Trabajo</h1>
+            <p class="admin-section-sub">Administra vacantes y oportunidades de empleo en SELOASA.</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <a href="careers/" target="_blank" rel="noopener noreferrer" class="btn-topbar-link" title="Ver bolsa pÃºblica">
+              <i class="fa fa-external-link-alt"></i>
+              <span>Ver Web</span>
+            </a>
+            <a href="admin/editor-vacante.html?new=1" target="_blank" rel="noopener noreferrer" id="btnNewVacancy" class="btn-primary-action" title="Crear una nueva vacante en el estudio dedicado">
+              <i class="fa fa-plus"></i>
+              <span>Nueva Vacante</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- KPI Cards: MÃ©tricas de Vacantes -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Total Vacantes</span>
+                <div class="admin-kpi-icon kpi-icon-all"><i class="fa fa-briefcase"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiVacanciesTotalCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Publicadas en Web</span>
+                <div class="admin-kpi-icon kpi-icon-noticia"><i class="fa fa-check-circle"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiVacanciesPublishedCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">En Borrador</span>
+                <div class="admin-kpi-icon kpi-icon-blog"><i class="fa fa-edit"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiVacanciesDraftCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Ãreas Operativas</span>
+                <div class="admin-kpi-icon kpi-icon-comunicado"><i class="fa fa-sitemap"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiVacanciesAreasCount">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de BÃºsqueda y Filtros de Vacantes -->
+        <div class="admin-table-card mb-4">
+          <div class="admin-toolbar-wrap p-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <div class="input-group input-group-sm" style="width: 280px;">
+                <span class="input-group-text bg-white border-end-0"><i class="fa fa-search text-muted"></i></span>
+                <input type="text" id="adminVacancySearchInput" class="form-control border-start-0" placeholder="Buscar vacante por tÃ­tulo, Ã¡rea o lugar...">
+              </div>
+              <select id="vacancyAreaFilterSelect" class="form-select form-select-sm" style="width: 170px;">
+                <option value="all">Todas las Ã¡reas</option>
+                <option value="Monitoreo">Monitoreo</option>
+                <option value="AlmacÃ©n">AlmacÃ©n</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Aseguramiento de Calidad">Calidad</option>
+                <option value="TrÃ¡fico">TrÃ¡fico</option>
+              </select>
+              <select id="vacancyStatusFilterSelect" class="form-select form-select-sm" style="width: 140px;">
+                <option value="all">Estado: Todos</option>
+                <option value="published">Publicadas</option>
+                <option value="draft">Borradores</option>
+              </select>
+            </div>
+            <div>
+              <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-light border text-muted" style="font-size: 11.5px;">
+                <i class="fa fa-info-circle text-muted"></i>
+                <span>Las vacantes con estado <strong>Publicada</strong> son visibles en <code>careers/</code>.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabla de Vacantes -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="vacanciesTable">
+              <thead class="table-light text-muted small text-uppercase">
+                <tr>
+                  <th>Puesto &amp; Folio</th>
+                  <th style="width: 130px;">Ãrea</th>
+                  <th style="width: 150px;">UbicaciÃ³n</th>
+                  <th style="width: 175px;">Correos Destino</th>
+                  <th style="width: 125px;">Estado en Web</th>
+                  <th style="width: 135px;" class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="vacanciesTableBody">
+                <!-- Inyectado dinÃ¡micamente por js/blog-admin.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="vacanciesNoResultsRow" class="p-5 text-center text-muted d-none">
+            <i class="fa fa-briefcase fa-3x mb-3 text-secondary opacity-50"></i>
+            <h6 class="fw-bold">No se encontraron vacantes</h6>
+            <p class="small mb-0">Prueba cambiando los filtros de bÃºsqueda o crea una nueva vacante de empleo.</p>
+          </div>
+        </div>
+
+      </div> <!-- Fin #moduleVacanciesSection -->
+
+      <!-- ======================================================================
+           SECCIÃ“N MÃ“DULO 3: GESTIÃ“N DE POP-UPS Y AVISOS EMERGENTES
+           ====================================================================== -->
+      <div id="modulePopupsSection" class="d-none">
+        
+        <!-- Encabezado de SecciÃ³n -->
+        <div class="admin-section-header">
+          <div>
+            <h1 class="admin-section-title">Pop-ups &amp; Avisos</h1>
+            <p class="admin-section-sub">Configura avisos emergentes para circulares operativas y normativas COFEPRIS.</p>
+          </div>
+          <div>
+            <a href="admin/editor-popup.html?new=1" target="_blank" rel="noopener noreferrer" id="btnNewPopup" class="btn-primary-action" title="Crear un nuevo pop-up">
+              <i class="fa fa-plus"></i>
+              <span>Nuevo Pop-up</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- KPI Cards: MÃ©tricas de Pop-ups -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Total Pop-ups</span>
+                <div class="admin-kpi-icon kpi-icon-all"><i class="fa fa-window-restore"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiPopupsTotalCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Pop-up Activo en Web</span>
+                <div class="admin-kpi-icon kpi-icon-noticia"><i class="fa fa-check-circle"></i></div>
+              </div>
+              <div class="admin-kpi-val text-success" id="kpiPopupsActiveName" style="font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                Ninguno
+              </div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Alertas Urgentes</span>
+                <div class="admin-kpi-icon kpi-icon-comunicado"><i class="fa fa-exclamation-triangle"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiPopupsAlertCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Frecuencia por Defecto</span>
+                <div class="admin-kpi-icon kpi-icon-blog"><i class="fa fa-user-clock"></i></div>
+              </div>
+              <div class="admin-kpi-val" style="font-size: 1.05rem;">1x SesiÃ³n</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de BÃºsqueda y Filtros de Pop-ups -->
+        <div class="admin-table-card mb-4">
+          <div class="admin-toolbar-wrap p-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <div class="input-group input-group-sm" style="width: 280px;">
+                <span class="input-group-text bg-white border-end-0"><i class="fa fa-search text-muted"></i></span>
+                <input type="text" id="adminPopupSearchInput" class="form-control border-start-0" placeholder="Buscar pop-up por tÃ­tulo o texto...">
+              </div>
+              <select id="popupTypeFilterSelect" class="form-select form-select-sm" style="width: 170px;">
+                <option value="all">Todos los estilos</option>
+                <option value="alerta">Alertas COFEPRIS</option>
+                <option value="comunicado">Comunicados</option>
+                <option value="informativo">Informativos</option>
+              </select>
+            </div>
+            <div>
+              <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-light border text-muted" style="font-size: 11.5px;">
+                <i class="fa fa-info-circle text-muted"></i>
+                <span>Solo el aviso con interruptor <strong>Activo</strong> se muestra en la web pÃºblica.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabla de Pop-ups -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="popupsTable">
+              <thead class="table-light text-muted small text-uppercase">
+                <tr>
+                  <th style="width: 70px;" class="text-center">Banner</th>
+                  <th>TÃ­tulo &amp; Mensaje</th>
+                  <th style="width: 140px;">Estilo &amp; DiseÃ±o</th>
+                  <th style="width: 120px;">Frecuencia</th>
+                  <th style="width: 110px;">Activo en Web</th>
+                  <th style="width: 135px;" class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="popupsTableBody">
+                <!-- Inyectado dinÃ¡micamente por js/blog-admin.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="popupsNoResultsRow" class="p-5 text-center text-muted d-none">
+            <i class="fa fa-bullhorn fa-3x mb-3 text-secondary opacity-50"></i>
+            <h6 class="fw-bold">No se encontraron pop-ups</h6>
+            <p class="small mb-0">Crea un nuevo pop-up para publicar un aviso emergente en la web.</p>
+          </div>
+        </div>
+
+      </div> <!-- Fin #modulePopupsSection -->
+
+      <!-- SECCIÃ“N 4: MÃ“DULO DE CLIENTES & TESTIMONIOS -->
+      <div id="moduleTestimonialsSection" class="d-none">
+        
+        <!-- Encabezado de SecciÃ³n -->
+        <div class="admin-section-header">
+          <div>
+            <h1 class="admin-section-title">Clientes &amp; Testimonios</h1>
+            <p class="admin-section-sub">Gestiona los logos corporativos y opiniones que se muestran en el carrusel del Home.</p>
+          </div>
+          <div>
+            <button type="button" id="btnNewTestimonial" class="btn-primary-action" title="Agregar un nuevo testimonio o cliente">
+              <i class="fa fa-plus"></i>
+              <span>Nuevo Testimonio</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- KPI Cards: MÃ©tricas de Testimonios -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-lg-4">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Total Clientes</span>
+                <div class="admin-kpi-icon kpi-icon-all"><i class="fa fa-building"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiTestimonialsTotalCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-4">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Publicados en Home</span>
+                <div class="admin-kpi-icon kpi-icon-noticia"><i class="fa fa-check-circle"></i></div>
+              </div>
+              <div class="admin-kpi-val text-success" id="kpiTestimonialsPublishedCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-4">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Inactivos / Ocultos</span>
+                <div class="admin-kpi-icon kpi-icon-comunicado"><i class="fa fa-eye-slash"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiTestimonialsDraftCount">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Barra de BÃºsqueda y Filtros de Testimonios -->
+        <div class="admin-table-card mb-4">
+          <div class="admin-toolbar-wrap p-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+            <div class="d-flex align-items-center gap-2 flex-wrap">
+              <div class="input-group input-group-sm" style="width: 280px;">
+                <span class="input-group-text bg-white border-end-0"><i class="fa fa-search text-muted"></i></span>
+                <input type="text" id="adminTestimonialSearchInput" class="form-control border-start-0" placeholder="Buscar por empresa o cita...">
+              </div>
+
+              <!-- Filtro de Estado -->
+              <div class="btn-group btn-group-sm">
+                <button type="button" class="btn btn-outline-secondary active btn-filter-testimonial-status" data-status="all">Todos</button>
+                <button type="button" class="btn btn-outline-secondary btn-filter-testimonial-status" data-status="published">Publicados</button>
+                <button type="button" class="btn btn-outline-secondary btn-filter-testimonial-status" data-status="draft">Ocultos</button>
+              </div>
+            </div>
+
+            <div class="text-muted small">
+              <span id="testimonialsFilteredCount">0</span> clientes listados
+            </div>
+          </div>
+
+          <!-- Tabla de Testimonios -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0" id="testimonialsTable">
+              <thead>
+                <tr>
+                  <th style="width: 80px;">Logo</th>
+                  <th>Empresa / Cliente</th>
+                  <th>Departamento / Rol</th>
+                  <th>Testimonio</th>
+                  <th style="width: 120px;">Estado</th>
+                  <th class="text-end" style="width: 140px;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="testimonialsTableBody">
+                <!-- Inyectado dinÃ¡micamente por js/blog-admin.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="testimonialsNoResultsRow" class="p-5 text-center text-muted d-none">
+            <i class="fa fa-comments fa-3x mb-3 text-secondary opacity-50"></i>
+            <h6 class="fw-bold">No se encontraron clientes o testimonios</h6>
+            <p class="small mb-0">Agrega un nuevo testimonio o cambia los filtros de bÃºsqueda.</p>
+          </div>
+        </div>
+
+      </div> <!-- Fin #moduleTestimonialsSection -->
+
+    </main>
+  </div>
+
+
+  <!-- ======================================================================
+       MODAL: CREAR / EDITAR PUBLICACIÃ“N
+       ====================================================================== -->
+  <div class="modal fade" id="postEditorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+        <div class="modal-header border-bottom py-3 px-4" style="background-color: #fcfcfc;">
+          <h5 class="modal-title fw-bold text-dark" id="postModalTitle">
+            <i class="fa fa-edit text-primary me-2"></i> Nueva PublicaciÃ³n
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <form id="postEditorForm">
+            <input type="hidden" id="postTypeHidden" value="comunicado">
+
+            <!-- Selector Visual de Estructura de Plantilla -->
+            <div class="mb-4">
+              <label class="form-label small fw-bold text-dark mb-2">
+                <i class="fa fa-palette text-primary me-1"></i> Tipo de PublicaciÃ³n (Aplica su Estructura Original):
+              </label>
+              <div class="row g-2">
+                <div class="col-md-4">
+                  <div class="type-selector-card selected" data-type="comunicado">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                      <i class="fa fa-bullhorn text-primary"></i>
+                      <div class="type-selector-title">1. Comunicado</div>
+                    </div>
+                    <p class="type-selector-desc">Circular oficial membretada, folio, recuadro de resoluciÃ³n ejecutiva y descarga PDF.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="type-selector-card" data-type="noticia">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                      <i class="fa fa-newspaper text-success"></i>
+                      <div class="type-selector-title">2. Noticia</div>
+                    </div>
+                    <p class="type-selector-desc">Hero panorÃ¡mico completo, franja de telemetrÃ­a y ficha tÃ©cnica de equipamiento.</p>
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <div class="type-selector-card" data-type="blog">
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                      <i class="fa fa-bookmark text-secondary"></i>
+                      <div class="type-selector-title">3. Blog Farma</div>
+                    </div>
+                    <p class="type-selector-desc">Lectura editorial centrada, autor tÃ©cnico, caja de puntos clave e infografÃ­a tÃ©rmica.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- TÃ­tulo y Slug -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-8">
+                <label for="postTitleInput" class="form-label small fw-bold text-dark mb-1">TÃ­tulo de la PublicaciÃ³n *</label>
+                <input type="text" id="postTitleInput" class="form-control" placeholder="Ej: Nueva CertificaciÃ³n de Monitoreo TÃ©rmico 2026" required>
+              </div>
+              <div class="col-md-4">
+                <label for="postIdInput" class="form-label small fw-bold text-dark mb-1">ID Ãšnico (URL / Folio) *</label>
+                <input type="text" id="postIdInput" class="form-control font-monospace" placeholder="ej: noticia-nueva-ruta" required>
+              </div>
+            </div>
+
+            <!-- Metadatos: Departamento, CategorÃ­a, Fecha, Lectura -->
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="postDeptInput" class="form-label small fw-bold text-dark mb-1">Departamento / Ãrea Emisora</label>
+                <input type="text" id="postDeptInput" class="form-control" placeholder="Ej: Aseguramiento de Calidad y TrÃ¡fico">
+              </div>
+              <div class="col-md-6">
+                <label for="postCategoryInput" class="form-label small fw-bold text-dark mb-1">Etiqueta de CategorÃ­a</label>
+                <input type="text" id="postCategoryInput" class="form-control" placeholder="Ej: Comunicado Oficial">
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-4">
+                <label for="postDateInput" class="form-label small fw-bold text-dark mb-1">Fecha</label>
+                <input type="text" id="postDateInput" class="form-control" placeholder="Ej: Mayo 2026">
+              </div>
+              <div class="col-md-4">
+                <label for="postReadTimeInput" class="form-label small fw-bold text-dark mb-1">Tiempo de Lectura</label>
+                <input type="text" id="postReadTimeInput" class="form-control" placeholder="Ej: 3 min">
+              </div>
+              <div class="col-md-4">
+                <label for="postStatusSelect" class="form-label small fw-bold text-dark mb-1">Estado</label>
+                <select id="postStatusSelect" class="form-select">
+                  <option value="published">Publicada</option>
+                  <option value="draft">Borrador</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Imagen de Portada -->
+            <div class="mb-3">
+              <label for="postImageInput" class="form-label small fw-bold text-dark mb-1">Ruta o URL de Imagen</label>
+              <div class="input-group">
+                <input type="text" id="postImageInput" class="form-control" placeholder="img/patio_unidades_dia_banner.jpg" value="img/patio_unidades_dia_banner.jpg">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">ImÃ¡genes del sistema</button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/patio_unidades_dia_banner.jpg'">Patio Unidades DÃ­a (Oficial)</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/feature.jpg'">Flota en Carretera (Noticias)</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/about.jpg'">Instalaciones y Calidad (Blog)</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/hero-1.jpg'">Hero LogÃ­stica</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Resumen Ejecutivo -->
+            <div class="mb-3">
+              <label for="postSummaryInput" class="form-label small fw-bold text-dark mb-1">Resumen Ejecutivo (Lead / IntroducciÃ³n) *</label>
+              <textarea id="postSummaryInput" class="form-control" rows="2" placeholder="Breve descripciÃ³n que resume los puntos mÃ¡s importantes de la publicaciÃ³n..." required></textarea>
+            </div>
+
+            <!-- Contenido Completo del ArtÃ­culo (Editor Visual WYSIWYG) -->
+            <div class="mb-3">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <div class="d-flex align-items-center gap-2">
+                  <label class="form-label small fw-bold text-dark mb-0">
+                    <i class="fa fa-pen-fancy text-primary me-1"></i> Contenido de la PublicaciÃ³n (Editor Visual)
+                  </label>
+                  <span class="visual-mode-badge" id="editorModeBadge">
+                    <i class="fa fa-check-circle me-1"></i> Modo Visual
+                  </span>
+                </div>
+                <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2 rounded-pill" id="btnToggleCodeView" title="Alternar entre editor visual y cÃ³digo" style="font-size: 0.75rem;">
+                  <i class="fa fa-code me-1"></i> Ver CÃ³digo HTML
+                </button>
+              </div>
+
+              <div class="visual-editor-container">
+                <!-- Barra de herramientas visual -->
+                <div class="visual-editor-toolbar" id="visualToolbar">
+                  <div class="visual-toolbar-group">
+                    <button type="button" class="visual-toolbar-btn" data-cmd="undo" title="Deshacer (Ctrl+Z)"><i class="fa fa-undo"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="redo" title="Rehacer (Ctrl+Y)"><i class="fa fa-redo"></i></button>
+                  </div>
+
+                  <div class="visual-toolbar-group">
+                    <button type="button" class="visual-toolbar-btn fw-bold" data-cmd="formatBlock" data-val="h4" title="TÃ­tulo de SecciÃ³n (H4)"><i class="fa fa-heading"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="formatBlock" data-val="p" title="PÃ¡rrafo normal"><i class="fa fa-paragraph"></i></button>
+                  </div>
+
+                  <div class="visual-toolbar-group">
+                    <button type="button" class="visual-toolbar-btn" data-cmd="bold" title="Negrita (Ctrl+B)"><i class="fa fa-bold"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="italic" title="Cursiva (Ctrl+I)"><i class="fa fa-italic"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="underline" title="Subrayado (Ctrl+U)"><i class="fa fa-underline"></i></button>
+                  </div>
+
+                  <div class="visual-toolbar-group">
+                    <button type="button" class="visual-toolbar-btn" data-cmd="insertUnorderedList" title="Lista con viÃ±etas"><i class="fa fa-list-ul"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="insertOrderedList" title="Lista numerada"><i class="fa fa-list-ol"></i></button>
+                  </div>
+
+                  <div class="visual-toolbar-group">
+                    <button type="button" class="visual-toolbar-btn" data-cmd="formatBlock" data-val="blockquote" title="Cita o frase destacada"><i class="fa fa-quote-left"></i></button>
+                    <button type="button" class="visual-toolbar-btn" id="btnInsertHighlightBox" title="Insertar cuadro destacado de calidad"><i class="fa fa-certificate text-primary"></i></button>
+                  </div>
+
+                  <div class="visual-toolbar-group">
+                    <button type="button" class="visual-toolbar-btn" data-cmd="removeFormat" title="Limpiar formato"><i class="fa fa-eraser"></i></button>
+                  </div>
+                </div>
+
+                <!-- Lienzo de EdiciÃ³n Visual Contenteditable (NO muestra etiquetas HTML) -->
+                <div id="postContentVisualEditor" class="visual-editor-area" contenteditable="true" data-placeholder="Haz clic aquÃ­ para escribir el contenido de la publicaciÃ³n de forma visual..."></div>
+
+                <!-- Textarea de cÃ³digo alternativo (oculto por defecto) -->
+                <textarea id="postContentInput" class="form-control font-monospace border-0 rounded-0 d-none" rows="8" style="font-size: 0.88rem;"></textarea>
+              </div>
+              <div class="d-flex align-items-center justify-content-between mt-1 text-muted small" style="font-size: 0.78rem;">
+                <span><i class="fa fa-magic text-primary me-1"></i> Editor visual WYSIWYG: Escribe y formatea de forma visual, sin tocar cÃ³digo HTML.</span>
+                <span id="editorWordCount">0 palabras</span>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer border-top py-3 px-4">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btnSavePost" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
+            <i class="fa fa-save"></i>
+            <span>Guardar PublicaciÃ³n</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL: CREAR / EDITAR VACANTE (BOLSA DE TRABAJO)
+       ====================================================================== -->
+  <div class="modal fade" id="vacancyEditorModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+        <div class="modal-header border-bottom py-3 px-4" style="background-color: #fcfcfc;">
+          <h5 class="modal-title fw-bold text-dark" id="vacancyModalTitle">
+            <i class="fa fa-briefcase text-primary me-2"></i> Nueva Vacante de Empleo
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <form id="vacancyEditorForm" onsubmit="return false;">
+            <input type="hidden" id="vacancyExistingIdHidden" value="">
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-8">
+                <label for="vacancyTitleInput" class="form-label small fw-bold text-dark mb-1">TÃ­tulo del Puesto *</label>
+                <input type="text" id="vacancyTitleInput" class="form-control fw-bold" placeholder="Ej: Coordinador de Monitoreo LogÃ­stico" required>
+              </div>
+              <div class="col-md-4">
+                <label for="vacancyIdInput" class="form-label small fw-bold text-dark mb-1">ID Ãšnico (URL / Folio) *</label>
+                <input type="text" id="vacancyIdInput" class="form-control font-monospace" placeholder="coordinador-monitoreo" required>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="vacancyAreaInput" class="form-label small fw-bold text-dark mb-1">Ãrea o Departamento *</label>
+                <input type="text" id="vacancyAreaInput" class="form-control" list="areasDatalist" placeholder="Ej: Monitoreo, AlmacÃ©n, Transporte" required>
+                <datalist id="areasDatalist">
+                  <option value="Monitoreo">
+                  <option value="AlmacÃ©n">
+                  <option value="Transporte">
+                  <option value="Aseguramiento de Calidad">
+                  <option value="TrÃ¡fico">
+                  <option value="Recursos Humanos">
+                  <option value="Mantenimiento">
+                </datalist>
+              </div>
+              <div class="col-md-6">
+                <label for="vacancyModeInput" class="form-label small fw-bold text-dark mb-1">Modalidad de Trabajo *</label>
+                <select id="vacancyModeInput" class="form-select">
+                  <option value="Presencial">Presencial</option>
+                  <option value="OperaciÃ³n en ruta">OperaciÃ³n en ruta</option>
+                  <option value="HÃ­brido">HÃ­brido</option>
+                  <option value="Remoto">Remoto</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label for="vacancyLocationInput" class="form-label small fw-bold text-dark mb-1">UbicaciÃ³n / Sede *</label>
+                <input type="text" id="vacancyLocationInput" class="form-control" placeholder="Ej: Lerma, Estado de MÃ©xico" value="Lerma, Estado de MÃ©xico" required>
+              </div>
+              <div class="col-md-3">
+                <label for="vacancyScheduleInput" class="form-label small fw-bold text-dark mb-1">Jornada Laboral *</label>
+                <input type="text" id="vacancyScheduleInput" class="form-control" placeholder="Ej: Tiempo completo" value="Tiempo completo" required>
+              </div>
+              <div class="col-md-3">
+                <label for="vacancyStatusSelect" class="form-label small fw-bold text-dark mb-1">Estado</label>
+                <select id="vacancyStatusSelect" class="form-select">
+                  <option value="published">Publicada</option>
+                  <option value="draft">Borrador</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="vacancySummaryInput" class="form-label small fw-bold text-dark mb-1">Resumen del Puesto (IntroducciÃ³n) *</label>
+              <textarea id="vacancySummaryInput" class="form-control" rows="2" placeholder="Describe brevemente el objetivo general del puesto..." required></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="vacancyPointsInput" class="form-label small fw-bold text-dark mb-1">
+                Responsabilidades o Puntos Clave (Una lÃ­nea por punto) *
+              </label>
+              <textarea id="vacancyPointsInput" class="form-control font-monospace" rows="4" placeholder="Monitoreo de rutas, GPS y eventos crÃ­ticos en tiempo real.&#10;ComunicaciÃ³n con operaciÃ³n y clientes ante desviaciones.&#10;Seguimiento de reportes y evidencias operativas." required></textarea>
+              <div class="form-text small" style="font-size: 0.72rem;">
+                <i class="fa fa-info-circle text-primary me-1"></i> Escribe cada responsabilidad o requisito en un renglÃ³n separado. Se mostrarÃ¡n con viÃ±etas en la bolsa de trabajo.
+              </div>
+            </div>
+
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label for="vacancySortOrderInput" class="form-label small fw-bold text-dark mb-1">Orden de VisualizaciÃ³n</label>
+                <input type="number" id="vacancySortOrderInput" class="form-control form-control-sm" min="0" max="9999" value="10">
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer border-top py-3 px-4">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btnSaveVacancy" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
+            <i class="fa fa-save"></i>
+            <span>Guardar Vacante</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       MODAL: CREAR / EDITAR TESTIMONIO / CLIENTE
+       ====================================================================== -->
+  <div class="modal fade" id="testimonialModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-md modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg" style="border-radius: 16px;">
+        <div class="modal-header border-bottom py-3 px-4" style="background-color: #fcfcfc;">
+          <h5 class="modal-title fw-bold text-dark" id="testimonialModalTitle">
+            <i class="fa fa-quote-left text-primary me-2"></i> Cliente &amp; Testimonio
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <form id="testimonialEditorForm">
+            <input type="hidden" id="testimonialIdHidden" value="">
+
+            <div class="mb-3">
+              <label for="testimonialClientNameInput" class="form-label small fw-bold text-dark mb-1">Nombre del Cliente / Empresa *</label>
+              <input type="text" id="testimonialClientNameInput" class="form-control" placeholder="Ej: Roche, Kalte, Pfizer..." required>
+            </div>
+
+            <div class="mb-3">
+              <label for="testimonialClientRoleInput" class="form-label small fw-bold text-dark mb-1">Departamento / Cargo / Ramo *</label>
+              <input type="text" id="testimonialClientRoleInput" class="form-control" placeholder="Ej: DirecciÃ³n de Cadena de Suministro" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="testimonialLogoInput" class="form-label small fw-bold text-dark mb-1">Ruta o URL del Logotipo *</label>
+              <div class="input-group">
+                <input type="text" id="testimonialLogoInput" class="form-control" placeholder="Ej: img/clientes/roche.png" required>
+              </div>
+              <div class="d-flex align-items-center gap-3 mt-2 p-2 bg-light rounded border">
+                <span class="small text-muted">Vista previa:</span>
+                <div style="width: 70px; height: 35px; background: #fff; border: 1px solid #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; padding: 3px;">
+                  <img id="testimonialLogoPreview" src="img/clientes/ralca.png" alt="Preview" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                </div>
+                <span class="small text-muted" style="font-size: 0.75rem;">(Formatos recomendados: PNG o SVG transparente)</span>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="testimonialTextInput" class="form-label small fw-bold text-dark mb-1">Comentario / Cita (Opcional)</label>
+              <textarea id="testimonialTextInput" class="form-control" rows="2" placeholder="Opcional: nota o cita del cliente..."></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="testimonialStatusSelect" class="form-label small fw-bold text-dark mb-1">Estado de PublicaciÃ³n</label>
+              <select id="testimonialStatusSelect" class="form-select">
+                <option value="published">Publicado (Visible en el carrusel del Home)</option>
+                <option value="draft">Oculto (Borrador / No visible)</option>
+              </select>
+            </div>
+          </form>
+        </div>
+
+        <div class="modal-footer border-top py-3 px-4">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btnSaveTestimonial" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
+            <i class="fa fa-save"></i>
+            <span>Guardar Testimonio</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/blog-i18n.js?v=20261027_06"></script>
+  <script src="js/totp-auth.js?v=20261027_06"></script>
+  <script src="js/site-popup.js?v=20261027_06"></script>
+  <script src="js/blog-admin.js?v=20261028_03"></script>
+</body>
+
+</html>

@@ -112,18 +112,15 @@
 
   function getAdminDashboardUrl() {
     const p = window.location.pathname;
-    const isHtmlFile = p.endsWith('.html') || window.location.hostname.includes('github.io') || window.location.protocol === 'file:';
-    const target = isHtmlFile ? '/admin/noticias.html' : '/admin/noticias';
-
     const adminIdx = p.indexOf('/admin/');
     if (adminIdx !== -1) {
-      return p.substring(0, adminIdx) + target;
+      return p.substring(0, adminIdx) + '/admin/dashboard.html';
     }
     if (p.includes('/blog/admin')) {
       const blogAdminIdx = p.indexOf('/blog/admin');
-      return p.substring(0, blogAdminIdx) + target;
+      return p.substring(0, blogAdminIdx) + '/admin/dashboard.html';
     }
-    return target.replace(/^\//, '');
+    return 'admin/dashboard.html';
   }
 
   function showDashboardView() {
@@ -152,7 +149,7 @@
     const isLoginPage = path.includes('/admin/login');
 
     // Si el usuario intenta ver directamente el dashboard sin autenticación, enviarlo a admin/login
-    if (!isLoginPage && (path.includes('/admin/noticias') || path.includes('/blog/admin'))) {
+    if (!isLoginPage && (path.includes('/admin/dashboard') || path.includes('/admin/noticias') || path.includes('/blog/admin'))) {
       window.location.replace(getAdminLoginUrl());
       return;
     }
@@ -444,7 +441,6 @@
 
             setupDigitInputs('.google-digit-input', 'verifyTotpBtn');
             startTotpCountdown();
-            renderQrSetup();
           } else {
             showAuthError(data.error || 'Código de correo incorrecto o expirado.');
             if (data && data.is405) {
@@ -780,36 +776,6 @@
       clearInterval(totpIntervalId);
       totpIntervalId = null;
     }
-  }
-
-  function renderQrSetup() {
-    const canvas = document.getElementById('qrCodeCanvas');
-    const secretDisplay = document.getElementById('totpSecretKeyDisplay');
-    const copySecretBtn = document.getElementById('copySecretBtn');
-
-    fetch(getAuthApiUrl('action=setup_2fa'), getAuthFetchOptions('GET'))
-      .then(parseFetchResponse)
-      .then(data => {
-        if (data && data.success) {
-          if (secretDisplay) secretDisplay.textContent = data.secret;
-          if (copySecretBtn) {
-            copySecretBtn.onclick = function () {
-              if (navigator.clipboard) {
-                navigator.clipboard.writeText(data.secret).then(() => {
-                  copySecretBtn.innerHTML = '<i class="fa fa-check me-1"></i> ¡Copiada!';
-                  setTimeout(() => {
-                    copySecretBtn.innerHTML = '<i class="fa fa-copy me-1"></i> Copiar clave';
-                  }, 2000);
-                });
-              }
-            };
-          }
-          if (canvas && data.otpauth_url && window.SeloasaTotp) {
-            window.SeloasaTotp.renderQr(canvas, data.otpauth_url, 180);
-          }
-        }
-      })
-      .catch(err => console.warn('Carga QR 2FA:', err));
   }
 
   /* ==========================================================================
