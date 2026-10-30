@@ -261,9 +261,6 @@
     return `
       <div class="mb-4 overflow-hidden" style="border-radius: 6px; border: 1px solid #dee2e6;">
         <img src="${media.src || 'img/patio_unidades_dia_banner.jpg'}" alt="" class="img-fluid w-100" style="max-height: 380px; object-fit: cover;">
-        <div class="p-2 px-3 bg-light text-muted small border-top">
-          <i class="fa fa-camera me-1"></i> Archivo oficial SELOASA &bull; Transporte y resguardo farmacéutico
-        </div>
       </div>
     `;
   }
