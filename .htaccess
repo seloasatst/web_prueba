@@ -53,11 +53,7 @@ RedirectMatch 403 (^|/)(\.git|\.vscode)/.*$
     RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/ [NC]
     RewriteRule ^index\.html$ / [R=301,L]
 
-    # 2. Redirigir parámetros antiguos ?id=slug de articulos a la URL bonita /blog/slug
-    RewriteCond %{THE_REQUEST} \s/+(?:shipping/)?blog/articulo(?:\.html)?\?id=([a-zA-Z0-9_\-]+)\s [NC]
-    RewriteRule ^ blog/%1? [R=301,L]
-
-    # 3. Enlaces Bonitos para Artículos de Blog (/blog/mi-articulo -> blog/articulo.html?id=mi-articulo):
+    # 2. Enlaces Bonitos para Artículos de Blog (/blog/mi-articulo -> blog/articulo.html?id=mi-articulo):
     RewriteRule ^blog/articulo/([a-zA-Z0-9_\-]+)/?$ blog/articulo.html?id=$1 [QSA,L]
 
     RewriteCond %{REQUEST_FILENAME} !-f

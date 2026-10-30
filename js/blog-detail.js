@@ -702,6 +702,19 @@
       }
       canonicalEl.setAttribute('href', `https://seloasa.com.mx/blog/${encodeURIComponent(localizedPost.id)}`);
 
+      // Reflejar la URL limpia en la barra de direcciones sin recargar la página
+      if (window.history && window.history.replaceState && localizedPost && localizedPost.id) {
+        try {
+          const isShipping = window.location.pathname.includes('/shipping/');
+          const prettyPath = (isShipping ? '/shipping/blog/' : '/blog/') + encodeURIComponent(localizedPost.id);
+          if (window.location.pathname !== prettyPath) {
+            window.history.replaceState({ id: localizedPost.id }, `${localizedPost.title} | SELOASA`, prettyPath);
+          }
+        } catch (e) {
+          // Entornos locales o file:// donde replaceState pueda restringirse
+        }
+      }
+
       const host = document.getElementById('articleRenderHost');
       if (!host) return;
 
@@ -767,7 +780,7 @@
     // Si es tipo blog, renderizamos en columnas de 3 (grid inferior)
     if (postType === 'blog') {
       container.innerHTML = recommendations.map(item => {
-        const itemUrl = `blog/${encodeURIComponent(item.id || '')}`;
+        const itemUrl = `blog/articulo.html?id=${encodeURIComponent(item.id || '')}`;
         const itemMedia = parseMediaSource(item);
         const itemThumbHtml = (itemMedia.type === 'video' && !itemMedia.thumbnailUrl)
           ? `<video src="${itemMedia.src}" class="card-img-top w-100" style="height: 140px; object-fit: cover;" muted playsinline preload="metadata"></video>`
@@ -797,7 +810,7 @@
     } else {
       // Si es comunicado o noticia, renderizamos formato lista en sidebar
       container.innerHTML = recommendations.map(item => {
-        const itemUrl = `blog/${encodeURIComponent(item.id || '')}`;
+        const itemUrl = `blog/articulo.html?id=${encodeURIComponent(item.id || '')}`;
         const itemMedia = parseMediaSource(item);
         const itemThumbHtml = (itemMedia.type === 'video' && !itemMedia.thumbnailUrl)
           ? `<video src="${itemMedia.src}" class="sidebar-rec-img" style="object-fit: cover;" muted playsinline preload="metadata"></video>`

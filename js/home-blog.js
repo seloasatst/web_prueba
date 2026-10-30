@@ -309,7 +309,7 @@
       const badgeIcon = item.type === 'comunicado' ? 'fa-bullhorn' : item.type === 'noticia' ? 'fa-newspaper' : 'fa-bookmark';
       const badgeText = getBadgeLabel(rawItem, lang);
       const btnText = getButtonText(item.type, lang);
-      const targetUrl = `blog/${encodeURIComponent(item.id || index)}`;
+      const targetUrl = `blog/articulo.html?id=${encodeURIComponent(item.id || index)}`;
       const delay = (0.2 * (index + 1)).toFixed(1);
       const imageSrc = item.image || 'img/feature.jpg';
       const dateText = item.date || '';

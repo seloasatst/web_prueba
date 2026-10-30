@@ -1,3 +1,11 @@
+# ==============================================================================
+# SELOASA - Subdirectorio de Blog y Noticias
+# ==============================================================================
+
+# Deshabilitar MultiViews para prevenir que Apache intercepte slugs antes de mod_rewrite
+Options -MultiViews -Indexes
+Options +FollowSymLinks
+
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /blog/
@@ -7,7 +15,9 @@
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # Redirigir cualquier slug /blog/mi-slug a articulo.html?id=mi-slug
-    RewriteRule ^([a-zA-Z0-9_\-]+)/?$ articulo.html?id=$1 [QSA,L]
-</IfModule>
+    # Redirigir cualquier slug /blog/articulo/mi-slug a articulo.html?id=mi-slug
+    RewriteRule ^articulo/([^/]+)/?$ articulo.html?id=$1 [QSA,L]
 
+    # Redirigir cualquier slug /blog/mi-slug a articulo.html?id=mi-slug
+    RewriteRule ^([^/]+)/?$ articulo.html?id=$1 [QSA,L]
+</IfModule>
