@@ -10,6 +10,15 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     exit;
 }
 
+// Protección Anti-Spam: Honeypot para bots automatizados
+if (!empty($_POST['website']) || !empty($_POST['contact_website'])) {
+    // Si un bot completó el campo trampa oculto, simular éxito y salir silenciosamente
+    $referer = $_SERVER['HTTP_REFERER'] ?? '';
+    $origen = (strpos($referer, 'contact') !== false) ? 'contact/' : 'home/';
+    header("Location: ../$origen?status=success");
+    exit;
+}
+
 // Sanitizar entrada
 $nombre  = trim((string) ($_POST['name'] ?? ''));
 $correo  = trim((string) filter_var($_POST['email'] ?? '', FILTER_SANITIZE_EMAIL));

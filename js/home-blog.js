@@ -171,7 +171,7 @@
       return `
         <div class="overflow-hidden service-media mb-3 position-relative">
           <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="video-card-thumb-wrap">
-            <img src="${media.thumbnailUrl}" alt="${item.title}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy">
+            <img src="${media.thumbnailUrl}" alt="${item.title}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy" onerror="this.onerror=null;this.src='img/feature.jpg';">
             <div class="video-play-overlay">
               <span class="video-play-badge"><i class="fa fa-play text-white"></i></span>
             </div>
@@ -185,7 +185,7 @@
       return `
         <div class="overflow-hidden service-media mb-3 position-relative">
           <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="video-card-thumb-wrap">
-            <video src="${media.src}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" muted playsinline preload="metadata"></video>
+            <video src="${media.src}" class="img-fluid w-100" style="height: 220px; object-fit: cover; background: #111;" muted playsinline preload="metadata"></video>
             <div class="video-play-overlay">
               <span class="video-play-badge"><i class="fa fa-play text-white"></i></span>
             </div>
@@ -198,7 +198,7 @@
     return `
       <div class="overflow-hidden service-media mb-3 position-relative">
         <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="d-block">
-          <img src="${media.src || 'img/feature.jpg'}" alt="${item.title}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy">
+          <img src="${media.src || 'img/feature.jpg'}" alt="${item.title}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy" onerror="this.onerror=null;this.src='img/feature.jpg';">
         </a>
         ${badgeHtml}
       </div>
@@ -309,7 +309,7 @@
       const badgeIcon = item.type === 'comunicado' ? 'fa-bullhorn' : item.type === 'noticia' ? 'fa-newspaper' : 'fa-bookmark';
       const badgeText = getBadgeLabel(rawItem, lang);
       const btnText = getButtonText(item.type, lang);
-      const targetUrl = `blog/articulo.html?id=${encodeURIComponent(item.id || index)}`;
+      const targetUrl = `blog/${encodeURIComponent(item.id || index)}`;
       const delay = (0.2 * (index + 1)).toFixed(1);
       const imageSrc = item.image || 'img/feature.jpg';
       const dateText = item.date || '';

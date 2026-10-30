@@ -195,7 +195,7 @@
       return `
         <div class="overflow-hidden service-media mb-3 position-relative">
           <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="video-card-thumb-wrap">
-            <img src="${media.thumbnailUrl}" alt="${item.image_alt || item.title}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy">
+            <img src="${media.thumbnailUrl}" alt="${item.image_alt || item.title}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy" onerror="this.onerror=null;this.src='img/feature.jpg';">
             <div class="video-play-overlay">
               <span class="video-play-badge"><i class="fa fa-play text-white"></i></span>
             </div>
@@ -209,7 +209,7 @@
       return `
         <div class="overflow-hidden service-media mb-3 position-relative">
           <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="video-card-thumb-wrap">
-            <video src="${media.src}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" muted playsinline preload="metadata"></video>
+            <video src="${media.src}" class="img-fluid w-100" style="height: 220px; object-fit: cover; background: #111;" muted playsinline preload="metadata"></video>
             <div class="video-play-overlay">
               <span class="video-play-badge"><i class="fa fa-play text-white"></i></span>
             </div>
@@ -222,7 +222,7 @@
     return `
       <div class="overflow-hidden service-media mb-3 position-relative">
         <a href="${targetUrl}" target="_blank" rel="noopener noreferrer" class="d-block">
-          <img src="${media.src || 'img/feature.jpg'}" alt="${item.image_alt || item.title}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy">
+          <img src="${media.src || 'img/feature.jpg'}" alt="${item.image_alt || item.title}" class="img-fluid w-100" style="height: 220px; object-fit: cover;" loading="lazy" onerror="this.onerror=null;this.src='img/feature.jpg';">
         </a>
         ${badgeHtml}
       </div>
@@ -253,28 +253,42 @@
     const summary = document.getElementById('blogFeaturedSummary');
     const readBtn = document.getElementById('blogFeaturedReadBtn');
 
-    const targetUrl = `blog/articulo.html?id=${encodeURIComponent(feat.id || 'featured')}`;
+    const targetUrl = `blog/${encodeURIComponent(feat.id || 'featured')}`;
 
-    if (image) {
+    if (imageLink) {
       const media = parseMediaSource(feat);
-      image.src = media.thumbnailUrl || media.src || 'img/feature.jpg';
-      image.alt = feat.image_alt || feat.title;
-
-      const overlayExisting = imageLink ? imageLink.querySelector('.video-play-overlay') : null;
-      if (media.type === 'youtube' || media.type === 'video') {
-        if (!overlayExisting && imageLink) {
+      if (media.type === 'video') {
+        if (media.thumbnailUrl) {
+          imageLink.innerHTML = `
+            <img id="blogFeaturedImage" src="${media.thumbnailUrl}" alt="${feat.image_alt || feat.title}" class="img-fluid w-100 blog-featured-image h-100" style="object-fit: cover; min-height: 320px;" onerror="this.onerror=null;this.src='img/feature.jpg';">
+            <div class="video-play-overlay">
+              <span class="video-play-badge"><i class="fa fa-play text-white"></i></span>
+            </div>
+          `;
+        } else {
+          imageLink.innerHTML = `
+            <video id="blogFeaturedVideo" src="${media.src}" class="img-fluid w-100 blog-featured-image h-100" style="object-fit: cover; min-height: 320px; background: #111;" muted playsinline preload="metadata"></video>
+            <div class="video-play-overlay">
+              <span class="video-play-badge"><i class="fa fa-play text-white"></i></span>
+            </div>
+          `;
+        }
+        imageLink.classList.add('position-relative', 'video-card-thumb-wrap');
+      } else {
+        const thumbSrc = media.thumbnailUrl || media.src || 'img/feature.jpg';
+        imageLink.innerHTML = `
+          <img id="blogFeaturedImage" src="${thumbSrc}" alt="${feat.image_alt || feat.title}" class="img-fluid w-100 blog-featured-image h-100" style="object-fit: cover; min-height: 320px;" onerror="this.onerror=null;this.src='img/feature.jpg';">
+        `;
+        if (media.type === 'youtube' || media.type === 'vimeo') {
           imageLink.classList.add('position-relative', 'video-card-thumb-wrap');
           const overlay = document.createElement('div');
           overlay.className = 'video-play-overlay';
           overlay.innerHTML = '<span class="video-play-badge"><i class="fa fa-play text-white"></i></span>';
           imageLink.appendChild(overlay);
+        } else {
+          imageLink.classList.remove('video-card-thumb-wrap');
         }
-      } else if (overlayExisting) {
-        overlayExisting.remove();
-        imageLink?.classList.remove('video-card-thumb-wrap');
       }
-    }
-    if (imageLink) {
       imageLink.setAttribute('href', targetUrl);
     }
     if (kicker) {
@@ -353,7 +367,7 @@
       else if (lang === 'pt') btnText = item.type === 'comunicado' ? 'Ver comunicado' : 'Ler mais';
       else if (lang === 'fr') btnText = item.type === 'comunicado' ? 'Voir communiqué' : 'Lire la suite';
 
-      const targetUrl = `blog/articulo.html?id=${encodeURIComponent(item.id || index)}`;
+      const targetUrl = `blog/${encodeURIComponent(item.id || index)}`;
 
       return `
         <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="${(0.1 + (index % 3) * 0.15).toFixed(2)}s">

@@ -174,8 +174,8 @@ echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
 <?php endforeach; ?>
 
 <?php foreach ($blogItems as $item): 
-    $lastmod = !empty($item['updated_at']) ? substr($item['updated_at'], 0, 10) : '2026-10-29';
-    $postUrl = $baseUrl . '/blog/articulo.html?id=' . urlencode($item['id']);
+    $lastmod = !empty($item['updated_at']) ? substr($item['updated_at'], 0, 10) : '2026-10-30';
+    $postUrl = $baseUrl . '/blog/' . urlencode($item['id']);
 ?>
   <url>
     <loc><?= htmlspecialchars($postUrl) ?></loc>

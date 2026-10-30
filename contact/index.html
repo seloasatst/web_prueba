@@ -97,6 +97,11 @@
 
             <div class="contact-form-panel">
               <form action="php/enviar_formulario.php" method="POST">
+                <!-- Campo trampa Anti-Spam invisible para bots -->
+                <div class="d-none" aria-hidden="true" style="display:none !important;">
+                  <label for="contact_website">No completar este campo</label>
+                  <input type="text" id="contact_website" name="contact_website" tabindex="-1" autocomplete="off">
+                </div>
                 <div class="row g-3">
                   <div class="col-md-6">
                     <div class="form-floating">

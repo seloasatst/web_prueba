@@ -1,4 +1,8 @@
-# Deshabilitar listado de directorios y negociación
+# ==============================================================================
+# SELOASA - Configuración de Seguridad, Enlaces Bonitos y Optimización Web
+# ==============================================================================
+
+# Deshabilitar listado de directorios y negociación de contenido
 Options -Indexes -MultiViews
 
 DirectoryIndex index.html index.php
@@ -7,51 +11,101 @@ DirectoryIndex index.html index.php
     Options -MultiViews
 </IfModule>
 
-# Cabeceras de Seguridad HTTP
+# Codificación predeterminada
+AddDefaultCharset UTF-8
+
+# ==============================================================================
+# Cabeceras de Seguridad HTTP y Protección Contra Vulnerabilidades
+# ==============================================================================
 <IfModule mod_headers.c>
     Header set X-Content-Type-Options "nosniff"
     Header set X-Frame-Options "SAMEORIGIN"
     Header set X-XSS-Protection "1; mode=block"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
     Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    Header set Cross-Origin-Opener-Policy "same-origin-allow-popups"
     Header unset X-Powered-By
+    Header unset Server
+
+    # HSTS para conexiones seguras HTTPS (previene downgrade attacks)
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" "expr=%{HTTPS} == 'on'"
 </IfModule>
 
-# Bloquear acceso a archivos sensibles y de configuración
-<FilesMatch "^(\.env|\.git|\.vscode|composer\.(json|lock)|package(-lock)?\.json|.*\.log|.*\.sql)$">
+# ==============================================================================
+# Bloquear acceso a archivos sensibles, configuraciones y helpers internos
+# ==============================================================================
+<FilesMatch "^(\.env.*|\.git.*|\.vscode|composer\.(json|lock)|package(-lock)?\.json|.*\.log|.*\.sql|.*\.bak|.*\.ini|.*\.conf|compat\.php|db\.php|admin_helper\.php|mail_helper\.php)$">
     Require all denied
 </FilesMatch>
 
-# Bloquear acceso a directorios de almacenamiento interno
-RedirectMatch 403 ^/shipping/php/(storage|logs)/.*$
+# Bloquear acceso directo vía HTTP a directorios de logs y storage
+RedirectMatch 403 (^|/)php/(storage|logs)/.*$
+RedirectMatch 403 (^|/)(\.git|\.vscode)/.*$
 
+# ==============================================================================
+# Enlaces Bonitos (Pretty URLs), Normalización y Redirecciones
+# ==============================================================================
 <IfModule mod_rewrite.c>
     RewriteEngine On
     RewriteBase /
 
-    # 1. Links Bonitos para Artículos de Blog:
+    # 1. Normalizar index.html en la raíz hacia / (Previene contenido duplicado en SEO)
+    RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/ [NC]
+    RewriteRule ^index\.html$ / [R=301,L]
+
+    # 2. Redirigir parámetros antiguos ?id=slug de articulos a la URL bonita /blog/slug
+    RewriteCond %{THE_REQUEST} \s/+(?:shipping/)?blog/articulo(?:\.html)?\?id=([a-zA-Z0-9_\-]+)\s [NC]
+    RewriteRule ^ blog/%1? [R=301,L]
+
+    # 3. Enlaces Bonitos para Artículos de Blog (/blog/mi-articulo -> blog/articulo.html?id=mi-articulo):
     RewriteRule ^blog/articulo/([a-zA-Z0-9_\-]+)/?$ blog/articulo.html?id=$1 [QSA,L]
 
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^blog/([a-zA-Z0-9_\-]+)/?$ blog/articulo.html?id=$1 [QSA,L]
 
-    # 2. Rutas limpias de Administración (sin extensión .html):
+    # 4. Rutas limpias de Administración (sin extensión .html):
+    RewriteRule ^admin/?$ admin/dashboard.html [QSA,L]
     RewriteRule ^admin/login/?$ admin/login/index.html [QSA,L]
     RewriteRule ^admin/dashboard/?$ admin/dashboard.html [QSA,L]
     RewriteRule ^admin/noticias/?$ admin/dashboard.html [R=301,L]
+    RewriteRule ^admin/editor/?$ admin/editor.html [QSA,L]
+    RewriteRule ^admin/vacantes/?$ admin/editor-vacante.html [QSA,L]
+    RewriteRule ^admin/popups/?$ admin/editor-popup.html [QSA,L]
 
-    # 3. Permitir URLs limpias sin extensión .html (ej: /admin/editor -> /admin/editor.html)
+    # 5. Permitir URLs limpias sin extensión .html (ej: /admin/editor -> /admin/editor.html)
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME}.html -f
     RewriteRule ^(.*)$ $1.html [L]
 
-    # 4. Permitir archivos y carpetas reales existentes
+    # 6. Permitir archivos y carpetas reales existentes
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 </IfModule>
 
-ErrorDocument 404 /404/
+# ==============================================================================
+# Compresión GZIP & Rendimiento Web (Core Web Vitals)
+# ==============================================================================
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/x-javascript application/json application/xml image/svg+xml
+</IfModule>
 
+# ==============================================================================
+# Buenas Prácticas de Caché en Navegadores (Cache-Control & Expires)
+# ==============================================================================
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+</IfModule>
+
+ErrorDocument 404 /404/

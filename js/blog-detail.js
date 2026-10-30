@@ -694,6 +694,14 @@
       if (pageTitle) pageTitle.textContent = `${localizedPost.title} | SELOASA`;
       if (metaDesc && localizedPost.summary) metaDesc.setAttribute('content', localizedPost.summary);
 
+      let canonicalEl = document.querySelector('link[rel="canonical"]');
+      if (!canonicalEl) {
+        canonicalEl = document.createElement('link');
+        canonicalEl.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonicalEl);
+      }
+      canonicalEl.setAttribute('href', `https://seloasa.com.mx/blog/${encodeURIComponent(localizedPost.id)}`);
+
       const host = document.getElementById('articleRenderHost');
       if (!host) return;
 
@@ -759,7 +767,7 @@
     // Si es tipo blog, renderizamos en columnas de 3 (grid inferior)
     if (postType === 'blog') {
       container.innerHTML = recommendations.map(item => {
-        const itemUrl = `blog/articulo.html?id=${encodeURIComponent(item.id || '')}`;
+        const itemUrl = `blog/${encodeURIComponent(item.id || '')}`;
         const itemMedia = parseMediaSource(item);
         const itemThumbHtml = (itemMedia.type === 'video' && !itemMedia.thumbnailUrl)
           ? `<video src="${itemMedia.src}" class="card-img-top w-100" style="height: 140px; object-fit: cover;" muted playsinline preload="metadata"></video>`
@@ -789,7 +797,7 @@
     } else {
       // Si es comunicado o noticia, renderizamos formato lista en sidebar
       container.innerHTML = recommendations.map(item => {
-        const itemUrl = `blog/articulo.html?id=${encodeURIComponent(item.id || '')}`;
+        const itemUrl = `blog/${encodeURIComponent(item.id || '')}`;
         const itemMedia = parseMediaSource(item);
         const itemThumbHtml = (itemMedia.type === 'video' && !itemMedia.thumbnailUrl)
           ? `<video src="${itemMedia.src}" class="sidebar-rec-img" style="object-fit: cover;" muted playsinline preload="metadata"></video>`
@@ -814,7 +822,7 @@
       btn.addEventListener('click', function () {
         const targetId = currentPostId || getPostIdFromUrl();
         const baseOrigin = window.location.origin;
-        const prefix = window.location.pathname.includes('/shipping/') ? '/shipping/blog/articulo.html?id=' : '/blog/articulo.html?id=';
+        const prefix = window.location.pathname.includes('/shipping/') ? '/shipping/blog/' : '/blog/';
         const prettyUrl = `${baseOrigin}${prefix}${encodeURIComponent(targetId)}`;
 
         if (navigator.clipboard && navigator.clipboard.writeText) {
