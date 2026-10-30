@@ -128,6 +128,12 @@ async function includePartials() {
 
       if (html.includes('site-navbar')) {
         setActiveNavbarLink(el);
+        var isSolidNavPage = document.body.classList.contains('solid-nav-page') || 
+                             !document.querySelector('.hero-split, .header-carousel');
+        if (isSolidNavPage) {
+          var navEl = el.querySelector('.site-navbar') || document.querySelector('.site-navbar');
+          if (navEl) navEl.classList.add('sticky-nav');
+        }
         requestAnimationFrame(updateNavbarOffset);
         setTimeout(updateNavbarOffset, 150);
       }

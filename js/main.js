@@ -212,13 +212,18 @@
     // ——————————————————————————————————————————
     // Sticky Navbar handling
     // ——————————————————————————————————————————
-    $(window).scroll(function () {
-        if ($(this).scrollTop() > 45) {
+    function updateStickyNav() {
+        var isSolidNavPage = $('body').hasClass('solid-nav-page') || 
+                             !$('.hero-split, .header-carousel').length;
+        if (isSolidNavPage || $(window).scrollTop() > 45) {
             $('.site-navbar').addClass('sticky-nav');
         } else {
             $('.site-navbar').removeClass('sticky-nav');
         }
-    });
+    }
+
+    $(window).scroll(updateStickyNav);
+    updateStickyNav();
 
     const fleetSelector = document.getElementById('fleetSelector');
     if (fleetSelector) {
