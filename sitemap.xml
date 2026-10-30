@@ -81,9 +81,13 @@
   <!-- Blog, Noticias y Comunicados Oficiales -->
   <url>
     <loc>https://seloasa.com.mx/blog/</loc>
-    <lastmod>2026-10-29</lastmod>
+    <lastmod>2026-10-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
+    <image:image>
+      <image:loc>https://seloasa.com.mx/img/cover-blog.jpg</image:loc>
+      <image:title>Blog, Noticias y Comunicados SELOASA</image:title>
+    </image:image>
   </url>
   <url>
     <loc>https://seloasa.com.mx/blog/seloasa-reforestacion-futuro-sostenible-2026</loc>
