@@ -10,7 +10,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@500;700;800&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@500;700;800&display=swap"
+    rel="stylesheet">
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
@@ -47,10 +49,15 @@
       </div>
 
       <!-- Aviso de Protocolo Local file:/// -->
-      <div id="fileProtocolNotice" class="alert alert-warning py-2 px-3 small d-none text-start mb-3" style="border-radius: 10px; font-size: 0.82rem;">
-        <div class="fw-bold text-dark mb-1"><i class="fa fa-exclamation-triangle text-warning me-1"></i> Servidor Local Requerido</div>
-        <p class="mb-2 text-muted" style="font-size: 0.78rem;">Estás visualizando este archivo como <code>file:///</code>. Para que PHP envíe correos y valide accesos, debes abrirlo a través de tu servidor Apache en XAMPP:</p>
-        <a id="fileProtocolRedirectLink" href="http://localhost/shipping/admin/login" class="btn btn-sm btn-dark w-100 py-1 text-white fw-bold">
+      <div id="fileProtocolNotice" class="alert alert-warning py-2 px-3 small d-none text-start mb-3"
+        style="border-radius: 10px; font-size: 0.82rem;">
+        <div class="fw-bold text-dark mb-1"><i class="fa fa-exclamation-triangle text-warning me-1"></i> Servidor Local
+          Requerido</div>
+        <p class="mb-2 text-muted" style="font-size: 0.78rem;">Estás visualizando este archivo como
+          <code>file:///</code>. Para que PHP envíe correos y valide accesos, debes abrirlo a través de tu servidor
+          Apache en XAMPP:</p>
+        <a id="fileProtocolRedirectLink" href="http://localhost/shipping/admin/login"
+          class="btn btn-sm btn-dark w-100 py-1 text-white fw-bold">
           <i class="fa fa-external-link-alt me-1"></i> Abrir en http://localhost/shipping/admin/login
         </a>
       </div>
@@ -61,7 +68,7 @@
 
       <!-- PASO 1: ACCESO SIN CONTRASEÑA -->
       <div id="step1Section">
-        
+
         <!-- SUB-PASO 1A: INGRESAR CORREO AUTORIZADO -->
         <div id="substepEmailFormWrap">
           <form id="adminEmailRequestForm">
@@ -69,9 +76,11 @@
               <label for="adminEmailInput" class="form-label small fw-bold text-dark mb-1">
                 <i class="fa fa-envelope text-primary me-1"></i> Correo Electrónico Institucional
               </label>
-              <input type="email" id="adminEmailInput" class="form-control" placeholder="admin@seloasa.com.mx" required autocomplete="email">
+              <input type="email" id="adminEmailInput" class="form-control" placeholder="admin@seloasa.com.mx" required
+                autocomplete="email">
               <div class="form-text small text-muted mt-1">
-                <i class="fa fa-shield-alt text-primary me-1"></i> Acceso sin contraseña: el sistema verifica la lista autorizada y te envía un código de 6 dígitos.
+                <i class="fa fa-shield-alt text-primary me-1"></i> Acceso sin contraseña: el sistema verifica la lista
+                autorizada y te envía un código de 6 dígitos.
               </div>
             </div>
 
@@ -82,7 +91,8 @@
               </label>
             </div>
 
-            <button type="submit" id="btnRequestEmailCode" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
+            <button type="submit" id="btnRequestEmailCode"
+              class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2">
               <i class="fa fa-paper-plane"></i>
               <span>Enviar Código de 6 Dígitos</span>
             </button>
@@ -107,10 +117,12 @@
           <div class="p-2.5 px-3 bg-light border rounded-3 mb-3">
             <div class="d-flex align-items-center justify-content-between small">
               <span class="text-muted"><i class="far fa-clock text-primary me-1"></i> Vigencia del código:</span>
-              <span id="emailOtpCountdownText" class="fw-bold text-danger font-monospace" style="font-size: 0.95rem;">10:00 min</span>
+              <span id="emailOtpCountdownText" class="fw-bold text-danger font-monospace"
+                style="font-size: 0.95rem;">10:00 min</span>
             </div>
             <div class="progress mt-1.5" style="height: 4px;">
-              <div id="emailOtpProgressBar" class="progress-bar bg-danger" role="progressbar" style="width: 100%; transition: width 1s linear;"></div>
+              <div id="emailOtpProgressBar" class="progress-bar bg-danger" role="progressbar"
+                style="width: 100%; transition: width 1s linear;"></div>
             </div>
             <div class="text-muted text-center mt-1" style="font-size: 0.72rem;">
               Válido estrictamente durante <strong>10 minutos</strong>. Tras expirar deberás solicitar uno nuevo.
@@ -123,7 +135,8 @@
               Ingresa los 6 dígitos recibidos en tu correo:
             </label>
             <div class="totp-digits-group mb-3" id="emailOtpDigitsGroup">
-              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric" required autocomplete="one-time-code">
+              <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric" required
+                autocomplete="one-time-code">
               <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
               <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
               <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
@@ -131,13 +144,15 @@
               <input type="text" maxlength="1" class="totp-digit-input email-digit-input" inputmode="numeric">
             </div>
 
-            <button type="submit" id="btnVerifyEmailOtp" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 mb-2">
+            <button type="submit" id="btnVerifyEmailOtp"
+              class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 mb-2">
               <span>Continuar a Google 2FA</span>
               <i class="fa fa-arrow-right"></i>
             </button>
 
             <div class="d-flex align-items-center justify-content-between pt-2">
-              <button type="button" id="btnResendEmailOtp" class="btn btn-link text-primary small p-0 text-decoration-none">
+              <button type="button" id="btnResendEmailOtp"
+                class="btn btn-link text-primary small p-0 text-decoration-none">
                 <i class="fa fa-sync-alt me-1"></i> Reenviar código
               </button>
               <button type="button" id="btnChangeEmail" class="btn btn-link text-muted small p-0 text-decoration-none">
@@ -170,7 +185,8 @@
         <form id="adminTotpForm">
           <!-- Inputs individuales de 6 dígitos -->
           <div class="totp-digits-group">
-            <input type="text" maxlength="1" class="totp-digit-input google-digit-input" inputmode="numeric" autocomplete="one-time-code" required>
+            <input type="text" maxlength="1" class="totp-digit-input google-digit-input" inputmode="numeric"
+              autocomplete="one-time-code" required>
             <input type="text" maxlength="1" class="totp-digit-input google-digit-input" inputmode="numeric">
             <input type="text" maxlength="1" class="totp-digit-input google-digit-input" inputmode="numeric">
             <input type="text" maxlength="1" class="totp-digit-input google-digit-input" inputmode="numeric">
@@ -178,7 +194,8 @@
             <input type="text" maxlength="1" class="totp-digit-input google-digit-input" inputmode="numeric">
           </div>
 
-          <button type="submit" id="verifyTotpBtn" class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 mb-2">
+          <button type="submit" id="verifyTotpBtn"
+            class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm d-flex align-items-center justify-content-center gap-2 mb-2">
             <i class="fa fa-check-circle"></i>
             <span>Verificar y Acceder al Panel</span>
           </button>
@@ -196,7 +213,7 @@
        DASHBOARD: PANEL PRINCIPAL DE ADMINISTRACIÓN DE PUBLICACIONES
        ====================================================================== -->
   <div id="dashboardWrapper" class="d-none">
-    
+
     <!-- Header / Navbar Principal (Una sola fila, limpio, sin duplicados) -->
     <header class="admin-topbar">
       <div class="admin-topbar-inner">
@@ -246,143 +263,148 @@
            SECCIÓN MÓDULO 1: PUBLICACIONES Y NOTICIAS
            ====================================================================== -->
       <div id="modulePostsSection">
-        
+
         <!-- Encabezado de Sección -->
         <div class="admin-section-header">
           <div>
             <h1 class="admin-section-title">Noticias y Comunicados</h1>
-            <p class="admin-section-sub">Gestiona comunicados oficiales, notas técnicas y artículos del blog de SELOASA.</p>
+            <p class="admin-section-sub">Gestiona comunicados oficiales, notas técnicas y artículos del blog de SELOASA.
+            </p>
           </div>
           <div>
-            <a href="admin/editor.html?new=1" target="_blank" rel="noopener noreferrer" id="btnNewPost" class="btn-primary-action" title="Abrir estudio de redacción en pestaña nueva">
+            <a href="admin/editor.html?new=1" target="_blank" rel="noopener noreferrer" id="btnNewPost"
+              class="btn-primary-action" title="Abrir estudio de redacción en pestaña nueva">
               <i class="fa fa-plus"></i>
               <span>Nueva Publicación</span>
             </a>
           </div>
         </div>
 
-      <!-- KPI Cards: Métricas de Publicaciones -->
-      <div class="row g-3 mb-4">
-        <div class="col-6 col-lg-3">
-          <div class="admin-kpi-card">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="admin-kpi-lbl">Total Publicaciones</span>
-              <div class="admin-kpi-icon kpi-icon-all"><i class="fa fa-layer-group"></i></div>
+        <!-- KPI Cards: Métricas de Publicaciones -->
+        <div class="row g-3 mb-4">
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Total Publicaciones</span>
+                <div class="admin-kpi-icon kpi-icon-all"><i class="fa fa-layer-group"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiTotalCount">0</div>
             </div>
-            <div class="admin-kpi-val" id="kpiTotalCount">0</div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Comunicados Oficiales</span>
+                <div class="admin-kpi-icon kpi-icon-comunicado"><i class="fa fa-bullhorn"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiComunicadosCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Noticias Operativas</span>
+                <div class="admin-kpi-icon kpi-icon-noticia"><i class="fa fa-newspaper"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiNoticiasCount">0</div>
+            </div>
+          </div>
+          <div class="col-6 col-lg-3">
+            <div class="admin-kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-2">
+                <span class="admin-kpi-lbl">Blog Farma</span>
+                <div class="admin-kpi-icon kpi-icon-blog"><i class="fa fa-bookmark"></i></div>
+              </div>
+              <div class="admin-kpi-val" id="kpiBlogCount">0</div>
+            </div>
           </div>
         </div>
-        <div class="col-6 col-lg-3">
-          <div class="admin-kpi-card">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="admin-kpi-lbl">Comunicados Oficiales</span>
-              <div class="admin-kpi-icon kpi-icon-comunicado"><i class="fa fa-bullhorn"></i></div>
-            </div>
-            <div class="admin-kpi-val" id="kpiComunicadosCount">0</div>
-          </div>
-        </div>
-        <div class="col-6 col-lg-3">
-          <div class="admin-kpi-card">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="admin-kpi-lbl">Noticias Operativas</span>
-              <div class="admin-kpi-icon kpi-icon-noticia"><i class="fa fa-newspaper"></i></div>
-            </div>
-            <div class="admin-kpi-val" id="kpiNoticiasCount">0</div>
-          </div>
-        </div>
-        <div class="col-6 col-lg-3">
-          <div class="admin-kpi-card">
-            <div class="d-flex align-items-center justify-content-between mb-2">
-              <span class="admin-kpi-lbl">Blog Farma</span>
-              <div class="admin-kpi-icon kpi-icon-blog"><i class="fa fa-bookmark"></i></div>
-            </div>
-            <div class="admin-kpi-val" id="kpiBlogCount">0</div>
-          </div>
-        </div>
-      </div>
 
-      <!-- Barra de Filtros y Búsqueda -->
-      <div class="admin-toolbar-card">
-        <div class="row g-3 align-items-center justify-content-between">
-          <div class="col-12 col-md-auto d-flex align-items-center gap-2 flex-wrap">
-            <span class="small fw-bold text-muted me-1">Filtrar:</span>
-            <button type="button" class="admin-filter-pill-btn active" data-filter-type="all">
-              <i class="fa fa-th-large me-1"></i> Todos
+        <!-- Barra de Filtros y Búsqueda -->
+        <div class="admin-toolbar-card">
+          <div class="row g-3 align-items-center justify-content-between">
+            <div class="col-12 col-md-auto d-flex align-items-center gap-2 flex-wrap">
+              <span class="small fw-bold text-muted me-1">Filtrar:</span>
+              <button type="button" class="admin-filter-pill-btn active" data-filter-type="all">
+                <i class="fa fa-th-large me-1"></i> Todos
+              </button>
+              <button type="button" class="admin-filter-pill-btn" data-filter-type="comunicado">
+                <i class="fa fa-bullhorn me-1"></i> Comunicados
+              </button>
+              <button type="button" class="admin-filter-pill-btn" data-filter-type="noticia">
+                <i class="fa fa-newspaper me-1"></i> Noticias
+              </button>
+              <button type="button" class="admin-filter-pill-btn" data-filter-type="blog">
+                <i class="fa fa-bookmark me-1"></i> Blog Farma
+              </button>
+            </div>
+
+            <div class="col-12 col-md-5 d-flex align-items-center gap-2">
+              <div class="input-group input-group-sm">
+                <span class="input-group-text bg-light border-end-0"><i class="fa fa-search text-muted"></i></span>
+                <input type="text" id="adminSearchInput" class="form-control border-start-0"
+                  placeholder="Buscar por título, ID o departamento...">
+              </div>
+              <select id="statusFilterSelect" class="form-select form-select-sm" style="max-width: 140px;">
+                <option value="all">Estado: Todos</option>
+                <option value="published">Publicados</option>
+                <option value="draft">Borradores</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabla de Publicaciones -->
+        <div class="admin-table-card mb-4">
+          <div class="table-responsive">
+            <table class="table align-middle">
+              <thead>
+                <tr>
+                  <th>Miniatura</th>
+                  <th>Publicación & Folio</th>
+                  <th>Tipo / Plantilla</th>
+                  <th>Fecha & Tiempo</th>
+                  <th>Estado</th>
+                  <th class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="postsTableBody">
+                <!-- Inyectado dinámicamente por js/blog-admin.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="tableNoResultsRow" class="text-center py-5 d-none">
+            <i class="fa fa-folder-open fa-3x text-muted mb-3"></i>
+            <h5 class="text-muted">No se encontraron publicaciones con ese criterio</h5>
+            <p class="small text-muted mb-0">Prueba ajustando el término de búsqueda o cambiando el filtro de categoría.
+            </p>
+          </div>
+        </div>
+
+        <!-- Herramientas de Datos (Copia de Seguridad y Restauración) -->
+        <div
+          class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3 bg-white border rounded-3 small">
+          <div class="d-flex align-items-center gap-2 text-muted">
+            <i class="fa fa-database text-primary"></i>
+            <span>Los cambios se sincronizan en tiempo real con el catálogo y las vistas de detalle.</span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <button type="button" id="btnExportJson" class="btn btn-sm btn-outline-dark rounded-pill px-3">
+              <i class="fa fa-download me-1"></i> Respaldar JSON
             </button>
-            <button type="button" class="admin-filter-pill-btn" data-filter-type="comunicado">
-              <i class="fa fa-bullhorn me-1"></i> Comunicados
-            </button>
-            <button type="button" class="admin-filter-pill-btn" data-filter-type="noticia">
-              <i class="fa fa-newspaper me-1"></i> Noticias
-            </button>
-            <button type="button" class="admin-filter-pill-btn" data-filter-type="blog">
-              <i class="fa fa-bookmark me-1"></i> Blog Farma
+            <button type="button" id="btnResetDefaults" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
+              <i class="fa fa-undo me-1"></i> Restaurar Originales
             </button>
           </div>
-
-          <div class="col-12 col-md-5 d-flex align-items-center gap-2">
-            <div class="input-group input-group-sm">
-              <span class="input-group-text bg-light border-end-0"><i class="fa fa-search text-muted"></i></span>
-              <input type="text" id="adminSearchInput" class="form-control border-start-0" placeholder="Buscar por título, ID o departamento...">
-            </div>
-            <select id="statusFilterSelect" class="form-select form-select-sm" style="max-width: 140px;">
-              <option value="all">Estado: Todos</option>
-              <option value="published">Publicados</option>
-              <option value="draft">Borradores</option>
-            </select>
-          </div>
         </div>
-      </div>
-
-      <!-- Tabla de Publicaciones -->
-      <div class="admin-table-card mb-4">
-        <div class="table-responsive">
-          <table class="table align-middle">
-            <thead>
-              <tr>
-                <th>Miniatura</th>
-                <th>Publicación & Folio</th>
-                <th>Tipo / Plantilla</th>
-                <th>Fecha & Tiempo</th>
-                <th>Estado</th>
-                <th class="text-end">Acciones</th>
-              </tr>
-            </thead>
-            <tbody id="postsTableBody">
-              <!-- Inyectado dinámicamente por js/blog-admin.js -->
-            </tbody>
-          </table>
-        </div>
-
-        <div id="tableNoResultsRow" class="text-center py-5 d-none">
-          <i class="fa fa-folder-open fa-3x text-muted mb-3"></i>
-          <h5 class="text-muted">No se encontraron publicaciones con ese criterio</h5>
-          <p class="small text-muted mb-0">Prueba ajustando el término de búsqueda o cambiando el filtro de categoría.</p>
-        </div>
-      </div>
-
-      <!-- Herramientas de Datos (Copia de Seguridad y Restauración) -->
-      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3 bg-white border rounded-3 small">
-        <div class="d-flex align-items-center gap-2 text-muted">
-          <i class="fa fa-database text-primary"></i>
-          <span>Los cambios se sincronizan en tiempo real con el catálogo y las vistas de detalle.</span>
-        </div>
-        <div class="d-flex align-items-center gap-2">
-          <button type="button" id="btnExportJson" class="btn btn-sm btn-outline-dark rounded-pill px-3">
-            <i class="fa fa-download me-1"></i> Respaldar JSON
-          </button>
-          <button type="button" id="btnResetDefaults" class="btn btn-sm btn-outline-secondary rounded-pill px-3">
-            <i class="fa fa-undo me-1"></i> Restaurar Originales
-          </button>
-        </div>
-      </div>
       </div> <!-- Fin #modulePostsSection -->
 
       <!-- ======================================================================
            SECCIÓN MÓDULO 2: BOLSA DE TRABAJO & GESTIÓN DE VACANTES
            ====================================================================== -->
       <div id="moduleVacanciesSection" class="d-none">
-        
+
         <!-- Encabezado de Sección -->
         <div class="admin-section-header">
           <div>
@@ -390,11 +412,13 @@
             <p class="admin-section-sub">Administra vacantes y oportunidades de empleo en SELOASA.</p>
           </div>
           <div class="d-flex align-items-center gap-2">
-            <a href="careers/" target="_blank" rel="noopener noreferrer" class="btn-topbar-link" title="Ver bolsa pública">
+            <a href="careers/" target="_blank" rel="noopener noreferrer" class="btn-topbar-link"
+              title="Ver bolsa pública">
               <i class="fa fa-external-link-alt"></i>
               <span>Ver Web</span>
             </a>
-            <a href="admin/editor-vacante.html?new=1" target="_blank" rel="noopener noreferrer" id="btnNewVacancy" class="btn-primary-action" title="Crear una nueva vacante en el estudio dedicado">
+            <a href="admin/editor-vacante.html?new=1" target="_blank" rel="noopener noreferrer" id="btnNewVacancy"
+              class="btn-primary-action" title="Crear una nueva vacante en el estudio dedicado">
               <i class="fa fa-plus"></i>
               <span>Nueva Vacante</span>
             </a>
@@ -447,7 +471,8 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
               <div class="input-group input-group-sm" style="width: 280px;">
                 <span class="input-group-text bg-white border-end-0"><i class="fa fa-search text-muted"></i></span>
-                <input type="text" id="adminVacancySearchInput" class="form-control border-start-0" placeholder="Buscar vacante por título, área o lugar...">
+                <input type="text" id="adminVacancySearchInput" class="form-control border-start-0"
+                  placeholder="Buscar vacante por título, área o lugar...">
               </div>
               <select id="vacancyAreaFilterSelect" class="form-select form-select-sm" style="width: 170px;">
                 <option value="all">Todas las áreas</option>
@@ -464,7 +489,8 @@
               </select>
             </div>
             <div>
-              <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-light border text-muted" style="font-size: 11.5px;">
+              <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-light border text-muted"
+                style="font-size: 11.5px;">
                 <i class="fa fa-info-circle text-muted"></i>
                 <span>Las vacantes con estado <strong>Publicada</strong> son visibles en <code>careers/</code>.</span>
               </div>
@@ -503,15 +529,17 @@
            SECCIÓN MÓDULO 3: GESTIÓN DE POP-UPS Y AVISOS EMERGENTES
            ====================================================================== -->
       <div id="modulePopupsSection" class="d-none">
-        
+
         <!-- Encabezado de Sección -->
         <div class="admin-section-header">
           <div>
             <h1 class="admin-section-title">Pop-ups &amp; Avisos</h1>
-            <p class="admin-section-sub">Configura avisos emergentes para circulares operativas y normativas COFEPRIS.</p>
+            <p class="admin-section-sub">Configura avisos emergentes para circulares operativas y normativas COFEPRIS.
+            </p>
           </div>
           <div>
-            <a href="admin/editor-popup.html?new=1" target="_blank" rel="noopener noreferrer" id="btnNewPopup" class="btn-primary-action" title="Crear un nuevo pop-up">
+            <a href="admin/editor-popup.html?new=1" target="_blank" rel="noopener noreferrer" id="btnNewPopup"
+              class="btn-primary-action" title="Crear un nuevo pop-up">
               <i class="fa fa-plus"></i>
               <span>Nuevo Pop-up</span>
             </a>
@@ -535,7 +563,8 @@
                 <span class="admin-kpi-lbl">Pop-up Activo en Web</span>
                 <div class="admin-kpi-icon kpi-icon-noticia"><i class="fa fa-check-circle"></i></div>
               </div>
-              <div class="admin-kpi-val text-success" id="kpiPopupsActiveName" style="font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+              <div class="admin-kpi-val text-success" id="kpiPopupsActiveName"
+                style="font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                 Ninguno
               </div>
             </div>
@@ -566,7 +595,8 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
               <div class="input-group input-group-sm" style="width: 280px;">
                 <span class="input-group-text bg-white border-end-0"><i class="fa fa-search text-muted"></i></span>
-                <input type="text" id="adminPopupSearchInput" class="form-control border-start-0" placeholder="Buscar pop-up por título o texto...">
+                <input type="text" id="adminPopupSearchInput" class="form-control border-start-0"
+                  placeholder="Buscar pop-up por título o texto...">
               </div>
               <select id="popupTypeFilterSelect" class="form-select form-select-sm" style="width: 170px;">
                 <option value="all">Todos los estilos</option>
@@ -576,7 +606,8 @@
               </select>
             </div>
             <div>
-              <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-light border text-muted" style="font-size: 11.5px;">
+              <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-light border text-muted"
+                style="font-size: 11.5px;">
                 <i class="fa fa-info-circle text-muted"></i>
                 <span>Solo el aviso con interruptor <strong>Activo</strong> se muestra en la web pública.</span>
               </div>
@@ -613,15 +644,17 @@
 
       <!-- SECCIÓN 4: MÓDULO DE CLIENTES & TESTIMONIOS -->
       <div id="moduleTestimonialsSection" class="d-none">
-        
+
         <!-- Encabezado de Sección -->
         <div class="admin-section-header">
           <div>
             <h1 class="admin-section-title">Clientes &amp; Testimonios</h1>
-            <p class="admin-section-sub">Gestiona los logos corporativos y opiniones que se muestran en el carrusel del Home.</p>
+            <p class="admin-section-sub">Gestiona los logos corporativos y opiniones que se muestran en el carrusel del
+              Home.</p>
           </div>
           <div>
-            <button type="button" id="btnNewTestimonial" class="btn-primary-action" title="Agregar un nuevo testimonio o cliente">
+            <button type="button" id="btnNewTestimonial" class="btn-primary-action"
+              title="Agregar un nuevo testimonio o cliente">
               <i class="fa fa-plus"></i>
               <span>Nuevo Testimonio</span>
             </button>
@@ -665,14 +698,18 @@
             <div class="d-flex align-items-center gap-2 flex-wrap">
               <div class="input-group input-group-sm" style="width: 280px;">
                 <span class="input-group-text bg-white border-end-0"><i class="fa fa-search text-muted"></i></span>
-                <input type="text" id="adminTestimonialSearchInput" class="form-control border-start-0" placeholder="Buscar por empresa o cita...">
+                <input type="text" id="adminTestimonialSearchInput" class="form-control border-start-0"
+                  placeholder="Buscar por empresa o cita...">
               </div>
 
               <!-- Filtro de Estado -->
               <div class="btn-group btn-group-sm">
-                <button type="button" class="btn btn-outline-secondary active btn-filter-testimonial-status" data-status="all">Todos</button>
-                <button type="button" class="btn btn-outline-secondary btn-filter-testimonial-status" data-status="published">Publicados</button>
-                <button type="button" class="btn btn-outline-secondary btn-filter-testimonial-status" data-status="draft">Ocultos</button>
+                <button type="button" class="btn btn-outline-secondary active btn-filter-testimonial-status"
+                  data-status="all">Todos</button>
+                <button type="button" class="btn btn-outline-secondary btn-filter-testimonial-status"
+                  data-status="published">Publicados</button>
+                <button type="button" class="btn btn-outline-secondary btn-filter-testimonial-status"
+                  data-status="draft">Ocultos</button>
               </div>
             </div>
 
@@ -742,7 +779,8 @@
                       <i class="fa fa-bullhorn text-primary"></i>
                       <div class="type-selector-title">1. Comunicado</div>
                     </div>
-                    <p class="type-selector-desc">Circular oficial membretada, folio, recuadro de resolución ejecutiva y descarga PDF.</p>
+                    <p class="type-selector-desc">Circular oficial membretada, folio, recuadro de resolución ejecutiva y
+                      descarga PDF.</p>
                   </div>
                 </div>
 
@@ -752,7 +790,8 @@
                       <i class="fa fa-newspaper text-success"></i>
                       <div class="type-selector-title">2. Noticia</div>
                     </div>
-                    <p class="type-selector-desc">Hero panorámico completo, franja de telemetría y ficha técnica de equipamiento.</p>
+                    <p class="type-selector-desc">Hero panorámico completo, franja de telemetría y ficha técnica de
+                      equipamiento.</p>
                   </div>
                 </div>
 
@@ -762,7 +801,8 @@
                       <i class="fa fa-bookmark text-secondary"></i>
                       <div class="type-selector-title">3. Blog Farma</div>
                     </div>
-                    <p class="type-selector-desc">Lectura editorial centrada, autor técnico, caja de puntos clave e infografía térmica.</p>
+                    <p class="type-selector-desc">Lectura editorial centrada, autor técnico, caja de puntos clave e
+                      infografía térmica.</p>
                   </div>
                 </div>
               </div>
@@ -771,23 +811,30 @@
             <!-- Título y Slug -->
             <div class="row g-3 mb-3">
               <div class="col-md-8">
-                <label for="postTitleInput" class="form-label small fw-bold text-dark mb-1">Título de la Publicación *</label>
-                <input type="text" id="postTitleInput" class="form-control" placeholder="Ej: Nueva Certificación de Monitoreo Térmico 2026" required>
+                <label for="postTitleInput" class="form-label small fw-bold text-dark mb-1">Título de la Publicación
+                  *</label>
+                <input type="text" id="postTitleInput" class="form-control"
+                  placeholder="Ej: Nueva Certificación de Monitoreo Térmico 2026" required>
               </div>
               <div class="col-md-4">
-                <label for="postIdInput" class="form-label small fw-bold text-dark mb-1">ID Único (URL / Folio) *</label>
-                <input type="text" id="postIdInput" class="form-control font-monospace" placeholder="ej: noticia-nueva-ruta" required>
+                <label for="postIdInput" class="form-label small fw-bold text-dark mb-1">ID Único (URL / Folio)
+                  *</label>
+                <input type="text" id="postIdInput" class="form-control font-monospace"
+                  placeholder="ej: noticia-nueva-ruta" required>
               </div>
             </div>
 
             <!-- Metadatos: Departamento, Categoría, Fecha, Lectura -->
             <div class="row g-3 mb-3">
               <div class="col-md-6">
-                <label for="postDeptInput" class="form-label small fw-bold text-dark mb-1">Departamento / Área Emisora</label>
-                <input type="text" id="postDeptInput" class="form-control" placeholder="Ej: Aseguramiento de Calidad y Tráfico">
+                <label for="postDeptInput" class="form-label small fw-bold text-dark mb-1">Departamento / Área
+                  Emisora</label>
+                <input type="text" id="postDeptInput" class="form-control"
+                  placeholder="Ej: Aseguramiento de Calidad y Tráfico">
               </div>
               <div class="col-md-6">
-                <label for="postCategoryInput" class="form-label small fw-bold text-dark mb-1">Etiqueta de Categoría</label>
+                <label for="postCategoryInput" class="form-label small fw-bold text-dark mb-1">Etiqueta de
+                  Categoría</label>
                 <input type="text" id="postCategoryInput" class="form-control" placeholder="Ej: Comunicado Oficial">
               </div>
             </div>
@@ -814,21 +861,33 @@
             <div class="mb-3">
               <label for="postImageInput" class="form-label small fw-bold text-dark mb-1">Ruta o URL de Imagen</label>
               <div class="input-group">
-                <input type="text" id="postImageInput" class="form-control" placeholder="img/patio_unidades_dia_banner.jpg" value="img/patio_unidades_dia_banner.jpg">
-                <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">Imágenes del sistema</button>
+                <input type="text" id="postImageInput" class="form-control"
+                  placeholder="img/patio_unidades_dia_banner.jpg" value="img/patio_unidades_dia_banner.jpg">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button"
+                  data-bs-toggle="dropdown">Imágenes del sistema</button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                  <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/patio_unidades_dia_banner.jpg'">Patio Unidades Día (Oficial)</a></li>
-                  <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/feature.jpg'">Flota en Carretera (Noticias)</a></li>
-                  <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/about.jpg'">Instalaciones y Calidad (Blog)</a></li>
-                  <li><a class="dropdown-item" href="javascript:void(0)" onclick="document.getElementById('postImageInput').value='img/hero-1.jpg'">Hero Logística</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)"
+                      onclick="document.getElementById('postImageInput').value='img/patio_unidades_dia_banner.jpg'">Patio
+                      Unidades Día (Oficial)</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)"
+                      onclick="document.getElementById('postImageInput').value='img/feature.jpg'">Flota en Carretera
+                      (Noticias)</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)"
+                      onclick="document.getElementById('postImageInput').value='img/about.jpg'">Instalaciones y Calidad
+                      (Blog)</a></li>
+                  <li><a class="dropdown-item" href="javascript:void(0)"
+                      onclick="document.getElementById('postImageInput').value='img/hero-1.jpg'">Hero Logística</a></li>
                 </ul>
               </div>
             </div>
 
             <!-- Resumen Ejecutivo -->
             <div class="mb-3">
-              <label for="postSummaryInput" class="form-label small fw-bold text-dark mb-1">Resumen Ejecutivo (Lead / Introducción) *</label>
-              <textarea id="postSummaryInput" class="form-control" rows="2" placeholder="Breve descripción que resume los puntos más importantes de la publicación..." required></textarea>
+              <label for="postSummaryInput" class="form-label small fw-bold text-dark mb-1">Resumen Ejecutivo (Lead /
+                Introducción) *</label>
+              <textarea id="postSummaryInput" class="form-control" rows="2"
+                placeholder="Breve descripción que resume los puntos más importantes de la publicación..."
+                required></textarea>
             </div>
 
             <!-- Contenido Completo del Artículo (Editor Visual WYSIWYG) -->
@@ -842,7 +901,8 @@
                     <i class="fa fa-check-circle me-1"></i> Modo Visual
                   </span>
                 </div>
-                <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2 rounded-pill" id="btnToggleCodeView" title="Alternar entre editor visual y código" style="font-size: 0.75rem;">
+                <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2 rounded-pill"
+                  id="btnToggleCodeView" title="Alternar entre editor visual y código" style="font-size: 0.75rem;">
                   <i class="fa fa-code me-1"></i> Ver Código HTML
                 </button>
               </div>
@@ -851,44 +911,62 @@
                 <!-- Barra de herramientas visual -->
                 <div class="visual-editor-toolbar" id="visualToolbar">
                   <div class="visual-toolbar-group">
-                    <button type="button" class="visual-toolbar-btn" data-cmd="undo" title="Deshacer (Ctrl+Z)"><i class="fa fa-undo"></i></button>
-                    <button type="button" class="visual-toolbar-btn" data-cmd="redo" title="Rehacer (Ctrl+Y)"><i class="fa fa-redo"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="undo" title="Deshacer (Ctrl+Z)"><i
+                        class="fa fa-undo"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="redo" title="Rehacer (Ctrl+Y)"><i
+                        class="fa fa-redo"></i></button>
                   </div>
 
                   <div class="visual-toolbar-group">
-                    <button type="button" class="visual-toolbar-btn fw-bold" data-cmd="formatBlock" data-val="h4" title="Título de Sección (H4)"><i class="fa fa-heading"></i></button>
-                    <button type="button" class="visual-toolbar-btn" data-cmd="formatBlock" data-val="p" title="Párrafo normal"><i class="fa fa-paragraph"></i></button>
+                    <button type="button" class="visual-toolbar-btn fw-bold" data-cmd="formatBlock" data-val="h4"
+                      title="Título de Sección (H4)"><i class="fa fa-heading"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="formatBlock" data-val="p"
+                      title="Párrafo normal"><i class="fa fa-paragraph"></i></button>
                   </div>
 
                   <div class="visual-toolbar-group">
-                    <button type="button" class="visual-toolbar-btn" data-cmd="bold" title="Negrita (Ctrl+B)"><i class="fa fa-bold"></i></button>
-                    <button type="button" class="visual-toolbar-btn" data-cmd="italic" title="Cursiva (Ctrl+I)"><i class="fa fa-italic"></i></button>
-                    <button type="button" class="visual-toolbar-btn" data-cmd="underline" title="Subrayado (Ctrl+U)"><i class="fa fa-underline"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="bold" title="Negrita (Ctrl+B)"><i
+                        class="fa fa-bold"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="italic" title="Cursiva (Ctrl+I)"><i
+                        class="fa fa-italic"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="underline" title="Subrayado (Ctrl+U)"><i
+                        class="fa fa-underline"></i></button>
                   </div>
 
                   <div class="visual-toolbar-group">
-                    <button type="button" class="visual-toolbar-btn" data-cmd="insertUnorderedList" title="Lista con viñetas"><i class="fa fa-list-ul"></i></button>
-                    <button type="button" class="visual-toolbar-btn" data-cmd="insertOrderedList" title="Lista numerada"><i class="fa fa-list-ol"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="insertUnorderedList"
+                      title="Lista con viñetas"><i class="fa fa-list-ul"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="insertOrderedList"
+                      title="Lista numerada"><i class="fa fa-list-ol"></i></button>
                   </div>
 
                   <div class="visual-toolbar-group">
-                    <button type="button" class="visual-toolbar-btn" data-cmd="formatBlock" data-val="blockquote" title="Cita o frase destacada"><i class="fa fa-quote-left"></i></button>
-                    <button type="button" class="visual-toolbar-btn" id="btnInsertHighlightBox" title="Insertar cuadro destacado de calidad"><i class="fa fa-certificate text-primary"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="formatBlock" data-val="blockquote"
+                      title="Cita o frase destacada"><i class="fa fa-quote-left"></i></button>
+                    <button type="button" class="visual-toolbar-btn" id="btnInsertHighlightBox"
+                      title="Insertar cuadro destacado de calidad"><i
+                        class="fa fa-certificate text-primary"></i></button>
                   </div>
 
                   <div class="visual-toolbar-group">
-                    <button type="button" class="visual-toolbar-btn" data-cmd="removeFormat" title="Limpiar formato"><i class="fa fa-eraser"></i></button>
+                    <button type="button" class="visual-toolbar-btn" data-cmd="removeFormat" title="Limpiar formato"><i
+                        class="fa fa-eraser"></i></button>
                   </div>
                 </div>
 
                 <!-- Lienzo de Edición Visual Contenteditable (NO muestra etiquetas HTML) -->
-                <div id="postContentVisualEditor" class="visual-editor-area" contenteditable="true" data-placeholder="Haz clic aquí para escribir el contenido de la publicación de forma visual..."></div>
+                <div id="postContentVisualEditor" class="visual-editor-area" contenteditable="true"
+                  data-placeholder="Haz clic aquí para escribir el contenido de la publicación de forma visual...">
+                </div>
 
                 <!-- Textarea de código alternativo (oculto por defecto) -->
-                <textarea id="postContentInput" class="form-control font-monospace border-0 rounded-0 d-none" rows="8" style="font-size: 0.88rem;"></textarea>
+                <textarea id="postContentInput" class="form-control font-monospace border-0 rounded-0 d-none" rows="8"
+                  style="font-size: 0.88rem;"></textarea>
               </div>
-              <div class="d-flex align-items-center justify-content-between mt-1 text-muted small" style="font-size: 0.78rem;">
-                <span><i class="fa fa-magic text-primary me-1"></i> Editor visual WYSIWYG: Escribe y formatea de forma visual, sin tocar código HTML.</span>
+              <div class="d-flex align-items-center justify-content-between mt-1 text-muted small"
+                style="font-size: 0.78rem;">
+                <span><i class="fa fa-magic text-primary me-1"></i> Editor visual WYSIWYG: Escribe y formatea de forma
+                  visual, sin tocar código HTML.</span>
                 <span id="editorWordCount">0 palabras</span>
               </div>
             </div>
@@ -896,8 +974,10 @@
         </div>
 
         <div class="modal-footer border-top py-3 px-4">
-          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" id="btnSavePost" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 fw-bold"
+            data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btnSavePost"
+            class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
             <i class="fa fa-save"></i>
             <span>Guardar Publicación</span>
           </button>
@@ -925,19 +1005,25 @@
 
             <div class="row g-3 mb-3">
               <div class="col-md-8">
-                <label for="vacancyTitleInput" class="form-label small fw-bold text-dark mb-1">Título del Puesto *</label>
-                <input type="text" id="vacancyTitleInput" class="form-control fw-bold" placeholder="Ej: Coordinador de Monitoreo Logístico" required>
+                <label for="vacancyTitleInput" class="form-label small fw-bold text-dark mb-1">Título del Puesto
+                  *</label>
+                <input type="text" id="vacancyTitleInput" class="form-control fw-bold"
+                  placeholder="Ej: Coordinador de Monitoreo Logístico" required>
               </div>
               <div class="col-md-4">
-                <label for="vacancyIdInput" class="form-label small fw-bold text-dark mb-1">ID Único (URL / Folio) *</label>
-                <input type="text" id="vacancyIdInput" class="form-control font-monospace" placeholder="coordinador-monitoreo" required>
+                <label for="vacancyIdInput" class="form-label small fw-bold text-dark mb-1">ID Único (URL / Folio)
+                  *</label>
+                <input type="text" id="vacancyIdInput" class="form-control font-monospace"
+                  placeholder="coordinador-monitoreo" required>
               </div>
             </div>
 
             <div class="row g-3 mb-3">
               <div class="col-md-6">
-                <label for="vacancyAreaInput" class="form-label small fw-bold text-dark mb-1">Área o Departamento *</label>
-                <input type="text" id="vacancyAreaInput" class="form-control" list="areasDatalist" placeholder="Ej: Monitoreo, Almacén, Transporte" required>
+                <label for="vacancyAreaInput" class="form-label small fw-bold text-dark mb-1">Área o Departamento
+                  *</label>
+                <input type="text" id="vacancyAreaInput" class="form-control" list="areasDatalist"
+                  placeholder="Ej: Monitoreo, Almacén, Transporte" required>
                 <datalist id="areasDatalist">
                   <option value="Monitoreo">
                   <option value="Almacén">
@@ -949,7 +1035,8 @@
                 </datalist>
               </div>
               <div class="col-md-6">
-                <label for="vacancyModeInput" class="form-label small fw-bold text-dark mb-1">Modalidad de Trabajo *</label>
+                <label for="vacancyModeInput" class="form-label small fw-bold text-dark mb-1">Modalidad de Trabajo
+                  *</label>
                 <select id="vacancyModeInput" class="form-select">
                   <option value="Presencial">Presencial</option>
                   <option value="Operación en ruta">Operación en ruta</option>
@@ -961,12 +1048,16 @@
 
             <div class="row g-3 mb-3">
               <div class="col-md-6">
-                <label for="vacancyLocationInput" class="form-label small fw-bold text-dark mb-1">Ubicación / Sede *</label>
-                <input type="text" id="vacancyLocationInput" class="form-control" placeholder="Ej: Lerma, Estado de México" value="Lerma, Estado de México" required>
+                <label for="vacancyLocationInput" class="form-label small fw-bold text-dark mb-1">Ubicación / Sede
+                  *</label>
+                <input type="text" id="vacancyLocationInput" class="form-control"
+                  placeholder="Ej: Lerma, Estado de México" value="Lerma, Estado de México" required>
               </div>
               <div class="col-md-3">
-                <label for="vacancyScheduleInput" class="form-label small fw-bold text-dark mb-1">Jornada Laboral *</label>
-                <input type="text" id="vacancyScheduleInput" class="form-control" placeholder="Ej: Tiempo completo" value="Tiempo completo" required>
+                <label for="vacancyScheduleInput" class="form-label small fw-bold text-dark mb-1">Jornada Laboral
+                  *</label>
+                <input type="text" id="vacancyScheduleInput" class="form-control" placeholder="Ej: Tiempo completo"
+                  value="Tiempo completo" required>
               </div>
               <div class="col-md-3">
                 <label for="vacancyStatusSelect" class="form-label small fw-bold text-dark mb-1">Estado</label>
@@ -978,32 +1069,41 @@
             </div>
 
             <div class="mb-3">
-              <label for="vacancySummaryInput" class="form-label small fw-bold text-dark mb-1">Resumen del Puesto (Introducción) *</label>
-              <textarea id="vacancySummaryInput" class="form-control" rows="2" placeholder="Describe brevemente el objetivo general del puesto..." required></textarea>
+              <label for="vacancySummaryInput" class="form-label small fw-bold text-dark mb-1">Resumen del Puesto
+                (Introducción) *</label>
+              <textarea id="vacancySummaryInput" class="form-control" rows="2"
+                placeholder="Describe brevemente el objetivo general del puesto..." required></textarea>
             </div>
 
             <div class="mb-3">
               <label for="vacancyPointsInput" class="form-label small fw-bold text-dark mb-1">
                 Responsabilidades o Puntos Clave (Una línea por punto) *
               </label>
-              <textarea id="vacancyPointsInput" class="form-control font-monospace" rows="4" placeholder="Monitoreo de rutas, GPS y eventos críticos en tiempo real.&#10;Comunicación con operación y clientes ante desviaciones.&#10;Seguimiento de reportes y evidencias operativas." required></textarea>
+              <textarea id="vacancyPointsInput" class="form-control font-monospace" rows="4"
+                placeholder="Monitoreo de rutas, GPS y eventos críticos en tiempo real.&#10;Comunicación con operación y clientes ante desviaciones.&#10;Seguimiento de reportes y evidencias operativas."
+                required></textarea>
               <div class="form-text small" style="font-size: 0.72rem;">
-                <i class="fa fa-info-circle text-primary me-1"></i> Escribe cada responsabilidad o requisito en un renglón separado. Se mostrarán con viñetas en la bolsa de trabajo.
+                <i class="fa fa-info-circle text-primary me-1"></i> Escribe cada responsabilidad o requisito en un
+                renglón separado. Se mostrarán con viñetas en la bolsa de trabajo.
               </div>
             </div>
 
             <div class="row g-3">
               <div class="col-md-4">
-                <label for="vacancySortOrderInput" class="form-label small fw-bold text-dark mb-1">Orden de Visualización</label>
-                <input type="number" id="vacancySortOrderInput" class="form-control form-control-sm" min="0" max="9999" value="10">
+                <label for="vacancySortOrderInput" class="form-label small fw-bold text-dark mb-1">Orden de
+                  Visualización</label>
+                <input type="number" id="vacancySortOrderInput" class="form-control form-control-sm" min="0" max="9999"
+                  value="10">
               </div>
             </div>
           </form>
         </div>
 
         <div class="modal-footer border-top py-3 px-4">
-          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" id="btnSaveVacancy" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 fw-bold"
+            data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btnSaveVacancy"
+            class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
             <i class="fa fa-save"></i>
             <span>Guardar Vacante</span>
           </button>
@@ -1030,36 +1130,48 @@
             <input type="hidden" id="testimonialIdHidden" value="">
 
             <div class="mb-3">
-              <label for="testimonialClientNameInput" class="form-label small fw-bold text-dark mb-1">Nombre del Cliente / Empresa *</label>
-              <input type="text" id="testimonialClientNameInput" class="form-control" placeholder="Ej: Roche, Kalte, Pfizer..." required>
+              <label for="testimonialClientNameInput" class="form-label small fw-bold text-dark mb-1">Nombre del Cliente
+                / Empresa *</label>
+              <input type="text" id="testimonialClientNameInput" class="form-control"
+                placeholder="Ej: Roche, Kalte, Pfizer..." required>
             </div>
 
             <div class="mb-3">
-              <label for="testimonialClientRoleInput" class="form-label small fw-bold text-dark mb-1">Departamento / Cargo / Ramo *</label>
-              <input type="text" id="testimonialClientRoleInput" class="form-control" placeholder="Ej: Dirección de Cadena de Suministro" required>
+              <label for="testimonialClientRoleInput" class="form-label small fw-bold text-dark mb-1">Departamento /
+                Cargo / Ramo *</label>
+              <input type="text" id="testimonialClientRoleInput" class="form-control"
+                placeholder="Ej: Dirección de Cadena de Suministro" required>
             </div>
 
             <div class="mb-3">
-              <label for="testimonialLogoInput" class="form-label small fw-bold text-dark mb-1">Ruta o URL del Logotipo *</label>
+              <label for="testimonialLogoInput" class="form-label small fw-bold text-dark mb-1">Ruta o URL del Logotipo
+                *</label>
               <div class="input-group">
-                <input type="text" id="testimonialLogoInput" class="form-control" placeholder="Ej: img/clientes/roche.png" required>
+                <input type="text" id="testimonialLogoInput" class="form-control"
+                  placeholder="Ej: img/clientes/roche.png" required>
               </div>
               <div class="d-flex align-items-center gap-3 mt-2 p-2 bg-light rounded border">
                 <span class="small text-muted">Vista previa:</span>
-                <div style="width: 70px; height: 35px; background: #fff; border: 1px solid #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; padding: 3px;">
-                  <img id="testimonialLogoPreview" src="img/clientes/ralca.png" alt="Preview" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                <div
+                  style="width: 70px; height: 35px; background: #fff; border: 1px solid #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; padding: 3px;">
+                  <img id="testimonialLogoPreview" src="img/clientes/RALCA.png" alt="Preview"
+                    style="max-width: 100%; max-height: 100%; object-fit: contain;">
                 </div>
-                <span class="small text-muted" style="font-size: 0.75rem;">(Formatos recomendados: PNG o SVG transparente)</span>
+                <span class="small text-muted" style="font-size: 0.75rem;">(Formatos recomendados: PNG o SVG
+                  transparente)</span>
               </div>
             </div>
 
             <div class="mb-3">
-              <label for="testimonialTextInput" class="form-label small fw-bold text-dark mb-1">Comentario / Cita (Opcional)</label>
-              <textarea id="testimonialTextInput" class="form-control" rows="2" placeholder="Opcional: nota o cita del cliente..."></textarea>
+              <label for="testimonialTextInput" class="form-label small fw-bold text-dark mb-1">Comentario / Cita
+                (Opcional)</label>
+              <textarea id="testimonialTextInput" class="form-control" rows="2"
+                placeholder="Opcional: nota o cita del cliente..."></textarea>
             </div>
 
             <div class="mb-3">
-              <label for="testimonialStatusSelect" class="form-label small fw-bold text-dark mb-1">Estado de Publicación</label>
+              <label for="testimonialStatusSelect" class="form-label small fw-bold text-dark mb-1">Estado de
+                Publicación</label>
               <select id="testimonialStatusSelect" class="form-select">
                 <option value="published">Publicado (Visible en el carrusel del Home)</option>
                 <option value="draft">Oculto (Borrador / No visible)</option>
@@ -1069,8 +1181,10 @@
         </div>
 
         <div class="modal-footer border-top py-3 px-4">
-          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" id="btnSaveTestimonial" class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
+          <button type="button" class="btn btn-outline-secondary rounded-pill px-4 fw-bold"
+            data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" id="btnSaveTestimonial"
+            class="btn btn-primary rounded-pill px-4 fw-bold shadow-sm d-flex align-items-center gap-2">
             <i class="fa fa-save"></i>
             <span>Guardar Testimonio</span>
           </button>

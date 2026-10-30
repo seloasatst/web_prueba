@@ -635,7 +635,7 @@ if (!function_exists('admin_default_testimonios')) {
         $now = date('c');
         return [
             [
-                'id' => 'ralca',
+                'id' => 'RALCA',
                 'company' => 'RALCA S.A. De C.V.',
                 'logo' => 'img/logos/RALCA.png',
                 'role' => 'Departamento de Calidad',

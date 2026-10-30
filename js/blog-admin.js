@@ -1100,7 +1100,7 @@
     const status = document.getElementById('postStatusSelect')?.value || 'published';
     const image = (document.getElementById('postImageInput')?.value || '').trim() || 'img/feature.jpg';
     const summary = (document.getElementById('postSummaryInput')?.value || '').trim();
-    
+
     const visualEditor = document.getElementById('postContentVisualEditor');
     const contentInput = document.getElementById('postContentInput');
     let content = isCodeModeActive ? (contentInput?.value || '').trim() : (visualEditor?.innerHTML || '').trim();
@@ -1175,7 +1175,7 @@
         window.dispatchEvent(new Event('storage'));
         fetch(getBackendApiUrl('php/noticias_api.php?id=' + encodeURIComponent(id)), getApiFetchOptions('DELETE'))
           .catch(err => console.warn('Error al eliminar noticia:', err));
-      } catch (e) {}
+      } catch (e) { }
       renderKpis();
       renderPostsTable();
     }
@@ -1444,7 +1444,7 @@
         localStorage.setItem(STORAGE_KEYS.POPUPS_DATA, JSON.stringify(currentPopups));
         fetch(getBackendApiUrl('php/popup_api.php?id=' + encodeURIComponent(id)), getApiFetchOptions('DELETE'))
           .catch(err => console.warn('Error al eliminar popup:', err));
-      } catch (e) {}
+      } catch (e) { }
       renderPopupsKpis();
       renderPopupsTable();
     }
@@ -1570,10 +1570,10 @@
     tbody.innerHTML = filtered.map(v => {
       const areaLower = (v.area || '').toLowerCase();
       const areaClass = areaLower.includes('monitoreo') ? 'monitoreo' :
-                        areaLower.includes('almac') ? 'almacen' :
-                        areaLower.includes('transporte') ? 'transporte' :
-                        areaLower.includes('calidad') ? 'calidad' :
-                        areaLower.includes('tr') ? 'trafico' : '';
+        areaLower.includes('almac') ? 'almacen' :
+          areaLower.includes('transporte') ? 'transporte' :
+            areaLower.includes('calidad') ? 'calidad' :
+              areaLower.includes('tr') ? 'trafico' : '';
       const isPublished = v.status === 'published';
       const emails = v.recipient_emails || 'gadiel.palma@SELOASA.com.mx, rh@seloasa.com.mx';
 
@@ -1786,7 +1786,7 @@
         localStorage.setItem(STORAGE_KEYS.VACANCIES_DATA, JSON.stringify(currentVacancies));
         fetch(getBackendApiUrl('php/vacantes_api.php?id=' + encodeURIComponent(id)), getApiFetchOptions('DELETE'))
           .catch(err => console.warn('Error al eliminar vacante:', err));
-      } catch (e) {}
+      } catch (e) { }
       renderVacanciesKpis();
       renderVacanciesTable();
     }

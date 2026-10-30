@@ -55,8 +55,7 @@
           <div class="testimonial-meta mb-0 d-flex align-items-center gap-3">
             <img class="img-fluid flex-shrink-0 testimonial-logo" src="${logo}" alt="${company}" loading="lazy" decoding="async">
             <div class="testimonial-copy">
-              <h5 class="testimonial-company mb-1">${company}</h5>
-              ${role ? `<p class="testimonial-role mb-0">${role}</p>` : ''}
+              ${/ralca/i.test(company) ? `<h5 class="testimonial-company mb-0"><a href="https://ralca.mx/" target="_blank" rel="noopener noreferrer" class="text-reset text-decoration-none">${company}</a></h5>` : `<h5 class="testimonial-company mb-0">${company}</h5>`}
             </div>
           </div>
         </div>
@@ -83,7 +82,7 @@
         dots: true,
         loop: true,
         responsive: {
-          0:   { items: 1 },
+          0: { items: 1 },
           768: { items: 2 },
           992: { items: 3 }
         }
@@ -125,7 +124,7 @@
           renderTestimonials(cachedTestimonials);
           try {
             localStorage.setItem('seloasa_testimonials', JSON.stringify(data.items));
-          } catch (_) {}
+          } catch (_) { }
         }
       })
       .catch(err => {
