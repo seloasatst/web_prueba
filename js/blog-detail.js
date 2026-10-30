@@ -694,20 +694,7 @@
         canonicalEl.setAttribute('rel', 'canonical');
         document.head.appendChild(canonicalEl);
       }
-      canonicalEl.setAttribute('href', `https://seloasa.com.mx/blog/${encodeURIComponent(localizedPost.id)}`);
-
-      // Reflejar la URL limpia en la barra de direcciones sin recargar la página
-      if (window.history && window.history.replaceState && localizedPost && localizedPost.id) {
-        try {
-          const isShipping = window.location.pathname.includes('/shipping/');
-          const prettyPath = (isShipping ? '/shipping/blog/' : '/blog/') + encodeURIComponent(localizedPost.id);
-          if (window.location.pathname !== prettyPath) {
-            window.history.replaceState({ id: localizedPost.id }, `${localizedPost.title} | SELOASA`, prettyPath);
-          }
-        } catch (e) {
-          // Entornos locales o file:// donde replaceState pueda restringirse
-        }
-      }
+      canonicalEl.setAttribute('href', `https://seloasa.com.mx/blog/articulo.html?id=${encodeURIComponent(localizedPost.id)}`);
 
       const host = document.getElementById('articleRenderHost');
       if (!host) return;
@@ -830,10 +817,10 @@
         const targetId = currentPostId || getPostIdFromUrl();
         const baseOrigin = window.location.origin;
         const prefix = window.location.pathname.includes('/shipping/') ? '/shipping/blog/' : '/blog/';
-        const prettyUrl = `${baseOrigin}${prefix}${encodeURIComponent(targetId)}`;
+        const shareUrl = `${baseOrigin}${prefix}articulo.html?id=${encodeURIComponent(targetId)}`;
 
         if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(prettyUrl).then(() => {
+          navigator.clipboard.writeText(shareUrl).then(() => {
             const originalHtml = btn.innerHTML;
             btn.innerHTML = '<i class="fa fa-check me-1"></i> ¡Enlace copiado!';
             setTimeout(() => {
@@ -841,7 +828,7 @@
             }, 2500);
           });
         } else {
-          prompt('Copia este enlace:', prettyUrl);
+          prompt('Copia este enlace:', shareUrl);
         }
       });
     });
