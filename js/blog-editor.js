@@ -300,16 +300,13 @@
         <div class="${hasSidebar ? 'col-lg-8' : 'col-lg-10'}">
           <article class="comunicado-doc-wrapper">
             <div class="comunicado-doc-header">
-              <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
-                <span class="comunicado-badge-oficial">
-                  <i class="fa fa-bullhorn me-1"></i> Comunicado Oficial SELOASA
-                </span>
-                ${showFolio && folioText ? `
+              ${showFolio && folioText ? `
+              <div class="d-flex align-items-center justify-content-end mb-3">
                 <span class="comunicado-folio-box">
                   ${folioText}
                 </span>
-                ` : ''}
               </div>
+              ` : ''}
               <h6 class="text-uppercase about-kicker mb-2" style="color: #e43b14;">
                 ${post.dept || 'Dirección General & Aseguramiento de Calidad'}
               </h6>
