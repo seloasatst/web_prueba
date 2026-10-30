@@ -35,8 +35,8 @@
       && window.I18N_PAGE_TRANSLATIONS[safeLang]
       && window.I18N_PAGE_TRANSLATIONS[safeLang].blogPage)
       || (window.I18N_PAGE_TRANSLATIONS
-      && window.I18N_PAGE_TRANSLATIONS.es
-      && window.I18N_PAGE_TRANSLATIONS.es.blogPage)
+        && window.I18N_PAGE_TRANSLATIONS.es
+        && window.I18N_PAGE_TRANSLATIONS.es.blogPage)
       || null;
 
     if (!baseContent) return null;
@@ -475,7 +475,7 @@
 
           try {
             localStorage.setItem('seloasa_blog_posts', JSON.stringify(data.items));
-          } catch (_) {}
+          } catch (_) { }
         }
       })
       .catch(err => console.warn('Fetch noticias API error en blog-page:', err));
